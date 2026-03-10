@@ -71,46 +71,117 @@ body::before{
 
 /* ── CONTROLS ── */
 .controls{
-  padding:12px 32px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+  padding:10px 32px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;
   position:sticky;top:60px;z-index:150;
   background:rgba(247,246,242,0.97);backdrop-filter:blur(12px);
   border-bottom:1px solid var(--border);
 }
 .search-box{
-  flex:1;min-width:220px;max-width:320px;
+  flex:1;min-width:200px;max-width:280px;
   background:var(--surface);border:1px solid var(--border);
   border-radius:3px;display:flex;align-items:center;gap:8px;
-  padding:8px 12px;transition:border-color 0.2s,box-shadow 0.2s;
+  padding:7px 12px;transition:border-color 0.2s,box-shadow 0.2s;
 }
 .search-box:focus-within{border-color:var(--accent);box-shadow:0 0 0 2px rgba(45,90,61,0.08);}
-.search-box input{background:none;border:none;outline:none;color:var(--ink);font-family:'Instrument Sans',sans-serif;font-size:13px;width:100%;}
+.search-box input{background:none;border:none;outline:none;color:var(--ink);font-family:'Instrument Sans',sans-serif;font-size:12.5px;width:100%;}
 .search-box input::placeholder{color:var(--dim);}
 
-.chips{display:flex;flex-wrap:wrap;gap:5px;}
-.chip{
-  font-size:10.5px;font-family:'DM Mono',monospace;letter-spacing:0.2px;
-  padding:5px 11px;border-radius:2px;cursor:pointer;
-  border:1px solid var(--border);background:var(--surface);color:var(--muted);
-  transition:all 0.12s;white-space:nowrap;
+/* dropdown filter style */
+.dd-wrap{position:relative;display:inline-block;}
+.dd-select{
+  appearance:none;-webkit-appearance:none;
+  background:var(--surface);border:1px solid var(--border);border-radius:3px;
+  padding:6px 28px 6px 10px;color:var(--ink2);font-family:'DM Mono',monospace;
+  font-size:10.5px;cursor:pointer;outline:none;transition:border-color 0.2s;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238c8880'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 9px center;
 }
+.dd-select:focus{border-color:var(--accent);}
+.dd-select.active{background-color:var(--accent-light);border-color:rgba(45,90,61,0.3);color:var(--accent);}
+.dd-select option{background:var(--surface);color:var(--ink);}
+
+.prov-select{
+  appearance:none;-webkit-appearance:none;
+  background:var(--surface);border:1px solid var(--border);border-radius:3px;
+  padding:6px 28px 6px 10px;color:var(--muted);font-family:'DM Mono',monospace;
+  font-size:10.5px;cursor:pointer;outline:none;transition:border-color 0.2s;display:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238c8880'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 9px center;
+}
+.prov-select:focus{border-color:var(--accent);}
+.prov-select option{background:var(--surface);}
+
+.sort-group{margin-left:auto;display:flex;align-items:center;gap:6px;}
+.sort-lbl{font-size:9px;color:var(--dim);font-family:'DM Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;}
+.sort-btn{font-size:10px;font-family:'DM Mono',monospace;padding:4px 9px;border-radius:2px;cursor:pointer;color:var(--muted);transition:all 0.12s;border:1px solid transparent;}
+.sort-btn:hover{color:var(--ink2);}
+.sort-btn.on{color:var(--accent);border-color:rgba(45,90,61,0.25);background:var(--accent-light);}
+
+/* chips (kept for status toggle if needed) */
+.chips{display:flex;flex-wrap:wrap;gap:5px;}
+.chip{font-size:10.5px;font-family:'DM Mono',monospace;letter-spacing:0.2px;padding:5px 11px;border-radius:2px;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--muted);transition:all 0.12s;white-space:nowrap;}
 .chip:hover{border-color:var(--accent);color:var(--accent);}
 .chip.on{background:var(--accent-light);border-color:rgba(45,90,61,0.3);color:var(--accent);}
 .chip.on-green{background:var(--teal-light);border-color:rgba(26,107,90,0.25);color:var(--teal);}
 .chip.on-red{background:var(--red-light);border-color:rgba(192,57,43,0.2);color:var(--red);}
 
-.prov-select{
-  background:var(--surface);border:1px solid var(--border);border-radius:3px;
-  padding:6px 10px;color:var(--muted);font-family:'DM Mono',monospace;
-  font-size:10.5px;cursor:pointer;outline:none;transition:border-color 0.2s;display:none;
+/* ── REKAP SECTION ── */
+.rekap-section{
+  padding:24px 32px 0;position:relative;z-index:1;
 }
-.prov-select:focus{border-color:var(--accent);}
-.prov-select option{background:var(--surface);}
+.rekap-title{
+  font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:400;
+  color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;
+}
+.rekap-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:20px;
+}
+.rekap-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:3px;
+  padding:13px 15px;position:relative;overflow:hidden;cursor:pointer;
+  transition:border-color 0.15s,box-shadow 0.15s;
+}
+.rekap-card:hover{border-color:var(--border2);box-shadow:0 4px 16px rgba(26,24,20,0.07);}
+.rekap-card.rekap-total{border-color:rgba(45,90,61,0.2);background:var(--accent-light);}
+.rekap-accent{position:absolute;left:0;top:0;bottom:0;width:3px;}
+.rekap-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--ink);line-height:1;}
+.rekap-lbl{font-size:8.5px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:4px;}
+.rekap-sub{font-size:9.5px;font-family:'DM Mono',monospace;color:var(--dim);margin-top:3px;}
+.rekap-formasi{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--accent);margin-top:2px;}
 
-.sort-group{margin-left:auto;display:flex;align-items:center;gap:5px;}
-.sort-lbl{font-size:9px;color:var(--dim);font-family:'DM Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;}
-.sort-btn{font-size:10px;font-family:'DM Mono',monospace;padding:4px 9px;border-radius:2px;cursor:pointer;color:var(--muted);transition:all 0.12s;border:1px solid transparent;}
-.sort-btn:hover{color:var(--ink2);}
-.sort-btn.on{color:var(--accent);border-color:rgba(45,90,61,0.25);background:var(--accent-light);}
+.rekap-divider{height:1px;background:var(--border);margin:4px 0 20px;}
+
+/* ── KLUSTER SECTIONS ── */
+.kluster-wrap{padding:0 32px 60px;position:relative;z-index:1;}
+.kluster-block{margin-bottom:32px;}
+.kluster-head{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 0 10px;border-bottom:1px solid var(--border);margin-bottom:10px;
+}
+.kluster-icon{font-size:14px;}
+.kluster-name{
+  font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:400;color:var(--ink);
+  letter-spacing:0.5px;
+}
+.kluster-count{font-size:9.5px;font-family:'DM Mono',monospace;color:var(--muted);margin-left:auto;}
+.kluster-formasi{font-size:9.5px;font-family:'DM Mono',monospace;color:var(--accent);}
+.kluster-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:8px;}
+
+.btn-viewmore{
+  margin-top:10px;font-size:10px;font-family:'DM Mono',monospace;
+  color:var(--accent);border:1px solid rgba(45,90,61,0.25);background:var(--accent-light);
+  padding:7px 16px;border-radius:3px;cursor:pointer;transition:all 0.15s;letter-spacing:0.3px;
+}
+.btn-viewmore:hover{background:rgba(45,90,61,0.1);}
+.btn-viewless{
+  margin-top:10px;font-size:10px;font-family:'DM Mono',monospace;
+  color:var(--muted);border:1px solid var(--border);background:var(--surface);
+  padding:7px 16px;border-radius:3px;cursor:pointer;transition:all 0.15s;
+}
+.btn-viewless:hover{color:var(--ink2);}
+
+/* ── FULL LIST VIEW (when filter active) ── */
+.full-list-wrap{padding:0 32px 60px;position:relative;z-index:1;}
 
 /* ── RESULTS BAR ── */
 .results-bar{
@@ -121,8 +192,10 @@ body::before{
 .res-total{font-size:11px;font-family:'DM Mono',monospace;color:var(--accent);}
 .badge-new{font-size:9px;font-family:'DM Mono',monospace;background:var(--amber-light);border:1px solid rgba(146,96,10,0.2);color:var(--amber);padding:2px 8px;border-radius:2px;margin-left:4px;display:none;}
 
-/* ── GRID ── */
-.grid{padding:20px 32px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:10px;position:relative;z-index:1;}
+/* ── GRID (for filtered full list) ── */
+.grid{padding:12px 32px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px;position:relative;z-index:1;}
+.grid.hidden{display:none;}
+.rekap-section.hidden,.kluster-wrap.hidden,.full-list-wrap.hidden{display:none!important;}
 
 /* ── CARD ── */
 .card{
@@ -297,39 +370,66 @@ body::before{
     <span style="color:var(--dim);font-size:13px;">⌕</span>
     <input type="text" id="search" placeholder="Cari nama instansi…" oninput="render()">
   </div>
-  <div class="chips" id="cat-chips">
-    <span class="chip on" data-cat="semua" onclick="setChip(this)">Semua</span>
-    <span class="chip" data-cat="Kementerian" onclick="setChip(this)">Kementerian</span>
-    <span class="chip" data-cat="Alat Negara" onclick="setChip(this)">Alat Negara</span>
-    <span class="chip" data-cat="Sekretariat Lembaga Negara" onclick="setChip(this)">Sek. Lem. Neg.</span>
-    <span class="chip" data-cat="Lembaga Non Struktural" onclick="setChip(this)">LNS</span>
-    <span class="chip" data-cat="Lembaga Pemerintah Lainnya" onclick="setChip(this)">LPL</span>
-    <span class="chip" data-cat="Lembaga Pemerintah Non Kementerian" onclick="setChip(this)">LPNK</span>
-    <span class="chip" data-cat="Lembaga Penyiaran Publik" onclick="setChip(this)">LPP</span>
-    <span class="chip" data-cat="Provinsi" onclick="setChip(this)">Provinsi</span>
-    <span class="chip" data-cat="Kabupaten/Kota" onclick="setChip(this)">Kab/Kota</span>
-    <span class="chip on-green" data-status="Ada Rekomendasi" onclick="setStatusChip(this)">✓ Ada Rek.</span>
-    <span class="chip on-red" data-status="Belum Ada Rekomendasi" onclick="setStatusChip(this)">✗ Belum</span>
-  </div>
+
+  <!-- Kluster dropdown -->
+  <select class="dd-select" id="cat-select" onchange="onCatChange()">
+    <option value="semua">— Semua Kluster —</option>
+    <option value="Kementerian">🏛 Kementerian</option>
+    <option value="Alat Negara">⚔ Alat Negara</option>
+    <option value="Sekretariat Lembaga Negara">🏦 Sek. Lembaga Negara</option>
+    <option value="Lembaga Non Struktural">🔬 Lembaga Non Struktural</option>
+    <option value="Lembaga Pemerintah Lainnya">🏢 Lembaga Pemerintah Lainnya</option>
+    <option value="Lembaga Pemerintah Non Kementerian">🏗 LPNK</option>
+    <option value="Lembaga Penyiaran Publik">📡 Lembaga Penyiaran Publik</option>
+    <option value="Provinsi">🗺 Provinsi</option>
+    <option value="Kabupaten/Kota">📍 Kabupaten/Kota</option>
+  </select>
+
+  <!-- Status Rekomendasi -->
+  <select class="dd-select" id="status-select" onchange="render()">
+    <option value="">— Semua Status —</option>
+    <option value="Ada Rekomendasi">✓ Ada Rekomendasi</option>
+    <option value="Belum Ada Rekomendasi">✗ Belum Ada Rekomendasi</option>
+  </select>
+
+  <!-- Provinsi (muncul kalau Kab/Kota) -->
   <select class="prov-select" id="prov-select" onchange="render()">
     <option value="">— Semua Provinsi —</option>
   </select>
+
+  <!-- Sort -->
   <div class="sort-group">
-    <span class="sort-lbl">Sort</span>
-    <span class="sort-btn on" data-sort="nama" onclick="setSort(this)">A–Z</span>
-    <span class="sort-btn" data-sort="total-d" onclick="setSort(this)">Terbesar</span>
-    <span class="sort-btn" data-sort="total-a" onclick="setSort(this)">Terkecil</span>
-    <span class="sort-btn" data-sort="tahun" onclick="setSort(this)">Tahun</span>
+    <span class="sort-lbl">Urutkan</span>
+    <select class="dd-select" id="sort-select" onchange="onSortChange()">
+      <option value="nama">A – Z</option>
+      <option value="total-d">Formasi Terbanyak</option>
+      <option value="total-a">Formasi Terkecil</option>
+      <option value="tahun">Tahun Rekomendasi</option>
+      <option value="rek-d">Rekomendasi Terbanyak</option>
+    </select>
   </div>
 </div>
 
-<div class="results-bar">
+<div class="results-bar" id="results-bar" style="display:none">
   <span class="res-count" id="res-count">—</span>
   <span class="res-total" id="res-total"></span>
   <span class="badge-new" id="new-badge"></span>
 </div>
 
-<div class="grid" id="grid"></div>
+<!-- HOME VIEW: Rekapitulasi + Kluster -->
+<div id="home-view">
+  <div class="rekap-section" id="rekap-section">
+    <div class="rekap-title">Rekapitulasi Nasional</div>
+    <div class="rekap-grid" id="rekap-grid"></div>
+    <div class="rekap-divider"></div>
+  </div>
+  <div class="kluster-wrap" id="kluster-wrap"></div>
+</div>
+
+<!-- FILTER VIEW: Full list -->
+<div id="filter-view" style="display:none">
+  <div class="grid" id="grid"></div>
+</div>
 
 <!-- DETAIL MODAL -->
 <div class="overlay" id="overlay" onclick="closeOverlay(event)">
@@ -486,6 +586,24 @@ function buildDataset(){
 
 let ALL=buildDataset(), activeCat='semua', activeStatus=null, activeSort='nama';
 
+// Expanded state per cluster
+const expandedClusters = new Set();
+
+function onCatChange(){
+  activeCat = document.getElementById('cat-select').value;
+  document.getElementById('prov-select').style.display = activeCat==='Kabupaten/Kota'?'block':'none';
+  render();
+}
+function onSortChange(){
+  activeSort = document.getElementById('sort-select').value;
+  render();
+}
+
+// Deprecated chip functions kept for compat
+function setChip(el){}
+function setStatusChip(el){}
+function setSort(el){}
+
 function updateStats(){
   const ov=loadOv(),nc=(ov.__added||[]).length;
   document.getElementById('st-total').textContent=ALL.length.toLocaleString('id');
@@ -496,28 +614,13 @@ function updateStats(){
   if(nc>0)nb.textContent=`+${nc} data baru`;
 }
 
-function setChip(el){
-  document.querySelectorAll('#cat-chips .chip[data-cat]').forEach(c=>c.classList.remove('on'));
-  el.classList.add('on');activeCat=el.dataset.cat;
-  document.getElementById('prov-select').style.display=activeCat==='Kabupaten/Kota'?'block':'none';
-  render();
-}
-function setStatusChip(el){
-  const s=el.dataset.status;
-  if(activeStatus===s){activeStatus=null;document.querySelectorAll('#cat-chips .chip[data-status]').forEach(c=>c.classList.remove('on-green','on-red'));}
-  else{document.querySelectorAll('#cat-chips .chip[data-status]').forEach(c=>c.classList.remove('on-green','on-red'));activeStatus=s;el.classList.add(s==='Ada Rekomendasi'?'on-green':'on-red');}
-  render();
-}
-function setSort(el){
-  document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('on'));
-  el.classList.add('on');activeSort=el.dataset.sort;render();
-}
 function getFiltered(){
   const q=document.getElementById('search').value.toLowerCase().trim();
   const prov=document.getElementById('prov-select').value;
+  const status=document.getElementById('status-select').value;
   return ALL.filter(d=>{
     if(activeCat!=='semua'&&d.kategori!==activeCat)return false;
-    if(activeStatus&&d.status!==activeStatus)return false;
+    if(status&&d.status!==status)return false;
     if(prov&&d.provinsi!==prov)return false;
     if(q&&!d.nama.toLowerCase().includes(q))return false;
     return true;
@@ -529,49 +632,164 @@ function getSorted(arr){
     if(activeSort==='total-d')return b.total-a.total;
     if(activeSort==='total-a')return a.total-b.total;
     if(activeSort==='tahun')return(b.tahun||0)-(a.tahun||0);
+    if(activeSort==='rek-d'){
+      // sort by "Ada Rekomendasi" first then by total
+      const ra=a.status==='Ada Rekomendasi'?1:0, rb=b.status==='Ada Rekomendasi'?1:0;
+      return rb-ra || b.total-a.total;
+    }
     return 0;
   });
 }
 
+const CLUSTERS = [
+  {cat:'Kementerian',color:'var(--amber)'},
+  {cat:'Lembaga Pemerintah Non Kementerian',color:'var(--teal)'},
+  {cat:'Sekretariat Lembaga Negara',color:'var(--blue)'},
+  {cat:'Lembaga Non Struktural',color:'var(--purple)'},
+  {cat:'Alat Negara',color:'var(--red)'},
+  {cat:'Lembaga Pemerintah Lainnya',color:'#b06030'},
+  {cat:'Lembaga Penyiaran Publik',color:'#7a6020'},
+  {cat:'Provinsi',color:'#1a4a6b'},
+  {cat:'Kabupaten/Kota',color:'#3a6b3a'},
+];
+
+function isFiltered(){
+  const q=document.getElementById('search').value.trim();
+  const status=document.getElementById('status-select').value;
+  const prov=document.getElementById('prov-select').value;
+  return q || status || activeCat!=='semua' || prov;
+}
+
 function render(){
   updateStats();
-  const filtered=getFiltered(),sorted=getSorted(filtered);
+  const filtered=getFiltered(), sorted=getSorted(filtered);
   const tf=filtered.reduce((s,d)=>s+d.total,0);
-  document.getElementById('res-count').textContent=`${sorted.length} instansi ditemukan`;
-  document.getElementById('res-total').textContent=tf>0?`· ${tf.toLocaleString('id')} total formasi`:'';
-  if(!sorted.length){
-    document.getElementById('grid').innerHTML=`<div class="empty"><div class="empty-icon">◎</div><div class="empty-text">Tidak ada instansi yang cocok</div></div>`;
-    return;
+
+  if(isFiltered()){
+    // FILTER VIEW
+    document.getElementById('home-view').style.display='none';
+    document.getElementById('filter-view').style.display='block';
+    document.getElementById('results-bar').style.display='flex';
+    document.getElementById('res-count').textContent=`${sorted.length} instansi ditemukan`;
+    document.getElementById('res-total').textContent=tf>0?`· ${tf.toLocaleString('id')} total formasi`:'';
+    if(!sorted.length){
+      document.getElementById('grid').innerHTML=`<div class="empty"><div class="empty-icon">◎</div><div class="empty-text">Tidak ada instansi yang cocok</div></div>`;
+      return;
+    }
+    document.getElementById('grid').innerHTML=sorted.map((d,i)=>cardHTML(d,ALL.indexOf(d),i)).join('');
+  } else {
+    // HOME VIEW
+    document.getElementById('home-view').style.display='block';
+    document.getElementById('filter-view').style.display='none';
+    document.getElementById('results-bar').style.display='none';
+    renderRekap();
+    renderClusters();
   }
-  document.getElementById('grid').innerHTML=sorted.map((d,i)=>{
-    const ri=ALL.indexOf(d), icon=CAT_ICON[d.kategori]||'🏛';
-    const bc=d.status==='Ada Rekomendasi'?'badge-ada':'badge-belum';
-    const bt=d.status==='Ada Rekomendasi'?'✓ Rek.':'— Belum';
-    const prov=d.provinsi?`<div class="card-province">${d.provinsi}</div>`:'';
-    const tc=d.total===0?'total-num total-zero':'total-num';
-    const bars=d.total>0?JENJANG.slice(0,5).map(j=>{
-      const pct=Math.round(d[j.k]/d.total*100);
-      return `<div class="bar-r"><div class="bar-lbl">${j.lbl}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${j.c}"></div></div><div class="bar-val">${d[j.k]}</div></div>`;
-    }).join(''):'';
-    const ks=d.keterangan?d.keterangan.replace(/\n/g,' ').slice(0,90)+(d.keterangan.length>90?'…':''):'—';
-    const newTag=d._isNew?'<span style="font-size:8.5px;font-family:\'DM Mono\',monospace;background:#fef9ee;color:#92600a;border:1px solid rgba(146,96,10,0.2);padding:1px 5px;border-radius:2px;margin-left:5px;vertical-align:middle">NEW</span>':'';
-    return `<div class="card${(d._isNew||d._isEdited)?' is-new':''}" data-cat="${d.kategori}" style="animation-delay:${Math.min(i,30)*0.02}s" onclick="openDetail(${ri})">
-      <div class="card-accent"></div>
-      <div class="card-head">
-        <div class="cat-dot">${icon}</div>
-        <div style="flex:1"><div class="card-name">${d.nama}${newTag}</div>${prov}</div>
-        <span class="badge ${bc}">${bt}</span>
+}
+
+function renderRekap(){
+  const cats = CLUSTERS.map(c=>{
+    const items=ALL.filter(d=>d.kategori===c.cat);
+    const formasi=items.reduce((s,d)=>s+d.total,0);
+    const rek=items.filter(d=>d.status==='Ada Rekomendasi').length;
+    return{...c,count:items.length,formasi,rek};
+  });
+  const totalFormasi=ALL.reduce((s,d)=>s+d.total,0);
+  const totalRek=ALL.filter(d=>d.status==='Ada Rekomendasi').length;
+
+  const totalCard=`<div class="rekap-card rekap-total" onclick="document.getElementById('cat-select').value='semua';onCatChange()">
+    <div class="rekap-accent" style="background:var(--accent)"></div>
+    <div class="rekap-num">${ALL.length}</div>
+    <div class="rekap-lbl">Total Instansi</div>
+    <div class="rekap-formasi">${totalFormasi.toLocaleString('id')} formasi</div>
+    <div class="rekap-sub">${totalRek} ada rekomendasi</div>
+  </div>`;
+
+  const catCards=cats.filter(c=>c.count>0).map(c=>`
+    <div class="rekap-card" onclick="document.getElementById('cat-select').value='${c.cat}';onCatChange()">
+      <div class="rekap-accent" style="background:${c.color}"></div>
+      <div class="rekap-num">${c.count}</div>
+      <div class="rekap-lbl">${c.cat==='Lembaga Pemerintah Non Kementerian'?'LPNK':c.cat==='Sekretariat Lembaga Negara'?'Sek. Lem. Neg.':c.cat==='Lembaga Non Struktural'?'LNS':c.cat==='Lembaga Pemerintah Lainnya'?'LPL':c.cat==='Lembaga Penyiaran Publik'?'LPP':c.cat}</div>
+      <div class="rekap-formasi">${c.formasi.toLocaleString('id')} formasi</div>
+      <div class="rekap-sub">${c.rek} ada rekomendasi</div>
+    </div>`).join('');
+
+  document.getElementById('rekap-grid').innerHTML=totalCard+catCards;
+}
+
+function renderClusters(){
+  const wrap=document.getElementById('kluster-wrap');
+  wrap.innerHTML='';
+  CLUSTERS.forEach(cl=>{
+    const items=getSorted(ALL.filter(d=>d.kategori===cl.cat));
+    if(!items.length)return;
+    const isExpanded=expandedClusters.has(cl.cat);
+    const shown=isExpanded?items:items.slice(0,5);
+    const formasi=items.reduce((s,d)=>s+d.total,0);
+    const icon=CAT_ICON[cl.cat]||'🏛';
+    const shortName=cl.cat==='Lembaga Pemerintah Non Kementerian'?'LPNK':cl.cat;
+
+    const block=document.createElement('div');
+    block.className='kluster-block';
+    block.id='kluster-'+cl.cat.replace(/\s+/g,'-');
+
+    const cardsHtml=shown.map((d,i)=>cardHTML(d,ALL.indexOf(d),i)).join('');
+    const moreCount=items.length-5;
+    const viewBtn = items.length>5 ? (isExpanded
+      ? `<button class="btn-viewless" onclick="collapseCluster('${cl.cat}')">↑ Tampilkan lebih sedikit</button>`
+      : `<button class="btn-viewmore" onclick="expandCluster('${cl.cat}')">+ Lihat ${moreCount} instansi lainnya</button>`)
+      : '';
+
+    block.innerHTML=`
+      <div class="kluster-head">
+        <span class="kluster-icon">${icon}</span>
+        <span class="kluster-name">${shortName}</span>
+        <span class="kluster-formasi">${formasi.toLocaleString('id')} formasi</span>
+        <span class="kluster-count">${items.length} instansi</span>
       </div>
-      <div class="card-body">
-        <div class="total-row">
-          <div class="${tc}">${d.total>0?d.total.toLocaleString('id'):'—'}</div>
-          <div class="total-meta"><div class="total-lbl">Total Kebutuhan</div>${d.tahun?`<div class="total-year">${d.tahun}</div>`:''}</div>
-        </div>
-        ${bars?`<div class="bars">${bars}</div>`:''}
+      <div class="kluster-grid">${cardsHtml}</div>
+      ${viewBtn}`;
+    wrap.appendChild(block);
+  });
+}
+
+function expandCluster(cat){
+  expandedClusters.add(cat);
+  renderClusters();
+}
+function collapseCluster(cat){
+  expandedClusters.delete(cat);
+  renderClusters();
+}
+
+function cardHTML(d,ri,i){
+  const icon=CAT_ICON[d.kategori]||'🏛';
+  const bc=d.status==='Ada Rekomendasi'?'badge-ada':'badge-belum';
+  const bt=d.status==='Ada Rekomendasi'?'✓ Rek.':'— Belum';
+  const prov=d.provinsi?`<div class="card-province">${d.provinsi}</div>`:'';
+  const tc=d.total===0?'total-num total-zero':'total-num';
+  const bars=d.total>0?JENJANG.slice(0,5).map(j=>{
+    const pct=Math.round(d[j.k]/d.total*100);
+    return `<div class="bar-r"><div class="bar-lbl">${j.lbl}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${j.c}"></div></div><div class="bar-val">${d[j.k]}</div></div>`;
+  }).join(''):'';
+  const ks=d.keterangan?d.keterangan.replace(/\n/g,' ').slice(0,90)+(d.keterangan.length>90?'…':''):'—';
+  const newTag=d._isNew?'<span style="font-size:8.5px;font-family:\'DM Mono\',monospace;background:#fef9ee;color:#92600a;border:1px solid rgba(146,96,10,0.2);padding:1px 5px;border-radius:2px;margin-left:5px;vertical-align:middle">NEW</span>':'';
+  return `<div class="card${(d._isNew||d._isEdited)?' is-new':''}" data-cat="${d.kategori}" style="animation-delay:${Math.min(i,30)*0.02}s" onclick="openDetail(${ri})">
+    <div class="card-accent"></div>
+    <div class="card-head">
+      <div class="cat-dot">${icon}</div>
+      <div style="flex:1"><div class="card-name">${d.nama}${newTag}</div>${prov}</div>
+      <span class="badge ${bc}">${bt}</span>
+    </div>
+    <div class="card-body">
+      <div class="total-row">
+        <div class="${tc}">${d.total>0?d.total.toLocaleString('id'):'—'}</div>
+        <div class="total-meta"><div class="total-lbl">Total Kebutuhan</div>${d.tahun?`<div class="total-year">${d.tahun}</div>`:''}</div>
       </div>
-      <div class="card-foot">${ks}</div>
-    </div>`;
-  }).join('');
+      ${bars?`<div class="bars">${bars}</div>`:''}
+    </div>
+    <div class="card-foot">${ks}</div>
+  </div>`;
 }
 
 function openDetail(idx){
