@@ -7,171 +7,78 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#f7f6f2;
-  --surface:#ffffff;
-  --surface2:#f2f0eb;
-  --border:#e4e0d8;
-  --border2:#d4cfc4;
-  --ink:#1a1814;
-  --ink2:#3d3a34;
-  --muted:#8c8880;
-  --dim:#c4bfb6;
-  --accent:#2d5a3d;
-  --accent-light:#e8f0eb;
-  --red:#c0392b;
-  --red-light:#fdf0ee;
+  --bg:#f7f6f2;--surface:#ffffff;--surface2:#f2f0eb;--border:#e4e0d8;--border2:#d4cfc4;
+  --ink:#1a1814;--ink2:#3d3a34;--muted:#8c8880;--dim:#c4bfb6;
+  --accent:#2d5a3d;--accent-light:#e8f0eb;--red:#c0392b;--red-light:#fdf0ee;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;}
-body{
-  background:var(--bg);color:var(--ink);
-  font-family:'Instrument Sans',sans-serif;font-weight:300;
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
-}
-
-/* background texture grid */
-body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:
-    linear-gradient(rgba(45,90,61,0.04) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(45,90,61,0.04) 1px,transparent 1px);
-  background-size:48px 48px;
-}
-
-/* decorative corner marks */
+body{background:var(--bg);color:var(--ink);font-family:'Instrument Sans',sans-serif;font-weight:300;
+  min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(45,90,61,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(45,90,61,0.04) 1px,transparent 1px);
+  background-size:48px 48px;}
 .corner{position:fixed;width:40px;height:40px;pointer-events:none;z-index:1;}
 .corner::before,.corner::after{content:'';position:absolute;background:var(--border2);}
 .corner::before{width:1px;height:100%;}
 .corner::after{width:100%;height:1px;}
-.corner.tl{top:24px;left:24px;}
-.corner.tr{top:24px;right:24px;transform:scaleX(-1);}
-.corner.bl{bottom:24px;left:24px;transform:scaleY(-1);}
-.corner.br{bottom:24px;right:24px;transform:scale(-1);}
-
-/* center mark */
-.center-mark{
-  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:600px;height:600px;border-radius:50%;
-  border:1px solid rgba(45,90,61,0.06);pointer-events:none;z-index:0;
-}
-
-.login-wrap{
-  position:relative;z-index:10;width:100%;max-width:420px;padding:20px;
-  animation:riseIn 0.6s cubic-bezier(0.22,1,0.36,1) both;
-}
-@keyframes riseIn{
-  from{opacity:0;transform:translateY(24px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-.login-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:4px;
-  box-shadow:0 2px 40px rgba(26,24,20,0.08),0 1px 4px rgba(26,24,20,0.04);
-}
-
-/* top rule */
-.card-rule{
-  height:3px;
-  background:var(--accent);
-  border-radius:4px 4px 0 0;
-}
-
+.corner.tl{top:24px;left:24px;}.corner.tr{top:24px;right:24px;transform:scaleX(-1);}
+.corner.bl{bottom:24px;left:24px;transform:scaleY(-1);}.corner.br{bottom:24px;right:24px;transform:scale(-1);}
+.center-mark{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;
+  border-radius:50%;border:1px solid rgba(45,90,61,0.06);pointer-events:none;z-index:0;}
+.login-wrap{position:relative;z-index:10;width:100%;max-width:420px;padding:20px;
+  animation:riseIn 0.6s cubic-bezier(0.22,1,0.36,1) both;}
+@keyframes riseIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.login-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;
+  box-shadow:0 2px 40px rgba(26,24,20,0.08),0 1px 4px rgba(26,24,20,0.04);}
+.card-rule{height:3px;background:var(--accent);border-radius:4px 4px 0 0;}
 .card-body{padding:44px 40px 36px;}
-
-/* masthead */
 .masthead{margin-bottom:36px;}
-.eyebrow{
-  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;
-  text-transform:uppercase;color:var(--muted);margin-bottom:10px;
-}
-.headline{
-  font-family:'Cormorant Garamond',serif;font-weight:300;
-  font-size:32px;line-height:1.15;color:var(--ink);
-}
+.eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.headline{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:32px;line-height:1.15;color:var(--ink);}
 .headline em{font-style:italic;color:var(--accent);}
-.sub{
-  font-size:12px;color:var(--muted);margin-top:8px;
-  font-family:'DM Mono',monospace;letter-spacing:0.3px;
-}
-
-/* divider */
+.sub{font-size:12px;color:var(--muted);margin-top:8px;font-family:'DM Mono',monospace;letter-spacing:0.3px;}
 .divider{height:1px;background:var(--border);margin-bottom:28px;}
-
-/* fields */
 .field{margin-bottom:18px;}
-.field label{
-  display:block;font-size:10px;font-family:'DM Mono',monospace;
-  letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;
-}
+.field label{display:block;font-size:10px;font-family:'DM Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
 .input-wrap{position:relative;}
-.input-wrap input{
-  width:100%;background:var(--bg);border:1px solid var(--border);
-  border-radius:3px;padding:11px 40px 11px 12px;
-  color:var(--ink);font-family:'Instrument Sans',sans-serif;font-size:14px;
-  outline:none;transition:border-color 0.2s,background 0.2s,box-shadow 0.2s;
-}
-.input-wrap input:focus{
-  border-color:var(--accent);background:#fff;
-  box-shadow:0 0 0 3px rgba(45,90,61,0.08);
-}
+.input-wrap input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:3px;
+  padding:11px 40px 11px 12px;color:var(--ink);font-family:'Instrument Sans',sans-serif;font-size:14px;
+  outline:none;transition:border-color 0.2s,background 0.2s,box-shadow 0.2s;}
+.input-wrap input:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(45,90,61,0.08);}
 .input-wrap input[type=password]{letter-spacing:4px;}
 .input-wrap input[type=password]::placeholder{letter-spacing:1px;}
 .input-wrap input::placeholder{color:var(--dim);}
-.toggle-pw{
-  position:absolute;right:12px;top:50%;transform:translateY(-50%);
-  cursor:pointer;color:var(--dim);font-size:13px;
-  user-select:none;transition:color 0.15s;
-}
+.toggle-pw{position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;
+  color:var(--dim);font-size:13px;user-select:none;transition:color 0.15s;}
 .toggle-pw:hover{color:var(--ink2);}
-
-/* error */
-.error-msg{
-  font-size:11px;font-family:'DM Mono',monospace;color:var(--red);
-  margin-top:10px;padding:10px 13px;
-  background:var(--red-light);border:1px solid rgba(192,57,43,0.2);
-  border-radius:3px;display:none;
-}
+.error-msg{font-size:11px;font-family:'DM Mono',monospace;color:var(--red);margin-top:10px;
+  padding:10px 13px;background:var(--red-light);border:1px solid rgba(192,57,43,0.2);
+  border-radius:3px;display:none;}
 .error-msg.show{display:block;animation:shake 0.35s ease;}
 @keyframes shake{0%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}100%{transform:translateX(0)}}
-
-/* button */
-.btn-login{
-  width:100%;margin-top:24px;padding:13px;
-  background:var(--accent);border:none;
-  color:#fff;border-radius:3px;
-  font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;
-  text-transform:uppercase;
-  cursor:pointer;transition:all 0.2s;
-}
+.btn-login{width:100%;margin-top:24px;padding:13px;background:var(--accent);border:none;
+  color:#fff;border-radius:3px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;
+  text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
 .btn-login:hover{background:#234a32;box-shadow:0 4px 16px rgba(45,90,61,0.2);}
 .btn-login:active{transform:scale(0.99);}
 .btn-login.loading{opacity:0.7;pointer-events:none;}
-
-/* public link */
-.public-link{
-  display:block;text-align:center;margin-top:18px;
-  font-size:11px;font-family:'DM Mono',monospace;
-  color:var(--muted);cursor:pointer;letter-spacing:0.3px;
-  transition:color 0.15s;text-decoration:none;
-}
+.public-link{display:block;text-align:center;margin-top:18px;font-size:11px;font-family:'DM Mono',monospace;
+  color:var(--muted);cursor:pointer;letter-spacing:0.3px;transition:color 0.15s;text-decoration:none;}
 .public-link:hover{color:var(--accent);}
-
-/* footer */
-.card-footer{
-  padding:12px 40px;border-top:1px solid var(--border);
-  font-size:9px;font-family:'DM Mono',monospace;
-  color:var(--dim);letter-spacing:1px;text-align:center;
-}
+.card-footer{padding:12px 40px;border-top:1px solid var(--border);font-size:9px;font-family:'DM Mono',monospace;
+  color:var(--dim);letter-spacing:1px;text-align:center;}
+/* Config notice */
+.config-notice{background:#fef9ee;border:1px solid rgba(146,96,10,0.25);border-radius:3px;
+  padding:10px 14px;margin-bottom:20px;font-size:10px;font-family:'DM Mono',monospace;
+  color:#92600a;line-height:1.6;display:none;}
+.config-notice.show{display:block;}
+.config-notice a{color:#92600a;font-weight:500;}
 </style>
 </head>
 <body>
-<div class="corner tl"></div>
-<div class="corner tr"></div>
-<div class="corner bl"></div>
-<div class="corner br"></div>
+<div class="corner tl"></div><div class="corner tr"></div>
+<div class="corner bl"></div><div class="corner br"></div>
 <div class="center-mark"></div>
 
 <div class="login-wrap">
@@ -184,6 +91,12 @@ body::before{
         <div class="sub">Masuk sebagai administrator untuk mengelola data</div>
       </div>
       <div class="divider"></div>
+
+      <!-- Muncul jika Supabase belum dikonfigurasi -->
+      <div class="config-notice" id="config-notice">
+        ⚠ Supabase belum dikonfigurasi.<br>
+        Edit file <code>config.js</code> dan isi <code>SUPABASE_URL</code> &amp; <code>SUPABASE_ANON_KEY</code>.
+      </div>
 
       <div class="field">
         <label>Username</label>
@@ -208,27 +121,83 @@ body::before{
   </div>
 </div>
 
+<!-- Load config (isi URL & KEY Supabase di sini) -->
+<script src="config.js"></script>
+
 <script>
 document.getElementById('username').focus();
+
+// Cek apakah config sudah diisi
+if (!window.SUPABASE_URL || window.SUPABASE_URL === 'GANTI_DENGAN_URL_SUPABASE_KAMU') {
+  document.getElementById('config-notice').classList.add('show');
+}
+
 function togglePw(){
   const i=document.getElementById('password'),t=document.getElementById('toggle-pw');
   if(i.type==='password'){i.type='text';t.textContent='🙈';}
   else{i.type='password';t.textContent='👁';}
 }
-function tryLogin(){
-  const u=document.getElementById('username').value.trim();
-  const p=document.getElementById('password').value;
-  const err=document.getElementById('error-msg');
-  const btn=document.getElementById('btn-login');
-  if(u==='admin'&&p==='12345'){
-    btn.textContent='Memuat…'; btn.classList.add('loading');
-    sessionStorage.setItem('arsiparis_admin','1');
-    setTimeout(()=>{window.location.href='arsiparis-dashboard.html';},500);
-  } else {
-    err.className=''; void err.offsetWidth; err.className='error-msg show';
-    document.getElementById('password').value='';
-    document.getElementById('password').focus();
+
+// SHA-256 helper
+async function sha256(message) {
+  const msgBuffer = new TextEncoder().encode(message);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function tryLogin(){
+  const u = document.getElementById('username').value.trim();
+  const p = document.getElementById('password').value;
+  const err = document.getElementById('error-msg');
+  const btn = document.getElementById('btn-login');
+
+  if (!u || !p) {
+    showError('Username dan password tidak boleh kosong.');
+    return;
   }
+
+  btn.textContent = 'Memverifikasi…';
+  btn.classList.add('loading');
+
+  try {
+    const hash = await sha256(p);
+
+    // Query ke Supabase: cek username + hash
+    const res = await fetch(
+      `${window.SUPABASE_URL}/rest/v1/admin_users?select=id,username&username=eq.${encodeURIComponent(u)}&pass_hash=eq.${hash}`,
+      { headers: { 'apikey': window.SUPABASE_ANON_KEY, 'Content-Type': 'application/json' } }
+    );
+
+    if (!res.ok) throw new Error('Network error');
+    const rows = await res.json();
+
+    if (rows && rows.length > 0) {
+      // Login sukses
+      sessionStorage.setItem('arsiparis_admin', '1');
+      sessionStorage.setItem('arsiparis_admin_user', rows[0].username);
+      btn.textContent = 'Memuat…';
+      setTimeout(() => { window.location.href = 'arsiparis-dashboard.html'; }, 400);
+    } else {
+      showError('Username atau password tidak valid.');
+      btn.textContent = 'Masuk sebagai Admin';
+      btn.classList.remove('loading');
+      document.getElementById('password').value = '';
+      document.getElementById('password').focus();
+    }
+  } catch(e) {
+    showError('Gagal terhubung ke server. Periksa koneksi atau konfigurasi Supabase.');
+    btn.textContent = 'Masuk sebagai Admin';
+    btn.classList.remove('loading');
+  }
+}
+
+function showError(msg) {
+  const err = document.getElementById('error-msg');
+  err.textContent = msg;
+  err.className = '';
+  void err.offsetWidth;
+  err.className = 'error-msg show';
 }
 </script>
 </body>
