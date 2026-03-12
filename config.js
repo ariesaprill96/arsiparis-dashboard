@@ -12,5 +12,5 @@
 // ============================================================
 
 window.SUPABASE_URL  = 'https://rhdegjdncazdixurpsnl.supabase.co';
-window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJoZGVnamRuY2F6ZGl4dXJwc25sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyMDg3NzAsImV4cCI6MjA4ODc4NDc3MH0.BvN5E1UYMbCqEYuyXn7hLslWJHhXteFWJ6AIx7XoIqs';
+window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJoZGVnamRuY2F6ZGl4dXJwc25sIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzIwODc3MCwiZXhwIjoyMDg4Nzg0NzcwfQ.7DGitymjQDJuQFIQTiIUZ_YhfkSNAMrEj8cWgJWC83E';
 
