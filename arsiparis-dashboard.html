@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rekomendasi Kebutuhan Arsiparis — Indonesia</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f6f2;--surface:#ffffff;--surface2:#f2f0eb;--surface3:#eceae4;
+  --border:#e4e0d8;--border2:#d4cfc4;--ink:#1a1814;--ink2:#3d3a34;
+  --muted:#8c8880;--dim:#c4bfb6;--accent:#2d5a3d;--accent2:#3d7a54;
+  --accent-light:#e8f0eb;--red:#c0392b;--red-light:#fdf0ee;
+  --blue:#2c5282;--blue-light:#ebf2ff;--amber:#92600a;--amber-light:#fef9ee;
+  --purple:#5b2d8e;--purple-light:#f3eeff;--teal:#1a6b5a;--teal-light:#e6f4f1;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--ink);font-family:'Instrument Sans',sans-serif;font-weight:300;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(45,90,61,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(45,90,61,0.03) 1px,transparent 1px);
+  background-size:48px 48px;}
+
+/* HEADER */
+.header{position:sticky;top:0;z-index:200;background:rgba(247,246,242,0.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;gap:24px;height:60px;}
+.brand{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:17px;letter-spacing:2px;
+  color:var(--accent);white-space:nowrap;flex-shrink:0;text-transform:uppercase;}
+.brand-divider{width:1px;height:24px;background:var(--border2);flex-shrink:0;}
+.header-stats{display:flex;gap:24px;flex-shrink:0;}
+.hs{text-align:center;}
+.hs-val{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--ink);line-height:1;}
+.hs-lbl{font-size:8.5px;color:var(--muted);font-family:'DM Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.source-tag{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;}
+.admin-pill{font-size:10px;font-family:'DM Mono',monospace;background:var(--accent-light);border:1px solid rgba(45,90,61,0.2);color:var(--accent);padding:5px 11px;border-radius:20px;display:none;}
+.btn-add{font-size:11px;font-family:'DM Mono',monospace;background:var(--accent);border:none;color:#fff;padding:7px 14px;border-radius:3px;cursor:pointer;letter-spacing:0.5px;transition:all 0.15s;white-space:nowrap;display:none;}
+.btn-add:hover{background:var(--accent2);}
+.btn-logout{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);padding:5px 10px;border:1px solid var(--border);border-radius:3px;cursor:pointer;transition:all 0.15s;background:none;display:none;}
+.btn-logout:hover{color:var(--red);border-color:rgba(192,57,43,0.3);}
+
+/* CONTROLS */
+.controls{padding:10px 32px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+  position:sticky;top:60px;z-index:150;background:rgba(247,246,242,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+.search-box{flex:1;min-width:200px;max-width:280px;background:var(--surface);border:1px solid var(--border);
+  border-radius:3px;display:flex;align-items:center;gap:8px;padding:7px 12px;transition:border-color 0.2s,box-shadow 0.2s;}
+.search-box:focus-within{border-color:var(--accent);box-shadow:0 0 0 2px rgba(45,90,61,0.08);}
+.search-box input{background:none;border:none;outline:none;color:var(--ink);font-family:'Instrument Sans',sans-serif;font-size:12.5px;width:100%;}
+.search-box input::placeholder{color:var(--dim);}
+.dd-select{appearance:none;-webkit-appearance:none;background:var(--surface);border:1px solid var(--border);
+  border-radius:3px;padding:6px 28px 6px 10px;color:var(--ink2);font-family:'DM Mono',monospace;font-size:10.5px;
+  cursor:pointer;outline:none;transition:border-color 0.2s;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238c8880'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 9px center;}
+.dd-select:focus{border-color:var(--accent);}
+.dd-select.active{background-color:var(--accent-light);border-color:rgba(45,90,61,0.3);color:var(--accent);}
+.dd-select option{background:var(--surface);color:var(--ink);}
+.prov-select{appearance:none;-webkit-appearance:none;background:var(--surface);border:1px solid var(--border);
+  border-radius:3px;padding:6px 28px 6px 10px;color:var(--muted);font-family:'DM Mono',monospace;font-size:10.5px;
+  cursor:pointer;outline:none;transition:border-color 0.2s;display:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238c8880'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 9px center;}
+.prov-select option{background:var(--surface);}
+.sort-group{margin-left:auto;display:flex;align-items:center;gap:6px;}
+.sort-lbl{font-size:9px;color:var(--dim);font-family:'DM Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;}
+
+/* REKAP */
+.rekap-section{padding:24px 32px 0;position:relative;z-index:1;}
+.rekap-title{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:400;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;}
+.rekap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:20px;}
+.rekap-card{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:13px 15px;position:relative;overflow:hidden;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s;}
+.rekap-card:hover{border-color:var(--border2);box-shadow:0 4px 16px rgba(26,24,20,0.07);}
+.rekap-card.rekap-total{border-color:rgba(45,90,61,0.2);background:var(--accent-light);}
+.rekap-accent{position:absolute;left:0;top:0;bottom:0;width:3px;}
+.rekap-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--ink);line-height:1;}
+.rekap-lbl{font-size:8.5px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:4px;}
+.rekap-sub{font-size:9.5px;font-family:'DM Mono',monospace;color:var(--dim);margin-top:3px;}
+.rekap-formasi{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--accent);margin-top:2px;}
+.rekap-divider{height:1px;background:var(--border);margin:4px 0 20px;}
+
+/* KLUSTER */
+.kluster-wrap{padding:0 32px 60px;position:relative;z-index:1;}
+.kluster-block{margin-bottom:32px;}
+.kluster-head{display:flex;align-items:center;gap:10px;padding:10px 0 10px;border-bottom:1px solid var(--border);margin-bottom:10px;}
+.kluster-icon{font-size:14px;}
+.kluster-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:400;color:var(--ink);letter-spacing:0.5px;}
+.kluster-count{font-size:9.5px;font-family:'DM Mono',monospace;color:var(--muted);margin-left:auto;}
+.kluster-formasi{font-size:9.5px;font-family:'DM Mono',monospace;color:var(--accent);}
+.kluster-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:8px;}
+.btn-viewmore{margin-top:10px;font-size:10px;font-family:'DM Mono',monospace;color:var(--accent);border:1px solid rgba(45,90,61,0.25);background:var(--accent-light);padding:7px 16px;border-radius:3px;cursor:pointer;transition:all 0.15s;letter-spacing:0.3px;}
+.btn-viewmore:hover{background:rgba(45,90,61,0.1);}
+.btn-viewless{margin-top:10px;font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);border:1px solid var(--border);background:var(--surface);padding:7px 16px;border-radius:3px;cursor:pointer;transition:all 0.15s;}
+.btn-viewless:hover{color:var(--ink2);}
+
+/* FILTER VIEW */
+.full-list-wrap{padding:0 32px 60px;position:relative;z-index:1;}
+.results-bar{padding:9px 32px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);background:var(--surface2);}
+.res-count{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.res-total{font-size:11px;font-family:'DM Mono',monospace;color:var(--accent);}
+.grid{padding:12px 32px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px;position:relative;z-index:1;}
+.grid.hidden{display:none;}
+.rekap-section.hidden,.kluster-wrap.hidden,.full-list-wrap.hidden{display:none!important;}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:3px;overflow:hidden;cursor:pointer;
+  transition:transform 0.16s,border-color 0.16s,box-shadow 0.16s;animation:fadeUp 0.3s ease both;position:relative;padding-left:3px;}
+.card:hover{transform:translateY(-2px);border-color:var(--border2);box-shadow:0 8px 28px rgba(26,24,20,0.08);}
+.card.is-new{border-color:rgba(45,90,61,0.25);background:#fffffe;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.card-accent{width:3px;position:absolute;left:0;top:0;bottom:0;}
+.card[data-cat="Kementerian"] .card-accent{background:var(--amber);}
+.card[data-cat="Alat Negara"] .card-accent{background:var(--red);}
+.card[data-cat="Sekretariat Lembaga Negara"] .card-accent{background:var(--blue);}
+.card[data-cat="Lembaga Non Struktural"] .card-accent{background:var(--purple);}
+.card[data-cat="Lembaga Pemerintah Lainnya"] .card-accent{background:#b06030;}
+.card[data-cat="Lembaga Pemerintah Non Kementerian"] .card-accent{background:var(--teal);}
+.card[data-cat="Lembaga Penyiaran Publik"] .card-accent{background:#7a6020;}
+.card[data-cat="Provinsi"] .card-accent{background:#1a4a6b;}
+.card[data-cat="Kabupaten/Kota"] .card-accent{background:#3a6b3a;}
+.card-head{padding:12px 14px 10px 14px;display:flex;align-items:flex-start;gap:9px;border-bottom:1px solid var(--border);}
+.cat-dot{width:26px;height:26px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;background:var(--surface2);}
+.card-name{font-size:12.5px;font-weight:500;line-height:1.4;flex:1;color:var(--ink);}
+.card-province{font-size:9.5px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:2px;}
+.badge{font-size:9px;font-family:'DM Mono',monospace;padding:3px 7px;border-radius:2px;white-space:nowrap;flex-shrink:0;}
+.badge-ada{background:var(--teal-light);color:var(--teal);}
+.badge-belum{background:var(--red-light);color:var(--red);}
+.card-body{padding:11px 14px 10px;}
+.total-row{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:8px;}
+.total-num{font-family:'Cormorant Garamond',serif;font-size:36px;line-height:1;color:var(--ink);font-weight:600;}
+.total-zero{color:var(--dim);}
+.total-meta{text-align:right;}
+.total-lbl{font-size:8.5px;color:var(--muted);font-family:'DM Mono',monospace;letter-spacing:1px;text-transform:uppercase;}
+.total-year{font-size:14px;font-family:'DM Mono',monospace;color:var(--accent);margin-top:2px;}
+.bars{display:flex;flex-direction:column;gap:4px;}
+.bar-r{display:flex;align-items:center;gap:6px;}
+.bar-lbl{font-size:9px;color:var(--muted);font-family:'DM Mono',monospace;width:66px;flex-shrink:0;}
+.bar-track{flex:1;height:3px;background:var(--surface3);border-radius:10px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:10px;opacity:0.75;}
+.bar-val{font-size:9.5px;color:var(--muted);font-family:'DM Mono',monospace;width:26px;text-align:right;flex-shrink:0;}
+.card-foot{padding:7px 14px 11px;border-top:1px solid var(--border);font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;line-height:1.5;}
+.empty{grid-column:1/-1;text-align:center;padding:80px 20px;}
+.empty-icon{font-size:36px;opacity:0.1;margin-bottom:12px;}
+.empty-text{font-size:13px;color:var(--dim);font-family:'DM Mono',monospace;}
+
+/* LOADING OVERLAY */
+.loading-overlay{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;}
+.loading-overlay.hidden{display:none;}
+.loading-spinner{width:32px;height:32px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+
+/* OVERLAYS */
+.overlay{position:fixed;inset:0;background:rgba(26,24,20,0.4);z-index:500;display:none;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(6px);}
+.overlay.open{display:flex;}
+@keyframes modalIn{from{opacity:0;transform:translateY(12px) scale(0.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* DETAIL MODAL */
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:4px;width:100%;max-width:560px;max-height:88vh;overflow-y:auto;animation:modalIn 0.22s ease;box-shadow:0 20px 60px rgba(26,24,20,0.15);}
+.modal-rule{height:3px;border-radius:4px 4px 0 0;}
+.modal-header{padding:20px 24px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:16px;}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;line-height:1.25;flex:1;color:var(--ink);}
+.modal-subtitle{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);margin-top:4px;letter-spacing:0.5px;}
+.modal-close{color:var(--dim);cursor:pointer;font-size:16px;padding:2px;flex-shrink:0;transition:color 0.15s;}
+.modal-close:hover{color:var(--ink);}
+.modal-body{padding:20px 24px 24px;}
+.big-total{text-align:center;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.big-num{font-family:'Cormorant Garamond',serif;font-size:64px;color:var(--ink);line-height:1;font-weight:600;}
+.big-lbl{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:4px;}
+.jenjang-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:16px;}
+.j-card{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:11px 13px;}
+.j-name{font-size:8.5px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.j-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--ink);}
+.info-rows{border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:0;}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:9px 13px;border-bottom:1px solid var(--border);font-size:12px;}
+.info-row:last-child{border-bottom:none;}
+.ir-lbl{font-family:'DM Mono',monospace;font-size:9.5px;color:var(--muted);letter-spacing:0.3px;}
+.ir-val{font-weight:500;color:var(--ink2);}
+.ket-box{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:11px 13px;margin-top:10px;font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;line-height:1.7;}
+.modal-admin-actions{display:none;gap:8px;margin-top:14px;}
+.modal-admin-actions.visible{display:flex;}
+.btn-modal-edit{flex:1;padding:10px;background:var(--accent);border:none;color:#fff;border-radius:3px;font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;letter-spacing:0.5px;transition:background 0.15s;}
+.btn-modal-edit:hover{background:var(--accent2);}
+.btn-modal-del{padding:10px 14px;background:var(--surface);border:1px solid rgba(192,57,43,0.3);color:var(--red);border-radius:3px;font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;transition:all 0.15s;}
+.btn-modal-del:hover{background:var(--red-light);}
+
+/* FORM MODAL */
+.form-overlay{position:fixed;inset:0;background:rgba(26,24,20,0.5);z-index:600;display:none;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(8px);}
+.form-overlay.open{display:flex;}
+.form-modal{background:var(--surface);border:1px solid var(--border);border-radius:4px;width:100%;max-width:540px;max-height:92vh;overflow-y:auto;animation:modalIn 0.2s ease;box-shadow:0 20px 60px rgba(26,24,20,0.15);}
+.form-rule{height:3px;background:var(--accent);border-radius:4px 4px 0 0;}
+.form-header{padding:16px 20px 12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.form-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:var(--ink);}
+.form-close{color:var(--dim);cursor:pointer;font-size:16px;transition:color 0.15s;}
+.form-close:hover{color:var(--ink);}
+.form-body{padding:16px 20px 20px;display:flex;flex-direction:column;gap:12px;}
+.form-section{font-size:8.5px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:2px;text-transform:uppercase;padding-bottom:5px;border-bottom:1px solid var(--border);margin-top:2px;}
+.form-row{display:flex;flex-direction:column;gap:4px;}
+.form-row label{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:0.5px;text-transform:uppercase;}
+.form-row input,.form-row select,.form-row textarea{background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:8px 11px;color:var(--ink);font-family:'Instrument Sans',sans-serif;font-size:13px;outline:none;transition:border-color 0.2s,box-shadow 0.2s;}
+.form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(45,90,61,0.08);}
+.form-row select option{background:var(--surface);}
+.form-row textarea{resize:vertical;min-height:64px;line-height:1.5;}
+.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.form-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}
+.form-grid-4 label{font-size:8.5px;}
+.total-preview{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:11px 13px;display:flex;align-items:center;justify-content:space-between;}
+.total-preview label{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.total-preview span{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--ink);}
+.form-actions{display:flex;gap:8px;margin-top:4px;}
+.btn-save{flex:1;padding:10px;background:var(--accent);border:none;color:#fff;border-radius:3px;font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;letter-spacing:0.5px;transition:background 0.15s;}
+.btn-save:hover{background:var(--accent2);}
+.btn-save.loading{opacity:0.7;pointer-events:none;}
+.btn-cancel{padding:10px 16px;background:var(--surface);border:1px solid var(--border);color:var(--muted);border-radius:3px;font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;transition:all 0.15s;}
+.btn-cancel:hover{color:var(--ink2);}
+
+/* CONFIRM */
+.confirm-box{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:28px 24px 24px;width:100%;max-width:360px;text-align:center;animation:modalIn 0.2s ease;box-shadow:0 16px 40px rgba(26,24,20,0.12);}
+.confirm-rule{height:2px;background:var(--red);border-radius:4px 4px 0 0;margin:-28px -24px 24px;}
+.confirm-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;margin-bottom:8px;color:var(--ink);}
+.confirm-msg{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;line-height:1.7;margin-bottom:20px;}
+.confirm-actions{display:flex;gap:8px;justify-content:center;}
+.btn-confirm-del{padding:9px 20px;background:var(--red);border:none;color:#fff;border-radius:3px;font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;transition:opacity 0.15s;}
+.btn-confirm-del:hover{opacity:0.85;}
+.btn-confirm-cancel{padding:9px 20px;background:var(--surface);border:1px solid var(--border);color:var(--muted);border-radius:3px;font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;z-index:999;background:var(--ink);border-radius:3px;padding:11px 16px;font-family:'DM Mono',monospace;font-size:11px;color:#fff;transform:translateY(16px);opacity:0;transition:all 0.25s;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,0.15);}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{background:var(--accent);}
+.toast.danger{background:var(--red);}
+
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--surface2);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
+</style>
+</head>
+<body>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Memuat data…</div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div><div class="brand">Arsiparis · RI</div></div>
+  <div class="brand-divider"></div>
+  <div class="header-stats">
+    <div class="hs"><div class="hs-val" id="st-total">—</div><div class="hs-lbl">Instansi</div></div>
+    <div class="hs"><div class="hs-val" id="st-rek">—</div><div class="hs-lbl">Ada Rekomendasi</div></div>
+    <div class="hs"><div class="hs-val" id="st-formasi">—</div><div class="hs-lbl">Total Formasi</div></div>
+  </div>
+  <div class="header-right">
+    <span class="source-tag">ANRI · 2020–2025</span>
+    <span class="admin-pill" id="admin-pill">🔐 Admin</span>
+    <button class="btn-add" id="btn-add" onclick="openForm(null)">+ Tambah Instansi</button>
+    <button class="btn-logout" id="btn-logout" onclick="doLogout()">Logout</button>
+  </div>
+</header>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="search-box">
+    <span style="color:var(--dim);font-size:13px;">⌕</span>
+    <input type="text" id="search" placeholder="Cari nama instansi…" oninput="render()">
+  </div>
+  <select class="dd-select" id="cat-select" onchange="onCatChange()">
+    <option value="semua">— Semua Kluster —</option>
+    <option value="Kementerian">🏛 Kementerian</option>
+    <option value="Alat Negara">⚔ Alat Negara</option>
+    <option value="Sekretariat Lembaga Negara">🏦 Sek. Lembaga Negara</option>
+    <option value="Lembaga Non Struktural">🔬 Lembaga Non Struktural</option>
+    <option value="Lembaga Pemerintah Lainnya">🏢 Lembaga Pemerintah Lainnya</option>
+    <option value="Lembaga Pemerintah Non Kementerian">🏗 LPNK</option>
+    <option value="Lembaga Penyiaran Publik">📡 Lembaga Penyiaran Publik</option>
+    <option value="Provinsi">🗺 Provinsi</option>
+    <option value="Kabupaten/Kota">📍 Kabupaten/Kota</option>
+  </select>
+  <select class="dd-select" id="status-select" onchange="render()">
+    <option value="">— Semua Status —</option>
+    <option value="Ada Rekomendasi">✓ Ada Rekomendasi</option>
+    <option value="Belum Ada Rekomendasi">✗ Belum Ada Rekomendasi</option>
+  </select>
+  <select class="prov-select" id="prov-select" onchange="render()">
+    <option value="">— Semua Provinsi —</option>
+  </select>
+  <div class="sort-group">
+    <span class="sort-lbl">Urutkan</span>
+    <select class="dd-select" id="sort-select" onchange="onSortChange()">
+      <option value="nama">A – Z</option>
+      <option value="total-d">Formasi Terbanyak</option>
+      <option value="total-a">Formasi Terkecil</option>
+      <option value="tahun">Tahun Rekomendasi</option>
+      <option value="rek-d">Rekomendasi Terbanyak</option>
+    </select>
+  </div>
+</div>
+
+<div class="results-bar" id="results-bar" style="display:none">
+  <span class="res-count" id="res-count">—</span>
+  <span class="res-total" id="res-total"></span>
+</div>
+
+<!-- HOME VIEW -->
+<div id="home-view">
+  <div class="rekap-section" id="rekap-section">
+    <div class="rekap-title">Rekapitulasi Nasional</div>
+    <div class="rekap-grid" id="rekap-grid"></div>
+    <div class="rekap-divider"></div>
+  </div>
+  <div class="kluster-wrap" id="kluster-wrap"></div>
+</div>
+
+<!-- FILTER VIEW -->
+<div id="filter-view" style="display:none">
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="overlay" id="overlay" onclick="closeOverlay(event)">
+  <div class="modal">
+    <div class="modal-rule" id="modal-rule"></div>
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modal-title"></div>
+        <div class="modal-subtitle" id="modal-sub"></div>
+      </div>
+      <span class="modal-close" onclick="document.getElementById('overlay').classList.remove('open')">✕</span>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-overlay" id="form-overlay" onclick="closeFormOverlay(event)">
+  <div class="form-modal">
+    <div class="form-rule"></div>
+    <div class="form-header">
+      <div class="form-title" id="form-title">Tambah Instansi</div>
+      <span class="form-close" onclick="closeForm()">✕</span>
+    </div>
+    <div class="form-body">
+      <input type="hidden" id="f-id">
+      <div class="form-row">
+        <label>Nama Instansi *</label>
+        <input type="text" id="f-nama" placeholder="Nama lengkap instansi">
+      </div>
+      <div class="form-grid-2">
+        <div class="form-row">
+          <label>Kategori *</label>
+          <select id="f-kategori">
+            <option value="Kementerian">Kementerian</option>
+            <option value="Alat Negara">Alat Negara</option>
+            <option value="Sekretariat Lembaga Negara">Sek. Lembaga Negara</option>
+            <option value="Lembaga Non Struktural">Lembaga Non Struktural</option>
+            <option value="Lembaga Pemerintah Lainnya">Lembaga Pemerintah Lainnya</option>
+            <option value="Lembaga Pemerintah Non Kementerian">LPNK</option>
+            <option value="Lembaga Penyiaran Publik">Lembaga Penyiaran Publik</option>
+            <option value="Provinsi">Provinsi</option>
+            <option value="Kabupaten/Kota">Kabupaten/Kota</option>
+          </select>
+        </div>
+        <div class="form-row" id="prov-field" style="display:none">
+          <label>Provinsi</label>
+          <input type="text" id="f-provinsi" placeholder="Nama provinsi">
+        </div>
+      </div>
+      <div class="form-grid-2">
+        <div class="form-row">
+          <label>Status Rekomendasi *</label>
+          <select id="f-status">
+            <option value="Ada Rekomendasi">Ada Rekomendasi</option>
+            <option value="Belum Ada Rekomendasi">Belum Ada Rekomendasi</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Tahun Rekomendasi</label>
+          <input type="number" id="f-tahun" placeholder="2025" min="2000" max="2099">
+        </div>
+      </div>
+      <div class="form-section">Jenjang — Keterampilan</div>
+      <div class="form-grid-4">
+        <div class="form-row"><label>Terampil</label><input type="number" id="f-terampil" value="0" min="0"></div>
+        <div class="form-row"><label>Mahir</label><input type="number" id="f-mahir" value="0" min="0"></div>
+        <div class="form-row"><label>Penyelia</label><input type="number" id="f-penyelia" value="0" min="0"></div>
+        <div class="form-row"><label>Ket. Sub</label><input type="number" id="f-ket-sub" value="0" min="0" readonly style="background:var(--surface3);color:var(--muted)"></div>
+      </div>
+      <div class="form-section">Jenjang — Keahlian</div>
+      <div class="form-grid-4">
+        <div class="form-row"><label>Ahli Pertama</label><input type="number" id="f-ahli_pertama" value="0" min="0"></div>
+        <div class="form-row"><label>Ahli Muda</label><input type="number" id="f-ahli_muda" value="0" min="0"></div>
+        <div class="form-row"><label>Ahli Madya</label><input type="number" id="f-ahli_madya" value="0" min="0"></div>
+        <div class="form-row"><label>Ahli Utama</label><input type="number" id="f-ahli_utama" value="0" min="0"></div>
+      </div>
+      <div class="total-preview">
+        <label>Total Kebutuhan</label>
+        <span id="f-total-display">0</span>
+      </div>
+      <div class="form-row">
+        <label>Keterangan</label>
+        <textarea id="f-keterangan" placeholder="Catatan rekomendasi, tanggal SK, dsb."></textarea>
+      </div>
+      <div class="form-actions">
+        <button class="btn-cancel" onclick="closeForm()">Batal</button>
+        <button class="btn-save" id="btn-save" onclick="saveForm()">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE -->
+<div class="overlay" id="confirm-overlay" onclick="closeConfirm(event)">
+  <div class="confirm-box">
+    <div class="confirm-rule"></div>
+    <div class="confirm-title">Hapus Instansi?</div>
+    <div class="confirm-msg" id="confirm-msg"></div>
+    <div class="confirm-actions">
+      <button class="btn-confirm-cancel" onclick="document.getElementById('confirm-overlay').classList.remove('open')">Batal</button>
+      <button class="btn-confirm-del" id="confirm-del-btn">Hapus</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Load config -->
+<script src="config.js"></script>
+
+<script>
+// ── CONSTANTS ──────────────────────────────────────────────
+const IS_ADMIN = sessionStorage.getItem('arsiparis_admin') === '1';
+const JKEYS = ['terampil','mahir','penyelia','ahli_pertama','ahli_muda','ahli_madya','ahli_utama'];
+const PROVINSI_LIST = ["ACEH","BALI","BANTEN","BENGKULU","DI. YOGYAKARTA","DKI JAKARTA","GORONTALO","JAMBI","JAWA BARAT","JAWA TENGAH","JAWA TIMUR","KALIMANTAN BARAT","KALIMANTAN SELATAN","KALIMANTAN TENGAH","KALIMANTAN TIMUR","KALIMANTAN UTARA","KEPULAUAN RIAU","LAMPUNG","MALUKU","MALUKU UTARA","NUSA TENGGARA BARAT","NUSA TENGGARA TIMUR","PAPUA","PAPUA BARAT","PAPUA BARAT DAYA","PAPUA PEGUNUNGAN","PAPUA SELATAN","PAPUA TENGAH","RIAU","SULAWESI BARAT","SULAWESI SELATAN","SULAWESI TENGAH","SULAWESI TENGGARA","SULAWESI UTARA","SUMATERA BARAT","SUMATERA SELATAN","SUMATERA UTARA"];
+const CAT_COLOR = {
+  'Kementerian':'#92600a','Alat Negara':'#c0392b','Sekretariat Lembaga Negara':'#2c5282',
+  'Lembaga Non Struktural':'#5b2d8e','Lembaga Pemerintah Lainnya':'#b06030',
+  'Lembaga Pemerintah Non Kementerian':'#1a6b5a','Lembaga Penyiaran Publik':'#7a6020',
+  'Provinsi':'#1a4a6b','Kabupaten/Kota':'#3a6b3a'
+};
+const CAT_ICON = {
+  'Kementerian':'🏛','Alat Negara':'⚔','Sekretariat Lembaga Negara':'🏦',
+  'Lembaga Non Struktural':'🔬','Lembaga Pemerintah Lainnya':'🏢',
+  'Lembaga Pemerintah Non Kementerian':'🏗','Lembaga Penyiaran Publik':'📡',
+  'Provinsi':'🗺','Kabupaten/Kota':'📍'
+};
+const JENJANG = [
+  {k:'terampil',lbl:'Terampil',c:'#92600a'},{k:'mahir',lbl:'Mahir',c:'#1a6b5a'},
+  {k:'penyelia',lbl:'Penyelia',c:'#2c5282'},{k:'ahli_pertama',lbl:'Ahli Pertama',c:'#c0392b'},
+  {k:'ahli_muda',lbl:'Ahli Muda',c:'#5b2d8e'},{k:'ahli_madya',lbl:'Ahli Madya',c:'#b06030'},
+  {k:'ahli_utama',lbl:'Ahli Utama',c:'#1a4a6b'}
+];
+const CLUSTERS = [
+  {cat:'Kementerian',color:'var(--amber)'},{cat:'Lembaga Pemerintah Non Kementerian',color:'var(--teal)'},
+  {cat:'Sekretariat Lembaga Negara',color:'var(--blue)'},{cat:'Lembaga Non Struktural',color:'var(--purple)'},
+  {cat:'Alat Negara',color:'var(--red)'},{cat:'Lembaga Pemerintah Lainnya',color:'#b06030'},
+  {cat:'Lembaga Penyiaran Publik',color:'#7a6020'},{cat:'Provinsi',color:'#1a4a6b'},
+  {cat:'Kabupaten/Kota',color:'#3a6b3a'}
+];
+
+// ── SUPABASE API HELPER ─────────────────────────────────────
+const SB_URL = window.SUPABASE_URL || '';
+const SB_KEY = window.SUPABASE_ANON_KEY || '';
+
+async function sbFetch(path, opts = {}) {
+  const res = await fetch(SB_URL + '/rest/v1/' + path, {
+    ...opts,
+    headers: {
+      'apikey': SB_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': opts.prefer || '',
+      ...(opts.headers || {})
+    }
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Supabase error ${res.status}: ${text}`);
+  }
+  if (res.status === 204) return null;
+  return res.json();
+}
+
+// ── STATE ───────────────────────────────────────────────────
+let ALL = [];
+let activeCat = 'semua', activeSort = 'nama';
+const expandedClusters = new Set();
+
+// ── INIT ────────────────────────────────────────────────────
+async function init() {
+  // Fill provinsi dropdown
+  const provSel = document.getElementById('prov-select');
+  PROVINSI_LIST.forEach(p => {
+    const o = document.createElement('option');
+    o.value = p; o.textContent = p;
+    provSel.appendChild(o);
+  });
+
+  // Admin UI
+  if (IS_ADMIN) {
+    ['admin-pill','btn-add','btn-logout'].forEach(id => {
+      document.getElementById(id).style.display = 'inline-block';
+    });
+  }
+
+  // Load data
+  await loadData();
+
+  // Hide loading overlay
+  document.getElementById('loading-overlay').classList.add('hidden');
+}
+
+async function loadData() {
+  try {
+    // Fetch all records, ordered by nama
+    const data = await sbFetch('instansi?select=*&order=nama.asc&limit=2000');
+    ALL = data || [];
+    render();
+  } catch(e) {
+    console.error(e);
+    showToast('Gagal memuat data dari Supabase. Periksa config.js', 'danger');
+    document.getElementById('loading-overlay').classList.add('hidden');
+    document.getElementById('home-view').innerHTML = `
+      <div style="text-align:center;padding:80px 32px;">
+        <div style="font-size:32px;opacity:0.15;margin-bottom:16px;">⚠</div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">
+          Gagal terhubung ke Supabase.<br>Pastikan config.js sudah diisi dengan benar.
+        </div>
+      </div>`;
+  }
+}
+
+// ── ADMIN ACTIONS ────────────────────────────────────────────
+function doLogout() {
+  sessionStorage.removeItem('arsiparis_admin');
+  sessionStorage.removeItem('arsiparis_admin_user');
+  window.location.href = 'index.html';
+}
+
+// ── FILTER / SORT ────────────────────────────────────────────
+function onCatChange() {
+  activeCat = document.getElementById('cat-select').value;
+  document.getElementById('prov-select').style.display = activeCat === 'Kabupaten/Kota' ? 'block' : 'none';
+  render();
+}
+function onSortChange() {
+  activeSort = document.getElementById('sort-select').value;
+  render();
+}
+
+function getFiltered() {
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  const prov = document.getElementById('prov-select').value;
+  const status = document.getElementById('status-select').value;
+  return ALL.filter(d => {
+    if (activeCat !== 'semua' && d.kategori !== activeCat) return false;
+    if (status && d.status !== status) return false;
+    if (prov && d.provinsi !== prov) return false;
+    if (q && !d.nama.toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+
+function getSorted(arr) {
+  return [...arr].sort((a,b) => {
+    if (activeSort === 'nama') return a.nama.localeCompare(b.nama, 'id');
+    if (activeSort === 'total-d') return b.total - a.total;
+    if (activeSort === 'total-a') return a.total - b.total;
+    if (activeSort === 'tahun') return (b.tahun||0) - (a.tahun||0);
+    if (activeSort === 'rek-d') {
+      const ra = a.status==='Ada Rekomendasi'?1:0, rb = b.status==='Ada Rekomendasi'?1:0;
+      return rb - ra || b.total - a.total;
+    }
+    return 0;
+  });
+}
+
+function isFiltered() {
+  return document.getElementById('search').value.trim() ||
+    document.getElementById('status-select').value ||
+    activeCat !== 'semua' ||
+    document.getElementById('prov-select').value;
+}
+
+// ── RENDER ───────────────────────────────────────────────────
+function render() {
+  updateStats();
+  const filtered = getFiltered(), sorted = getSorted(filtered);
+  const tf = filtered.reduce((s,d) => s + (d.total||0), 0);
+
+  if (isFiltered()) {
+    document.getElementById('home-view').style.display = 'none';
+    document.getElementById('filter-view').style.display = 'block';
+    document.getElementById('results-bar').style.display = 'flex';
+    document.getElementById('res-count').textContent = `${sorted.length} instansi ditemukan`;
+    document.getElementById('res-total').textContent = tf > 0 ? `· ${tf.toLocaleString('id')} total formasi` : '';
+    if (!sorted.length) {
+      document.getElementById('grid').innerHTML = `<div class="empty"><div class="empty-icon">◎</div><div class="empty-text">Tidak ada instansi yang cocok</div></div>`;
+      return;
+    }
+    document.getElementById('grid').innerHTML = sorted.map((d,i) => cardHTML(d, i)).join('');
+  } else {
+    document.getElementById('home-view').style.display = 'block';
+    document.getElementById('filter-view').style.display = 'none';
+    document.getElementById('results-bar').style.display = 'none';
+    renderRekap();
+    renderClusters();
+  }
+}
+
+function updateStats() {
+  document.getElementById('st-total').textContent = ALL.length.toLocaleString('id');
+  document.getElementById('st-rek').textContent = ALL.filter(d => d.status === 'Ada Rekomendasi').length.toLocaleString('id');
+  document.getElementById('st-formasi').textContent = ALL.reduce((s,d) => s + (d.total||0), 0).toLocaleString('id');
+}
+
+function renderRekap() {
+  const cats = CLUSTERS.map(c => {
+    const items = ALL.filter(d => d.kategori === c.cat);
+    return {...c, count: items.length, formasi: items.reduce((s,d) => s+(d.total||0),0), rek: items.filter(d=>d.status==='Ada Rekomendasi').length};
+  });
+  const totalFormasi = ALL.reduce((s,d) => s+(d.total||0), 0);
+  const totalRek = ALL.filter(d => d.status === 'Ada Rekomendasi').length;
+
+  const totalCard = `<div class="rekap-card rekap-total" onclick="document.getElementById('cat-select').value='semua';onCatChange()">
+    <div class="rekap-accent" style="background:var(--accent)"></div>
+    <div class="rekap-num">${ALL.length}</div>
+    <div class="rekap-lbl">Total Instansi</div>
+    <div class="rekap-formasi">${totalFormasi.toLocaleString('id')} formasi</div>
+    <div class="rekap-sub">${totalRek} ada rekomendasi</div>
+  </div>`;
+
+  const catCards = cats.filter(c=>c.count>0).map(c=>`
+    <div class="rekap-card" onclick="document.getElementById('cat-select').value='${c.cat}';onCatChange()">
+      <div class="rekap-accent" style="background:${c.color}"></div>
+      <div class="rekap-num">${c.count}</div>
+      <div class="rekap-lbl">${c.cat==='Lembaga Pemerintah Non Kementerian'?'LPNK':c.cat==='Sekretariat Lembaga Negara'?'Sek. Lem. Neg.':c.cat==='Lembaga Non Struktural'?'LNS':c.cat==='Lembaga Pemerintah Lainnya'?'LPL':c.cat==='Lembaga Penyiaran Publik'?'LPP':c.cat}</div>
+      <div class="rekap-formasi">${c.formasi.toLocaleString('id')} formasi</div>
+      <div class="rekap-sub">${c.rek} ada rekomendasi</div>
+    </div>`).join('');
+
+  document.getElementById('rekap-grid').innerHTML = totalCard + catCards;
+}
+
+function renderClusters() {
+  const wrap = document.getElementById('kluster-wrap');
+  wrap.innerHTML = '';
+  CLUSTERS.forEach(cl => {
+    const items = getSorted(ALL.filter(d => d.kategori === cl.cat));
+    if (!items.length) return;
+    const isExpanded = expandedClusters.has(cl.cat);
+    const shown = isExpanded ? items : items.slice(0, 5);
+    const formasi = items.reduce((s,d) => s+(d.total||0), 0);
+    const icon = CAT_ICON[cl.cat] || '🏛';
+    const shortName = cl.cat === 'Lembaga Pemerintah Non Kementerian' ? 'LPNK' : cl.cat;
+    const block = document.createElement('div');
+    block.className = 'kluster-block';
+    const moreCount = items.length - 5;
+    const viewBtn = items.length > 5 ? (isExpanded
+      ? `<button class="btn-viewless" onclick="collapseCluster('${cl.cat}')">↑ Tampilkan lebih sedikit</button>`
+      : `<button class="btn-viewmore" onclick="expandCluster('${cl.cat}')">+ Lihat ${moreCount} instansi lainnya</button>`) : '';
+    block.innerHTML = `
+      <div class="kluster-head">
+        <span class="kluster-icon">${icon}</span>
+        <span class="kluster-name">${shortName}</span>
+        <span class="kluster-formasi">${formasi.toLocaleString('id')} formasi</span>
+        <span class="kluster-count">${items.length} instansi</span>
+      </div>
+      <div class="kluster-grid">${shown.map((d,i)=>cardHTML(d,i)).join('')}</div>
+      ${viewBtn}`;
+    wrap.appendChild(block);
+  });
+}
+
+function expandCluster(cat) { expandedClusters.add(cat); renderClusters(); }
+function collapseCluster(cat) { expandedClusters.delete(cat); renderClusters(); }
+
+function cardHTML(d, i) {
+  const icon = CAT_ICON[d.kategori] || '🏛';
+  const bc = d.status === 'Ada Rekomendasi' ? 'badge-ada' : 'badge-belum';
+  const bt = d.status === 'Ada Rekomendasi' ? '✓ Rek.' : '— Belum';
+  const prov = d.provinsi ? `<div class="card-province">${d.provinsi}</div>` : '';
+  const tc = d.total === 0 ? 'total-num total-zero' : 'total-num';
+  const bars = d.total > 0 ? JENJANG.slice(0,5).map(j => {
+    const pct = Math.round((d[j.k]||0)/d.total*100);
+    return `<div class="bar-r"><div class="bar-lbl">${j.lbl}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${j.c}"></div></div><div class="bar-val">${d[j.k]||0}</div></div>`;
+  }).join('') : '';
+  const ks = d.keterangan ? d.keterangan.replace(/\n/g,' ').slice(0,90) + (d.keterangan.length>90?'…':'') : '—';
+  return `<div class="card" data-cat="${d.kategori}" style="animation-delay:${Math.min(i,30)*0.02}s" onclick="openDetail(${d.id})">
+    <div class="card-accent"></div>
+    <div class="card-head">
+      <div class="cat-dot">${icon}</div>
+      <div style="flex:1"><div class="card-name">${d.nama}</div>${prov}</div>
+      <span class="badge ${bc}">${bt}</span>
+    </div>
+    <div class="card-body">
+      <div class="total-row">
+        <div class="${tc}">${d.total>0?d.total.toLocaleString('id'):'—'}</div>
+        <div class="total-meta"><div class="total-lbl">Total Kebutuhan</div>${d.tahun?`<div class="total-year">${d.tahun}</div>`:''}</div>
+      </div>
+      ${bars?`<div class="bars">${bars}</div>`:''}
+    </div>
+    <div class="card-foot">${ks}</div>
+  </div>`;
+}
+
+// ── DETAIL MODAL ─────────────────────────────────────────────
+function openDetail(id) {
+  const d = ALL.find(x => x.id === id);
+  if (!d) return;
+  const color = CAT_COLOR[d.kategori] || '#2d5a3d';
+  document.getElementById('modal-rule').style.background = color;
+  document.getElementById('modal-title').textContent = d.nama;
+  document.getElementById('modal-sub').textContent = d.kategori + (d.provinsi ? ` · ${d.provinsi}` : '');
+  const jHtml = JENJANG.map(j => `<div class="j-card"><div class="j-name">${j.lbl}</div><div class="j-num" style="color:${j.c}">${(d[j.k]||0).toLocaleString('id')}</div></div>`).join('');
+  const sc = d.status === 'Ada Rekomendasi' ? 'var(--teal)' : 'var(--red)';
+  const kt = (d.terampil||0)+(d.mahir||0)+(d.penyelia||0);
+  const ka = (d.ahli_pertama||0)+(d.ahli_muda||0)+(d.ahli_madya||0)+(d.ahli_utama||0);
+  const adminHtml = IS_ADMIN ? `<div class="modal-admin-actions visible"><button class="btn-modal-edit" onclick="document.getElementById('overlay').classList.remove('open');openForm(${d.id})">✎ Edit Data Ini</button><button class="btn-modal-del" onclick="confirmDelete(${d.id})">✕ Hapus</button></div>` : '';
+  document.getElementById('modal-body').innerHTML = `
+    <div class="big-total"><div class="big-num">${d.total>0?d.total.toLocaleString('id'):'—'}</div><div class="big-lbl">Total Kebutuhan Arsiparis</div></div>
+    <div class="jenjang-grid">${jHtml}</div>
+    <div class="info-rows">
+      <div class="info-row"><span class="ir-lbl">Status Rekomendasi</span><span class="ir-val" style="color:${sc}">${d.status}</span></div>
+      <div class="info-row"><span class="ir-lbl">Tahun Rekomendasi</span><span class="ir-val">${d.tahun||'—'}</span></div>
+      <div class="info-row"><span class="ir-lbl">Kategori</span><span class="ir-val" style="color:${color}">${d.kategori}</span></div>
+      <div class="info-row"><span class="ir-lbl">Keterampilan</span><span class="ir-val">${kt.toLocaleString('id')} orang</span></div>
+      <div class="info-row"><span class="ir-lbl">Keahlian</span><span class="ir-val">${ka.toLocaleString('id')} orang</span></div>
+    </div>
+    ${d.keterangan ? `<div class="ket-box">📎 ${d.keterangan.replace(/\n/g,'<br>')}</div>` : ''}
+    ${adminHtml}`;
+  document.getElementById('overlay').classList.add('open');
+}
+
+function closeOverlay(e) { if (e.target === document.getElementById('overlay')) document.getElementById('overlay').classList.remove('open'); }
+
+// ── FORM ─────────────────────────────────────────────────────
+function recalcTotal() {
+  const vals = JKEYS.map(k => parseInt(document.getElementById('f-'+k).value)||0);
+  document.getElementById('f-total-display').textContent = vals.reduce((s,v)=>s+v,0).toLocaleString('id');
+  document.getElementById('f-ket-sub').value = (parseInt(document.getElementById('f-terampil').value)||0)+(parseInt(document.getElementById('f-mahir').value)||0)+(parseInt(document.getElementById('f-penyelia').value)||0);
+}
+
+function openForm(id) {
+  if (!IS_ADMIN) { showToast('Akses ditolak. Login sebagai admin terlebih dahulu.', 'danger'); return; }
+  document.getElementById('overlay').classList.remove('open');
+  const isNew = id === null;
+  document.getElementById('form-title').textContent = isNew ? '+ Tambah Instansi Baru' : '✎ Edit Data Instansi';
+  document.getElementById('f-id').value = isNew ? '' : id;
+  if (isNew) {
+    document.getElementById('f-nama').value = '';
+    document.getElementById('f-kategori').value = 'Kementerian';
+    document.getElementById('f-provinsi').value = '';
+    document.getElementById('f-status').value = 'Belum Ada Rekomendasi';
+    document.getElementById('f-tahun').value = '';
+    document.getElementById('f-keterangan').value = '';
+    JKEYS.forEach(k => document.getElementById('f-'+k).value = 0);
+  } else {
+    const d = ALL.find(x => x.id === id);
+    document.getElementById('f-nama').value = d.nama;
+    document.getElementById('f-kategori').value = d.kategori;
+    document.getElementById('f-provinsi').value = d.provinsi || '';
+    document.getElementById('f-status').value = d.status;
+    document.getElementById('f-tahun').value = d.tahun || '';
+    document.getElementById('f-keterangan').value = d.keterangan || '';
+    JKEYS.forEach(k => document.getElementById('f-'+k).value = d[k] || 0);
+  }
+  recalcTotal();
+  document.getElementById('prov-field').style.display = document.getElementById('f-kategori').value === 'Kabupaten/Kota' ? 'flex' : 'none';
+  document.getElementById('form-overlay').classList.add('open');
+}
+
+document.getElementById('f-kategori').addEventListener('change', function() {
+  document.getElementById('prov-field').style.display = this.value === 'Kabupaten/Kota' ? 'flex' : 'none';
+});
+JKEYS.forEach(k => document.getElementById('f-'+k).addEventListener('input', recalcTotal));
+
+async function saveForm() {
+  if (!IS_ADMIN) return;
+  const nama = document.getElementById('f-nama').value.trim();
+  if (!nama) { showToast('Nama instansi tidak boleh kosong', 'danger'); return; }
+
+  const btn = document.getElementById('btn-save');
+  btn.textContent = 'Menyimpan…';
+  btn.classList.add('loading');
+
+  const entry = {
+    nama,
+    kategori: document.getElementById('f-kategori').value,
+    provinsi: document.getElementById('f-provinsi').value.trim().toUpperCase() || null,
+    status: document.getElementById('f-status').value,
+    tahun: parseInt(document.getElementById('f-tahun').value) || null,
+    keterangan: document.getElementById('f-keterangan').value.trim()
+  };
+  JKEYS.forEach(k => entry[k] = parseInt(document.getElementById('f-'+k).value)||0);
+  entry.total = JKEYS.reduce((s,k) => s+entry[k], 0);
+
+  const rawId = document.getElementById('f-id').value;
+
+  try {
+    if (rawId === '') {
+      // INSERT
+      await sbFetch('instansi', {
+        method: 'POST',
+        prefer: 'return=minimal',
+        body: JSON.stringify(entry)
+      });
+      showToast('✓ Instansi baru ditambahkan', 'success');
+    } else {
+      // UPDATE
+      await sbFetch(`instansi?id=eq.${rawId}`, {
+        method: 'PATCH',
+        prefer: 'return=minimal',
+        body: JSON.stringify(entry)
+      });
+      showToast('✓ Data berhasil diperbarui', 'success');
+    }
+    await loadData();
+    closeForm();
+  } catch(e) {
+    console.error(e);
+    showToast('Gagal menyimpan data: ' + e.message, 'danger');
+  } finally {
+    btn.textContent = 'Simpan';
+    btn.classList.remove('loading');
+  }
+}
+
+function closeForm() { document.getElementById('form-overlay').classList.remove('open'); }
+function closeFormOverlay(e) { if (e.target === document.getElementById('form-overlay')) closeForm(); }
+
+// ── DELETE ───────────────────────────────────────────────────
+let pendingDelId = null;
+function confirmDelete(id) {
+  event.stopPropagation();
+  pendingDelId = id;
+  const d = ALL.find(x => x.id === id);
+  document.getElementById('confirm-msg').textContent = `"${d ? d.nama : '?'}" akan dihapus permanen dari database.`;
+  document.getElementById('confirm-del-btn').onclick = doDelete;
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('confirm-overlay').classList.add('open');
+}
+
+async function doDelete() {
+  if (!IS_ADMIN || !pendingDelId) return;
+  try {
+    await sbFetch(`instansi?id=eq.${pendingDelId}`, { method: 'DELETE' });
+    document.getElementById('confirm-overlay').classList.remove('open');
+    await loadData();
+    showToast('Instansi dihapus', 'danger');
+  } catch(e) {
+    showToast('Gagal menghapus: ' + e.message, 'danger');
+  }
+}
+
+function closeConfirm(e) { if (e.target === document.getElementById('confirm-overlay')) document.getElementById('confirm-overlay').classList.remove('open'); }
+
+// ── TOAST ────────────────────────────────────────────────────
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.className = 'toast'; }, 3000);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') ['overlay','form-overlay','confirm-overlay'].forEach(id => document.getElementById(id).classList.remove('open'));
+});
+
+// ── BOOT ─────────────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>
