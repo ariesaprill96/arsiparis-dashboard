@@ -1057,6 +1057,18 @@ function mkChart(id, config) {
   return CHART_INSTANCES[id];
 }
 
+const CAT_COLORS = {
+  'Kementerian':        '#d97706',
+  'Alat Negara':        '#dc2626',
+  'Sekretariat Lembaga Negara': '#2563eb',
+  'Lembaga Non Struktural':     '#7c3aed',
+  'Lembaga Pemerintah Lainnya': '#b06030',
+  'Lembaga Pemerintah Non Kementerian': '#0d9488',
+  'Lembaga Penyiaran Publik':   '#db2777',
+  'Provinsi':           '#1a4a6b',
+  'Kabupaten/Kota':     '#3a6b3a'
+};
+
 function renderCharts() {
   if (!ALL.length) return;
   const tooltipDefaults = {
@@ -1084,12 +1096,12 @@ function renderCharts() {
     if (!items.length) return 0;
     return +((items.filter(d=>d.status==='Ada Rekomendasi').length / items.length)*100).toFixed(1);
   });
-  const klusterColors = klusterPct.map(p => p>=80?'#16a34a':p>=50?'#2563eb':p>=25?'#d97706':'#dc2626');
+  const klusterColors = CAT_LABELS.map(c => CAT_COLORS[c]||'#2563eb');
   mkChart('chart-kluster', {
     type:'bar',
     data:{ labels:CAT_LABELS.map(c=>CAT_SHORT2[c]||c), datasets:[{
       label:'% Ada Rekomendasi', data:klusterPct,
-      backgroundColor:klusterColors, borderRadius:5, borderSkipped:false
+      backgroundColor:klusterColors.map(c=>c+'cc'), borderColor:klusterColors, borderWidth:1.5, borderRadius:5, borderSkipped:false
     }]},
     options:{
       indexAxis:'y', responsive:true, maintainAspectRatio:false,
@@ -1129,12 +1141,12 @@ function renderCharts() {
 
   // ── 4. BAR: total formasi per kluster ─────────────────────
   const formasiPerKluster = CAT_LABELS.map(cat => ALL.filter(d=>d.kategori===cat).reduce((s,d)=>s+(d.total||0),0));
+  const formasiColors = CAT_LABELS.map(c=>CAT_COLORS[c]||'#2563eb');
   mkChart('chart-formasi', {
     type:'bar',
     data:{ labels:CAT_LABELS.map(c=>CAT_SHORT2[c]||c), datasets:[{
       label:'Total Formasi', data:formasiPerKluster,
-      backgroundColor:['#d97706','#dc2626','#2563eb','#7c3aed','#b06030','#0d9488','#7a6020','#1a4a6b','#3a6b3a'],
-      borderRadius:5, borderSkipped:false
+      backgroundColor:formasiColors.map(c=>c+'cc'), borderColor:formasiColors, borderWidth:1.5, borderRadius:5, borderSkipped:false
     }]},
     options:{
       responsive:true, maintainAspectRatio:false,
@@ -1149,7 +1161,7 @@ function renderCharts() {
   const filterKat = document.getElementById('top15-filter').value;
   const top15src = (filterKat ? ALL.filter(d=>d.kategori===filterKat) : ALL)
     .filter(d=>d.total>0).sort((a,b)=>b.total-a.total).slice(0,15);
-  const top15colors = top15src.map(d=>CAT_COLOR[d.kategori]||'#2563eb');
+  const top15colors = top15src.map(d=>CAT_COLORS[d.kategori]||'#2563eb');
   mkChart('chart-top15', {
     type:'bar',
     data:{ labels:top15src.map(d=>d.nama.length>35?d.nama.slice(0,35)+'…':d.nama),
