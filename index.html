@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<script>
-(function(){
-  if(localStorage.getItem('siarsiparis_auth') !== '1'){
-    window.location.replace('login.html');
-  }
-})();
-</script>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rekomendasi Kebutuhan Arsiparis — Indonesia</title>
@@ -62,10 +54,10 @@ body { font-family:'Plus Jakarta Sans',sans-serif; background:var(--bg); color:v
 .hstat-val { font-size:16px; font-weight:800; color:var(--text); line-height:1; }
 .hstat-lbl { font-size:9px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:.04em; margin-top:2px; }
 .source-tag { font-size:10px; color:var(--muted); font-weight:500; }
-
-
+.admin-pill { font-size:10px; font-weight:700; background:var(--green-light); color:var(--green); border:1px solid rgba(22,163,74,.2); padding:4px 10px; border-radius:20px; display:none; }
+.btn-add { font-size:11px; font-weight:700; background:var(--blue); border:none; color:#fff; padding:7px 14px; border-radius:var(--radius-xs); cursor:pointer; transition:background .15s; display:none; }
 .btn-add:hover { background:#1d4ed8; }
-
+.btn-logout { font-size:11px; font-weight:600; color:var(--muted); padding:6px 12px; border:1px solid var(--border); border-radius:var(--radius-xs); cursor:pointer; transition:all .15s; background:none; display:none; }
 .btn-logout:hover { color:var(--red); border-color:rgba(220,38,38,.3); }
 
 /* TAB NAV */
@@ -76,6 +68,26 @@ body { font-family:'Plus Jakarta Sans',sans-serif; background:var(--bg); color:v
 .tab-nav a:hover { color:var(--text); }
 .tab-nav a.active { color:var(--blue); border-bottom-color:var(--blue); }
 .tab-nav a .tab-icon { font-size:14px; }
+
+/* LOGIN MODAL */
+.login-overlay { position:fixed; inset:0; background:rgba(15,20,40,.5); z-index:700; display:none; align-items:center; justify-content:center; backdrop-filter:blur(6px); }
+.login-overlay.open { display:flex; }
+.login-box { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); width:100%; max-width:360px; overflow:hidden; animation:modalIn .2s ease; box-shadow:var(--shadow-lg); }
+.login-rule { height:4px; background:var(--blue); border-radius:var(--radius) var(--radius) 0 0; }
+.login-header { padding:20px 24px 16px; border-bottom:1px solid var(--border); }
+.login-title { font-size:17px; font-weight:800; color:var(--text); }
+.login-sub { font-size:11px; color:var(--muted); margin-top:3px; }
+.login-body { padding:20px 24px 24px; display:flex; flex-direction:column; gap:12px; }
+.login-field { display:flex; flex-direction:column; gap:5px; }
+.login-field label { font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }
+.login-field input { background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm); padding:9px 12px; color:var(--text); font-family:'Plus Jakarta Sans',sans-serif; font-size:13px; font-weight:500; outline:none; transition:border-color .15s, box-shadow .15s; }
+.login-field input:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(37,99,235,.1); background:var(--white); }
+.login-error { font-size:11px; font-weight:600; color:var(--red); background:var(--red-light); padding:8px 12px; border-radius:var(--radius-xs); display:none; }
+.login-error.show { display:block; }
+.btn-login-submit { width:100%; padding:11px; background:var(--blue); border:none; color:#fff; border-radius:var(--radius-sm); font-family:'Plus Jakarta Sans',sans-serif; font-size:13px; font-weight:700; cursor:pointer; transition:background .15s; }
+.btn-login-submit:hover { background:#1d4ed8; }
+.btn-login-cancel { width:100%; padding:9px; background:none; border:1px solid var(--border); color:var(--muted); border-radius:var(--radius-sm); font-family:'Plus Jakarta Sans',sans-serif; font-size:12px; font-weight:600; cursor:pointer; transition:all .15s; }
+.btn-login-cancel:hover { color:var(--text); }
 
 /* LAYOUT */
 .main { display:flex; min-height:calc(100vh - 60px); }
@@ -297,6 +309,12 @@ body { font-family:'Plus Jakarta Sans',sans-serif; background:var(--bg); color:v
       <div class="hstat"><div class="hstat-val" id="st-formasi">—</div><div class="hstat-lbl">Formasi</div></div>
     </div>
     <span class="source-tag">ANRI · 2020–2025</span>
+    <!-- Admin mode: tampil kalau sudah login -->
+    <span class="admin-pill" id="admin-pill" style="display:none">🔐 Admin</span>
+    <button class="btn-add" id="btn-add" onclick="openForm(null)" style="display:none">+ Tambah</button>
+    <button class="btn-logout" id="btn-logout" onclick="doLogout()" style="display:none">Logout</button>
+    <!-- Login button: tampil kalau belum login -->
+    <button class="btn-logout" id="btn-login-open" onclick="openLoginModal()" style="display:inline-block">🔐 Login Admin</button>
   </div>
 </header>
 
@@ -304,20 +322,7 @@ body { font-family:'Plus Jakarta Sans',sans-serif; background:var(--bg); color:v
 <nav class="tab-nav">
   <a href="index.html" class="active"><span class="tab-icon">📋</span>Rekomendasi Kebutuhan</a>
   <a href="siarsiparis_v4_fix.html"><span class="tab-icon">👤</span>SiArsiparis</a>
-  <a href="Data_BKN.html"><span class="tab-icon">🗃️</span>Data BKN</a>
-<span id="nav-user-info" style="margin-left:auto;display:flex;align-items:center;gap:8px;font-size:11px;border-bottom:none!important;"></span>
-<a href="#" onclick="localStorage.removeItem('siarsiparis_auth');localStorage.removeItem('siarsiparis_user');localStorage.removeItem('siarsiparis_role');window.location.replace('login.html');return false;" style="display:flex;align-items:center;gap:5px;color:#dc2626;border-bottom-color:transparent!important;font-size:11px;padding:11px 12px;">🔓 Keluar</a>
-<script>
-(function(){
-  var u = localStorage.getItem('siarsiparis_user') || 'Pengguna';
-  var r = localStorage.getItem('siarsiparis_role') || 'guest';
-  var badge = r === 'admin'
-    ? '<span style="background:#dbeafe;color:#1a56db;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;font-family:monospace;">ADMIN</span>'
-    : '<span style="background:#f1f5f9;color:#64748b;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;font-family:monospace;">TAMU</span>';
-  var el = document.getElementById('nav-user-info');
-  if(el) el.innerHTML = '👤 ' + u + ' ' + badge;
-})();
-</script></nav>
+</nav>
 
 <div class="main">
 
@@ -561,6 +566,14 @@ body { font-family:'Plus Jakarta Sans',sans-serif; background:var(--bg); color:v
   </div>
 </div>
 
+<!-- LOGIN MODAL -->
+<div class="login-overlay" id="login-overlay" onclick="closeLoginOnBg(event)">
+  <div class="login-box">
+    <div class="login-rule"></div>
+    <div class="login-header">
+      <div class="login-title">Login Admin</div>
+      <div class="login-sub">Masuk untuk mengelola data instansi</div>
+    </div>
     <div class="login-body">
       <div class="login-field">
         <label>Username</label>
@@ -596,7 +609,7 @@ body { font-family:'Plus Jakarta Sans',sans-serif; background:var(--bg); color:v
 <script src="config.js"></script>
 <script>
 // ── AUTH ─────────────────────────────────────────────────────
-let IS_ADMIN = localStorage.getItem('arsiparis_admin') === '1';
+let IS_ADMIN = sessionStorage.getItem('arsiparis_admin') === '1';
 const JKEYS = ['terampil','mahir','penyelia','ahli_pertama','ahli_muda','ahli_madya','ahli_utama'];
 const PROVINSI_LIST = ["ACEH","BALI","BANTEN","BENGKULU","DI. YOGYAKARTA","DKI JAKARTA","GORONTALO","JAMBI","JAWA BARAT","JAWA TENGAH","JAWA TIMUR","KALIMANTAN BARAT","KALIMANTAN SELATAN","KALIMANTAN TENGAH","KALIMANTAN TIMUR","KALIMANTAN UTARA","KEPULAUAN RIAU","LAMPUNG","MALUKU","MALUKU UTARA","NUSA TENGGARA BARAT","NUSA TENGGARA TIMUR","PAPUA","PAPUA BARAT","PAPUA BARAT DAYA","PAPUA PEGUNUNGAN","PAPUA SELATAN","PAPUA TENGAH","RIAU","SULAWESI BARAT","SULAWESI SELATAN","SULAWESI TENGAH","SULAWESI TENGGARA","SULAWESI UTARA","SUMATERA BARAT","SUMATERA SELATAN","SUMATERA UTARA"];
 const CAT_COLOR = {'Kementerian':'#d97706','Alat Negara':'#dc2626','Sekretariat Lembaga Negara':'#2563eb','Lembaga Non Struktural':'#7c3aed','Lembaga Pemerintah Lainnya':'#b06030','Lembaga Pemerintah Non Kementerian':'#0d9488','Lembaga Penyiaran Publik':'#7a6020','Provinsi':'#1a4a6b','Kabupaten/Kota':'#3a6b3a'};
@@ -633,24 +646,49 @@ async function init() {
 
 function updateAdminUI() {
   if (IS_ADMIN) {
-                  } else {
-                  }
+    document.getElementById('admin-pill').style.display = 'inline-block';
+    document.getElementById('btn-add').style.display = 'inline-block';
+    document.getElementById('btn-logout').style.display = 'inline-block';
+    document.getElementById('btn-login-open').style.display = 'none';
+  } else {
+    document.getElementById('admin-pill').style.display = 'none';
+    document.getElementById('btn-add').style.display = 'none';
+    document.getElementById('btn-logout').style.display = 'none';
+    document.getElementById('btn-login-open').style.display = 'inline-block';
+  }
 }
 
 // ── LOGIN MODAL ───────────────────────────────────────────────
+function openLoginModal() {
+  document.getElementById('login-username').value = '';
+  document.getElementById('login-password').value = '';
+  document.getElementById('login-error').classList.remove('show');
+  document.getElementById('login-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('login-username').focus(), 100);
+}
+function closeLoginModal() {
+  document.getElementById('login-overlay').classList.remove('open');
+}
+function closeLoginOnBg(e) {
+  if (e.target === document.getElementById('login-overlay')) closeLoginModal();
+}
 
-
-
-
-async 
+async function doLogin() {
+  const username = document.getElementById('login-username').value.trim();
+  const password = document.getElementById('login-password').value;
+  if (!username || !password) {
+    document.getElementById('login-error').textContent = 'Username dan password wajib diisi';
+    document.getElementById('login-error').classList.add('show');
+    return;
+  }
   // Hash password SHA-256
   const hashBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(password));
   const hashHex = Array.from(new Uint8Array(hashBuffer)).map(b=>b.toString(16).padStart(2,'0')).join('');
   try {
     const result = await sbFetch(`admin_users?username=eq.${encodeURIComponent(username)}&pass_hash=eq.${hashHex}&select=username`);
     if (result && result.length > 0) {
-      localStorage.setItem('arsiparis_admin', '1');
-      localStorage.setItem('arsiparis_admin_user', username);
+      sessionStorage.setItem('arsiparis_admin', '1');
+      sessionStorage.setItem('arsiparis_admin_user', username);
       IS_ADMIN = true;
       closeLoginModal();
       updateAdminUI();
@@ -678,7 +716,14 @@ async function loadData() {
   }
 }
 
-
+function doLogout() {
+  sessionStorage.removeItem('arsiparis_admin');
+  sessionStorage.removeItem('arsiparis_admin_user');
+  IS_ADMIN = false;
+  updateAdminUI();
+  render();
+  showToast('Berhasil logout', 'success');
+}
 
 function onSortChange() { activeSort = document.getElementById('sort-select').value; render(); }
 
@@ -969,7 +1014,7 @@ function showToast(msg, type = 'success') {
 }
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') ['overlay','form-overlay','confirm-overlay'].forEach(id => { var el = document.getElementById(id); if(el) el.classList.remove('open'); });
+  if (e.key === 'Escape') ['overlay','form-overlay','confirm-overlay','login-overlay'].forEach(id => document.getElementById(id).classList.remove('open'));
 });
 
 // ── GRAFIK STATISTIK ─────────────────────────────────────────
