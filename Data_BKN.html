@@ -75,6 +75,25 @@ select:hover,select:focus{border-color:var(--blue)}
 .ins-opt-name{font-size:11px;color:var(--txt);flex:1;line-height:1.3}
 .ins-opt-cnt{font-family:var(--mono);font-size:9px;color:var(--txt3);white-space:nowrap;flex-shrink:0}
 .ins-nores{padding:12px;text-align:center;font-size:11px;color:var(--txt3)}
+.pend-wrap{position:relative}
+.pend-input{background:#fff;border:1.5px solid var(--s3);color:var(--txt);
+  padding:5px 26px 5px 9px;border-radius:7px;font-size:11px;font-family:var(--sans);
+  outline:none;transition:border-color .15s;width:210px;font-weight:500}
+.pend-input:focus,.pend-input:hover{border-color:var(--blue)}
+.pend-clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;color:var(--txt3);font-size:13px;line-height:1;padding:0;display:none}
+.pend-clear:hover{color:var(--red)}
+.pend-drop{position:absolute;top:calc(100% + 4px);left:0;right:0;
+  background:#fff;border:1.5px solid var(--blue);border-radius:8px;
+  box-shadow:0 8px 24px rgba(24,67,212,.12);max-height:260px;overflow-y:auto;z-index:500;display:none}
+.pend-drop::-webkit-scrollbar{width:3px}
+.pend-drop::-webkit-scrollbar-thumb{background:var(--s3);border-radius:2px}
+.pend-opt{padding:8px 12px;cursor:pointer;display:flex;align-items:center;
+  justify-content:space-between;transition:background .1s;gap:8px}
+.pend-opt:hover,.pend-opt.sel{background:var(--sky)}
+.pend-opt-name{font-size:11px;color:var(--txt);flex:1;line-height:1.3}
+.pend-opt-cnt{font-family:var(--mono);font-size:9px;color:var(--txt3);white-space:nowrap;flex-shrink:0}
+.pend-nores{padding:12px;text-align:center;font-size:11px;color:var(--txt3)}
 
 .fcnt{font-family:var(--mono);font-size:9px;padding:5px 10px;border-radius:6px;
   background:var(--sky);color:var(--blue);white-space:nowrap;font-weight:500}
@@ -242,6 +261,17 @@ mark{background:var(--sky);color:var(--blue);border-radius:2px;padding:0 2px}
       <option value="0">PNS</option>
       <option value="1">PPPK</option>
     </select>
+  </div>
+
+  <div class="fdiv"></div>
+
+  <div class="fg">
+    <span class="flbl">Jurusan Pendidikan</span>
+    <div class="pend-wrap">
+      <input type="text" class="pend-input" id="pend-input" placeholder="Cari jurusan..." autocomplete="off" spellcheck="false">
+      <button class="pend-clear" id="pend-clear" title="Hapus">✕</button>
+      <div class="pend-drop" id="pend-drop"></div>
+    </div>
   </div>
 
   <div class="fcnt" id="fcnt">23.338 orang</div>
@@ -424,6 +454,41 @@ const asnCh=new Chart(document.getElementById('asnChart').getContext('2d'),{type
   options:{responsive:false,cutout:'80%',animation:{duration:350},
     plugins:{legend:{display:false},tooltip:{enabled:false},datalabels:{display:false}}}});
 
+// ── JURUSAN PENDIDIKAN SEARCH ──
+const pendTotal={};
+for(const r of RAW.rows) pendTotal[r[4]]=(pendTotal[r[4]]||0)+r[6];
+const PEND_SORTED=Object.entries(pendTotal)
+  .map(([id,cnt])=>({id:+id,name:RAW.pend_r[+id]||'(Tidak Diketahui)',cnt}))
+  .sort((a,b)=>b.cnt-a.cnt);
+
+let selPendId=null;
+const pendInput=document.getElementById('pend-input');
+const pendDrop=document.getElementById('pend-drop');
+const pendClear=document.getElementById('pend-clear');
+
+function showPendDrop(q){
+  const res=q?PEND_SORTED.filter(x=>x.name.toLowerCase().includes(q.toLowerCase())).slice(0,60):PEND_SORTED.slice(0,60);
+  pendDrop.innerHTML=res.length?res.map(x=>`<div class="pend-opt${selPendId===x.id?' sel':''}" data-id="${x.id}">
+    <span class="pend-opt-name">${hl(x.name,q)}</span>
+    <span class="pend-opt-cnt">${x.cnt.toLocaleString('id-ID')} orang</span></div>`).join('')
+    :`<div class="pend-nores">Tidak ditemukan: "${esc(q)}"</div>`;
+  pendDrop.querySelectorAll('.pend-opt').forEach(el=>{
+    el.addEventListener('mousedown',e=>{
+      e.preventDefault();
+      selPendId=+el.dataset.id;
+      const nm=PEND_SORTED.find(x=>x.id===selPendId)?.name||'';
+      pendInput.value=nm.length>32?nm.slice(0,32)+'…':nm;
+      pendDrop.style.display='none'; pendClear.style.display='block'; render();
+    });
+  });
+  pendDrop.style.display='block';
+}
+function clearPend(){selPendId=null;pendInput.value='';pendClear.style.display='none';render();}
+pendInput.addEventListener('focus',()=>showPendDrop(pendInput.value));
+pendInput.addEventListener('input',()=>{if(!pendInput.value){selPendId=null;pendClear.style.display='none';}showPendDrop(pendInput.value);});
+pendInput.addEventListener('blur',()=>setTimeout(()=>pendDrop.style.display='none',150));
+pendClear.addEventListener('click',clearPend);
+
 // ── INSTANSI SEARCH ──
 // Build instansi totals from all rows
 const insTotal={};
@@ -472,7 +537,7 @@ const F={jab:'',tmt:'',tingkat:'',asn:''};
 
 function compute(){
   const fJ=F.jab!==''?+F.jab:null, fT=F.tmt!==''?+F.tmt:null,
-        fTk=F.tingkat!==''?+F.tingkat:null, fA=F.asn!==''?+F.asn:null, fI=selInsId;
+        fTk=F.tingkat!==''?+F.tingkat:null, fA=F.asn!==''?+F.asn:null, fI=selInsId, fPend=selPendId;
 
   let tot=0;
   const jC={},tC={},tkC={},pC={},asnC={},iC={};
@@ -484,6 +549,7 @@ function compute(){
     if(fT!==null && r[2]!==fT) continue;
     if(fTk!==null && r[3]!==fTk) continue;
     if(fA!==null && r[5]!==fA) continue;
+    if(fPend!==null && r[4]!==fPend) continue;
     const j=r[6];
     tot+=j;
     jC[r[1]]=(jC[r[1]]||0)+j;
@@ -626,6 +692,7 @@ function resetAll(){
   Object.keys(F).forEach(k=>F[k]='');
   ['jab','tmt','tingkat','asn'].forEach(k=>document.getElementById('f-'+k).value='');
   clearIns();
+  clearPend();
 }
 
 render();
