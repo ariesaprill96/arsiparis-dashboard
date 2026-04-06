@@ -29,28 +29,11 @@ body{
 }
 .wrap{display:flex;flex-direction:column;min-height:100vh}
 
-/* HEADER */
-header{padding:14px 24px;background:var(--s1);
-  display:flex;align-items:center;justify-content:space-between;min-height:72px;
-  position:sticky;top:12px;z-index:300;border:1px solid rgba(255,255,255,.72);
-  width:min(calc(100% - 24px),var(--maxw));margin:12px auto 0;border-radius:28px;
-  box-shadow:0 8px 24px rgba(15,23,42,.08);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
-.logo{display:flex;align-items:center;gap:12px}
-.logo-sq{width:36px;height:36px;background:linear-gradient(135deg,var(--blue),var(--cyan));
-  border-radius:12px;display:flex;align-items:center;justify-content:center;
-  font-family:var(--mono);font-weight:700;font-size:11px;color:#fff;
-  flex-shrink:0;letter-spacing:-.5px;box-shadow:0 10px 24px rgba(0,122,255,.22)}
-.logo-name{font-family:var(--sans);font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--txt)}
-.logo-desc{font-size:10px;color:var(--txt3);letter-spacing:.10em;margin-top:2px}
-.live{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9px;color:var(--txt3);background:rgba(255,255,255,.58);border:1px solid rgba(15,23,42,.08);padding:8px 12px;border-radius:999px}
-.dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-
 /* FILTER BAR */
 .fbar{padding:14px 22px;background:var(--s1);
   display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-  position:sticky;top:98px;z-index:200;border:1px solid rgba(255,255,255,.72);
-  width:min(calc(100% - 24px),var(--maxw));margin:14px auto 0;border-radius:26px;
+  position:sticky;top:12px;z-index:200;border:1px solid rgba(255,255,255,.72);
+  width:min(calc(100% - 24px),var(--maxw));margin:12px auto 0;border-radius:26px;
   box-shadow:0 8px 24px rgba(15,23,42,.08);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
 .fl{font-family:var(--sans);font-size:10px;font-weight:700;color:var(--txt3);
   letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
@@ -208,17 +191,6 @@ mark{background:var(--sky);color:var(--blue);border-radius:2px;padding:0 2px}
 </head>
 <body>
 <div class="wrap">
-
-<header>
-  <div class="logo">
-    <div class="logo-sq">ANRI</div>
-    <div>
-      <div class="logo-name">ARSIP NASIONAL RI</div>
-      <div class="logo-desc">DATA JABATAN FUNGSIONAL ARSIPARIS · PER 1 JUNI 2025</div>
-    </div>
-  </div>
-  <div class="live"><div class="dot"></div>ALL RANGE · 23.338 ARSIPARIS · 593 INSTANSI</div>
-</header>
 
 <!-- FILTER BAR -->
 <div class="fbar">
