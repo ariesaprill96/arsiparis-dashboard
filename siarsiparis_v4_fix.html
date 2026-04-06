@@ -30,33 +30,11 @@ body{
 }
 .wrap{display:flex;flex-direction:column;min-height:100vh}
 
-/* HEADER */
-header{padding:14px 24px;background:var(--s1);border:1px solid rgba(255,255,255,.7);
-  display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:12px;z-index:300;box-shadow:var(--shadow);
-  width:min(calc(100% - 24px),var(--maxw));margin:12px auto 0;border-radius:28px;
-  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
-.logo{display:flex;align-items:center;gap:11px}
-.logo-sq{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--cyan));
-  border-radius:12px;display:flex;align-items:center;justify-content:center;
-  font-family:var(--mono);font-weight:700;font-size:12px;color:#fff;
-  box-shadow:0 10px 24px rgba(0,122,255,.22);flex-shrink:0}
-.logo-name{font-family:var(--sans);font-size:15px;font-weight:700;color:var(--txt);letter-spacing:-.02em}
-.logo-desc{font-size:10px;color:var(--txt3);letter-spacing:.12em;margin-top:2px}
-.hdr-r{display:flex;align-items:center;gap:12px}
-.live{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;color:var(--txt3)}
-.dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.hdr-pill{font-family:var(--mono);font-size:10px;color:var(--blue);
-  padding:7px 12px;border:1px solid rgba(0,122,255,.16);border-radius:999px;
-  background:rgba(255,255,255,.62);font-weight:600}
-
-
 /* FILTER BAR */
 .fbar{padding:14px 22px;background:var(--s1);border:1px solid rgba(255,255,255,.7);
   display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;
-  position:sticky;top:98px;z-index:200;box-shadow:var(--shadow);
-  width:min(calc(100% - 24px),var(--maxw));margin:14px auto 0;border-radius:26px;
+  position:sticky;top:12px;z-index:200;box-shadow:var(--shadow);
+  width:min(calc(100% - 24px),var(--maxw));margin:12px auto 0;border-radius:26px;
   backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
 .fl{font-family:var(--sans);font-size:10px;font-weight:700;color:var(--txt3);
   letter-spacing:.14em;text-transform:uppercase;padding-bottom:5px}
@@ -241,21 +219,6 @@ mark{background:rgba(26,86,219,.15);color:var(--blue);border-radius:2px;padding:
 </head>
 <body>
 <div class="wrap">
-
-<header>
-  <div class="logo">
-    <div class="logo-sq">SA</div>
-    <div>
-      <div class="logo-name">SIARSIPARIS</div>
-      <div class="logo-desc">SISTEM INFORMASI ARSIPARIS · ARSIP NASIONAL RI</div>
-    </div>
-  </div>
-  <div class="hdr-r">
-    <div class="live"><div class="dot"></div>DATA FEBRUARI 2026</div>
-
-  </div>
-</header>
-
 
 <!-- FILTER BAR -->
 <div class="fbar">
