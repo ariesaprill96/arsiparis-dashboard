@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arsiparis RI — Database Arsiparis Direktorat SDM Kearsipan ANRI</title>
+<title>Arsiparis RI — Rekomendasi Kebutuhan</title>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 
@@ -103,13 +103,19 @@ body::after{
 }
 .header-brand{display:flex;align-items:center;gap:11px;}
 .brand-mark{
-  width:38px;height:38px;
-  background:linear-gradient(135deg, #0f172a 0%, #1f5eff 100%);
-  border-radius:12px;
+  width:48px;height:48px;
+  background:rgba(255,255,255,.88);
+  border-radius:14px;
   display:flex;align-items:center;justify-content:center;
-  font-size:16px;flex-shrink:0;
-  color:#fff;
-  box-shadow:0 10px 24px rgba(0,122,255,.18);
+  flex-shrink:0;
+  box-shadow:0 10px 24px rgba(15,23,42,.10), inset 0 1px 0 rgba(255,255,255,.95);
+  overflow:hidden;
+}
+.brand-mark img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
 }
 .brand-name{font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.02em;}
 .brand-sub{font-size:11px;color:var(--text-4);font-weight:500;margin-top:1px;}
@@ -660,10 +666,10 @@ body::after{
 <!-- HEADER -->
 <header class="header">
   <div class="header-brand">
-    <div class="brand-mark">📂</div>
+    <div class="brand-mark"><img src="C:/Users/MyBook PRO K7/Downloads/Logo/1. Arsip Nasional.png" alt="Logo ANRI"></div>
     <div>
-      <div class="brand-name">DIREKTORAT SDM KEARSIPAN DAN SERTIFIKASI</div>
-      <div class="brand-sub">DASHBOARD JABATAN FUNGSIONAL ARSIPARIS</div>
+      <div class="brand-name">Arsiparis RI</div>
+      <div class="brand-sub">Rekomendasi Kebutuhan — ANRI</div>
     </div>
   </div>
   <nav class="header-tabs" id="header-tabs">
@@ -1146,6 +1152,14 @@ function isFiltered() {
   return document.getElementById('search').value.trim() || document.getElementById('status-select').value || activeCat !== 'semua' || document.getElementById('prov-select').value;
 }
 
+function scrollToSearchResults() {
+  const target = document.getElementById('results-bar') || document.getElementById('filter-view');
+  if (!target) return;
+  requestAnimationFrame(() => {
+    target.scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+}
+
 function render() {
   updateStats();
   const filtered = getFiltered(), sorted = getSorted(filtered);
@@ -1159,6 +1173,7 @@ function render() {
     document.getElementById('grid').innerHTML = sorted.length
       ? sorted.map((d,i) => cardHTML(d, i)).join('')
       : '<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-text">Tidak ada instansi yang cocok</div></div>';
+    if (document.activeElement === document.getElementById('search')) scrollToSearchResults();
   } else {
     document.getElementById('home-view').style.display = 'block';
     document.getElementById('filter-view').style.display = 'none';
