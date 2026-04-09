@@ -32,13 +32,19 @@ body{
 
 /* FILTER BAR */
 .fbar{padding:14px 22px;background:var(--s1);border:1px solid rgba(255,255,255,.7);
-  display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;
+  display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap;
   position:sticky;top:12px;z-index:200;box-shadow:var(--shadow);
   width:min(calc(100% - 24px),var(--maxw));margin:12px auto 0;border-radius:26px;
+  max-height:min(28vh,185px);overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable;
   backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
+.fbar::-webkit-scrollbar{width:6px}
+.fbar::-webkit-scrollbar-thumb{background:rgba(148,163,184,.45);border-radius:999px}
+.fbar::-webkit-scrollbar-track{background:transparent}
+.fbar.dropdown-open{overflow:visible}
 .fl{font-family:var(--sans);font-size:10px;font-weight:700;color:var(--txt3);
   letter-spacing:.14em;text-transform:uppercase;padding-bottom:5px}
 .fg{display:flex;flex-direction:column;gap:3px}
+.fg-jur{max-width:220px}
 .flbl{font-family:var(--sans);font-size:11px;font-weight:600;color:var(--txt2);
   letter-spacing:-.01em;text-transform:none}
 select{background:rgba(255,255,255,.88);border:1px solid var(--border);color:var(--txt);
@@ -97,13 +103,26 @@ select option{background:var(--s0)}
 .jur-opt-name{font-size:11px;color:var(--txt);flex:1;line-height:1.3}
 .jur-opt-cnt{font-family:var(--mono);font-size:9px;color:var(--txt3);white-space:nowrap;flex-shrink:0}
 .jur-nores{padding:12px;text-align:center;font-size:11px;color:var(--txt3)}
+.jur-opt-meta{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.jur-opt-check{width:18px;height:18px;border-radius:999px;border:1px solid rgba(0,122,255,.18);
+  display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--blue);background:rgba(0,122,255,.06)}
+.jur-opt.sel .jur-opt-check{background:var(--blue);border-color:var(--blue);color:#fff}
+.jur-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;max-width:200px;max-height:58px;overflow-y:auto;padding-right:2px}
+.jur-chips::-webkit-scrollbar{width:4px}
+.jur-chips::-webkit-scrollbar-thumb{background:rgba(148,163,184,.4);border-radius:999px}
+.jur-chip,.jur-chip-more{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;
+  background:rgba(0,122,255,.08);border:1px solid rgba(0,122,255,.12);color:var(--blue);font-size:10px;font-weight:600;
+  max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jur-chip button{border:none;background:none;color:inherit;cursor:pointer;font-size:12px;line-height:1;padding:0}
+.jur-chip button:hover{color:var(--red)}
+.jur-help{margin-top:6px;font-size:10px;line-height:1.4;color:var(--txt3);max-width:200px}
 
 .fcnt{font-family:var(--mono);font-size:9px;padding:8px 12px;border-radius:999px;
   background:rgba(0,122,255,.10);border:1px solid rgba(0,122,255,.14);
-  color:var(--blue);white-space:nowrap;align-self:flex-end;font-weight:600}
+  color:var(--blue);white-space:nowrap;align-self:flex-start;font-weight:600}
 .freset{background:rgba(255,255,255,.88);border:1px solid var(--border);color:var(--txt2);
   padding:8px 14px;border-radius:999px;font-size:11px;font-family:var(--sans);
-  cursor:pointer;transition:all .15s;align-self:flex-end;font-weight:500}
+  cursor:pointer;transition:all .15s;align-self:flex-start;font-weight:500}
 .freset:hover{border-color:var(--red);color:var(--red);background:rgba(220,38,38,.05)}
 
 /* MAIN */
@@ -253,6 +272,15 @@ mark{background:rgba(26,86,219,.15);color:var(--blue);border-radius:2px;padding:
   </div>
 
   <div class="fg">
+    <span class="flbl">Kelompok Jurusan</span>
+    <select id="f-kearsipan">
+      <option value="">Semua Jurusan</option>
+      <option value="arsip">Kearsipan</option>
+      <option value="nonarsip">Non Kearsipan</option>
+    </select>
+  </div>
+
+  <div class="fg">
     <span class="flbl">Jabatan Arsiparis</span>
     <select id="f-jab">
       <option value="">Semua Jabatan</option>
@@ -316,13 +344,15 @@ mark{background:rgba(26,86,219,.15);color:var(--blue);border-radius:2px;padding:
 
   <div class="fdiv"></div>
 
-  <div class="fg">
+  <div class="fg fg-jur">
     <span class="flbl">Jurusan Pendidikan</span>
     <div class="jur-wrap" id="jur-wrap">
-      <input type="text" class="jur-input" id="jur-input" placeholder="Cari jurusan..." autocomplete="off" spellcheck="false">
+      <input type="text" class="jur-input" id="jur-input" placeholder="Cari / scroll jurusan..." autocomplete="off" spellcheck="false">
       <button class="jur-clear" id="jur-clear" title="Hapus">✕</button>
       <div class="jur-drop" id="jur-drop"></div>
     </div>
+    <div class="jur-chips" id="jur-chips"></div>
+    <div class="jur-help" id="jur-help">Bisa pilih lebih dari satu jurusan. Ketik untuk cari, atau scroll daftar untuk pilih manual.</div>
   </div>
 
   <div class="fcnt" id="fcnt">26.100 hasil</div>
@@ -507,6 +537,7 @@ Chart.defaults.color='#667085';
 Chart.defaults.borderColor='rgba(15,23,42,.08)';
 Chart.defaults.font.family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
 Chart.defaults.font.size=11;
+const filterBar=document.querySelector('.fbar');
 
 const C={blue:'#007aff',cyan:'#40c8e0',violet:'#5e5ce6',green:'#34c759',
   amber:'#ff9f0a',red:'#ff3b30',pink:'#ff375f',orange:'#ff7a00',s2:'#edf2f8',s3:'#dfe7f2'};
@@ -572,6 +603,12 @@ const JUR_SORTED=Object.entries(jurCountAll)
   .map(([id,cnt])=>({id:+id,name:RAW.jur_r[+id]||'Tidak Diketahui',cnt}))
   .filter(x=>x.name&&x.name!=='Tidak Diketahui')
   .sort((a,b)=>b.cnt-a.cnt);
+const KEARSIPAN_PATTERNS=[/\barsip\b/,/\bkearsipan\b/,/\brekod\b/,/\brecords?\b/,/manajemen informasi dan dokumen/];
+const KEARSIPAN_JUR_IDS=new Set(
+  JUR_SORTED
+    .filter(x=>KEARSIPAN_PATTERNS.some(pattern=>pattern.test(String(x.name).toLowerCase())))
+    .map(x=>x.id)
+);
 
 let selJurId=null;
 const jurInput=document.getElementById('jur-input');
@@ -593,13 +630,102 @@ function showJurDrop(q){
       jurDrop.style.display='none'; jurClear.style.display='block'; render();
     });
   });
+  filterBar.classList.add('dropdown-open');
   jurDrop.style.display='block';
 }
-function clearJur(){selJurId=null;jurInput.value='';jurClear.style.display='none';render();}
+function clearJur(){selJurId=null;jurInput.value='';jurClear.style.display='none';filterBar.classList.remove('dropdown-open');render();}
 jurInput.addEventListener('focus',()=>showJurDrop(jurInput.value));
 jurInput.addEventListener('input',()=>{if(!jurInput.value){selJurId=null;jurClear.style.display='none';}showJurDrop(jurInput.value);});
-jurInput.addEventListener('blur',()=>setTimeout(()=>jurDrop.style.display='none',150));
+jurInput.addEventListener('blur',()=>setTimeout(()=>{jurDrop.style.display='none';filterBar.classList.remove('dropdown-open');},150));
 jurClear.addEventListener('click',clearJur);
+
+let selJurIdsMulti=new Set();
+let jurInputMulti=jurInput;
+let jurDropMulti=jurDrop;
+let jurClearMulti=jurClear;
+const jurChips=document.getElementById('jur-chips');
+const jurHelp=document.getElementById('jur-help');
+
+function renderJurChips(){
+  const selected=[...selJurIdsMulti].map(id=>JUR_SORTED.find(x=>x.id===id)).filter(Boolean).sort((a,b)=>a.name.localeCompare(b.name,'id'));
+  const preview=selected.slice(0,2);
+  const hiddenCount=Math.max(0,selected.length-preview.length);
+  jurChips.innerHTML=preview.map(item=>`<span class="jur-chip" title="${esc(item.name)}">${esc(item.name)}<button type="button" data-id="${item.id}" title="Hapus">x</button></span>`).join('')
+    +(hiddenCount?`<span class="jur-chip-more" title="${selected.slice(2).map(item=>item.name).join(', ')}">+${hiddenCount} lagi</span>`:'');
+  jurChips.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      selJurIdsMulti.delete(+btn.dataset.id);
+      renderJurChips();
+      updateJurHelp();
+      render();
+    });
+  });
+}
+
+function updateJurHelp(){
+  jurClearMulti.style.display=selJurIdsMulti.size?'block':'none';
+  if(!selJurIdsMulti.size){
+    jurHelp.textContent='Bisa pilih lebih dari satu jurusan. Ketik untuk cari, atau scroll daftar untuk pilih manual.';
+    return;
+  }
+  const lastSelected=JUR_SORTED.find(x=>x.id===[...selJurIdsMulti][selJurIdsMulti.size-1]);
+  const shortName=lastSelected&&lastSelected.name.length>30?lastSelected.name.slice(0,30)+'...':lastSelected?.name;
+  jurHelp.textContent=lastSelected
+    ?`${selJurIdsMulti.size} jurusan aktif. Terakhir dipilih: ${shortName}. Scroll daftar untuk tambah yang lain.`
+    :`${selJurIdsMulti.size} jurusan sedang aktif.`;
+}
+
+function showJurDropMulti(q){
+  const res=q?JUR_SORTED.filter(x=>x.name.toLowerCase().includes(q.toLowerCase())).slice(0,60):JUR_SORTED.slice(0,60);
+  jurDropMulti.innerHTML=res.length?res.map(x=>`<div class="jur-opt${selJurIdsMulti.has(x.id)?' sel':''}" data-id="${x.id}">
+    <span class="jur-opt-name">${hlMatch(x.name,q)}</span>
+    <span class="jur-opt-meta"><span class="jur-opt-check">${selJurIdsMulti.has(x.id)?'x':'+'}</span><span class="jur-opt-cnt">${x.cnt.toLocaleString('id-ID')} orang</span></span></div>`).join('')
+    :`<div class="jur-nores">Tidak ditemukan: "${esc(q)}"</div>`;
+  jurDropMulti.querySelectorAll('.jur-opt').forEach(el=>{
+    el.addEventListener('mousedown',e=>{
+      e.preventDefault();
+      const id=+el.dataset.id;
+      if(selJurIdsMulti.has(id)) selJurIdsMulti.delete(id); else selJurIdsMulti.add(id);
+      renderJurChips();
+      updateJurHelp();
+      render();
+      jurInputMulti.focus();
+      showJurDropMulti(jurInputMulti.value);
+    });
+  });
+  filterBar.classList.add('dropdown-open');
+  jurDropMulti.style.display='block';
+}
+
+function clearJurMulti(){
+  selJurIdsMulti=new Set();
+  jurInputMulti.value='';
+  renderJurChips();
+  updateJurHelp();
+  jurDropMulti.style.display='none';
+  filterBar.classList.remove('dropdown-open');
+  render();
+}
+
+function setupJurMultiSelect(){
+  const inputClone=jurInputMulti.cloneNode(true);
+  const clearClone=jurClearMulti.cloneNode(true);
+  const dropClone=jurDropMulti.cloneNode(true);
+  jurInputMulti.replaceWith(inputClone);
+  jurClearMulti.replaceWith(clearClone);
+  jurDropMulti.replaceWith(dropClone);
+  jurInputMulti=inputClone;
+  jurClearMulti=clearClone;
+  jurDropMulti=dropClone;
+  jurInputMulti.addEventListener('focus',()=>showJurDropMulti(jurInputMulti.value));
+  jurInputMulti.addEventListener('input',()=>showJurDropMulti(jurInputMulti.value));
+  jurInputMulti.addEventListener('blur',()=>setTimeout(()=>{jurDropMulti.style.display='none';filterBar.classList.remove('dropdown-open');},150));
+  jurClearMulti.addEventListener('click',clearJurMulti);
+  renderJurChips();
+  updateJurHelp();
+}
+
+setupJurMultiSelect();
 
 // ── INSTANSI SEARCH ──
 const insCountAll={};
@@ -641,23 +767,24 @@ function showDrop(q){
       render();
     });
   });
+  filterBar.classList.add('dropdown-open');
   insDrop.style.display='block';
 }
-function clearIns(){selInsId=null;insInput.value='';insClear.style.display='none';render();}
+function clearIns(){selInsId=null;insInput.value='';insClear.style.display='none';filterBar.classList.remove('dropdown-open');render();}
 insInput.addEventListener('focus',()=>showDrop(insInput.value));
 insInput.addEventListener('input',()=>{if(!insInput.value){selInsId=null;insClear.style.display='none';}showDrop(insInput.value);});
-insInput.addEventListener('blur',()=>setTimeout(()=>insDrop.style.display='none',150));
+insInput.addEventListener('blur',()=>setTimeout(()=>{insDrop.style.display='none';filterBar.classList.remove('dropdown-open');},150));
 insClear.addEventListener('click',clearIns);
 
 // ── FILTER STATE ──
-const F={edu:'',jab:'',pen:'',syn:'',tmt:'',age:''};
+const F={edu:'',jab:'',pen:'',syn:'',tmt:'',age:'',kearsipan:''};
 
 function compute(){
   const n=RAW.total;
   const fE=F.edu!==''?+F.edu:null, fJ=F.jab!==''?+F.jab:null,
         fP=F.pen!==''?+F.pen:null, fS=F.syn!==''?+F.syn:null,
-        fT=F.tmt!==''?+F.tmt:null, fI=selInsId,
-        fA=F.age!==''?+F.age:null, fJur=selJurId;
+        fT=F.tmt!==''?+F.tmt:null, fI=selInsId, fK=F.kearsipan||'',
+        fA=F.age!==''?+F.age:null;
   let tot=0;
   const eC={},jC={},pC={},sC={},gC={},tC={},iC={},aC={};
   const ed=RAW.edu,jd=RAW.jab,pd=RAW.pen,sd=RAW.syn,
@@ -669,8 +796,10 @@ function compute(){
     if(fS!==null&&sd[i]!==fS) continue;
     if(fT!==null&&td[i]!==fT) continue;
     if(fI!==null&&id[i]!==fI) continue;
+    if(fK==='arsip' && !KEARSIPAN_JUR_IDS.has(jurd[i])) continue;
+    if(fK==='nonarsip' && KEARSIPAN_JUR_IDS.has(jurd[i])) continue;
     if(fA!==null&&ad[i]!==fA) continue;
-    if(fJur!==null&&jurd[i]!==fJur) continue;
+    if(selJurIdsMulti.size && !selJurIdsMulti.has(jurd[i])) continue;
     tot++;
     eC[ed[i]]=(eC[ed[i]]||0)+1;
     jC[jd[i]]=(jC[jd[i]]||0)+1;
@@ -815,12 +944,12 @@ function render(){
 }
 
 // Bindings
-['edu','jab','pen','syn','tmt','age'].forEach(k=>{
+['edu','jab','pen','syn','tmt','age','kearsipan'].forEach(k=>{
   document.getElementById('f-'+k).addEventListener('change',function(){F[k]=this.value;render();});
 });
 function resetAll(){
   Object.keys(F).forEach(k=>F[k]='');
-  ['edu','jab','pen','syn','tmt','age'].forEach(k=>document.getElementById('f-'+k).value='');
+  ['edu','jab','pen','syn','tmt','age','kearsipan'].forEach(k=>document.getElementById('f-'+k).value='');
   clearIns();
   clearJur();
 }
