@@ -79,7 +79,7 @@ select:hover,select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,1
 .pend-clear:hover{color:var(--red)}
 .pend-drop{position:absolute;top:calc(100% + 4px);left:0;right:0;
   background:#fff;border:1px solid rgba(0,122,255,.2);border-radius:16px;
-  box-shadow:0 18px 48px rgba(15,23,42,.12);max-height:260px;overflow-y:auto;z-index:500;display:none}
+  box-shadow:0 18px 48px rgba(15,23,42,.12);max-height:320px;overflow-y:auto;z-index:500;display:none}
 .pend-drop::-webkit-scrollbar{width:3px}
 .pend-drop::-webkit-scrollbar-thumb{background:var(--s3);border-radius:2px}
 .pend-opt{padding:8px 12px;cursor:pointer;display:flex;align-items:center;
@@ -88,6 +88,20 @@ select:hover,select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,1
 .pend-opt-name{font-size:11px;color:var(--txt);flex:1;line-height:1.3}
 .pend-opt-cnt{font-family:var(--mono);font-size:9px;color:var(--txt3);white-space:nowrap;flex-shrink:0}
 .pend-nores{padding:12px;text-align:center;font-size:11px;color:var(--txt3)}
+.pend-opt-tag{font-family:var(--mono);font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);
+  background:rgba(0,122,255,.08);border:1px solid rgba(0,122,255,.1);padding:3px 7px;border-radius:999px;white-space:nowrap}
+.pend-opt-meta{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.pend-opt-check{width:18px;height:18px;border-radius:999px;border:1px solid rgba(0,122,255,.18);
+  display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--blue);background:rgba(0,122,255,.06)}
+.pend-opt.sel .pend-opt-check{background:var(--blue);border-color:var(--blue);color:#fff}
+.pend-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;max-width:210px}
+.pend-chip,.pend-chip-more{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;
+  background:rgba(0,122,255,.08);border:1px solid rgba(0,122,255,.12);color:var(--blue);font-size:10px;font-weight:600;
+  max-width:210px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pend-chip button{border:none;background:none;color:inherit;cursor:pointer;font-size:12px;line-height:1;padding:0}
+.pend-chip button:hover{color:var(--red)}
+.pend-help{margin-top:6px;font-size:10px;line-height:1.4;color:var(--txt3);max-width:210px}
+.pend-similar{display:none}
 
 .fcnt{font-family:var(--mono);font-size:9px;padding:8px 12px;border-radius:999px;
   background:rgba(0,122,255,.10);color:var(--blue);white-space:nowrap;font-weight:600}
@@ -254,6 +268,15 @@ mark{background:var(--sky);color:var(--blue);border-radius:2px;padding:0 2px}
   </div>
 
   <div class="fg">
+    <span class="flbl">Kelompok Jurusan</span>
+    <select id="f-kearsipan">
+      <option value="">Semua Jurusan</option>
+      <option value="arsip">Kearsipan</option>
+      <option value="nonarsip">Non Kearsipan</option>
+    </select>
+  </div>
+
+  <div class="fg">
     <span class="flbl">Jenis ASN</span>
     <select id="f-asn">
       <option value="">Semua</option>
@@ -267,9 +290,14 @@ mark{background:var(--sky);color:var(--blue);border-radius:2px;padding:0 2px}
   <div class="fg">
     <span class="flbl">Jurusan Pendidikan</span>
     <div class="pend-wrap">
-      <input type="text" class="pend-input" id="pend-input" placeholder="Cari jurusan..." autocomplete="off" spellcheck="false">
+      <input type="text" class="pend-input" id="pend-input" placeholder="Cari / scroll jurusan..." autocomplete="off" spellcheck="false">
       <button class="pend-clear" id="pend-clear" title="Hapus">✕</button>
       <div class="pend-drop" id="pend-drop"></div>
+    </div>
+    <div class="pend-chips" id="pend-chips"></div>
+    <div class="pend-help" id="pend-help">
+      <button type="button" class="pend-similar" id="pend-similar">Lihat jurusan serupa</button>
+      <span id="pend-help-text">Bisa pilih lebih dari satu jurusan. Ketik untuk cari, atau scroll daftar untuk pilih manual.</span>
     </div>
   </div>
 
@@ -466,37 +494,86 @@ const asnCh=new Chart(document.getElementById('asnChart').getContext('2d'),{type
     plugins:{legend:{display:false},tooltip:{enabled:false},datalabels:{display:false}}}});
 
 // ── JURUSAN PENDIDIKAN SEARCH ──
-const pendTotal={};
-for(const r of RAW.rows) pendTotal[r[4]]=(pendTotal[r[4]]||0)+r[6];
-const PEND_SORTED=Object.entries(pendTotal)
-  .map(([id,cnt])=>({id:+id,name:RAW.pend_r[+id]||'(Tidak Diketahui)',cnt}))
+const PEND_GROUP_RULES=[
+  {label:'Rumpun Manajemen', patterns:[/\bmanajemen\b/,/\bmsdm\b/,/sumber daya manusia/,/\bbisnis\b/,/\bniaga\b/]},
+  {label:'Rumpun Administrasi', patterns:[/\badministrasi\b/,/administratif/,/sekretari/,/perkantoran/,/tata usaha/]},
+  {label:'Rumpun Kearsipan dan Informasi', patterns:[/\bkearsipan\b/,/\barsip\b/,/perpustakaan/,/dokumentasi/,/informasi/]},
+  {label:'Rumpun Hukum dan Pemerintahan', patterns:[/\bhukum\b/,/\bpemerintahan\b/,/\bpolitik\b/,/publik/,/kenegaraan/]},
+  {label:'Rumpun Ekonomi dan Akuntansi', patterns:[/\bekonomi\b/,/\bakuntansi\b/,/\bkeuangan\b/,/\bfiskal\b/]},
+  {label:'Rumpun Teknologi dan Komputer', patterns:[/\binformatika\b/,/komputer/,/teknologi informasi/,/\bsistem informasi\b/,/\bteknik informatika\b/]},
+  {label:'Rumpun Sosial dan Humaniora', patterns:[/komunikasi/,/sosiologi/,/psikologi/,/hubungan internasional/,/ilmu sosial/,/humaniora/]},
+  {label:'Rumpun Pendidikan', patterns:[/\bpendidikan\b/,/\bkeguruan\b/,/\bpgsd\b/,/\bpaud\b/]},
+  {label:'Rumpun Teknik', patterns:[/\bteknik\b/,/arsitektur/,/planologi/,/sipil/,/industri/]},
+];
+
+function normalizePendName(name){
+  return String(name||'')
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s]/gu,' ')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+function getPendGroup(name){
+  const normalized=normalizePendName(name);
+  if(!normalized) return 'Lainnya';
+  for(const rule of PEND_GROUP_RULES){
+    if(rule.patterns.some(pattern=>pattern.test(normalized))) return rule.label;
+  }
+  return name;
+}
+
+const pendGroupMap={};
+for(const r of RAW.rows){
+  const pendId=r[4];
+  const pendName=RAW.pend_r[pendId]||'(Tidak Diketahui)';
+  const groupLabel=getPendGroup(pendName);
+  if(!pendGroupMap[groupLabel]) pendGroupMap[groupLabel]={label:groupLabel,cnt:0,ids:new Set(),names:new Set()};
+  pendGroupMap[groupLabel].cnt+=r[6];
+  pendGroupMap[groupLabel].ids.add(pendId);
+  pendGroupMap[groupLabel].names.add(pendName);
+}
+const PEND_SORTED=Object.values(pendGroupMap)
+  .map(group=>({
+    label:group.label,
+    cnt:group.cnt,
+    ids:[...group.ids],
+    sampleNames:[...group.names].sort((a,b)=>a.localeCompare(b,'id')),
+    variantCount:group.names.size
+  }))
   .sort((a,b)=>b.cnt-a.cnt);
 
-let selPendId=null;
+let selPendGroup=null;
 const pendInput=document.getElementById('pend-input');
 const pendDrop=document.getElementById('pend-drop');
 const pendClear=document.getElementById('pend-clear');
 
 function showPendDrop(q){
-  const res=q?PEND_SORTED.filter(x=>x.name.toLowerCase().includes(q.toLowerCase())).slice(0,60):PEND_SORTED.slice(0,60);
-  pendDrop.innerHTML=res.length?res.map(x=>`<div class="pend-opt${selPendId===x.id?' sel':''}" data-id="${x.id}">
-    <span class="pend-opt-name">${hl(x.name,q)}</span>
+  const keyword=q.toLowerCase();
+  const res=q
+    ?PEND_SORTED.filter(x=>
+      x.label.toLowerCase().includes(keyword) ||
+      x.sampleNames.some(name=>name.toLowerCase().includes(keyword))
+    ).slice(0,60)
+    :PEND_SORTED.slice(0,60);
+  pendDrop.innerHTML=res.length?res.map(x=>`<div class="pend-opt${selPendGroup===x.label?' sel':''}" data-group="${esc(x.label)}" title="${esc(x.sampleNames.slice(0,8).join(', '))}">
+    <span class="pend-opt-name">${hl(x.label,q)}${x.variantCount>1?` <span style="color:var(--txt3)">· ${x.variantCount} jurusan</span>`:''}</span>
     <span class="pend-opt-cnt">${x.cnt.toLocaleString('id-ID')} orang</span></div>`).join('')
     :`<div class="pend-nores">Tidak ditemukan: "${esc(q)}"</div>`;
   pendDrop.querySelectorAll('.pend-opt').forEach(el=>{
     el.addEventListener('mousedown',e=>{
       e.preventDefault();
-      selPendId=+el.dataset.id;
-      const nm=PEND_SORTED.find(x=>x.id===selPendId)?.name||'';
+      selPendGroup=el.dataset.group;
+      const nm=PEND_SORTED.find(x=>x.label===selPendGroup)?.label||'';
       pendInput.value=nm.length>32?nm.slice(0,32)+'…':nm;
       pendDrop.style.display='none'; pendClear.style.display='block'; render();
     });
   });
   pendDrop.style.display='block';
 }
-function clearPend(){selPendId=null;pendInput.value='';pendClear.style.display='none';render();}
+function clearPend(){selPendGroup=null;pendInput.value='';pendClear.style.display='none';render();}
 pendInput.addEventListener('focus',()=>showPendDrop(pendInput.value));
-pendInput.addEventListener('input',()=>{if(!pendInput.value){selPendId=null;pendClear.style.display='none';}showPendDrop(pendInput.value);});
+pendInput.addEventListener('input',()=>{if(!pendInput.value){selPendGroup=null;pendClear.style.display='none';}showPendDrop(pendInput.value);});
 pendInput.addEventListener('blur',()=>setTimeout(()=>pendDrop.style.display='none',150));
 pendClear.addEventListener('click',clearPend);
 
@@ -520,6 +597,165 @@ function hl(text,q){
   if(i<0)return esc(text);
   return esc(text.slice(0,i))+'<mark>'+esc(text.slice(i,i+q.length))+'</mark>'+esc(text.slice(i+q.length));
 }
+
+const PEND_STOPWORDS=new Set(['dan','ilmu','studi','program','pendidikan','islam','indonesia','umum','terapan']);
+const KEARSIPAN_PATTERNS=[/\barsip\b/,/\bkearsipan\b/,/\brekod\b/,/\brecords?\b/,/manajemen informasi dan dokumen/];
+const pendExactTotal={};
+for(const r of RAW.rows) pendExactTotal[r[4]]=(pendExactTotal[r[4]]||0)+r[6];
+const PEND_EXACT=Object.entries(pendExactTotal)
+  .map(([id,cnt])=>({
+    id:+id,
+    name:RAW.pend_r[+id]||'(Tidak Diketahui)',
+    cnt,
+    norm:normalizePendName(RAW.pend_r[+id]||'(Tidak Diketahui)')
+  }))
+  .sort((a,b)=>b.cnt-a.cnt);
+const KEARSIPAN_PEND_IDS=new Set(PEND_EXACT.filter(item=>KEARSIPAN_PATTERNS.some(pattern=>pattern.test(item.norm))).map(item=>item.id));
+
+let selPendIdsMulti=new Set();
+let pendRelatedMode=false;
+let pendInputMulti=document.getElementById('pend-input');
+let pendDropMulti=document.getElementById('pend-drop');
+let pendClearMulti=document.getElementById('pend-clear');
+let pendSimilarBtn=document.getElementById('pend-similar');
+const pendChips=document.getElementById('pend-chips');
+const pendHelpText=document.getElementById('pend-help-text');
+
+function getPendTokens(name){
+  return normalizePendName(name).split(' ').filter(token=>token.length>=4 && !PEND_STOPWORDS.has(token));
+}
+
+function getPendAnchorToken(){
+  const selected=[...selPendIdsMulti].map(id=>PEND_EXACT.find(item=>item.id===id)).filter(Boolean);
+  if(!selected.length) return '';
+  const source=selected[selected.length-1];
+  const tokens=getPendTokens(source.name);
+  let best='';
+  let bestScore=0;
+  tokens.forEach(token=>{
+    const score=PEND_EXACT.reduce((sum,item)=>sum+(item.norm.includes(token)?1:0),0);
+    if(score>1 && (!best || score>bestScore)){
+      best=token;
+      bestScore=score;
+    }
+  });
+  return best||tokens[0]||'';
+}
+
+function getPendRelatedItems(anchorToken){
+  if(!anchorToken) return [];
+  return PEND_EXACT.filter(item=>item.norm.includes(anchorToken) && !selPendIdsMulti.has(item.id)).slice(0,50);
+}
+
+function renderPendChips(){
+  const selected=[...selPendIdsMulti].map(id=>PEND_EXACT.find(item=>item.id===id)).filter(Boolean)
+    .sort((a,b)=>a.name.localeCompare(b.name,'id'));
+  const preview=selected.slice(0,2);
+  const hiddenCount=Math.max(0,selected.length-preview.length);
+  pendChips.innerHTML=preview.map(item=>`<span class="pend-chip" title="${esc(item.name)}">${esc(item.name)}<button type="button" data-id="${item.id}" title="Hapus">x</button></span>`).join('')
+    +(hiddenCount?`<span class="pend-chip-more" title="${selected.slice(2).map(item=>item.name).join(', ')}">+${hiddenCount} lagi</span>`:'');
+  pendChips.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      selPendIdsMulti.delete(+btn.dataset.id);
+      if(!selPendIdsMulti.size) pendRelatedMode=false;
+      renderPendChips();
+      updatePendHelper();
+      render();
+    });
+  });
+}
+
+function updatePendHelper(anchorToken=''){
+  pendClearMulti.style.display=selPendIdsMulti.size?'block':'none';
+  pendSimilarBtn.style.display='none';
+  if(!selPendIdsMulti.size){
+    pendHelpText.textContent='Bisa pilih lebih dari satu jurusan. Ketik untuk cari, atau scroll daftar untuk pilih manual.';
+    return;
+  }
+  if(anchorToken){
+    pendHelpText.textContent=`Filter aktif untuk ${selPendIdsMulti.size} jurusan. Scroll daftar untuk menambah pilihan lain.`;
+    return;
+  }
+  const lastSelected=PEND_EXACT.find(item=>item.id===[...selPendIdsMulti][selPendIdsMulti.size-1]);
+  const shortName=lastSelected&&lastSelected.name.length>30?lastSelected.name.slice(0,30)+'...':lastSelected?.name;
+  pendHelpText.textContent=lastSelected
+    ?`${selPendIdsMulti.size} jurusan aktif. Terakhir dipilih: ${shortName}. Scroll daftar untuk tambah yang lain.`
+    :`${selPendIdsMulti.size} jurusan sedang aktif.`;
+}
+
+function togglePendSelection(id){
+  if(selPendIdsMulti.has(id)) selPendIdsMulti.delete(id);
+  else selPendIdsMulti.add(id);
+  renderPendChips();
+  updatePendHelper(pendRelatedMode?getPendAnchorToken():'');
+  render();
+}
+
+function showPendDrop(q=''){
+  const keyword=q.trim().toLowerCase();
+  const anchorToken=pendRelatedMode?getPendAnchorToken():'';
+  const items=keyword
+    ?PEND_EXACT.filter(item=>item.norm.includes(keyword)).slice(0,60)
+    :pendRelatedMode
+      ?getPendRelatedItems(anchorToken)
+      :PEND_EXACT.slice(0,60);
+  pendDropMulti.innerHTML=items.length?items.map(item=>`<div class="pend-opt${selPendIdsMulti.has(item.id)?' sel':''}" data-id="${item.id}">
+    <span class="pend-opt-name">${hl(item.name,keyword)}</span>
+    <span class="pend-opt-meta">
+      <span class="pend-opt-check">${selPendIdsMulti.has(item.id)?'x':'+'}</span>
+      ${pendRelatedMode&&anchorToken&&item.norm.includes(anchorToken)?`<span class="pend-opt-tag">Serupa</span>`:''}
+      <span class="pend-opt-cnt">${item.cnt.toLocaleString('id-ID')} orang</span>
+    </span></div>`).join('')
+    :`<div class="pend-nores">${pendRelatedMode&&anchorToken?`Tidak ada jurusan turunan untuk kata "${esc(anchorToken)}"`:`Tidak ditemukan: "${esc(q)}"`}</div>`;
+  pendDropMulti.querySelectorAll('.pend-opt').forEach(el=>{
+    el.addEventListener('mousedown',e=>{
+      e.preventDefault();
+      togglePendSelection(+el.dataset.id);
+      pendInputMulti.focus();
+      showPendDrop(pendInputMulti.value);
+    });
+  });
+  updatePendHelper(anchorToken);
+  pendDropMulti.style.display='block';
+}
+
+function clearPend(){
+  selPendIdsMulti=new Set();
+  pendRelatedMode=false;
+  pendInputMulti.value='';
+  renderPendChips();
+  updatePendHelper();
+  pendDropMulti.style.display='none';
+  render();
+}
+
+function setupPendMultiSelect(){
+  const inputClone=pendInputMulti.cloneNode(true);
+  const clearClone=pendClearMulti.cloneNode(true);
+  const dropClone=pendDropMulti.cloneNode(true);
+  pendInputMulti.replaceWith(inputClone);
+  pendClearMulti.replaceWith(clearClone);
+  pendDropMulti.replaceWith(dropClone);
+  pendInputMulti=inputClone;
+  pendClearMulti=clearClone;
+  pendDropMulti=dropClone;
+
+  pendInputMulti.addEventListener('focus',()=>showPendDrop(pendInputMulti.value));
+  pendInputMulti.addEventListener('input',()=>{pendRelatedMode=false;showPendDrop(pendInputMulti.value);});
+  pendInputMulti.addEventListener('blur',()=>setTimeout(()=>pendDropMulti.style.display='none',150));
+  pendClearMulti.addEventListener('click',clearPend);
+  pendSimilarBtn.addEventListener('click',()=>{
+    if(!selPendIdsMulti.size) return;
+    pendRelatedMode=true;
+    pendInputMulti.value='';
+    pendInputMulti.focus();
+    showPendDrop('');
+  });
+  renderPendChips();
+  updatePendHelper();
+}
+
+setupPendMultiSelect();
 function showDrop(q){
   const res=q?INS_SORTED.filter(x=>x.name.toLowerCase().includes(q.toLowerCase())).slice(0,50):INS_SORTED.slice(0,50);
   insDrop.innerHTML=res.length?res.map(x=>`<div class="ins-opt${selInsId===x.id?' sel':''}" data-id="${x.id}">
@@ -544,11 +780,11 @@ insInput.addEventListener('blur',()=>setTimeout(()=>insDrop.style.display='none'
 insClear.addEventListener('click',clearIns);
 
 // ── FILTER STATE ──
-const F={jab:'',tmt:'',tingkat:'',asn:''};
+const F={jab:'',tmt:'',tingkat:'',kearsipan:'',asn:''};
 
 function compute(){
   const fJ=F.jab!==''?+F.jab:null, fT=F.tmt!==''?+F.tmt:null,
-        fTk=F.tingkat!==''?+F.tingkat:null, fA=F.asn!==''?+F.asn:null, fI=selInsId, fPend=selPendId;
+        fTk=F.tingkat!==''?+F.tingkat:null, fK=F.kearsipan||'', fA=F.asn!==''?+F.asn:null, fI=selInsId;
 
   let tot=0;
   const jC={},tC={},tkC={},pC={},asnC={},iC={};
@@ -559,8 +795,10 @@ function compute(){
     if(fJ!==null && r[1]!==fJ) continue;
     if(fT!==null && r[2]!==fT) continue;
     if(fTk!==null && r[3]!==fTk) continue;
+    if(fK==='arsip' && !KEARSIPAN_PEND_IDS.has(r[4])) continue;
+    if(fK==='nonarsip' && KEARSIPAN_PEND_IDS.has(r[4])) continue;
     if(fA!==null && r[5]!==fA) continue;
-    if(fPend!==null && r[4]!==fPend) continue;
+    if(selPendIdsMulti.size && !selPendIdsMulti.has(r[4])) continue;
     const j=r[6];
     tot+=j;
     jC[r[1]]=(jC[r[1]]||0)+j;
@@ -653,7 +891,9 @@ function render(){
         <div class="rival">${fmt(x.v)}</div>
       </div>`).join('')
     :'<div style="padding:20px;text-align:center;color:var(--txt3);font-size:11px">Tidak ada data</div>';
-  const pendBadge=pendArr.length+' program studi';
+  const pendBadge=selPendIdsMulti.size
+    ?`${pendArr.length} program studi dari ${selPendIdsMulti.size} jurusan terpilih`
+    :pendArr.length+' program studi';
 
   // Panel bawah (selalu ada): tampilkan prodi hanya kalau tidak ada filter instansi
   const rowPanel=document.querySelector('.g21');
@@ -696,12 +936,12 @@ function render(){
   document.getElementById('ft-r').textContent=fmt(T)+' ARSIPARIS · '+fmt(insCount)+' INSTANSI KERJA';
 }
 
-['jab','tmt','tingkat','asn'].forEach(k=>{
+['jab','tmt','tingkat','kearsipan','asn'].forEach(k=>{
   document.getElementById('f-'+k).addEventListener('change',function(){F[k]=this.value;render();});
 });
 function resetAll(){
   Object.keys(F).forEach(k=>F[k]='');
-  ['jab','tmt','tingkat','asn'].forEach(k=>document.getElementById('f-'+k).value='');
+  ['jab','tmt','tingkat','kearsipan','asn'].forEach(k=>document.getElementById('f-'+k).value='');
   clearIns();
   clearPend();
 }
