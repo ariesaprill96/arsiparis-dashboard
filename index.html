@@ -8,27 +8,31 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 
 :root {
-  --bg:       #f5f5f7;
-  --bg-2:     #eef2f7;
-  --surface:  rgba(255,255,255,0.74);
+  --bg:       #f4f7fb;
+  --bg-2:     #e9eff6;
+  --surface:  rgba(255,255,255,0.9);
   --surface-solid: #ffffff;
-  --surface-soft: rgba(255,255,255,0.58);
-  --border:   rgba(15,23,42,0.08);
-  --border-med: rgba(15,23,42,0.14);
-  --text:     #1c1c1e;
-  --text-2:   #2f3640;
-  --text-3:   #5f6672;
-  --text-4:   #8a919d;
-  --blue:     #007aff;
-  --blue-dim: rgba(0,122,255,0.10);
-  --blue-mid: rgba(0,122,255,0.18);
-  --green:    #34c759;
-  --green-dim:rgba(52,199,89,0.10);
-  --red:      #ff3b30;
-  --red-dim:  rgba(255,59,48,0.10);
-  --amber:    #ff9500;
+  --surface-soft: rgba(255,255,255,0.76);
+  --border:   rgba(15,23,42,0.12);
+  --border-med: rgba(15,23,42,0.18);
+  --text:     #0f172a;
+  --text-2:   #1e293b;
+  --text-3:   #425466;
+  --text-4:   #5f6f82;
+  --blue:     #0b63ce;
+  --blue-dim: rgba(11,99,206,0.12);
+  --blue-mid: rgba(11,99,206,0.2);
+  --green:    #0f8f5f;
+  --green-dim:rgba(15,143,95,0.11);
+  --red:      #c62828;
+  --red-dim:  rgba(198,40,40,0.1);
+  --amber:    #b96a00;
   --glow-blue:rgba(88,156,255,0.22);
   --glow-cyan:rgba(64,200,224,0.14);
+  --glass-panel: linear-gradient(180deg, rgba(255,255,255,.8), rgba(245,248,252,.72));
+  --glass-panel-stroke: rgba(255,255,255,.55);
+  --glass-select: linear-gradient(180deg, rgba(255,255,255,.84), rgba(243,247,252,.78));
+  --glass-select-hover: linear-gradient(180deg, rgba(255,255,255,.9), rgba(238,244,252,.82));
   --radius-xs:8px;
   --radius-sm:12px;
   --radius:   18px;
@@ -54,10 +58,20 @@ body{
     radial-gradient(circle at 20% 100%, var(--glow-cyan), transparent 28%),
     linear-gradient(180deg, #fbfbfd 0%, var(--bg) 46%, var(--bg-2) 100%);
   color:var(--text);
+  font-size:14px;
+  line-height:1.55;
   min-height:100vh;
   -webkit-font-smoothing:antialiased;
   font-feature-settings:'kern'1,'liga'1;
 }
+a{color:var(--blue);text-underline-offset:3px;}
+a:hover{color:#084c9e;}
+button,input,select,textarea{font:inherit;}
+:focus-visible{
+  outline:3px solid rgba(11,99,206,.22);
+  outline-offset:2px;
+}
+::selection{background:rgba(11,99,206,.18);color:var(--text);}
 body::before,body::after{
   content:'';
   position:fixed;
@@ -83,7 +97,7 @@ body::after{
 .loading-overlay.hidden{opacity:0;pointer-events:none;}
 .loading-ring{width:32px;height:32px;border:2px solid var(--border-med);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.loading-text{font-size:12px;font-weight:500;color:var(--text-4);letter-spacing:.02em;}
+.loading-text{font-size:13px;font-weight:600;color:var(--text-3);letter-spacing:.02em;}
 
 /* ── HEADER ───────────────────────────────────────────────────── */
 .header{
@@ -117,8 +131,8 @@ body::after{
   object-fit:contain;
   display:block;
 }
-.brand-name{font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.02em;}
-.brand-sub{font-size:11px;color:var(--text-4);font-weight:500;margin-top:1px;}
+.brand-name{font-size:16px;font-weight:700;color:var(--text);letter-spacing:-.02em;}
+.brand-sub{font-size:12px;color:var(--text-3);font-weight:600;margin-top:1px;}
 
 /* tabs inside header */
 .header-tabs{
@@ -133,7 +147,7 @@ body::after{
 .header-tabs a{
   display:inline-flex;align-items:center;gap:5px;
   padding:10px 14px;
-  font-size:12px;font-weight:500;color:var(--text-4);
+  font-size:13px;font-weight:600;color:var(--text-3);
   text-decoration:none;white-space:nowrap;
   border-bottom:2px solid transparent;
   border-radius:999px;
@@ -162,13 +176,13 @@ body::after{
 .hstat-lbl{font-size:9px;color:var(--text-4);font-weight:500;text-transform:uppercase;letter-spacing:.05em;margin-top:1px;}
 .header-right{display:flex;align-items:center;gap:8px;}
 .source-badge{
-  font-size:10px;color:var(--text-4);font-weight:600;
+  font-size:11px;color:var(--text-3);font-weight:700;
   background:rgba(255,255,255,.5);
   border:1px solid rgba(15,23,42,.06);
   padding:7px 12px;border-radius:999px;
 }
 .admin-pill{font-size:10px;font-weight:600;background:var(--green-dim);color:var(--green);border:1px solid rgba(52,199,89,.2);padding:4px 11px;border-radius:20px;display:none;}
-.btn-pill{font-size:11px;font-weight:600;border:none;border-radius:999px;padding:10px 16px;cursor:pointer;transition:all .2s;font-family:var(--font);}
+.btn-pill{font-size:12px;font-weight:700;border:none;border-radius:999px;padding:10px 16px;cursor:pointer;transition:all .2s;font-family:var(--font);}
 .btn-pill-blue{background:var(--blue);color:#fff;display:none;}
 .btn-pill-blue:hover{background:#0062cc;box-shadow:0 10px 24px rgba(0,122,255,.24);}
 .btn-pill-ghost{background:rgba(255,255,255,.56);color:var(--text-3);border:1px solid var(--border-med);display:none;}
@@ -188,11 +202,12 @@ body::after{
 /* ── SIDEBAR ──────────────────────────────────────────────────── */
 .sidebar{
   width:248px;flex-shrink:0;
-  background:var(--surface);
-  border:1px solid rgba(255,255,255,.62);
-  box-shadow:var(--shadow-sm);
+  background:var(--glass-panel);
+  border:1px solid var(--glass-panel-stroke);
+  box-shadow:0 12px 30px rgba(15,23,42,.08), inset 0 1px 0 rgba(255,255,255,.76);
   padding:20px 0 28px;
   position:sticky;top:102px;
+  z-index:1000;
   height:calc(100vh - 118px);
   overflow-y:auto;
   border-radius:28px;
@@ -200,17 +215,30 @@ body::after{
   -webkit-backdrop-filter:var(--blur);
 }
 .sidebar::-webkit-scrollbar{width:0;}
+.sidebar.dropdown-open{overflow:visible;z-index:1600}
+.sidebar.is-unpinned{position:relative;top:auto}
+.sidebar.is-collapsed{width:210px;height:auto;padding:14px}
+.sidebar.is-collapsed .search-wrap,.sidebar.is-collapsed .sb-sep,.sidebar.is-collapsed .sb-section,.sidebar.is-collapsed .sb-select-wrap,.sidebar.is-collapsed .prov-wrap{display:none!important}
+.sidebar-tools{display:flex;align-items:center;gap:8px;padding:0 12px 14px}
+.sidebar-tools button{flex:1;border:none;border-radius:999px;padding:9px 10px;background:rgba(255,255,255,.9);color:var(--text-2);
+  font:700 11px var(--font);cursor:pointer;box-shadow:0 8px 20px rgba(15,23,42,.07),inset 0 1px 0 rgba(255,255,255,.94);
+  border:1px solid rgba(148,163,184,.18);transition:transform .16s ease,box-shadow .16s ease,background .16s ease}
+.sidebar-tools button:hover{transform:translateY(-1px);background:#fff;box-shadow:0 12px 28px rgba(15,23,42,.11),inset 0 1px 0 rgba(255,255,255,.96)}
+.sidebar-tools button[aria-pressed="true"]{color:var(--blue);background:linear-gradient(180deg, rgba(11,99,206,.12), rgba(255,255,255,.96))}
 .sb-section{padding:0 12px 6px;}
-.sb-label{font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-4);padding:0 8px;margin-bottom:6px;display:block;}
+.sb-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);padding:0 8px;margin-bottom:6px;display:block;}
 .search-wrap{padding:0 12px 14px;position:relative;}
 .search-icon{position:absolute;left:22px;top:50%;transform:translateY(-60%);color:var(--text-4);font-size:12px;pointer-events:none;}
 .search-input{
-  width:100%;padding:8px 10px 8px 30px;
-  border:1px solid var(--border-med);
-  border-radius:var(--radius-sm);
-  font-family:var(--font);font-size:12px;color:var(--text);
-  background:var(--surface-solid);
-  outline:none;transition:border-color .15s,box-shadow .15s;
+  width:100%;padding:10px 12px 10px 32px;
+  border:1px solid rgba(148,163,184,.22);
+  border-radius:18px;
+  font-family:var(--font);font-size:14px;font-weight:500;color:var(--text);
+  background:rgba(255,255,255,.74);
+  outline:none;transition:border-color .15s,box-shadow .15s,background .15s;
+  backdrop-filter:saturate(170%) blur(12px);
+  -webkit-backdrop-filter:saturate(170%) blur(12px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.78);
 }
 .search-input::placeholder{color:var(--text-4);}
 .search-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-dim);}
@@ -218,7 +246,7 @@ body::after{
   width:100%;display:flex;align-items:center;gap:8px;
   padding:6px 10px;border-radius:var(--radius-xs);
   border:none;background:none;cursor:pointer;
-  font-family:var(--font);font-size:12px;font-weight:450;color:var(--text-3);
+  font-family:var(--font);font-size:13px;font-weight:600;color:var(--text-2);
   transition:all .15s;text-align:left;
 }
 .filter-btn:hover{background:rgba(255,255,255,.68);color:var(--text);}
@@ -228,27 +256,105 @@ body::after{
   box-shadow:inset 0 0 0 1px rgba(0,122,255,.12);
 }
 .filter-btn .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-.filter-btn .fbadge{margin-left:auto;font-size:10px;font-weight:600;color:var(--text-4);font-family:var(--mono);}
+.filter-btn .fbadge{margin-left:auto;font-size:11px;font-weight:700;color:var(--text-3);font-family:var(--mono);}
 .filter-btn.active .fbadge{color:var(--blue);}
 .sb-sep{height:1px;background:var(--border);margin:10px 12px;}
 .sb-select-wrap{padding:0 12px 10px;}
-.sb-select-lbl{font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-4);margin-bottom:6px;display:block;}
+.sb-select-lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;display:block;}
 .sb-select{
-  width:100%;padding:7px 28px 7px 10px;
-  border:1px solid var(--border-med);border-radius:var(--radius-xs);
-  font-family:var(--font);font-size:11.5px;font-weight:450;color:var(--text);
-  background:var(--surface-solid);outline:none;cursor:pointer;
-  transition:border-color .15s;appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238e8e93'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 10px center;
+  width:100%;padding:10px 40px 10px 14px;
+  border:1px solid rgba(148,163,184,.22);border-radius:18px;
+  font-family:var(--font);font-size:13px;font-weight:600;color:var(--text);
+  background:var(--glass-select);outline:none;cursor:pointer;
+  transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease,background .18s ease;appearance:none;
+  backdrop-filter:saturate(170%) blur(14px);
+  -webkit-backdrop-filter:saturate(170%) blur(14px);
+  box-shadow:0 8px 20px rgba(15,23,42,.06), inset 0 1px 0 rgba(255,255,255,.82);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M3 5.25 7 9l4-3.75' fill='none' stroke='%235f6f82' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;
 }
-.sb-select:focus{border-color:var(--blue);}
+.sb-select:hover{
+  background:var(--glass-select-hover);
+  border-color:rgba(11,99,206,.2);
+  box-shadow:0 10px 22px rgba(15,23,42,.07), 0 0 0 3px rgba(11,99,206,.05), inset 0 1px 0 rgba(255,255,255,.88);
+}
+.sb-select:focus{
+  background:var(--glass-select-hover);
+  border-color:rgba(11,99,206,.28);
+  box-shadow:0 10px 24px rgba(15,23,42,.08), 0 0 0 3px rgba(11,99,206,.1), inset 0 1px 0 rgba(255,255,255,.9);
+}
+.sb-select option{background:#f7faff;color:var(--text);}
+.native-select{position:absolute!important;opacity:0!important;pointer-events:none!important;width:1px!important;height:1px!important}
+.custom-select{position:relative;width:100%;z-index:1}
+.custom-select-trigger{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:10px 14px;border-radius:18px;border:1px solid rgba(148,163,184,.22);
+  background:var(--glass-select);color:var(--text);cursor:pointer;font:inherit;font-size:13px;font-weight:600;
+  backdrop-filter:saturate(170%) blur(14px);-webkit-backdrop-filter:saturate(170%) blur(14px);
+  box-shadow:0 8px 20px rgba(15,23,42,.06), inset 0 1px 0 rgba(255,255,255,.82);
+  transition:border-color .18s ease,box-shadow .18s ease,background .18s ease,transform .18s ease;
+}
+.custom-select-trigger:hover,.custom-select.open .custom-select-trigger{
+  background:var(--glass-select-hover);border-color:rgba(11,99,206,.2);
+  box-shadow:0 10px 22px rgba(15,23,42,.07), 0 0 0 3px rgba(11,99,206,.05), inset 0 1px 0 rgba(255,255,255,.88);
+}
+.custom-select.open{z-index:2400}
+.custom-select.open .custom-select-trigger{transform:translateY(-1px)}
+.custom-select-value{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left}
+.custom-select-icon{
+  width:28px;height:28px;border-radius:999px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  background:rgba(255,255,255,.56);border:1px solid rgba(148,163,184,.18);color:var(--text-3);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.82);
+}
+.custom-select-icon svg{width:14px;height:14px;transition:transform .18s ease}
+.custom-select.open .custom-select-icon svg{transform:rotate(180deg)}
+.custom-select-panel{
+  position:absolute;top:calc(100% + 10px);left:0;right:0;z-index:2600;display:none;overflow:hidden;
+  padding:8px;background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(245,248,252,.96));
+  border:1px solid rgba(255,255,255,.66);border-radius:22px;
+  box-shadow:0 28px 70px rgba(15,23,42,.22), 0 8px 20px rgba(15,23,42,.08), inset 0 1px 0 rgba(255,255,255,.96);
+  backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);
+}
+.custom-select.open .custom-select-panel{display:block}
+.custom-select-list{max-height:240px;overflow:auto;padding-right:2px}
+.custom-select-list::-webkit-scrollbar{width:5px}
+.custom-select-list::-webkit-scrollbar-thumb{background:rgba(148,163,184,.45);border-radius:999px}
+.custom-select-option{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;
+  padding:11px 12px;border:none;border-radius:15px;background:transparent;color:var(--text);
+  cursor:pointer;font:inherit;font-size:13px;font-weight:600;transition:background .16s ease,color .16s ease;
+}
+.custom-select-option:hover,.custom-select-option.is-active{
+  background:linear-gradient(180deg, rgba(11,99,206,.14), rgba(255,255,255,.82));color:var(--blue);
+}
+.custom-select-option.is-selected{
+  background:linear-gradient(180deg, rgba(11,99,206,.18), rgba(11,99,206,.1));
+  box-shadow:inset 0 0 0 1px rgba(11,99,206,.1);color:var(--blue);
+}
+.custom-select-option[disabled]{opacity:.45;cursor:not-allowed}
+.custom-select-check{font-size:11px;font-weight:700;color:inherit;opacity:0}
+.custom-select-option.is-selected .custom-select-check{opacity:1}
 .prov-wrap{padding:0 12px 10px;display:none;}
 
 /* ── CONTENT ──────────────────────────────────────────────────── */
 .content{
   flex:1;padding:0 4px 24px;overflow:auto;min-width:0;
 }
+.content p,.content li,.content dd,.content dt{line-height:1.6;}
+
+.hero-title,.section-title,.panel-title,.kpi-value{font-weight:700;}
+.hero-sub,.panel-subtitle,.meta-copy,.support-copy{font-size:15px;color:var(--text-3);}
+.kicker,.meta-label,.eyebrow,.caption,.mini-label,.metric-label,.result-meta,.cluster-meta,.card-subtitle,.helper-text{
+  color:var(--text-3) !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+}
+.chip,.meta-chip,.pill,.tag,.badge,.status-pill,.view-more,.count-pill,.results-summary{
+  color:var(--text-2) !important;
+  font-weight:700 !important;
+  border-color:rgba(15,23,42,.12) !important;
+}
+.chip small,.meta-chip small,.badge small{color:var(--text-3) !important;}
 
 .hero-panel{
   position:relative;
@@ -540,6 +646,289 @@ body::after{
 /* ── GRAFIK VIEW ─────────────────────────────────────────────── */
 #grafik-view .stat-card{border-radius:24px;}
 
+/* ── KEGIATAN SDM PANEL ─────────────────────────────────────── */
+.activity-panel{
+  width:min(calc(100% - 24px), var(--content-max));
+  margin:18px auto 0;
+  padding-bottom:32px;
+}
+.activity-hero{
+  position:relative;
+  overflow:hidden;
+  border-radius:36px;
+  padding:34px;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(52,199,89,.16), transparent 30%),
+    radial-gradient(circle at 10% 0%, rgba(11,99,206,.18), transparent 34%),
+    linear-gradient(145deg, rgba(255,255,255,.98), rgba(247,250,255,.86));
+  border:1px solid rgba(255,255,255,.86);
+  box-shadow:0 22px 56px rgba(15,23,42,.12), inset 0 1px 0 rgba(255,255,255,.94);
+}
+.activity-kicker{
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--blue);
+}
+.activity-title{
+  margin-top:10px;
+  max-width:820px;
+  font-size:clamp(30px,4vw,48px);
+  line-height:1.02;
+  letter-spacing:-.06em;
+  font-weight:800;
+  color:var(--text);
+}
+.activity-sub{
+  margin-top:14px;
+  max-width:760px;
+  color:var(--text-3);
+  font-size:15px;
+  line-height:1.7;
+  font-weight:600;
+}
+.activity-strip{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:24px;
+}
+.activity-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 14px;
+  border-radius:999px;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(255,255,255,.88);
+  color:var(--text-2);
+  font-size:12px;
+  font-weight:800;
+  box-shadow:0 10px 24px rgba(15,23,42,.07), inset 0 1px 0 rgba(255,255,255,.94);
+}
+.activity-dot{width:8px;height:8px;border-radius:999px;background:var(--blue)}
+.activity-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  margin-top:22px;
+}
+.activity-card{
+  position:relative;
+  min-height:260px;
+  padding:24px;
+  border-radius:32px;
+  background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,251,255,.88));
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 16px 42px rgba(15,23,42,.09), inset 0 1px 0 rgba(255,255,255,.96);
+  overflow:hidden;
+}
+.activity-card.is-action{cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.activity-card.is-action:hover{transform:translateY(-4px);border-color:rgba(185,106,0,.28);box-shadow:0 24px 58px rgba(15,23,42,.13), inset 0 1px 0 rgba(255,255,255,.96)}
+.activity-card.is-action:focus-visible{outline:3px solid rgba(185,106,0,.24);outline-offset:4px}
+.activity-card::before{
+  content:'';
+  position:absolute;
+  inset:0 0 auto;
+  height:4px;
+  background:var(--activity-accent,var(--blue));
+}
+.activity-card::after{
+  content:'';
+  position:absolute;
+  width:130px;height:130px;
+  right:-46px;top:-46px;
+  border-radius:999px;
+  background:color-mix(in srgb, var(--activity-accent,var(--blue)) 16%, transparent);
+  pointer-events:none;
+}
+.activity-card-head{
+  position:relative;
+  z-index:1;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+}
+.activity-tag{
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(15,23,42,.05);
+  color:var(--text-3);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.activity-code{
+  font-family:var(--mono);
+  font-size:11px;
+  font-weight:800;
+  color:var(--activity-accent,var(--blue));
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(255,255,255,.9);
+  border-radius:999px;
+  padding:6px 9px;
+}
+.activity-card-title{
+  position:relative;
+  z-index:1;
+  margin-top:26px;
+  font-size:24px;
+  line-height:1.08;
+  letter-spacing:-.04em;
+  font-weight:800;
+  color:var(--text);
+}
+.activity-card-copy{
+  position:relative;
+  z-index:1;
+  margin-top:14px;
+  color:var(--text-3);
+  font-size:13px;
+  line-height:1.7;
+  font-weight:600;
+}
+.activity-meta{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:24px;
+}
+.activity-meta-box{
+  padding:12px;
+  border-radius:18px;
+  background:rgba(244,247,251,.78);
+  border:1px solid rgba(255,255,255,.8);
+}
+.activity-meta-label{
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--text-4);
+}
+.activity-meta-value{
+  margin-top:5px;
+  font-size:12px;
+  font-weight:800;
+  color:var(--text-2);
+}
+.activity-roadmap{
+  margin-top:18px;
+  padding:22px 24px;
+  border-radius:30px;
+  background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,250,255,.88));
+  border:1px solid rgba(255,255,255,.86);
+  box-shadow:0 14px 34px rgba(15,23,42,.08), inset 0 1px 0 rgba(255,255,255,.94);
+}
+.activity-roadmap-title{
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:-.03em;
+}
+.activity-roadmap-copy{
+  margin-top:8px;
+  color:var(--text-3);
+  font-size:13px;
+  line-height:1.7;
+  font-weight:600;
+}
+.monev-detail{
+  display:none;
+  margin-top:20px;
+  border-radius:36px;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(185,106,0,.16), transparent 30%),
+    linear-gradient(180deg, rgba(255,255,255,.98), rgba(246,249,255,.9));
+  border:1px solid rgba(255,255,255,.88);
+  box-shadow:0 24px 64px rgba(15,23,42,.13), inset 0 1px 0 rgba(255,255,255,.96);
+  overflow:hidden;
+}
+.monev-detail.open{display:block;animation:modalIn .24s cubic-bezier(.34,1.56,.64,1)}
+.monev-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
+  padding:28px 30px;
+  border-bottom:1px solid rgba(15,23,42,.06);
+  background:rgba(255,255,255,.6);
+}
+.monev-kicker{font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--amber)}
+.monev-title{margin-top:8px;max-width:760px;font-size:34px;line-height:1.02;letter-spacing:-.05em;font-weight:900;color:var(--text)}
+.monev-copy{margin-top:12px;max-width:840px;color:var(--text-3);font-size:14px;line-height:1.75;font-weight:600}
+.monev-close{border:none;border-radius:999px;padding:10px 14px;background:rgba(15,23,42,.06);color:var(--text-3);font:800 12px var(--font);cursor:pointer}
+.monev-body{padding:24px 30px 30px}
+.monev-kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.monev-kpi{padding:18px;border-radius:24px;background:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.9);box-shadow:0 12px 28px rgba(15,23,42,.07), inset 0 1px 0 rgba(255,255,255,.94)}
+.monev-kpi-value{font-size:28px;line-height:1;font-weight:900;letter-spacing:-.05em;color:var(--text)}
+.monev-kpi-label{margin-top:10px;font-size:10px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;color:var(--text-4)}
+.monev-section-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:16px;margin-top:18px}
+.monev-panel{padding:22px;border-radius:28px;background:rgba(255,255,255,.86);border:1px solid rgba(255,255,255,.88);box-shadow:0 12px 30px rgba(15,23,42,.07), inset 0 1px 0 rgba(255,255,255,.94)}
+.monev-panel-title{font-size:16px;font-weight:900;letter-spacing:-.03em;color:var(--text)}
+.monev-panel-sub{margin-top:6px;color:var(--text-3);font-size:12px;line-height:1.7;font-weight:600}
+.monev-likert-visual{
+  margin-top:18px;
+  padding:18px 18px 16px;
+  border-radius:26px;
+  background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(244,248,255,.84));
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.94);
+}
+.monev-likert-scale{
+  position:relative;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  align-items:end;
+  min-height:170px;
+  padding:14px 10px 20px;
+}
+.monev-likert-scale::before{
+  content:'';
+  position:absolute;
+  left:10px;right:10px;bottom:36px;
+  height:1px;
+  background:rgba(15,23,42,.12);
+}
+.monev-likert-col{position:relative;display:grid;gap:10px;justify-items:center;align-content:end;z-index:1}
+.monev-likert-bar{
+  width:min(74px,80%);
+  height:var(--h);
+  border-radius:18px 18px 8px 8px;
+  background:linear-gradient(180deg, color-mix(in srgb, var(--c) 72%, white), var(--c));
+  box-shadow:0 12px 26px color-mix(in srgb, var(--c) 26%, transparent), inset 0 1px 0 rgba(255,255,255,.45);
+}
+.monev-likert-dot{
+  width:9px;height:9px;border-radius:999px;background:var(--c);
+  box-shadow:0 0 0 5px color-mix(in srgb, var(--c) 14%, transparent);
+}
+.monev-likert-range{font:900 12px var(--mono);color:var(--text)}
+.monev-likert-label{font-size:11px;font-weight:900;color:var(--text-3);text-align:center}
+.monev-likert-caption{margin-top:4px;text-align:center;font-size:11px;font-weight:800;color:var(--text-3)}
+.monev-figure{margin-top:18px;padding:14px;border-radius:28px;background:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.9);box-shadow:0 12px 30px rgba(15,23,42,.07)}
+.monev-figure img{display:block;width:100%;height:auto;border-radius:22px;border:1px solid rgba(15,23,42,.06)}
+.monev-caption{margin-top:10px;color:var(--text-3);font-size:11px;font-weight:800;text-align:center}
+.monev-bars{display:grid;gap:12px;margin-top:18px}
+.monev-bar-row{display:grid;gap:7px}
+.monev-bar-top{display:flex;justify-content:space-between;gap:12px;font-size:12px;font-weight:800;color:var(--text-2)}
+.monev-bar-track{height:9px;border-radius:999px;background:#edf2f8;overflow:hidden}
+.monev-bar-fill{height:100%;border-radius:999px;background:var(--bar-color,var(--blue))}
+.monev-levels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}
+.monev-level{padding:14px;border-radius:20px;background:rgba(244,247,251,.78);border:1px solid rgba(255,255,255,.84)}
+.monev-level-name{font-size:12px;font-weight:900;color:var(--text)}
+.monev-level-note{margin-top:6px;font-size:11px;line-height:1.55;color:var(--text-3);font-weight:600}
+.monev-reco{margin-top:18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.monev-reco-head{margin-top:18px}
+.monev-reco-card{padding:18px;border-radius:24px;background:rgba(255,255,255,.86);border:1px solid rgba(255,255,255,.9);box-shadow:0 10px 26px rgba(15,23,42,.06)}
+.monev-reco-num{width:30px;height:30px;border-radius:999px;background:rgba(185,106,0,.13);color:var(--amber);display:flex;align-items:center;justify-content:center;font:900 12px var(--mono)}
+.monev-reco-copy{margin-top:12px;color:var(--text-2);font-size:12px;line-height:1.7;font-weight:700}
+.monev-reco-card.is-soft{background:linear-gradient(180deg, rgba(255,250,238,.9), rgba(255,255,255,.86))}
+
 /* ── IFRAME PANELS ───────────────────────────────────────────── */
 #panel-siarsiparis,#panel-bkn{width:100%;height:calc(100vh - var(--header-h));}
 #panel-siarsiparis iframe,#panel-bkn iframe{width:100%;height:100%;border:none;}
@@ -549,14 +938,17 @@ body::after{
 .main{align-items:start;gap:24px;}
 .sidebar{
   width:286px;padding:18px;top:102px;height:calc(100vh - 116px);
-  border-radius:32px;background:linear-gradient(180deg, rgba(255,255,255,.82), rgba(247,249,253,.72));
-  box-shadow:0 22px 52px rgba(15,23,42,.11), inset 0 1px 0 rgba(255,255,255,.9);
+  z-index:1000;
+  border-radius:30px;background:var(--glass-panel);
+  border:1px solid rgba(255,255,255,.58);
+  box-shadow:0 16px 38px rgba(15,23,42,.09), inset 0 1px 0 rgba(255,255,255,.84);
 }
+.sidebar-tools{padding-left:0;padding-right:0}
 .search-wrap,.sb-section,.sb-select-wrap,.prov-wrap{padding-left:0;padding-right:0;}
 .search-wrap{padding-bottom:16px;}
 .search-input,.sb-select{
-  border-radius:16px;background:rgba(255,255,255,.92);border:1px solid rgba(15,23,42,.08);
-  min-height:42px;box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+  border-radius:18px;background:rgba(255,255,255,.8);border:1px solid rgba(148,163,184,.2);
+  min-height:42px;box-shadow:inset 0 1px 0 rgba(255,255,255,.82);
 }
 .sb-label,.sb-select-lbl{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--text-4);padding:0;margin-bottom:10px;}
 .filter-btn{padding:10px 12px;border-radius:16px;font-size:12px;font-weight:600;color:var(--text-2);}
@@ -648,7 +1040,16 @@ body::after{
   .hero-panel{padding:22px 20px;border-radius:24px;}
   .hero-title{font-size:30px;}
   .hero-sub{font-size:13px;}
-  .stat-row,.rekap-grid,.instansi-grid,.cluster-sheet-grid{grid-template-columns:repeat(1,minmax(0,1fr));}
+  .stat-row,.rekap-grid,.instansi-grid,.cluster-sheet-grid,.activity-grid{grid-template-columns:repeat(1,minmax(0,1fr));}
+  .activity-panel{width:calc(100% - 16px);margin-top:14px;}
+  .activity-hero{padding:24px 20px;border-radius:26px;}
+  .activity-title{font-size:32px;}
+  .activity-card{min-height:auto;border-radius:26px;}
+  .monev-head{padding:22px 20px;flex-direction:column;}
+  .monev-body{padding:20px;}
+  .monev-title{font-size:28px;}
+  .monev-kpis,.monev-section-grid,.monev-levels,.monev-reco{grid-template-columns:repeat(1,minmax(0,1fr));}
+  .monev-likert-scale{grid-template-columns:repeat(2,1fr);}
   .kluster-grid{grid-template-columns:repeat(1,minmax(0,1fr));}
   .section-title{font-size:18px;}
   .cluster-sheet-overlay{padding:8px;}
@@ -676,6 +1077,7 @@ body::after{
     <a href="#" class="active" onclick="switchTab('rekap',this);return false;"><span class="tab-icon">📋</span>Rekomendasi</a>
     <a href="#" onclick="switchTab('siarsiparis',this);return false;"><span class="tab-icon">👤</span>SiArsiparis</a>
     <a href="#" onclick="switchTab('bkn',this);return false;"><span class="tab-icon">🏛️</span>Data BKN</a>
+    <a href="#" onclick="switchTab('kegiatan',this);return false;"><span class="tab-icon">+</span>Kegiatan SDM</a>
   </nav>
   <div class="header-center">
     <div class="hstat-chip"><div class="hstat-val" id="st-total">—</div><div class="hstat-lbl">Instansi</div></div>
@@ -699,11 +1101,171 @@ body::after{
   <iframe id="iframe-bkn" src="" allowfullscreen></iframe>
 </div>
 
+<!-- KEGIATAN SDM PANEL -->
+<div id="panel-kegiatan" class="activity-panel" style="display:none">
+  <section class="activity-hero">
+    <div class="activity-kicker">Kegiatan SDM Kearsipan</div>
+    <div class="activity-title">Ruang informasi kegiatan pembinaan dan pengembangan SDM Kearsipan.</div>
+    <div class="activity-sub">Halaman ini disiapkan sebagai etalase awal untuk menghimpun informasi kegiatan, capaian, dokumentasi, peserta, dan tindak lanjut program SDM Kearsipan secara bertahap.</div>
+    <div class="activity-strip">
+      <div class="activity-pill"><span class="activity-dot"></span> Program nasional</div>
+      <div class="activity-pill"><span class="activity-dot" style="background:var(--green)"></span> Bimbingan teknis</div>
+      <div class="activity-pill"><span class="activity-dot" style="background:var(--amber)"></span> Monitoring evaluasi</div>
+    </div>
+  </section>
+
+  <section class="activity-grid">
+    <article class="activity-card" style="--activity-accent:#0b63ce">
+      <div class="activity-card-head">
+        <span class="activity-tag">Rencana konten</span>
+        <span class="activity-code">ATN</span>
+      </div>
+      <div class="activity-card-title">Arsiparis Teladan Nasional</div>
+      <div class="activity-card-copy">Ruang informasi untuk rangkaian seleksi, penilaian portofolio, presentasi inovasi, dan penetapan Arsiparis Teladan tingkat nasional.</div>
+      <div class="activity-meta">
+        <div class="activity-meta-box"><div class="activity-meta-label">Status</div><div class="activity-meta-value">Dalam penyusunan</div></div>
+        <div class="activity-meta-box"><div class="activity-meta-label">Output</div><div class="activity-meta-value">Profil teladan</div></div>
+      </div>
+    </article>
+
+    <article class="activity-card" style="--activity-accent:#0f8f5f">
+      <div class="activity-card-head">
+        <span class="activity-tag">Rencana konten</span>
+        <span class="activity-code">BKS</span>
+      </div>
+      <div class="activity-card-title">Bimbingan dan Konsultasi SDM Kearsipan</div>
+      <div class="activity-card-copy">Ruang informasi untuk layanan konsultasi, asistensi kebutuhan arsiparis, pembinaan jabatan fungsional, dan tindak lanjut isu SDM Kearsipan di instansi.</div>
+      <div class="activity-meta">
+        <div class="activity-meta-box"><div class="activity-meta-label">Status</div><div class="activity-meta-value">Dalam penyusunan</div></div>
+        <div class="activity-meta-box"><div class="activity-meta-label">Output</div><div class="activity-meta-value">Catatan konsultasi</div></div>
+      </div>
+    </article>
+
+    <article class="activity-card is-action" style="--activity-accent:#b96a00" onclick="openMonevDetail()" tabindex="0" role="button" aria-controls="monev-detail" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openMonevDetail();}">
+      <div class="activity-card-head">
+        <span class="activity-tag">Ringkasan tersedia</span>
+        <span class="activity-code">MONEV</span>
+      </div>
+      <div class="activity-card-title">Monitoring dan Evaluasi SDM Kearsipan</div>
+      <div class="activity-card-copy">Ringkasan pengumuman hasil Monitoring dan Evaluasi JFA Tahun 2025 yang memuat gambaran responden, hasil per jenjang, dan rekomendasi tindak lanjut.</div>
+      <div class="activity-meta">
+        <div class="activity-meta-box"><div class="activity-meta-label">Status</div><div class="activity-meta-value">Lihat ringkasan</div></div>
+        <div class="activity-meta-box"><div class="activity-meta-label">Output</div><div class="activity-meta-value">Laporan monev</div></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="monev-detail" id="monev-detail">
+    <div class="monev-head">
+      <div>
+        <div class="monev-kicker">Pengumuman hasil Monev JFA 2025</div>
+        <div class="monev-title">Ringkasan Monitoring dan Evaluasi Jabatan Fungsional Arsiparis.</div>
+        <div class="monev-copy">Dalam rangka menilai kesesuaian pelaksanaan tugas dengan standar jabatan, memonitor kinerja dan pengembangan profesi, serta mendukung kebijakan berbasis data, kami menyampaikan Hasil Monitoring dan Evaluasi Jabatan Fungsional Arsiparis Tahun 2025 yang dilaksanakan pada Desember 2025.
+
+Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerintah Nomor 28 Tahun 2012, dan Peraturan Kepala ANRI Nomor 20 Tahun 2016. Tujuannya memperoleh data kinerja Arsiparis yang objektif dan menyeluruh di instansi pusat dan daerah, melalui survei daring menggunakan Google Form kepada responden terpilih.</div>
+      </div>
+      <button type="button" class="monev-close" onclick="closeMonevDetail()">Tutup</button>
+    </div>
+    <div class="monev-body">
+      <div class="monev-kpis">
+        <div class="monev-kpi"><div class="monev-kpi-value">23.336</div><div class="monev-kpi-label">Populasi JFA</div></div>
+        <div class="monev-kpi"><div class="monev-kpi-value">1.489</div><div class="monev-kpi-label">Sampel minimal</div></div>
+        <div class="monev-kpi"><div class="monev-kpi-value">8.219</div><div class="monev-kpi-label">Responden</div></div>
+        <div class="monev-kpi"><div class="monev-kpi-value">61%</div><div class="monev-kpi-label">Perempuan</div></div>
+        <div class="monev-kpi"><div class="monev-kpi-value">39%</div><div class="monev-kpi-label">Laki-laki</div></div>
+      </div>
+
+      <div class="monev-section-grid">
+        <article class="monev-panel">
+          <div class="monev-panel-title">Indikator skala Likert</div>
+          <div class="monev-panel-sub">Pengolahan hasil kuesioner menggunakan skala Likert dengan rentang nilai 1 sampai dengan 4. Semakin tinggi nilai yang diperoleh, semakin baik kategori capaian indikator. Nilai di bawah 2,51 digunakan sebagai penanda awal kebutuhan penguatan dan tindak lanjut pembinaan.</div>
+          <div class="monev-likert-visual">
+            <div class="monev-likert-scale">
+              <div class="monev-likert-col" style="--h:56px;--c:#94a3b8"><div class="monev-likert-bar"></div><div class="monev-likert-dot"></div><div class="monev-likert-range">1,00-1,75</div><div class="monev-likert-label">Tidak Baik</div></div>
+              <div class="monev-likert-col" style="--h:84px;--c:#f59e0b"><div class="monev-likert-bar"></div><div class="monev-likert-dot"></div><div class="monev-likert-range">1,76-2,50</div><div class="monev-likert-label">Kurang Baik</div></div>
+              <div class="monev-likert-col" style="--h:112px;--c:#0b63ce"><div class="monev-likert-bar"></div><div class="monev-likert-dot"></div><div class="monev-likert-range">2,51-3,25</div><div class="monev-likert-label">Baik</div></div>
+              <div class="monev-likert-col" style="--h:140px;--c:#2563eb"><div class="monev-likert-bar"></div><div class="monev-likert-dot"></div><div class="monev-likert-range">3,26-4,00</div><div class="monev-likert-label">Sangat Baik</div></div>
+            </div>
+            <div class="monev-likert-caption">Tabel Indikator skala Likert</div>
+          </div>
+        </article>
+
+        <article class="monev-panel">
+          <div class="monev-panel-title">Grafik ringkasan skor per jenjang</div>
+          <div class="monev-panel-sub">Grafik berikut menunjukkan perbandingan aspek pelaksanaan tugas, pembinaan karier, serta formasi dan penempatan pada setiap jenjang Jabatan Fungsional Arsiparis.</div>
+          <figure class="monev-figure">
+            <img src="assets/monev-ringkasan-skor-per-jenjang.png" alt="Ringkasan Skor per Jenjang Monev JFA 2025">
+            <figcaption class="monev-caption">Hasil Ringkasan Secara Umum tiap Jenjang JFA</figcaption>
+          </figure>
+        </article>
+      </div>
+
+      <div class="monev-section-grid">
+        <article class="monev-panel">
+          <div class="monev-panel-title">Gambaran responden</div>
+          <div class="monev-panel-sub">Komposisi awal dari responden Monev JFA yang mengisi kuesioner daring.</div>
+          <div class="monev-bars">
+            <div class="monev-bar-row">
+              <div class="monev-bar-top"><span>S1/D4</span><span>43,35% · 2.088 orang</span></div>
+              <div class="monev-bar-track"><div class="monev-bar-fill" style="width:43.35%;--bar-color:#0b63ce"></div></div>
+            </div>
+            <div class="monev-bar-row">
+              <div class="monev-bar-top"><span>D3</span><span>41,13% · 1.981 orang</span></div>
+              <div class="monev-bar-track"><div class="monev-bar-fill" style="width:41.13%;--bar-color:#40c8e0"></div></div>
+            </div>
+            <div class="monev-bar-row">
+              <div class="monev-bar-top"><span>S2</span><span>13,20% · 636 orang</span></div>
+              <div class="monev-bar-track"><div class="monev-bar-fill" style="width:13.2%;--bar-color:#0f8f5f"></div></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="monev-panel">
+          <div class="monev-panel-title">Area hasil evaluasi yang perlu penguatan</div>
+          <div class="monev-panel-sub">Berdasarkan hasil pengolahan, terdapat beberapa jenjang jabatan yang memerlukan penguatan pada aspek tertentu, terutama pada kategori kurang baik dan tidak baik.</div>
+          <div class="monev-levels">
+            <div class="monev-level"><div class="monev-level-name">Ahli Utama</div><div class="monev-level-note">Penguatan pelaksanaan tugas, evaluasi arsip, pembinaan karier, pelatihan, dan pendidikan formal.</div></div>
+            <div class="monev-level"><div class="monev-level-name">Ahli Madya</div><div class="monev-level-note">Penguatan fungsi evaluatif, perumusan NSPK, pemberian penghargaan, pelatihan teknis, dan kompetensi berkelanjutan.</div></div>
+            <div class="monev-level"><div class="monev-level-name">Ahli Muda</div><div class="monev-level-note">Penguatan tugas teknis, pelatihan, sertifikasi, pendidikan formal, serta formasi dan penempatan.</div></div>
+            <div class="monev-level"><div class="monev-level-name">Ahli Pertama</div><div class="monev-level-note">Penguatan tugas teknis, pembinaan karier, sertifikasi, pendidikan formal, dan evaluasi mutasi.</div></div>
+            <div class="monev-level"><div class="monev-level-name">Arsiparis Penyelia</div><div class="monev-level-note">Penguatan pengelolaan dan penyajian data arsip, pelatihan teknis, pendidikan formal, dan pemberian penghargaan.</div></div>
+            <div class="monev-level"><div class="monev-level-name">Arsiparis Mahir</div><div class="monev-level-note">Penguatan fungsi teknis, pemenuhan kebutuhan formasi, penempatan proporsional, pelatihan, pendidikan formal, dan pemberian penghargaan.</div></div>
+            <div class="monev-level"><div class="monev-level-name">Arsiparis Terampil</div><div class="monev-level-note">Penguatan fungsi teknis, penataan formasi dan penempatan, pelatihan, sertifikasi, pendidikan formal, serta pengembangan kompetensi.</div></div>
+          </div>
+        </article>
+      </div>
+
+      <div class="monev-reco-head">
+        <div class="monev-panel-title">Rekomendasi tindak lanjut</div>
+        <div class="monev-panel-sub">Rekomendasi berikut disajikan sebagai arahan awal dalam pembinaan dan pengembangan Jabatan Fungsional Arsiparis berdasarkan hasil Monitoring dan Evaluasi.</div>
+      </div>
+      <div class="monev-reco">
+        <div class="monev-reco-card"><div class="monev-reco-num">01</div><div class="monev-reco-copy">Arsiparis perlu terus meningkatkan pelaksanaan tugas dan fungsi sesuai standar kompetensi pada jenjang jabatannya.</div></div>
+        <div class="monev-reco-card"><div class="monev-reco-num">02</div><div class="monev-reco-copy">Pimpinan unit kerja perlu mengurangi tugas di luar bidang kearsipan dan menyesuaikan penugasan dengan jenjang jabatan.</div></div>
+        <div class="monev-reco-card"><div class="monev-reco-num">03</div><div class="monev-reco-copy">Pencipta arsip dan ANRI perlu memastikan formasi, distribusi, penempatan, serta monev JFA berjalan kontinyu berbasis data.</div></div>
+        <div class="monev-reco-card is-soft"><div class="monev-reco-num">04</div><div class="monev-reco-copy">Perlu dilakukan prioritas pendampingan pada jenjang dan aspek dengan skor kurang baik, terutama pelaksanaan tugas Ahli Utama dan Ahli Pertama serta pembinaan karier Ahli Muda, Ahli Pertama, dan Terampil.</div></div>
+        <div class="monev-reco-card is-soft"><div class="monev-reco-num">05</div><div class="monev-reco-copy">Perlu disusun rencana tindak lanjut per jenjang yang mencakup pelatihan teknis, sertifikasi, pendidikan formal, pemberian penghargaan, dan evaluasi penempatan berbasis kebutuhan organisasi.</div></div>
+        <div class="monev-reco-card is-soft"><div class="monev-reco-num">06</div><div class="monev-reco-copy">Perlu dilaksanakan pemantauan berkala agar rekomendasi Monev tidak berhenti pada dokumen laporan, tetapi menjadi bahan pembinaan, kebijakan formasi, dan pengembangan kompetensi tahun berikutnya.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="activity-roadmap">
+    <div class="activity-roadmap-title">Rencana pengembangan konten</div>
+    <div class="activity-roadmap-copy">Bagian ini dapat dikembangkan menjadi sub-tab atau linimasa kegiatan apabila data pendukung telah tersedia, meliputi daftar kegiatan, kalender pelaksanaan, dokumentasi, sebaran instansi, peserta, serta progres tindak lanjut.</div>
+  </section>
+</div>
+
 <!-- MAIN REKAP PANEL -->
 <div id="panel-rekap" class="main">
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
+    <div class="sidebar-tools">
+      <button type="button" data-sidebar-collapse>Sembunyikan</button>
+      <button type="button" data-sidebar-pin aria-pressed="true">Lepas sticky</button>
+    </div>
+
     <div class="search-wrap">
       <span class="search-icon">⌕</span>
       <input type="text" class="search-input" id="search" placeholder="Cari instansi…" oninput="render()">
@@ -1007,6 +1569,7 @@ function switchTab(tabId, el) {
   document.getElementById('panel-rekap').style.display = tabId==='rekap'?'':'none';
   document.getElementById('panel-siarsiparis').style.display = tabId==='siarsiparis'?'':'none';
   document.getElementById('panel-bkn').style.display = tabId==='bkn'?'':'none';
+  document.getElementById('panel-kegiatan').style.display = tabId==='kegiatan'?'':'none';
   if (tabId==='siarsiparis'&&!iframeLoaded.siarsiparis){document.getElementById('iframe-siarsiparis').src=TAB_SRCS.siarsiparis;iframeLoaded.siarsiparis=true;}
   if (tabId==='bkn'&&!iframeLoaded.bkn){document.getElementById('iframe-bkn').src=TAB_SRCS.bkn;iframeLoaded.bkn=true;}
 }
@@ -1485,10 +2048,10 @@ const CAT_COLORS = {
 
 function renderCharts() {
   if (!ALL.length) return;
-  Chart.defaults.color = '#667085';
-  Chart.defaults.borderColor = 'rgba(15,23,42,.08)';
+  Chart.defaults.color = '#344054';
+  Chart.defaults.borderColor = 'rgba(15,23,42,.16)';
   Chart.defaults.font.family = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
-  Chart.defaults.font.size = 11;
+  Chart.defaults.font.size = 12;
   const font = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
   const tooltipDefaults = {
     backgroundColor:'rgba(255,255,255,.96)',titleColor:'#111827',bodyColor:'#4b5563',
@@ -1616,6 +2179,187 @@ function setCat(cat, el) {
   render();
 }
 
+function setupCustomFilterSelects(){
+  const selects=[...document.querySelectorAll('.sb-select-wrap select, .prov-wrap select')].filter(select=>!select.dataset.customReady);
+  const instances=[];
+  const sidebar=document.querySelector('.sidebar');
+  const closeAll=()=>{
+    instances.forEach(({wrap,trigger})=>{
+      wrap.classList.remove('open');
+      trigger.setAttribute('aria-expanded','false');
+    });
+    sidebar?.classList.remove('dropdown-open');
+  };
+  const focusOption=(panel,index)=>{
+    const items=[...panel.querySelectorAll('.custom-select-option:not([disabled])')];
+    if(!items.length) return;
+    const safeIndex=Math.max(0,Math.min(index,items.length-1));
+    items[safeIndex].focus();
+  };
+
+  selects.forEach(select=>{
+    select.dataset.customReady='1';
+    select.classList.add('native-select');
+
+    const wrap=document.createElement('div');
+    wrap.className='custom-select';
+    select.parentNode.insertBefore(wrap,select);
+    wrap.appendChild(select);
+
+    const trigger=document.createElement('button');
+    trigger.type='button';
+    trigger.className='custom-select-trigger';
+    trigger.setAttribute('aria-haspopup','listbox');
+    trigger.setAttribute('aria-expanded','false');
+
+    const value=document.createElement('span');
+    value.className='custom-select-value';
+    const icon=document.createElement('span');
+    icon.className='custom-select-icon';
+    icon.innerHTML='<svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 5.25 7 9l4-3.75" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+    const panel=document.createElement('div');
+    panel.className='custom-select-panel';
+    const list=document.createElement('div');
+    list.className='custom-select-list';
+    panel.appendChild(list);
+
+    trigger.append(value,icon);
+    wrap.append(trigger,panel);
+
+    const syncLabel=()=>{
+      const option=select.options[select.selectedIndex] || select.options[0];
+      value.textContent=option ? option.textContent.trim() : '';
+      [...list.children].forEach((item,idx)=>{
+        const isSelected=select.options[idx] && select.options[idx].value===select.value;
+        item.classList.toggle('is-selected',isSelected);
+        item.setAttribute('aria-selected',isSelected?'true':'false');
+      });
+    };
+
+    const buildOptions=()=>{
+      list.innerHTML='';
+      [...select.options].forEach(option=>{
+        const item=document.createElement('button');
+        item.type='button';
+        item.className='custom-select-option';
+        item.setAttribute('role','option');
+        if(option.disabled) item.disabled=true;
+        item.innerHTML=`<span>${option.textContent.trim()}</span><span class="custom-select-check">OK</span>`;
+        item.addEventListener('click',()=>{
+          if(option.disabled) return;
+          closeAll();
+          if(select.value!==option.value){
+            select.value=option.value;
+            select.dispatchEvent(new Event('change',{bubbles:true}));
+          } else {
+            syncLabel();
+          }
+          trigger.focus();
+        });
+        item.addEventListener('mouseenter',()=>{
+          [...list.children].forEach(el=>el.classList.remove('is-active'));
+          item.classList.add('is-active');
+        });
+        item.addEventListener('keydown',e=>{
+          const enabled=[...list.querySelectorAll('.custom-select-option:not([disabled])')];
+          const current=enabled.indexOf(item);
+          if(e.key==='ArrowDown'){e.preventDefault();focusOption(panel,current+1);}
+          if(e.key==='ArrowUp'){e.preventDefault();focusOption(panel,current-1);}
+          if(e.key==='Home'){e.preventDefault();focusOption(panel,0);}
+          if(e.key==='End'){e.preventDefault();focusOption(panel,enabled.length-1);}
+          if(e.key==='Escape'){e.preventDefault();closeAll();trigger.focus();}
+        });
+        list.appendChild(item);
+      });
+      syncLabel();
+    };
+
+    trigger.addEventListener('click',()=>{
+      const isOpen=wrap.classList.contains('open');
+      closeAll();
+      if(isOpen) return;
+      wrap.classList.add('open');
+      trigger.setAttribute('aria-expanded','true');
+      sidebar?.classList.add('dropdown-open');
+    });
+
+    trigger.addEventListener('keydown',e=>{
+      if(e.key==='ArrowDown' || e.key==='ArrowUp'){
+        e.preventDefault();
+        if(!wrap.classList.contains('open')){
+          closeAll();
+          wrap.classList.add('open');
+          trigger.setAttribute('aria-expanded','true');
+          sidebar?.classList.add('dropdown-open');
+        }
+        const selectedIndex=[...list.children].findIndex(el=>el.classList.contains('is-selected'));
+        focusOption(panel,e.key==='ArrowDown'?Math.max(selectedIndex,0):Math.max(selectedIndex-1,0));
+      }
+      if(e.key==='Enter' || e.key===' '){
+        e.preventDefault();
+        trigger.click();
+      }
+      if(e.key==='Escape') closeAll();
+    });
+
+    select.addEventListener('change',syncLabel);
+    new MutationObserver(buildOptions).observe(select,{childList:true,subtree:true,attributes:true});
+
+    buildOptions();
+    instances.push({wrap,trigger,syncLabel});
+  });
+
+  document.addEventListener('click',e=>{
+    if(!e.target.closest('.custom-select')) closeAll();
+  });
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape') closeAll();
+  });
+
+  window.syncCustomFilterSelects=()=>instances.forEach(instance=>instance.syncLabel());
+}
+
+function setupSidebarControls(){
+  const sidebar=document.querySelector('.sidebar');
+  if(!sidebar) return;
+  const collapseBtn=sidebar.querySelector('[data-sidebar-collapse]');
+  const pinBtn=sidebar.querySelector('[data-sidebar-pin]');
+  const sync=()=>{
+    if(collapseBtn) collapseBtn.textContent=sidebar.classList.contains('is-collapsed')?'Tampilkan':'Sembunyikan';
+    if(pinBtn){
+      const isPinned=!sidebar.classList.contains('is-unpinned');
+      pinBtn.textContent=isPinned?'Lepas sticky':'Sticky';
+      pinBtn.setAttribute('aria-pressed',isPinned?'true':'false');
+    }
+  };
+  collapseBtn?.addEventListener('click',()=>{
+    sidebar.classList.toggle('is-collapsed');
+    sidebar.classList.remove('dropdown-open');
+    sync();
+  });
+  pinBtn?.addEventListener('click',()=>{
+    sidebar.classList.toggle('is-unpinned');
+    sync();
+  });
+  sync();
+}
+
+function openMonevDetail(){
+  const detail=document.getElementById('monev-detail');
+  if(!detail) return;
+  detail.classList.add('open');
+  detail.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function closeMonevDetail(){
+  const detail=document.getElementById('monev-detail');
+  if(!detail) return;
+  detail.classList.remove('open');
+}
+
+setupCustomFilterSelects();
+setupSidebarControls();
 init();
 </script>
 </body>
