@@ -261,6 +261,104 @@ body::after{
 .filter-btn .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
 .filter-btn .fbadge{margin-left:auto;font-size:11px;font-weight:700;color:var(--text-3);font-family:var(--mono);}
 .filter-btn.active .fbadge{color:var(--blue);}
+.cluster-filter-shell{
+  padding:8px;
+  border-radius:22px;
+  background:linear-gradient(180deg, rgba(255,255,255,.74), rgba(244,247,252,.58));
+  border:1px solid rgba(255,255,255,.66);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.88);
+}
+.sidebar-hint{
+  display:block;
+  font-size:12px;
+  line-height:1.45;
+  color:var(--text-4);
+  padding:0 2px 10px;
+}
+.cluster-quick-btn{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border:none;
+  cursor:pointer;
+  padding:12px 14px;
+  border-radius:18px;
+  margin-bottom:10px;
+  text-align:left;
+  color:var(--text);
+  background:linear-gradient(180deg, rgba(11,99,206,.12), rgba(255,255,255,.88));
+  box-shadow:0 10px 24px rgba(15,23,42,.08), inset 0 1px 0 rgba(255,255,255,.9);
+  transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.cluster-quick-btn:hover{transform:translateY(-1px);box-shadow:0 14px 28px rgba(15,23,42,.1), inset 0 1px 0 rgba(255,255,255,.94)}
+.cluster-quick-btn.active{box-shadow:0 16px 32px rgba(11,99,206,.16), inset 0 0 0 1px rgba(11,99,206,.14)}
+.cluster-quick-icon{
+  width:34px;height:34px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  background:rgba(255,255,255,.78);font-size:15px;color:var(--blue);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+}
+.cluster-quick-copy{display:flex;flex-direction:column;min-width:0;gap:1px}
+.cluster-quick-title{font-size:13px;font-weight:700;color:var(--text)}
+.cluster-quick-sub{font-size:11px;color:var(--text-4)}
+.cluster-quick-count{
+  margin-left:auto;
+  font-size:11px;
+  font-weight:700;
+  color:var(--blue);
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.78);
+  border:1px solid rgba(11,99,206,.1);
+}
+.cluster-group{padding:6px;border-radius:20px;transition:background .18s ease, box-shadow .18s ease}
+.cluster-group + .cluster-group{margin-top:8px}
+.cluster-group.open{
+  background:rgba(255,255,255,.46);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.76);
+}
+.cluster-group-toggle{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border:none;
+  cursor:pointer;
+  background:transparent;
+  border-radius:16px;
+  padding:10px 12px;
+  color:var(--text);
+  text-align:left;
+  transition:background .18s ease, transform .18s ease;
+}
+.cluster-group-toggle:hover{background:rgba(255,255,255,.62)}
+.cluster-group-toggle[aria-expanded="true"]{background:rgba(255,255,255,.7)}
+.cluster-group-chevron{
+  width:22px;height:22px;border-radius:999px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  background:rgba(15,23,42,.06);color:var(--text-3);font-size:11px;transition:transform .18s ease;
+}
+.cluster-group.open .cluster-group-chevron{transform:rotate(90deg)}
+.cluster-group-meta{display:flex;flex-direction:column;min-width:0;gap:1px;flex:1}
+.cluster-group-title{font-size:13px;font-weight:700;color:var(--text)}
+.cluster-group-sub{font-size:11px;color:var(--text-4)}
+.cluster-group-count{
+  font-size:11px;
+  font-weight:700;
+  color:var(--text-3);
+  padding:5px 9px;
+  border-radius:999px;
+  background:rgba(255,255,255,.74);
+  border:1px solid rgba(148,163,184,.16);
+}
+.cluster-group-items{display:none;padding:8px 4px 2px}
+.cluster-group.open .cluster-group-items{display:block}
+.cluster-group-items .filter-btn{
+  padding:10px 12px;
+  border-radius:15px;
+  font-size:12px;
+  font-weight:700;
+}
+.cluster-group-items .filter-btn + .filter-btn{margin-top:4px}
 .sb-sep{height:1px;background:var(--border);margin:10px 12px;}
 .sb-select-wrap{padding:0 12px 10px;}
 .sb-select-lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;display:block;}
@@ -319,7 +417,7 @@ body::after{
   backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);
 }
 .custom-select.open .custom-select-panel{display:block}
-.custom-select-list{max-height:240px;overflow:auto;padding-right:2px}
+.custom-select-list{max-height:240px;overflow:auto;padding-right:2px;overscroll-behavior:contain}
 .custom-select-list::-webkit-scrollbar{width:5px}
 .custom-select-list::-webkit-scrollbar-thumb{background:rgba(148,163,184,.45);border-radius:999px}
 .custom-select-option{
@@ -1278,16 +1376,51 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 
     <div class="sb-section">
       <span class="sb-label">Kluster</span>
-      <button class="filter-btn active" data-cat="semua" onclick="setCat('semua',this)"><span class="dot" style="background:var(--blue)"></span>Semua<span class="fbadge" id="cnt-semua">0</span></button>
-      <button class="filter-btn" data-cat="Kementerian" onclick="setCat('Kementerian',this)"><span class="dot" style="background:#d97706"></span>🏛 Kementerian<span class="fbadge" id="cnt-kementerian">0</span></button>
-      <button class="filter-btn" data-cat="Alat Negara" onclick="setCat('Alat Negara',this)"><span class="dot" style="background:#dc2626"></span>⚔ Alat Negara<span class="fbadge" id="cnt-alat">0</span></button>
-      <button class="filter-btn" data-cat="Sekretariat Lembaga Negara" onclick="setCat('Sekretariat Lembaga Negara',this)"><span class="dot" style="background:#2563eb"></span>🏦 Sek. Lem. Negara<span class="fbadge" id="cnt-sln">0</span></button>
-      <button class="filter-btn" data-cat="Lembaga Non Struktural" onclick="setCat('Lembaga Non Struktural',this)"><span class="dot" style="background:#7c3aed"></span>🔬 LNS<span class="fbadge" id="cnt-lns">0</span></button>
-      <button class="filter-btn" data-cat="Lembaga Pemerintah Lainnya" onclick="setCat('Lembaga Pemerintah Lainnya',this)"><span class="dot" style="background:#b06030"></span>🏢 LPL<span class="fbadge" id="cnt-lpl">0</span></button>
-      <button class="filter-btn" data-cat="Lembaga Pemerintah Non Kementerian" onclick="setCat('Lembaga Pemerintah Non Kementerian',this)"><span class="dot" style="background:#0d9488"></span>🏗 LPNK<span class="fbadge" id="cnt-lpnk">0</span></button>
-      <button class="filter-btn" data-cat="Lembaga Penyiaran Publik" onclick="setCat('Lembaga Penyiaran Publik',this)"><span class="dot" style="background:#7a6020"></span>📡 LPP<span class="fbadge" id="cnt-lpp">0</span></button>
-      <button class="filter-btn" data-cat="Provinsi" onclick="setCat('Provinsi',this)"><span class="dot" style="background:#1a4a6b"></span>🗺 Provinsi<span class="fbadge" id="cnt-provinsi">0</span></button>
-      <button class="filter-btn" data-cat="Kabupaten/Kota" onclick="setCat('Kabupaten/Kota',this)"><span class="dot" style="background:#3a6b3a"></span>📍 Kabupaten/Kota<span class="fbadge" id="cnt-kabkot">0</span></button>
+      <div class="cluster-filter-shell">
+        <button class="cluster-quick-btn active filter-btn" data-cat="semua" onclick="setCat('semua',this)">
+          <span class="cluster-quick-icon">⌘</span>
+          <span class="cluster-quick-copy">
+            <span class="cluster-quick-title">Semua Instansi</span>
+            <span class="cluster-quick-sub">Tampilkan seluruh cluster sekaligus</span>
+          </span>
+          <span class="cluster-quick-count fbadge" id="cnt-semua">0</span>
+        </button>
+
+        <div class="cluster-group open" data-cluster-group data-cats="Kementerian|Alat Negara|Sekretariat Lembaga Negara|Lembaga Non Struktural|Lembaga Pemerintah Lainnya|Lembaga Pemerintah Non Kementerian|Lembaga Penyiaran Publik">
+          <button type="button" class="cluster-group-toggle" data-cluster-group-toggle aria-expanded="true">
+            <span class="cluster-group-chevron">›</span>
+            <span class="cluster-group-meta">
+              <span class="cluster-group-title">Pemerintah Pusat</span>
+              <span class="cluster-group-sub">Kementerian, lembaga, dan institusi nasional</span>
+            </span>
+            <span class="cluster-group-count" data-cluster-group-count>0</span>
+          </button>
+          <div class="cluster-group-items">
+            <button class="filter-btn" data-cat="Kementerian" onclick="setCat('Kementerian',this)"><span class="dot" style="background:#d97706"></span>🏛 Kementerian<span class="fbadge" id="cnt-kementerian">0</span></button>
+            <button class="filter-btn" data-cat="Alat Negara" onclick="setCat('Alat Negara',this)"><span class="dot" style="background:#dc2626"></span>⚔ Alat Negara<span class="fbadge" id="cnt-alat">0</span></button>
+            <button class="filter-btn" data-cat="Sekretariat Lembaga Negara" onclick="setCat('Sekretariat Lembaga Negara',this)"><span class="dot" style="background:#2563eb"></span>🏦 Sek. Lem. Negara<span class="fbadge" id="cnt-sln">0</span></button>
+            <button class="filter-btn" data-cat="Lembaga Non Struktural" onclick="setCat('Lembaga Non Struktural',this)"><span class="dot" style="background:#7c3aed"></span>🔬 LNS<span class="fbadge" id="cnt-lns">0</span></button>
+            <button class="filter-btn" data-cat="Lembaga Pemerintah Lainnya" onclick="setCat('Lembaga Pemerintah Lainnya',this)"><span class="dot" style="background:#b06030"></span>🏢 LPL<span class="fbadge" id="cnt-lpl">0</span></button>
+            <button class="filter-btn" data-cat="Lembaga Pemerintah Non Kementerian" onclick="setCat('Lembaga Pemerintah Non Kementerian',this)"><span class="dot" style="background:#0d9488"></span>🏗 LPNK<span class="fbadge" id="cnt-lpnk">0</span></button>
+            <button class="filter-btn" data-cat="Lembaga Penyiaran Publik" onclick="setCat('Lembaga Penyiaran Publik',this)"><span class="dot" style="background:#7a6020"></span>📡 LPP<span class="fbadge" id="cnt-lpp">0</span></button>
+          </div>
+        </div>
+
+        <div class="cluster-group" data-cluster-group data-cats="Provinsi|Kabupaten/Kota">
+          <button type="button" class="cluster-group-toggle" data-cluster-group-toggle aria-expanded="false">
+            <span class="cluster-group-chevron">›</span>
+            <span class="cluster-group-meta">
+              <span class="cluster-group-title">Pemerintah Daerah</span>
+              <span class="cluster-group-sub">Provinsi sampai kabupaten dan kota</span>
+            </span>
+            <span class="cluster-group-count" data-cluster-group-count>0</span>
+          </button>
+          <div class="cluster-group-items">
+            <button class="filter-btn" data-cat="Provinsi" onclick="setCat('Provinsi',this)"><span class="dot" style="background:#1a4a6b"></span>🗺 Provinsi<span class="fbadge" id="cnt-provinsi">0</span></button>
+            <button class="filter-btn" data-cat="Kabupaten/Kota" onclick="setCat('Kabupaten/Kota',this)"><span class="dot" style="background:#3a6b3a"></span>📍 Kabupaten/Kota<span class="fbadge" id="cnt-kabkot">0</span></button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="sb-sep"></div>
@@ -1764,6 +1897,7 @@ function updateStats() {
     <div class="stat-card c-green"><div class="stat-label">Ada Rekomendasi</div><div class="stat-value">${totalRek.toLocaleString('id')}</div><div class="stat-sub">${((totalRek/(ALL.length||1))*100).toFixed(0)}% dari total</div></div>
     <div class="stat-card c-red"><div class="stat-label">Belum Rekomendasi</div><div class="stat-value">${belum.toLocaleString('id')}</div><div class="stat-sub">${((belum/(ALL.length||1))*100).toFixed(0)}% dari total</div></div>
     <div class="stat-card c-amber"><div class="stat-label">Total Formasi</div><div class="stat-value">${totalFormasi.toLocaleString('id')}</div><div class="stat-sub">kebutuhan arsiparis</div></div>`;
+  syncSidebarClusterGroups();
 }
 
 function renderRekap() {
@@ -2179,7 +2313,36 @@ function setCat(cat, el) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('prov-wrap').style.display = cat === 'Kabupaten/Kota' ? 'block' : 'none';
+  syncSidebarClusterGroups();
   render();
+}
+
+function syncSidebarClusterGroups(){
+  document.querySelectorAll('[data-cluster-group]').forEach(group=>{
+    const cats=(group.dataset.cats||'').split('|').filter(Boolean);
+    const count=cats.reduce((sum,cat)=>sum + ALL.filter(d=>d.kategori===cat).length,0);
+    const countEl=group.querySelector('[data-cluster-group-count]');
+    if(countEl) countEl.textContent=count.toLocaleString('id');
+    if(cats.includes(activeCat)){
+      group.classList.add('open');
+    }
+    const toggle=group.querySelector('[data-cluster-group-toggle]');
+    if(toggle) toggle.setAttribute('aria-expanded',group.classList.contains('open')?'true':'false');
+  });
+}
+
+function setupSidebarClusterGroups(){
+  document.querySelectorAll('[data-cluster-group]').forEach(group=>{
+    const toggle=group.querySelector('[data-cluster-group-toggle]');
+    if(!toggle || toggle.dataset.ready==='1') return;
+    toggle.dataset.ready='1';
+    toggle.addEventListener('click',()=>{
+      const willOpen=!group.classList.contains('open');
+      group.classList.toggle('open',willOpen);
+      toggle.setAttribute('aria-expanded',willOpen?'true':'false');
+    });
+  });
+  syncSidebarClusterGroups();
 }
 
 function setupCustomFilterSelects(){
@@ -2187,9 +2350,17 @@ function setupCustomFilterSelects(){
   const instances=[];
   const sidebar=document.querySelector('.sidebar');
   const closeAll=()=>{
-    instances.forEach(({wrap,trigger})=>{
+    instances.forEach(({wrap,trigger,list,panel})=>{
       wrap.classList.remove('open');
       trigger.setAttribute('aria-expanded','false');
+      if(list) list.style.maxHeight='';
+      if(panel){
+        panel.style.position='';
+        panel.style.top='';
+        panel.style.bottom='';
+        panel.style.left='';
+        panel.style.width='';
+      }
     });
     sidebar?.classList.remove('dropdown-open');
   };
@@ -2278,11 +2449,30 @@ function setupCustomFilterSelects(){
       syncLabel();
     };
 
+    const placePanel=()=>{
+      list.style.maxHeight='';
+      const triggerRect=trigger.getBoundingClientRect();
+      const panelWidth=triggerRect.width;
+      const viewportHeight=window.innerHeight || document.documentElement.clientHeight || 0;
+      const spaceBelow=Math.max(0,viewportHeight - triggerRect.bottom - 16);
+      const spaceAbove=Math.max(0,triggerRect.top - 16);
+      const desiredHeight=Math.min(Math.max(list.scrollHeight, 160), 240);
+      const shouldOpenUp=spaceBelow < Math.min(desiredHeight, 220) && spaceAbove > spaceBelow;
+      const availableSpace=Math.max(140, Math.min(shouldOpenUp ? spaceAbove - 10 : spaceBelow - 10, 320));
+      list.style.maxHeight=`${availableSpace}px`;
+      panel.style.position='fixed';
+      panel.style.left=`${triggerRect.left}px`;
+      panel.style.width=`${panelWidth}px`;
+      panel.style.top=shouldOpenUp ? 'auto' : `${Math.round(triggerRect.bottom + 10)}px`;
+      panel.style.bottom=shouldOpenUp ? `${Math.round(viewportHeight - triggerRect.top + 10)}px` : 'auto';
+    };
+
     trigger.addEventListener('click',()=>{
       const isOpen=wrap.classList.contains('open');
       closeAll();
       if(isOpen) return;
       wrap.classList.add('open');
+      placePanel();
       trigger.setAttribute('aria-expanded','true');
       sidebar?.classList.add('dropdown-open');
     });
@@ -2293,6 +2483,7 @@ function setupCustomFilterSelects(){
         if(!wrap.classList.contains('open')){
           closeAll();
           wrap.classList.add('open');
+          placePanel();
           trigger.setAttribute('aria-expanded','true');
           sidebar?.classList.add('dropdown-open');
         }
@@ -2310,7 +2501,7 @@ function setupCustomFilterSelects(){
     new MutationObserver(buildOptions).observe(select,{childList:true,subtree:true,attributes:true});
 
     buildOptions();
-    instances.push({wrap,trigger,syncLabel});
+    instances.push({wrap,trigger,list,panel,syncLabel});
   });
 
   document.addEventListener('click',e=>{
@@ -2319,6 +2510,8 @@ function setupCustomFilterSelects(){
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape') closeAll();
   });
+  window.addEventListener('resize',closeAll);
+  window.addEventListener('scroll',closeAll,true);
 
   window.syncCustomFilterSelects=()=>instances.forEach(instance=>instance.syncLabel());
 }
@@ -2363,6 +2556,7 @@ function closeMonevDetail(){
 
 setupCustomFilterSelects();
 setupSidebarControls();
+setupSidebarClusterGroups();
 init();
 </script>
 </body>
