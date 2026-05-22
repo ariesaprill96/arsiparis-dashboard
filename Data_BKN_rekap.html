@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="./favicon.png?v=2" type="image/png">
+<link rel="icon" type="image/png" href="./favicon.png?v=2">
+<title>Data BKN - Rekap 2026</title>
+<style>
+:root{
+  --bg:#f4f7fb;
+  --bg2:#e9eff6;
+  --surface:rgba(255,255,255,.92);
+  --surface-soft:rgba(255,255,255,.78);
+  --border:rgba(15,23,42,.1);
+  --text:#0f172a;
+  --text2:#334155;
+  --text3:#64748b;
+  --blue:#0b63ce;
+  --cyan:#1aa8c7;
+  --green:#12805c;
+  --amber:#b96a00;
+  --violet:#6d49d8;
+  --red:#c53b30;
+  --shadow:0 18px 40px rgba(15,23,42,.08);
+  --shadow-soft:0 10px 24px rgba(15,23,42,.06);
+  --radius:28px;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --mono:ui-monospace,'SFMono-Regular','Cascadia Code',monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--font)}
+body{
+  background:
+    radial-gradient(circle at top left, rgba(255,255,255,.95), transparent 34%),
+    radial-gradient(circle at 85% 12%, rgba(88,156,255,.2), transparent 28%),
+    radial-gradient(circle at 20% 100%, rgba(64,200,224,.12), transparent 28%),
+    linear-gradient(180deg, #fbfbfd 0%, var(--bg) 46%, var(--bg2) 100%);
+}
+.page{width:min(calc(100% - 24px),1560px);margin:14px auto 24px}
+.hero,.panel,.filter-bar,.kpi{
+  background:var(--surface);
+  border:1px solid rgba(255,255,255,.7);
+  box-shadow:var(--shadow);
+  backdrop-filter:saturate(180%) blur(22px);
+  -webkit-backdrop-filter:saturate(180%) blur(22px);
+}
+.hero{
+  border-radius:36px;
+  padding:28px 30px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  right:-40px;top:-52px;
+  width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle, rgba(11,99,206,.18), transparent 68%);
+}
+.hero::after{
+  content:"";
+  position:absolute;
+  left:-48px;bottom:-70px;
+  width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle, rgba(26,168,199,.14), transparent 70%);
+}
+.hero > *{position:relative;z-index:1}
+.kicker{
+  font:700 11px var(--mono);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--blue);
+}
+.hero-title{
+  margin-top:10px;
+  font-size:clamp(30px,4vw,46px);
+  line-height:1.02;
+  font-weight:800;
+  letter-spacing:-.05em;
+  max-width:900px;
+}
+.hero-sub{
+  margin-top:12px;
+  max-width:860px;
+  font-size:15px;
+  line-height:1.75;
+  color:var(--text2);
+}
+.hero-meta{
+  margin-top:18px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 14px;
+  border-radius:999px;
+  background:rgba(255,255,255,.78);
+  border:1px solid rgba(255,255,255,.86);
+  color:var(--text2);
+  font-size:12px;
+  font-weight:700;
+  box-shadow:var(--shadow-soft);
+}
+.filter-bar{
+  margin-top:18px;
+  padding:18px 20px;
+  border-radius:28px;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  align-items:end;
+}
+.filter-group{display:flex;flex-direction:column;gap:7px}
+.filter-label{
+  font-size:11px;
+  font-weight:800;
+  color:var(--text3);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.search-input{
+  width:min(360px,70vw);
+  padding:12px 14px;
+  border-radius:18px;
+  border:1px solid rgba(148,163,184,.24);
+  background:rgba(255,255,255,.78);
+  font:600 14px var(--font);
+  color:var(--text);
+  outline:none;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.88);
+}
+.search-input:focus{border-color:rgba(11,99,206,.35);box-shadow:0 0 0 4px rgba(11,99,206,.08)}
+.segmented{display:flex;flex-wrap:wrap;gap:8px}
+.segmented button,.reset-btn{
+  border:none;
+  border-radius:999px;
+  padding:10px 14px;
+  cursor:pointer;
+  font:700 12px var(--font);
+  transition:transform .16s ease,box-shadow .16s ease,background .16s ease;
+}
+.segmented button{
+  background:rgba(255,255,255,.82);
+  color:var(--text2);
+  border:1px solid rgba(148,163,184,.18);
+  box-shadow:var(--shadow-soft);
+}
+.segmented button.active{
+  color:var(--blue);
+  background:linear-gradient(180deg, rgba(11,99,206,.12), rgba(255,255,255,.94));
+  box-shadow:0 12px 26px rgba(11,99,206,.12);
+}
+.segmented button:hover,.reset-btn:hover{transform:translateY(-1px)}
+.filter-stats{
+  margin-left:auto;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.badge{
+  padding:10px 14px;
+  border-radius:999px;
+  background:rgba(11,99,206,.08);
+  color:var(--blue);
+  border:1px solid rgba(11,99,206,.12);
+  font:700 12px var(--mono);
+}
+.reset-btn{
+  background:rgba(255,255,255,.86);
+  color:var(--text2);
+  border:1px solid rgba(148,163,184,.18);
+  box-shadow:var(--shadow-soft);
+}
+.kpi-grid{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+}
+.kpi{
+  border-radius:28px;
+  padding:20px 20px 18px;
+  position:relative;
+  overflow:hidden;
+}
+.kpi::before{
+  content:"";
+  position:absolute;
+  top:0;left:0;right:0;height:4px;
+  background:var(--accent,var(--blue));
+}
+.kpi-label{
+  font-size:11px;
+  font-weight:800;
+  color:var(--text3);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.kpi-value{
+  margin-top:12px;
+  font-size:38px;
+  line-height:1;
+  letter-spacing:-.05em;
+  font-weight:800;
+}
+.kpi-sub{
+  margin-top:8px;
+  font-size:12px;
+  color:var(--text3);
+  font-weight:600;
+}
+.main-grid{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:14px;
+}
+.stack{display:grid;gap:14px}
+.panel{
+  border-radius:32px;
+  overflow:hidden;
+}
+.panel-head{
+  padding:18px 22px 14px;
+  border-bottom:1px solid rgba(15,23,42,.06);
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:end;
+}
+.panel-title{
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:-.03em;
+}
+.panel-sub{
+  margin-top:4px;
+  color:var(--text3);
+  font-size:13px;
+}
+.panel-badge{
+  color:var(--blue);
+  font:700 11px var(--mono);
+  padding:8px 12px;
+  border-radius:999px;
+  background:rgba(11,99,206,.08);
+  border:1px solid rgba(11,99,206,.12);
+}
+.panel-body{padding:18px 22px 22px}
+.rank-list,.instansi-table{display:flex;flex-direction:column;gap:10px}
+.rank-row{
+  display:grid;
+  grid-template-columns:32px minmax(0,1fr) 120px;
+  gap:12px;
+  align-items:center;
+}
+.rank-no{
+  color:var(--text3);
+  font:700 11px var(--mono);
+  text-align:center;
+}
+.rank-name{
+  font-size:13px;
+  font-weight:700;
+  min-width:0;
+}
+.bar-wrap{
+  margin-top:7px;
+  height:10px;
+  border-radius:999px;
+  background:#e9eef6;
+  overflow:hidden;
+}
+.bar-fill{
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg, var(--blue), #55a3ff);
+}
+.rank-val{
+  text-align:right;
+  font:700 11px var(--mono);
+  color:var(--text2);
+}
+.donut-layout{
+  display:grid;
+  grid-template-columns:minmax(220px,280px) minmax(0,1fr);
+  gap:18px;
+  align-items:center;
+  margin-bottom:18px;
+}
+.donut-wrap{
+  position:relative;
+  width:100%;
+  max-width:280px;
+  aspect-ratio:1;
+  margin:auto;
+}
+.donut-chart{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  background:conic-gradient(#e2e8f0 0deg 360deg);
+  box-shadow:inset 0 0 0 1px rgba(15,23,42,.08), 0 14px 28px rgba(15,23,42,.08);
+}
+.donut-hole{
+  position:absolute;
+  inset:18%;
+  border-radius:50%;
+  background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(245,248,252,.94));
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  border:1px solid rgba(255,255,255,.88);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.96), 0 10px 24px rgba(15,23,42,.08);
+}
+.donut-total{
+  font-size:30px;
+  line-height:1;
+  font-weight:800;
+  color:var(--text);
+}
+.donut-caption{
+  margin-top:6px;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--text3);
+}
+.donut-legend{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+.legend-row{
+  display:grid;
+  grid-template-columns:12px minmax(0,1fr) auto;
+  gap:9px;
+  align-items:center;
+  padding:9px 10px;
+  border-radius:16px;
+  background:rgba(255,255,255,.7);
+  border:1px solid rgba(148,163,184,.14);
+}
+.legend-dot{
+  width:12px;
+  height:12px;
+  border-radius:4px;
+  background:var(--legend-color);
+}
+.legend-name{
+  min-width:0;
+  font-size:12px;
+  font-weight:800;
+  color:var(--text2);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.legend-value{
+  text-align:right;
+  font:700 11px var(--mono);
+  color:var(--text2);
+}
+.jenjang-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.jenjang-card{
+  padding:16px 16px 14px;
+  border-radius:22px;
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(148,163,184,.16);
+  box-shadow:var(--shadow-soft);
+}
+.jenjang-name{font-size:12px;font-weight:800;color:var(--text2)}
+.jenjang-val{
+  margin-top:8px;
+  font-size:28px;
+  line-height:1;
+  letter-spacing:-.04em;
+  font-weight:800;
+}
+.jenjang-share{
+  margin-top:6px;
+  font-size:12px;
+  color:var(--text3);
+  font-weight:600;
+}
+.split-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.split-card{
+  padding:18px;
+  border-radius:24px;
+  background:rgba(255,255,255,.74);
+  border:1px solid rgba(148,163,184,.16);
+}
+.split-label{
+  font-size:11px;
+  font-weight:800;
+  color:var(--text3);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.split-value{
+  margin-top:10px;
+  font-size:32px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:-.04em;
+}
+.split-copy{
+  margin-top:8px;
+  font-size:13px;
+  color:var(--text3);
+  line-height:1.6;
+}
+.instansi-table{
+  max-height:720px;
+  overflow:auto;
+  padding-right:4px;
+}
+.instansi-table::-webkit-scrollbar{width:6px}
+.instansi-table::-webkit-scrollbar-thumb{background:rgba(148,163,184,.45);border-radius:999px}
+.table-row{
+  display:grid;
+  grid-template-columns:52px minmax(220px,1.6fr) repeat(7,minmax(68px,.55fr)) minmax(78px,.6fr);
+  gap:8px;
+  align-items:center;
+  padding:12px 0;
+  border-bottom:1px solid rgba(15,23,42,.06);
+}
+.table-row.head{
+  position:sticky;
+  top:0;
+  z-index:2;
+  padding:0 0 12px;
+  background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,255,255,.92));
+}
+.cell{
+  font-size:12px;
+  color:var(--text2);
+  min-width:0;
+}
+.cell.head{
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.08em;
+  color:var(--text3);
+  text-transform:uppercase;
+}
+.cell.name{font-weight:700;color:var(--text)}
+.cell.num{text-align:right;font-family:var(--mono);font-weight:700}
+.empty{
+  padding:28px 10px;
+  text-align:center;
+  color:var(--text3);
+  font-weight:600;
+}
+@media (max-width:1180px){
+  .kpi-grid,.main-grid,.split-grid{grid-template-columns:1fr}
+  .filter-stats{margin-left:0}
+}
+@media (max-width:860px){
+  .page{width:calc(100% - 16px)}
+  .hero,.filter-bar,.panel,.kpi{border-radius:24px}
+  .donut-layout{grid-template-columns:1fr}
+  .table-row{grid-template-columns:44px minmax(180px,1.8fr) repeat(3,minmax(72px,.7fr))}
+  .table-row .cell.hide-mobile{display:none}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <section class="hero">
+    <div class="kicker">Data BKN</div>
+    <div class="hero-title">Rekapitulasi JF Arsiparis terbaru per 5 Mei 2026.</div>
+    <div class="hero-sub">Tampilan ini menggunakan rekap agregat per instansi dari file terbaru yang kamu berikan. Fokusnya sekarang di jumlah arsiparis, sebaran jenjang, komposisi instansi pusat dan daerah, serta daftar instansi yang bisa dicari cepat.</div>
+    <div class="hero-meta">
+      <div class="chip" id="meta-title">Rekap terbaru</div>
+      <div class="chip" id="meta-instansi">0 instansi</div>
+      <div class="chip" id="meta-total">0 arsiparis</div>
+    </div>
+  </section>
+
+  <section class="filter-bar">
+    <div class="filter-group">
+      <div class="filter-label">Cari Instansi</div>
+      <input class="search-input" id="search-input" type="text" placeholder="Ketik nama instansi...">
+    </div>
+    <div class="filter-group">
+      <div class="filter-label">Kelompok</div>
+      <div class="segmented" id="scope-switch">
+        <button type="button" data-scope="semua" class="active">Semua</button>
+        <button type="button" data-scope="pusat">Pusat</button>
+        <button type="button" data-scope="daerah">Daerah</button>
+      </div>
+    </div>
+    <div class="filter-stats">
+      <div class="badge" id="result-badge">0 hasil</div>
+      <button class="reset-btn" type="button" id="reset-btn">Reset Filter</button>
+    </div>
+  </section>
+
+  <section class="kpi-grid" id="kpi-grid"></section>
+
+  <section class="main-grid">
+    <div class="stack">
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Top Instansi</div>
+            <div class="panel-sub">Instansi dengan jumlah arsiparis terbesar dari hasil filter aktif.</div>
+          </div>
+          <div class="panel-badge" id="top-badge">Top 15</div>
+        </div>
+        <div class="panel-body">
+          <div class="rank-list" id="top-list"></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Daftar Instansi</div>
+            <div class="panel-sub">Rekap per instansi dengan seluruh jenjang arsiparis dari sumber terbaru.</div>
+          </div>
+          <div class="panel-badge" id="table-badge">0 baris</div>
+        </div>
+        <div class="panel-body">
+          <div class="instansi-table" id="instansi-table"></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="stack">
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Sebaran Jenjang</div>
+            <div class="panel-sub">Akumulasi arsiparis per jenjang dari hasil filter aktif.</div>
+          </div>
+          <div class="panel-badge">7 jenjang</div>
+        </div>
+        <div class="panel-body">
+          <div class="donut-layout">
+            <div class="donut-wrap">
+              <div class="donut-chart" id="jenjang-donut"></div>
+              <div class="donut-hole">
+                <div class="donut-total" id="jenjang-donut-total">0</div>
+                <div class="donut-caption" id="jenjang-donut-caption">Arsiparis</div>
+              </div>
+            </div>
+            <div class="donut-legend" id="jenjang-legend"></div>
+          </div>
+          <div class="jenjang-grid" id="jenjang-grid"></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Ringkasan Wilayah Instansi</div>
+            <div class="panel-sub">Pemisahan sederhana antara kementerian/lembaga pusat dan pemerintah daerah.</div>
+          </div>
+          <div class="panel-badge">Regex instansi</div>
+        </div>
+        <div class="panel-body">
+          <div class="split-grid" id="split-grid"></div>
+        </div>
+      </article>
+    </div>
+  </section>
+</div>
+
+<script src="./assets/data_bkn_rekap_2026.js"></script>
+<script>
+const DATA = window.BKN_REKAP_2026 || { records: [], totals: {}, total_instansi: 0, total_arsiparis: 0, title: '' };
+const JENJANG = [
+  { key:'terampil', label:'Terampil', color:'#0b63ce' },
+  { key:'mahir', label:'Mahir', color:'#1aa8c7' },
+  { key:'penyelia', label:'Penyelia', color:'#6d49d8' },
+  { key:'ahli_pertama', label:'Ahli Pertama', color:'#12805c' },
+  { key:'ahli_muda', label:'Ahli Muda', color:'#b96a00' },
+  { key:'ahli_madya', label:'Ahli Madya', color:'#c53b30' },
+  { key:'ahli_utama', label:'Ahli Utama', color:'#6b7280' }
+];
+
+const FILTER = { q:'', scope:'semua' };
+
+function fmt(n){ return (n || 0).toLocaleString('id-ID'); }
+function pct(n,total){ return total ? ((n / total) * 100).toFixed(1) + '%' : '0%'; }
+function isDaerah(name){ return /^Pemerintah\s/i.test(String(name || '')); }
+
+function getFilteredRecords(){
+  const q = FILTER.q.trim().toLowerCase();
+  return DATA.records.filter(item => {
+    if (FILTER.scope === 'pusat' && isDaerah(item.nama)) return false;
+    if (FILTER.scope === 'daerah' && !isDaerah(item.nama)) return false;
+    if (q && !String(item.nama).toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+
+function summarize(records){
+  const summary = {
+    totalInstansi: records.length,
+    totalArsiparis: 0,
+    pusatInstansi: 0,
+    daerahInstansi: 0,
+    pusatTotal: 0,
+    daerahTotal: 0,
+    jenjang: {}
+  };
+  JENJANG.forEach(item => summary.jenjang[item.key] = 0);
+  records.forEach(item => {
+    summary.totalArsiparis += item.total || 0;
+    const daerah = isDaerah(item.nama);
+    if (daerah) {
+      summary.daerahInstansi += 1;
+      summary.daerahTotal += item.total || 0;
+    } else {
+      summary.pusatInstansi += 1;
+      summary.pusatTotal += item.total || 0;
+    }
+    JENJANG.forEach(j => { summary.jenjang[j.key] += item[j.key] || 0; });
+  });
+  return summary;
+}
+
+function renderMeta(summary){
+  document.getElementById('meta-title').textContent = DATA.title || 'Rekap terbaru';
+  document.getElementById('meta-instansi').textContent = `${fmt(summary.totalInstansi)} instansi`;
+  document.getElementById('meta-total').textContent = `${fmt(summary.totalArsiparis)} arsiparis`;
+  document.getElementById('result-badge').textContent = `${fmt(summary.totalInstansi)} hasil`;
+}
+
+function renderKpi(summary){
+  const items = [
+    { label:'Total Instansi', value:summary.totalInstansi, sub:'instansi hasil filter aktif', accent:'#0b63ce' },
+    { label:'Total Arsiparis', value:summary.totalArsiparis, sub:'akumulasi seluruh jenjang', accent:'#12805c' },
+    { label:'Instansi Pusat', value:summary.pusatInstansi, sub:`${fmt(summary.pusatTotal)} arsiparis`, accent:'#6d49d8' },
+    { label:'Instansi Daerah', value:summary.daerahInstansi, sub:`${fmt(summary.daerahTotal)} arsiparis`, accent:'#b96a00' }
+  ];
+  document.getElementById('kpi-grid').innerHTML = items.map(item => `
+    <article class="kpi" style="--accent:${item.accent}">
+      <div class="kpi-label">${item.label}</div>
+      <div class="kpi-value">${fmt(item.value)}</div>
+      <div class="kpi-sub">${item.sub}</div>
+    </article>
+  `).join('');
+}
+
+function renderTop(records, summary){
+  const top = [...records].sort((a,b) => b.total - a.total).slice(0,15);
+  const max = top[0]?.total || 1;
+  document.getElementById('top-badge').textContent = `Top ${top.length || 0}`;
+  document.getElementById('top-list').innerHTML = top.length ? top.map((item, idx) => `
+    <div class="rank-row">
+      <div class="rank-no">${idx + 1}</div>
+      <div>
+        <div class="rank-name">${item.nama}</div>
+        <div class="bar-wrap"><div class="bar-fill" style="width:${(item.total / max) * 100}%"></div></div>
+      </div>
+      <div class="rank-val">${fmt(item.total)}</div>
+    </div>
+  `).join('') : `<div class="empty">Tidak ada instansi yang cocok dengan filter aktif.</div>`;
+}
+
+function renderJenjang(summary){
+  const total = summary.totalArsiparis || 1;
+  const realTotal = summary.totalArsiparis || 0;
+  let cursor = 0;
+  const stops = [];
+  const legendRows = [];
+
+  JENJANG.forEach(item => {
+    const value = summary.jenjang[item.key] || 0;
+    const start = cursor;
+    const degrees = realTotal ? (value / realTotal) * 360 : 0;
+    cursor += degrees;
+    if (value > 0) {
+      stops.push(`${item.color} ${start.toFixed(3)}deg ${cursor.toFixed(3)}deg`);
+    }
+    legendRows.push(`
+      <div class="legend-row">
+        <span class="legend-dot" style="--legend-color:${item.color}"></span>
+        <span class="legend-name">${item.label}</span>
+        <span class="legend-value">${fmt(value)} &middot; ${pct(value, total)}</span>
+      </div>
+    `);
+  });
+
+  document.getElementById('jenjang-donut').style.background = stops.length
+    ? `conic-gradient(${stops.join(', ')})`
+    : 'conic-gradient(#e2e8f0 0deg 360deg)';
+  document.getElementById('jenjang-donut-total').textContent = fmt(realTotal);
+  document.getElementById('jenjang-donut-caption').textContent = FILTER.q || FILTER.scope !== 'semua' ? 'Hasil filter' : 'Seluruh data';
+  document.getElementById('jenjang-legend').innerHTML = legendRows.join('');
+
+  document.getElementById('jenjang-grid').innerHTML = JENJANG.map(item => `
+    <div class="jenjang-card">
+      <div class="jenjang-name">${item.label}</div>
+      <div class="jenjang-val" style="color:${item.color}">${fmt(summary.jenjang[item.key])}</div>
+      <div class="jenjang-share">${pct(summary.jenjang[item.key], total)} dari total hasil aktif</div>
+    </div>
+  `).join('');
+}
+
+function renderSplit(summary){
+  const items = [
+    {
+      label:'Pusat',
+      value:summary.pusatInstansi,
+      copy:`${fmt(summary.pusatTotal)} arsiparis tersebar di kementerian, lembaga, dan institusi pusat.`
+    },
+    {
+      label:'Daerah',
+      value:summary.daerahInstansi,
+      copy:`${fmt(summary.daerahTotal)} arsiparis tersebar di pemerintah provinsi, kabupaten, dan kota.`
+    }
+  ];
+  document.getElementById('split-grid').innerHTML = items.map(item => `
+    <div class="split-card">
+      <div class="split-label">${item.label}</div>
+      <div class="split-value">${fmt(item.value)}</div>
+      <div class="split-copy">${item.copy}</div>
+    </div>
+  `).join('');
+}
+
+function renderTable(records){
+  document.getElementById('table-badge').textContent = `${fmt(records.length)} baris`;
+  const rows = records.length ? records.map(item => `
+    <div class="table-row">
+      <div class="cell">${item.no}</div>
+      <div class="cell name">${item.nama}</div>
+      <div class="cell num">${fmt(item.terampil)}</div>
+      <div class="cell num">${fmt(item.mahir)}</div>
+      <div class="cell num hide-mobile">${fmt(item.penyelia)}</div>
+      <div class="cell num">${fmt(item.ahli_pertama)}</div>
+      <div class="cell num">${fmt(item.ahli_muda)}</div>
+      <div class="cell num hide-mobile">${fmt(item.ahli_madya)}</div>
+      <div class="cell num hide-mobile">${fmt(item.ahli_utama)}</div>
+      <div class="cell num">${fmt(item.total)}</div>
+    </div>
+  `).join('') : `<div class="empty">Tidak ada data yang cocok dengan filter aktif.</div>`;
+  document.getElementById('instansi-table').innerHTML = `
+    <div class="table-row head">
+      <div class="cell head">No</div>
+      <div class="cell head">Instansi</div>
+      <div class="cell head">Terampil</div>
+      <div class="cell head">Mahir</div>
+      <div class="cell head hide-mobile">Penyelia</div>
+      <div class="cell head">Ahli I</div>
+      <div class="cell head">Ahli Muda</div>
+      <div class="cell head hide-mobile">Ahli Madya</div>
+      <div class="cell head hide-mobile">Ahli Utama</div>
+      <div class="cell head">Total</div>
+    </div>
+    ${rows}
+  `;
+}
+
+function render(){
+  const records = getFilteredRecords();
+  const summary = summarize(records);
+  renderMeta(summary);
+  renderKpi(summary);
+  renderTop(records, summary);
+  renderJenjang(summary);
+  renderSplit(summary);
+  renderTable(records);
+}
+
+document.getElementById('search-input').addEventListener('input', e => {
+  FILTER.q = e.target.value || '';
+  render();
+});
+
+document.querySelectorAll('#scope-switch button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    FILTER.scope = btn.dataset.scope;
+    document.querySelectorAll('#scope-switch button').forEach(el => el.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  });
+});
+
+document.getElementById('reset-btn').addEventListener('click', () => {
+  FILTER.q = '';
+  FILTER.scope = 'semua';
+  document.getElementById('search-input').value = '';
+  document.querySelectorAll('#scope-switch button').forEach(el => el.classList.toggle('active', el.dataset.scope === 'semua'));
+  render();
+});
+
+render();
+</script>
+</body>
+</html>

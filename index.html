@@ -157,6 +157,7 @@ body::after{
   transition:all .18s ease;
   letter-spacing:.005em;
 }
+.header-tabs a.is-hidden{display:none!important;}
 .header-tabs a:hover{color:var(--text-2);background:rgba(255,255,255,.64);}
 .header-tabs a.active{
   color:var(--text);
@@ -261,6 +262,7 @@ body::after{
 .filter-btn .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
 .filter-btn .fbadge{margin-left:auto;font-size:11px;font-weight:700;color:var(--text-3);font-family:var(--mono);}
 .filter-btn.active .fbadge{color:var(--blue);}
+.filter-btn .filter-label{min-width:0;flex:1;line-height:1.25;}
 .cluster-filter-shell{
   padding:8px;
   border-radius:22px;
@@ -357,6 +359,7 @@ body::after{
   border-radius:15px;
   font-size:12px;
   font-weight:700;
+  align-items:flex-start;
 }
 .cluster-group-items .filter-btn + .filter-btn{margin-top:4px}
 .sb-sep{height:1px;background:var(--border);margin:10px 12px;}
@@ -1176,14 +1179,14 @@ body::after{
   </div>
   <nav class="header-tabs" id="header-tabs">
     <a href="#" class="active" onclick="switchTab('rekap',this);return false;"><span class="tab-icon">📋</span>Rekomendasi</a>
-    <a href="#" onclick="switchTab('siarsiparis',this);return false;"><span class="tab-icon">👤</span>SiArsiparis</a>
+    <a href="#" class="is-hidden" onclick="switchTab('siarsiparis',this);return false;"><span class="tab-icon">👤</span>SiArsiparis</a>
     <a href="#" onclick="switchTab('bkn',this);return false;"><span class="tab-icon">🏛️</span>Data BKN</a>
     <a href="#" onclick="switchTab('kegiatan',this);return false;"><span class="tab-icon">+</span>Kegiatan SDM</a>
   </nav>
   <div class="header-center">
     <div class="hstat-chip"><div class="hstat-val" id="st-total">—</div><div class="hstat-lbl">Instansi</div></div>
     <div class="hstat-chip"><div class="hstat-val" id="st-rek">—</div><div class="hstat-lbl">Rekomendasi</div></div>
-    <div class="hstat-chip"><div class="hstat-val" id="st-formasi">—</div><div class="hstat-lbl">Formasi</div></div>
+    <div class="hstat-chip"><div class="hstat-val" id="st-formasi">—</div><div class="hstat-lbl">Total Rekom.</div></div>
   </div>
   <div class="header-right">
     <span class="source-badge">ANRI · 2020–2025</span>
@@ -1293,7 +1296,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 
         <article class="monev-panel">
           <div class="monev-panel-title">Grafik ringkasan skor per jenjang</div>
-          <div class="monev-panel-sub">Grafik berikut menunjukkan perbandingan aspek pelaksanaan tugas, pembinaan karier, serta formasi dan penempatan pada setiap jenjang Jabatan Fungsional Arsiparis.</div>
+          <div class="monev-panel-sub">Grafik berikut menunjukkan perbandingan aspek pelaksanaan tugas, pembinaan karier, serta rekomendasi dan penempatan pada setiap jenjang Jabatan Fungsional Arsiparis.</div>
           <figure class="monev-figure">
             <img src="assets/monev-ringkasan-skor-per-jenjang.png" alt="Ringkasan Skor per Jenjang Monev JFA 2025">
             <figcaption class="monev-caption">Hasil Ringkasan Secara Umum tiap Jenjang JFA</figcaption>
@@ -1327,11 +1330,11 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
           <div class="monev-levels">
             <div class="monev-level"><div class="monev-level-name">Ahli Utama</div><div class="monev-level-note">Penguatan pelaksanaan tugas, evaluasi arsip, pembinaan karier, pelatihan, dan pendidikan formal.</div></div>
             <div class="monev-level"><div class="monev-level-name">Ahli Madya</div><div class="monev-level-note">Penguatan fungsi evaluatif, perumusan NSPK, pemberian penghargaan, pelatihan teknis, dan kompetensi berkelanjutan.</div></div>
-            <div class="monev-level"><div class="monev-level-name">Ahli Muda</div><div class="monev-level-note">Penguatan tugas teknis, pelatihan, sertifikasi, pendidikan formal, serta formasi dan penempatan.</div></div>
+            <div class="monev-level"><div class="monev-level-name">Ahli Muda</div><div class="monev-level-note">Penguatan tugas teknis, pelatihan, sertifikasi, pendidikan formal, serta rekomendasi dan penempatan.</div></div>
             <div class="monev-level"><div class="monev-level-name">Ahli Pertama</div><div class="monev-level-note">Penguatan tugas teknis, pembinaan karier, sertifikasi, pendidikan formal, dan evaluasi mutasi.</div></div>
             <div class="monev-level"><div class="monev-level-name">Arsiparis Penyelia</div><div class="monev-level-note">Penguatan pengelolaan dan penyajian data arsip, pelatihan teknis, pendidikan formal, dan pemberian penghargaan.</div></div>
-            <div class="monev-level"><div class="monev-level-name">Arsiparis Mahir</div><div class="monev-level-note">Penguatan fungsi teknis, pemenuhan kebutuhan formasi, penempatan proporsional, pelatihan, pendidikan formal, dan pemberian penghargaan.</div></div>
-            <div class="monev-level"><div class="monev-level-name">Arsiparis Terampil</div><div class="monev-level-note">Penguatan fungsi teknis, penataan formasi dan penempatan, pelatihan, sertifikasi, pendidikan formal, serta pengembangan kompetensi.</div></div>
+            <div class="monev-level"><div class="monev-level-name">Arsiparis Mahir</div><div class="monev-level-note">Penguatan fungsi teknis, pemenuhan kebutuhan rekomendasi, penempatan proporsional, pelatihan, pendidikan formal, dan pemberian penghargaan.</div></div>
+            <div class="monev-level"><div class="monev-level-name">Arsiparis Terampil</div><div class="monev-level-note">Penguatan fungsi teknis, penataan rekomendasi dan penempatan, pelatihan, sertifikasi, pendidikan formal, serta pengembangan kompetensi.</div></div>
           </div>
         </article>
       </div>
@@ -1343,10 +1346,10 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
       <div class="monev-reco">
         <div class="monev-reco-card"><div class="monev-reco-num">01</div><div class="monev-reco-copy">Arsiparis perlu terus meningkatkan pelaksanaan tugas dan fungsi sesuai standar kompetensi pada jenjang jabatannya.</div></div>
         <div class="monev-reco-card"><div class="monev-reco-num">02</div><div class="monev-reco-copy">Pimpinan unit kerja perlu mengurangi tugas di luar bidang kearsipan dan menyesuaikan penugasan dengan jenjang jabatan.</div></div>
-        <div class="monev-reco-card"><div class="monev-reco-num">03</div><div class="monev-reco-copy">Pencipta arsip dan ANRI perlu memastikan formasi, distribusi, penempatan, serta monev JFA berjalan kontinyu berbasis data.</div></div>
+        <div class="monev-reco-card"><div class="monev-reco-num">03</div><div class="monev-reco-copy">Pencipta arsip dan ANRI perlu memastikan rekomendasi, distribusi, penempatan, serta monev JFA berjalan kontinyu berbasis data.</div></div>
         <div class="monev-reco-card is-soft"><div class="monev-reco-num">04</div><div class="monev-reco-copy">Perlu dilakukan prioritas pendampingan pada jenjang dan aspek dengan skor kurang baik, terutama pelaksanaan tugas Ahli Utama dan Ahli Pertama serta pembinaan karier Ahli Muda, Ahli Pertama, dan Terampil.</div></div>
         <div class="monev-reco-card is-soft"><div class="monev-reco-num">05</div><div class="monev-reco-copy">Perlu disusun rencana tindak lanjut per jenjang yang mencakup pelatihan teknis, sertifikasi, pendidikan formal, pemberian penghargaan, dan evaluasi penempatan berbasis kebutuhan organisasi.</div></div>
-        <div class="monev-reco-card is-soft"><div class="monev-reco-num">06</div><div class="monev-reco-copy">Perlu dilaksanakan pemantauan berkala agar rekomendasi Monev tidak berhenti pada dokumen laporan, tetapi menjadi bahan pembinaan, kebijakan formasi, dan pengembangan kompetensi tahun berikutnya.</div></div>
+        <div class="monev-reco-card is-soft"><div class="monev-reco-num">06</div><div class="monev-reco-copy">Perlu dilaksanakan pemantauan berkala agar rekomendasi Monev tidak berhenti pada dokumen laporan, tetapi menjadi bahan pembinaan, kebijakan rekomendasi, dan pengembangan kompetensi tahun berikutnya.</div></div>
       </div>
     </div>
   </section>
@@ -1396,13 +1399,13 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
             <span class="cluster-group-count" data-cluster-group-count>0</span>
           </button>
           <div class="cluster-group-items">
-            <button class="filter-btn" data-cat="Kementerian" onclick="setCat('Kementerian',this)"><span class="dot" style="background:#d97706"></span>🏛 Kementerian<span class="fbadge" id="cnt-kementerian">0</span></button>
-            <button class="filter-btn" data-cat="Alat Negara" onclick="setCat('Alat Negara',this)"><span class="dot" style="background:#dc2626"></span>⚔ Alat Negara<span class="fbadge" id="cnt-alat">0</span></button>
-            <button class="filter-btn" data-cat="Sekretariat Lembaga Negara" onclick="setCat('Sekretariat Lembaga Negara',this)"><span class="dot" style="background:#2563eb"></span>🏦 Sek. Lem. Negara<span class="fbadge" id="cnt-sln">0</span></button>
-            <button class="filter-btn" data-cat="Lembaga Non Struktural" onclick="setCat('Lembaga Non Struktural',this)"><span class="dot" style="background:#7c3aed"></span>🔬 LNS<span class="fbadge" id="cnt-lns">0</span></button>
-            <button class="filter-btn" data-cat="Lembaga Pemerintah Lainnya" onclick="setCat('Lembaga Pemerintah Lainnya',this)"><span class="dot" style="background:#b06030"></span>🏢 LPL<span class="fbadge" id="cnt-lpl">0</span></button>
-            <button class="filter-btn" data-cat="Lembaga Pemerintah Non Kementerian" onclick="setCat('Lembaga Pemerintah Non Kementerian',this)"><span class="dot" style="background:#0d9488"></span>🏗 LPNK<span class="fbadge" id="cnt-lpnk">0</span></button>
-            <button class="filter-btn" data-cat="Lembaga Penyiaran Publik" onclick="setCat('Lembaga Penyiaran Publik',this)"><span class="dot" style="background:#7a6020"></span>📡 LPP<span class="fbadge" id="cnt-lpp">0</span></button>
+            <button class="filter-btn" data-cat="Kementerian" onclick="setCat('Kementerian',this)"><span class="dot" style="background:#d97706"></span><span class="filter-label">🏛 Kementerian</span><span class="fbadge" id="cnt-kementerian">0</span></button>
+            <button class="filter-btn" data-cat="Alat Negara" onclick="setCat('Alat Negara',this)"><span class="dot" style="background:#dc2626"></span><span class="filter-label">⚔ Alat Negara</span><span class="fbadge" id="cnt-alat">0</span></button>
+            <button class="filter-btn" data-cat="Sekretariat Lembaga Negara" onclick="setCat('Sekretariat Lembaga Negara',this)"><span class="dot" style="background:#2563eb"></span><span class="filter-label">🏦 Sekretariat Lembaga Negara</span><span class="fbadge" id="cnt-sln">0</span></button>
+            <button class="filter-btn" data-cat="Lembaga Non Struktural" onclick="setCat('Lembaga Non Struktural',this)"><span class="dot" style="background:#7c3aed"></span><span class="filter-label">🔬 Lembaga Non Struktural</span><span class="fbadge" id="cnt-lns">0</span></button>
+            <button class="filter-btn" data-cat="Lembaga Pemerintah Lainnya" onclick="setCat('Lembaga Pemerintah Lainnya',this)"><span class="dot" style="background:#b06030"></span><span class="filter-label">🏢 Lembaga Pemerintahan Lainnya</span><span class="fbadge" id="cnt-lpl">0</span></button>
+            <button class="filter-btn" data-cat="Lembaga Pemerintah Non Kementerian" onclick="setCat('Lembaga Pemerintah Non Kementerian',this)"><span class="dot" style="background:#0d9488"></span><span class="filter-label">🏗 Lembaga Pemerintahan Non Kementerian</span><span class="fbadge" id="cnt-lpnk">0</span></button>
+            <button class="filter-btn" data-cat="Lembaga Penyiaran Publik" onclick="setCat('Lembaga Penyiaran Publik',this)"><span class="dot" style="background:#7a6020"></span><span class="filter-label">📡 Lembaga Penyiaran Publik</span><span class="fbadge" id="cnt-lpp">0</span></button>
           </div>
         </div>
 
@@ -1453,8 +1456,8 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
       <span class="sb-select-lbl">Urutkan</span>
       <select class="sb-select" id="sort-select" onchange="onSortChange()">
         <option value="nama">A – Z</option>
-        <option value="total-d">Formasi Terbanyak</option>
-        <option value="total-a">Formasi Terkecil</option>
+        <option value="total-d">Rekomendasi Terbanyak</option>
+        <option value="total-a">Rekomendasi Terkecil</option>
         <option value="tahun">Tahun Rekomendasi</option>
         <option value="rek-d">Rekomendasi Terbanyak</option>
       </select>
@@ -1531,7 +1534,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
           <div style="height:200px;margin-top:10px"><canvas id="chart-tahun"></canvas></div>
         </div>
         <div class="stat-card" style="padding:20px">
-          <div class="stat-label">Total Formasi per Kluster</div>
+          <div class="stat-label">Total Rekomendasi per Kluster</div>
           <div style="height:200px;margin-top:10px"><canvas id="chart-formasi"></canvas></div>
         </div>
       </div>
@@ -1539,16 +1542,16 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
       <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:16px">
         <div class="stat-card" style="padding:20px">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-            <div class="stat-label" style="margin:0">Top 15 Instansi — Formasi Terbesar</div>
+            <div class="stat-label" style="margin:0">Top 15 Instansi — Rekomendasi Terbesar</div>
             <select id="top15-filter" onchange="renderCharts()" style="font-size:10px;font-weight:600;border:1px solid var(--border-med);border-radius:var(--radius-xs);padding:3px 8px;background:var(--bg);color:var(--text);font-family:var(--font);cursor:pointer;outline:none">
               <option value="">Semua Kluster</option>
               <option value="Kementerian">Kementerian</option>
-              <option value="Lembaga Pemerintah Non Kementerian">LPNK</option>
-              <option value="Sekretariat Lembaga Negara">Sek. Lem. Negara</option>
-              <option value="Lembaga Non Struktural">LNS</option>
+              <option value="Lembaga Pemerintah Non Kementerian">Lembaga Pemerintahan Non Kementerian</option>
+              <option value="Sekretariat Lembaga Negara">Sekretariat Lembaga Negara</option>
+              <option value="Lembaga Non Struktural">Lembaga Non Struktural</option>
               <option value="Alat Negara">Alat Negara</option>
-              <option value="Lembaga Pemerintah Lainnya">LPL</option>
-              <option value="Lembaga Penyiaran Publik">LPP</option>
+              <option value="Lembaga Pemerintah Lainnya">Lembaga Pemerintahan Lainnya</option>
+              <option value="Lembaga Penyiaran Publik">Lembaga Penyiaran Publik</option>
               <option value="Provinsi">Provinsi</option>
               <option value="Kabupaten/Kota">Kabupaten/Kota</option>
             </select>
@@ -1609,10 +1612,10 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
           <select id="f-kategori">
             <option value="Kementerian">Kementerian</option>
             <option value="Alat Negara">Alat Negara</option>
-            <option value="Sekretariat Lembaga Negara">Sek. Lembaga Negara</option>
+            <option value="Sekretariat Lembaga Negara">Sekretariat Lembaga Negara</option>
             <option value="Lembaga Non Struktural">Lembaga Non Struktural</option>
             <option value="Lembaga Pemerintah Lainnya">Lembaga Pemerintah Lainnya</option>
-            <option value="Lembaga Pemerintah Non Kementerian">LPNK</option>
+            <option value="Lembaga Pemerintah Non Kementerian">Lembaga Pemerintahan Non Kementerian</option>
             <option value="Lembaga Penyiaran Publik">Lembaga Penyiaran Publik</option>
             <option value="Provinsi">Provinsi</option>
             <option value="Kabupaten/Kota">Kabupaten/Kota</option>
@@ -1697,7 +1700,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 <script src="config.js"></script>
 <script>
 // ── TAB SWITCHING ─────────────────────────────────────────────
-const TAB_SRCS = { siarsiparis:'siarsiparis_v4_fix.html', bkn:'Data_BKN.html' };
+const TAB_SRCS = { siarsiparis:'siarsiparis_v4_fix.html', bkn:'Data_BKN_rekap.html' };
 const iframeLoaded = { siarsiparis:false, bkn:false };
 function switchTab(tabId, el) {
   document.querySelectorAll('.header-tabs a').forEach(a=>a.classList.remove('active'));
@@ -1719,7 +1722,7 @@ const CAT_ICON = {'Kementerian':'🏛','Alat Negara':'⚔','Sekretariat Lembaga 
 const JENJANG = [{k:'terampil',lbl:'Terampil',c:'#d97706'},{k:'mahir',lbl:'Mahir',c:'#0d9488'},{k:'penyelia',lbl:'Penyelia',c:'#2563eb'},{k:'ahli_pertama',lbl:'Ahli Pertama',c:'#dc2626'},{k:'ahli_muda',lbl:'Ahli Muda',c:'#7c3aed'},{k:'ahli_madya',lbl:'Ahli Madya',c:'#b06030'},{k:'ahli_utama',lbl:'Ahli Utama',c:'#1a4a6b'}];
 const CLUSTERS = [{cat:'Kementerian'},{cat:'Lembaga Pemerintah Non Kementerian'},{cat:'Sekretariat Lembaga Negara'},{cat:'Lembaga Non Struktural'},{cat:'Alat Negara'},{cat:'Lembaga Pemerintah Lainnya'},{cat:'Lembaga Penyiaran Publik'},{cat:'Provinsi'},{cat:'Kabupaten/Kota'}];
 const CNT_MAP = {'semua':'cnt-semua','Kementerian':'cnt-kementerian','Alat Negara':'cnt-alat','Sekretariat Lembaga Negara':'cnt-sln','Lembaga Non Struktural':'cnt-lns','Lembaga Pemerintah Lainnya':'cnt-lpl','Lembaga Pemerintah Non Kementerian':'cnt-lpnk','Lembaga Penyiaran Publik':'cnt-lpp','Provinsi':'cnt-provinsi','Kabupaten/Kota':'cnt-kabkot'};
-const CAT_SHORT = {'Lembaga Pemerintah Non Kementerian':'LPNK','Sekretariat Lembaga Negara':'Sek. Lem. Neg.','Lembaga Non Struktural':'LNS','Lembaga Pemerintah Lainnya':'LPL','Lembaga Penyiaran Publik':'LPP'};
+const CAT_SHORT = {'Lembaga Pemerintah Non Kementerian':'Lembaga Pemerintahan Non Kementerian','Sekretariat Lembaga Negara':'Sekretariat Lembaga Negara','Lembaga Non Struktural':'Lembaga Non Struktural','Lembaga Pemerintah Lainnya':'Lembaga Pemerintahan Lainnya','Lembaga Penyiaran Publik':'Lembaga Penyiaran Publik'};
 
 const SB_URL = window.SUPABASE_URL || '';
 const SB_KEY = window.SUPABASE_ANON_KEY || '';
@@ -1868,7 +1871,7 @@ function render() {
     document.getElementById('filter-view').style.display = 'block';
     document.getElementById('results-bar').style.display = 'flex';
     document.getElementById('res-count').textContent = `${sorted.length} instansi ditemukan`;
-    document.getElementById('res-total').textContent = tf > 0 ? `· ${tf.toLocaleString('id')} total formasi` : '';
+    document.getElementById('res-total').textContent = tf > 0 ? `· ${tf.toLocaleString('id')} total rekomendasi` : '';
     document.getElementById('grid').innerHTML = sorted.length
       ? sorted.map((d,i) => cardHTML(d, i)).join('')
       : '<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-text">Tidak ada instansi yang cocok</div></div>';
@@ -1896,7 +1899,7 @@ function updateStats() {
     <div class="stat-card c-blue"><div class="stat-label">Total Instansi</div><div class="stat-value">${ALL.length.toLocaleString('id')}</div><div class="stat-sub">seluruh kategori</div></div>
     <div class="stat-card c-green"><div class="stat-label">Ada Rekomendasi</div><div class="stat-value">${totalRek.toLocaleString('id')}</div><div class="stat-sub">${((totalRek/(ALL.length||1))*100).toFixed(0)}% dari total</div></div>
     <div class="stat-card c-red"><div class="stat-label">Belum Rekomendasi</div><div class="stat-value">${belum.toLocaleString('id')}</div><div class="stat-sub">${((belum/(ALL.length||1))*100).toFixed(0)}% dari total</div></div>
-    <div class="stat-card c-amber"><div class="stat-label">Total Formasi</div><div class="stat-value">${totalFormasi.toLocaleString('id')}</div><div class="stat-sub">kebutuhan arsiparis</div></div>`;
+    <div class="stat-card c-amber"><div class="stat-label">Total Rekomendasi</div><div class="stat-value">${totalFormasi.toLocaleString('id')}</div><div class="stat-sub">kebutuhan arsiparis</div></div>`;
   syncSidebarClusterGroups();
 }
 
@@ -1907,7 +1910,7 @@ function renderRekap() {
   const totalCard = `<div class="rekap-card rekap-total" onclick="setCat('semua',document.querySelector('[data-cat=semua]'))">
     <div class="rekap-accent" style="background:var(--blue)"></div>
     <div class="rekap-num">${ALL.length}</div><div class="rekap-lbl">Total Instansi</div>
-    <div class="rekap-formasi">${totalFormasi.toLocaleString('id')} formasi</div>
+    <div class="rekap-formasi">${totalFormasi.toLocaleString('id')} rekomendasi</div>
     <div class="rekap-sub">${totalRek} instansi aktif · ${totalPct}% sudah memiliki rekomendasi</div></div>`;
   const catCards = CLUSTERS.map(c => {
     const items = ALL.filter(d => d.kategori === c.cat);
@@ -1921,7 +1924,7 @@ function renderRekap() {
     return `<div class="rekap-card" onclick="setCat('${catAttr}',document.querySelector('[data-cat=\\'${catAttr}\\']'))">
       <div class="rekap-accent" style="background:${color}"></div>
       <div class="rekap-num">${items.length}</div><div class="rekap-lbl">${short}</div>
-      <div class="rekap-formasi">${formasi.toLocaleString('id')} formasi</div>
+      <div class="rekap-formasi">${formasi.toLocaleString('id')} rekomendasi</div>
       <div class="rekap-sub">${rek} instansi dengan rekomendasi · ${pct}% coverage</div></div>`;
   }).join('');
   document.getElementById('rekap-grid').innerHTML = totalCard + catCards;
@@ -1948,7 +1951,7 @@ function renderClusters() {
         <div class="kluster-stripe" style="background:${color}"></div>
         <span class="kluster-icon">${icon}</span>
         <span class="kluster-name">${short}</span>
-        <span class="kluster-formasi">${formasi.toLocaleString('id')} formasi</span>
+        <span class="kluster-formasi">${formasi.toLocaleString('id')} rekomendasi</span>
         <span class="kluster-count">${items.length} instansi · ${rek} sudah rekomendasi</span>
       </div>
       <div class="kluster-grid">${shown.map((d,i) => cardHTML(d, i)).join('')}</div>
@@ -1963,7 +1966,7 @@ function openClusterSheet(cat) {
   const rek = items.filter(d=>d.status==='Ada Rekomendasi').length;
   document.getElementById('cluster-sheet-title').textContent = CAT_SHORT[cat] || cat;
   document.getElementById('cluster-sheet-kicker').textContent = 'Cluster Collection';
-  document.getElementById('cluster-sheet-sub').textContent = `${items.length} instansi · ${formasi.toLocaleString('id')} formasi · ${rek} memiliki rekomendasi`;
+  document.getElementById('cluster-sheet-sub').textContent = `${items.length} instansi · ${formasi.toLocaleString('id')} rekomendasi · ${rek} memiliki rekomendasi`;
   document.getElementById('cluster-sheet-grid').innerHTML = items.map((d,i) => cardHTML(d, i)).join('');
   document.getElementById('cluster-sheet-overlay').classList.add('open');
 }
@@ -2259,14 +2262,14 @@ function renderCharts() {
   mkChart('chart-formasi', {
     type:'bar',
     data:{ labels:CAT_LABELS.map(c=>CAT_SHORT2[c]||c), datasets:[{
-      label:'Total Formasi', data:formasiPerKluster,
+      label:'Total Rekomendasi', data:formasiPerKluster,
       backgroundColor:formasiColors.map(c=>c+'33'),borderColor:formasiColors,borderWidth:1.5,borderRadius:999,borderSkipped:false,barPercentage:.58,categoryPercentage:.7
     }]},
     options:{
       responsive:true,maintainAspectRatio:false,
       scales:{ x:{grid:{display:false},ticks:{font:{size:10,family:font,weight:'500'}}},
                y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>v>=1000?(v/1000).toFixed(0)+'rb':v,font:{size:10,family:font}}} },
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw.toLocaleString('id')} formasi`},...tooltipDefaults}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw.toLocaleString('id')} rekomendasi`},...tooltipDefaults}},
       animation:{duration:700}
     }
   });
@@ -2278,12 +2281,12 @@ function renderCharts() {
   mkChart('chart-top15', {
     type:'bar',
     data:{ labels:top15src.map(d=>d.nama.length>35?d.nama.slice(0,35)+'…':d.nama),
-      datasets:[{ label:'Formasi', data:top15src.map(d=>d.total), backgroundColor:top15colors.map(c=>c+'33'), borderColor:top15colors, borderWidth:1.5, borderRadius:999, borderSkipped:false, barThickness:12 }] },
+      datasets:[{ label:'Rekomendasi', data:top15src.map(d=>d.total), backgroundColor:top15colors.map(c=>c+'33'), borderColor:top15colors, borderWidth:1.5, borderRadius:999, borderSkipped:false, barThickness:12 }] },
     options:{
       indexAxis:'y',responsive:true,maintainAspectRatio:false,
       scales:{ x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>v>=1000?(v/1000).toFixed(0)+'rb':v,font:{size:10,family:font}}},
                y:{grid:{display:false},ticks:{font:{size:9,family:font,weight:'500'}}} },
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw.toLocaleString('id')} formasi`},...tooltipDefaults}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw.toLocaleString('id')} rekomendasi`},...tooltipDefaults}},
       animation:{duration:700}
     }
   });
