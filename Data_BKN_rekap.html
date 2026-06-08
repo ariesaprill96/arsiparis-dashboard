@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="shortcut icon" href="./favicon.png?v=2" type="image/png">
 <link rel="icon" type="image/png" href="./favicon.png?v=2">
-<title>Data BKN - Rekap 2026</title>
+<title>Data BKN - Rekap JF Arsiparis 2 Juni 2026</title>
 <style>
 :root{
   --bg:#f4f7fb;
@@ -287,6 +287,140 @@ body{
   font:700 11px var(--mono);
   color:var(--text2);
 }
+.chart-list{display:flex;flex-direction:column;gap:12px}
+.chart-row{
+  display:grid;
+  grid-template-columns:minmax(150px,1fr) minmax(160px,2.2fr) 84px;
+  gap:12px;
+  align-items:center;
+}
+.chart-label{
+  min-width:0;
+  font-size:12px;
+  font-weight:800;
+  color:var(--text2);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.chart-track{
+  height:18px;
+  border-radius:999px;
+  background:#e9eef6;
+  overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(15,23,42,.05);
+}
+.chart-fill{
+  height:100%;
+  min-width:2px;
+  border-radius:999px;
+  background:linear-gradient(90deg, var(--blue), #55a3ff);
+}
+.chart-value{
+  text-align:right;
+  font:800 12px var(--mono);
+  color:var(--text2);
+}
+.stacked-list{display:flex;flex-direction:column;gap:14px}
+.stacked-row{
+  display:grid;
+  grid-template-columns:minmax(150px,1fr) minmax(190px,2.4fr) 78px;
+  gap:12px;
+  align-items:center;
+}
+.stacked-label{
+  min-width:0;
+  font-size:12px;
+  line-height:1.35;
+  font-weight:800;
+  color:var(--text2);
+}
+.stacked-track{
+  display:flex;
+  height:20px;
+  border-radius:999px;
+  overflow:hidden;
+  background:#e9eef6;
+  box-shadow:inset 0 0 0 1px rgba(15,23,42,.05);
+}
+.stacked-segment{height:100%;min-width:1px}
+.chart-legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 12px;
+  margin-bottom:14px;
+}
+.chart-legend-item{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-size:11px;
+  font-weight:800;
+  color:var(--text2);
+}
+.compare-grid{display:grid;gap:16px}
+.split-grid + .compare-grid{
+  margin-top:16px;
+  padding-top:16px;
+  border-top:1px solid rgba(15,23,42,.06);
+}
+.compare-block{display:grid;gap:9px}
+.compare-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:12px;
+}
+.compare-title{
+  font-size:12px;
+  font-weight:800;
+  color:var(--text2);
+}
+.compare-total{
+  font:800 12px var(--mono);
+  color:var(--text3);
+}
+.compare-track{
+  display:flex;
+  height:26px;
+  border-radius:999px;
+  overflow:hidden;
+  background:#e9eef6;
+  box-shadow:inset 0 0 0 1px rgba(15,23,42,.05);
+}
+.compare-fill{
+  height:100%;
+  min-width:3px;
+  background:var(--accent);
+}
+.compare-fill:first-child{border-radius:999px 0 0 999px}
+.compare-fill:last-child{border-radius:0 999px 999px 0}
+.compare-detail{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.compare-item{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:7px;
+  align-items:center;
+  font-size:12px;
+  font-weight:700;
+  color:var(--text2);
+}
+.compare-dot{
+  width:10px;
+  height:10px;
+  border-radius:4px;
+  background:var(--accent);
+}
+.compare-name{min-width:0}
+.compare-value{
+  text-align:right;
+  font:800 11px var(--mono);
+  color:var(--text2);
+}
 .donut-layout{
   display:grid;
   grid-template-columns:minmax(220px,280px) minmax(0,1fr);
@@ -477,6 +611,9 @@ body{
   .page{width:calc(100% - 16px)}
   .hero,.filter-bar,.panel,.kpi{border-radius:24px}
   .donut-layout{grid-template-columns:1fr}
+  .chart-row,.stacked-row{grid-template-columns:1fr}
+  .compare-detail{grid-template-columns:1fr}
+  .chart-value,.compare-value{text-align:left}
   .table-row{grid-template-columns:44px minmax(180px,1.8fr) repeat(3,minmax(72px,.7fr))}
   .table-row .cell.hide-mobile{display:none}
 }
@@ -486,8 +623,8 @@ body{
 <div class="page">
   <section class="hero">
     <div class="kicker">Data BKN</div>
-    <div class="hero-title">Rekapitulasi JF Arsiparis terbaru per 5 Mei 2026.</div>
-    <div class="hero-sub">Tampilan ini menggunakan rekap agregat per instansi dari file terbaru yang kamu berikan. Fokusnya sekarang di jumlah arsiparis, sebaran jenjang, komposisi instansi pusat dan daerah, serta daftar instansi yang bisa dicari cepat.</div>
+    <div class="hero-title">Rekapitulasi JF Arsiparis terbaru per 2 Juni 2026.</div>
+    <div class="hero-sub">Tampilan ini menggunakan rekap agregat per instansi dari file Rekap JF Arsiparis per Instansi 2 Juni 2026. Fokusnya di jumlah arsiparis, sebaran jenjang, komposisi instansi pusat dan daerah, serta daftar instansi yang bisa dicari cepat.</div>
     <div class="hero-meta">
       <div class="chip" id="meta-title">Rekap terbaru</div>
       <div class="chip" id="meta-instansi">0 instansi</div>
@@ -521,13 +658,14 @@ body{
       <article class="panel">
         <div class="panel-head">
           <div>
-            <div class="panel-title">Top Instansi</div>
-            <div class="panel-sub">Instansi dengan jumlah arsiparis terbesar dari hasil filter aktif.</div>
+            <div class="panel-title">Stacked Bar per Jenjang</div>
+            <div class="panel-sub">Komposisi jenjang pada instansi dengan jumlah arsiparis terbesar.</div>
           </div>
-          <div class="panel-badge" id="top-badge">Top 15</div>
+          <div class="panel-badge" id="stacked-badge">Top 10</div>
         </div>
         <div class="panel-body">
-          <div class="rank-list" id="top-list"></div>
+          <div class="chart-legend" id="stacked-legend"></div>
+          <div class="stacked-list" id="stacked-chart"></div>
         </div>
       </article>
 
@@ -572,20 +710,21 @@ body{
       <article class="panel">
         <div class="panel-head">
           <div>
-            <div class="panel-title">Ringkasan Wilayah Instansi</div>
-            <div class="panel-sub">Pemisahan sederhana antara kementerian/lembaga pusat dan pemerintah daerah.</div>
+            <div class="panel-title">Pusat vs Daerah</div>
+            <div class="panel-sub">Jumlah instansi dan total arsiparis berdasarkan kelompok.</div>
           </div>
-          <div class="panel-badge">Regex instansi</div>
+          <div class="panel-badge">Komparasi</div>
         </div>
         <div class="panel-body">
           <div class="split-grid" id="split-grid"></div>
+          <div class="compare-grid" id="scope-compare"></div>
         </div>
       </article>
     </div>
   </section>
 </div>
 
-<script src="./assets/data_bkn_rekap_2026.js"></script>
+<script src="./assets/data_bkn_rekap_2026.js?v=20260602"></script>
 <script>
 const DATA = window.BKN_REKAP_2026 || { records: [], totals: {}, total_instansi: 0, total_arsiparis: 0, title: '' };
 const JENJANG = [
@@ -663,20 +802,29 @@ function renderKpi(summary){
   `).join('');
 }
 
-function renderTop(records, summary){
-  const top = [...records].sort((a,b) => b.total - a.total).slice(0,15);
-  const max = top[0]?.total || 1;
-  document.getElementById('top-badge').textContent = `Top ${top.length || 0}`;
-  document.getElementById('top-list').innerHTML = top.length ? top.map((item, idx) => `
-    <div class="rank-row">
-      <div class="rank-no">${idx + 1}</div>
-      <div>
-        <div class="rank-name">${item.nama}</div>
-        <div class="bar-wrap"><div class="bar-fill" style="width:${(item.total / max) * 100}%"></div></div>
+function renderStacked(records){
+  const top = [...records].sort((a,b) => b.total - a.total).slice(0,10);
+  document.getElementById('stacked-badge').textContent = `Top ${top.length || 0}`;
+  document.getElementById('stacked-legend').innerHTML = JENJANG.map(item => `
+    <span class="chart-legend-item">
+      <span class="legend-dot" style="--legend-color:${item.color}"></span>
+      ${item.label}
+    </span>
+  `).join('');
+  document.getElementById('stacked-chart').innerHTML = top.length ? top.map(item => {
+    const segments = JENJANG
+      .filter(j => (item[j.key] || 0) > 0)
+      .map(j => `
+        <div class="stacked-segment" title="${j.label}: ${fmt(item[j.key])}" style="width:${(item[j.key] / item.total) * 100}%;background:${j.color}"></div>
+      `).join('');
+    return `
+      <div class="stacked-row">
+        <div class="stacked-label" title="${item.nama}">${item.nama}</div>
+        <div class="stacked-track" aria-label="${item.nama}: ${fmt(item.total)} arsiparis">${segments}</div>
+        <div class="chart-value">${fmt(item.total)}</div>
       </div>
-      <div class="rank-val">${fmt(item.total)}</div>
-    </div>
-  `).join('') : `<div class="empty">Tidak ada instansi yang cocok dengan filter aktif.</div>`;
+    `;
+  }).join('') : `<div class="empty">Tidak ada instansi yang cocok dengan filter aktif.</div>`;
 }
 
 function renderJenjang(summary){
@@ -741,6 +889,52 @@ function renderSplit(summary){
   `).join('');
 }
 
+function renderScopeCompare(summary){
+  const groups = [
+    {
+      label:'Instansi',
+      total:summary.totalInstansi,
+      items:[
+        { label:'Pusat', value:summary.pusatInstansi, accent:'#6d49d8' },
+        { label:'Daerah', value:summary.daerahInstansi, accent:'#b96a00' }
+      ]
+    },
+    {
+      label:'Arsiparis',
+      total:summary.totalArsiparis,
+      items:[
+        { label:'Pusat', value:summary.pusatTotal, accent:'#6d49d8' },
+        { label:'Daerah', value:summary.daerahTotal, accent:'#b96a00' }
+      ]
+    }
+  ];
+  document.getElementById('scope-compare').innerHTML = groups.map(group => {
+    const total = group.total || 1;
+    const fills = group.items.map(item => `
+      <div class="compare-fill" style="--accent:${item.accent};width:${(item.value / total) * 100}%" title="${item.label}: ${fmt(item.value)} (${pct(item.value, total)})"></div>
+    `).join('');
+    const details = group.items.map(item => `
+      <div class="compare-item">
+        <span class="compare-dot" style="--accent:${item.accent}"></span>
+        <span class="compare-name">${item.label}</span>
+        <span class="compare-value">${fmt(item.value)} · ${pct(item.value, total)}</span>
+      </div>
+    `).join('');
+    return `
+      <div class="compare-block">
+        <div class="compare-top">
+          <div class="compare-title">${group.label}</div>
+          <div class="compare-total">Total ${fmt(group.total)}</div>
+        </div>
+        <div class="compare-track" aria-label="${group.label}: Pusat ${fmt(group.items[0].value)}, Daerah ${fmt(group.items[1].value)}">
+          ${fills}
+        </div>
+        <div class="compare-detail">${details}</div>
+      </div>
+    `;
+  }).join('');
+}
+
 function renderTable(records){
   document.getElementById('table-badge').textContent = `${fmt(records.length)} baris`;
   const rows = records.length ? records.map(item => `
@@ -779,9 +973,10 @@ function render(){
   const summary = summarize(records);
   renderMeta(summary);
   renderKpi(summary);
-  renderTop(records, summary);
+  renderStacked(records);
   renderJenjang(summary);
   renderSplit(summary);
+  renderScopeCompare(summary);
   renderTable(records);
 }
 
