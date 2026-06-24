@@ -220,7 +220,15 @@ body::after{
 }
 .sidebar::-webkit-scrollbar{width:0;}
 .sidebar.dropdown-open{overflow:visible;z-index:1600}
-.sidebar.detail-hidden{visibility:hidden;opacity:0;transition:opacity .2s ease}
+.sidebar.is-unpinned{position:relative;top:auto}
+.sidebar.is-collapsed{width:210px;height:auto;padding:14px}
+.sidebar.is-collapsed .search-wrap,.sidebar.is-collapsed .sb-sep,.sidebar.is-collapsed .sb-section,.sidebar.is-collapsed .sb-select-wrap,.sidebar.is-collapsed .prov-wrap{display:none!important}
+.sidebar-tools{display:flex;align-items:center;gap:8px;padding:0 12px 14px}
+.sidebar-tools button{flex:1;border:none;border-radius:999px;padding:9px 10px;background:rgba(255,255,255,.9);color:var(--text-2);
+  font:700 11px var(--font);cursor:pointer;box-shadow:0 8px 20px rgba(15,23,42,.07),inset 0 1px 0 rgba(255,255,255,.94);
+  border:1px solid rgba(148,163,184,.18);transition:transform .16s ease,box-shadow .16s ease,background .16s ease}
+.sidebar-tools button:hover{transform:translateY(-1px);background:#fff;box-shadow:0 12px 28px rgba(15,23,42,.11),inset 0 1px 0 rgba(255,255,255,.96)}
+.sidebar-tools button[aria-pressed="true"]{color:var(--blue);background:linear-gradient(180deg, rgba(11,99,206,.12), rgba(255,255,255,.96))}
 .sb-section{padding:0 12px 6px;}
 .sb-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);padding:0 8px;margin-bottom:6px;display:block;}
 .search-wrap{padding:0 12px 14px;position:relative;}
@@ -666,26 +674,6 @@ body::after{
 .j-card.is-zero .j-num{color:#b8c0cc;}
 .comp-bar{display:flex;height:9px;border-radius:999px;overflow:hidden;margin-top:18px;background:var(--bg);box-shadow:inset 0 0 0 1px var(--border);}
 .comp-seg{height:100%;}
-.comp-bar-card{height:8px;margin-top:0;margin-bottom:10px;}
-.card-legend{display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
-.card-leg{font-size:10px;color:var(--text-4);display:flex;align-items:center;gap:4px;font-weight:500;}
-.card-leg-dot{width:6px;height:6px;border-radius:2px;flex-shrink:0;}
-.card-leg-more{font-size:10px;color:#94a3b8;font-weight:500;}
-.gap-wrap{margin-top:4px;margin-bottom:16px;}
-.gap-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px;padding:0 2px;}
-.gap-title{font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;}
-.gap-src{font-size:10px;font-weight:600;color:var(--text-4);}
-.gap-table{border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;}
-.gap-row{display:grid;grid-template-columns:1.6fr .7fr .7fr .8fr;border-bottom:1px solid rgba(15,23,42,.06);}
-.gap-row:last-child{border-bottom:none;}
-.gap-row.gap-h{background:var(--bg);border-bottom:1px solid var(--border);}
-.gap-row.gap-sum{background:var(--bg);border-top:1px solid var(--border);}
-.gap-c{padding:8px 8px;font-size:11.5px;color:var(--text-2);text-align:right;font-variant-numeric:tabular-nums;}
-.gap-c.gap-name{text-align:left;padding-left:12px;color:var(--text-2);}
-.gap-c.gap-d{padding-right:12px;font-weight:600;}
-.gap-h .gap-c{font-size:9.5px;font-weight:700;color:var(--text-4);text-transform:uppercase;letter-spacing:.03em;}
-.gap-sum .gap-c{font-size:12px;font-weight:700;color:var(--text);}
-.gap-note{font-size:10px;color:#94a3b8;margin-top:8px;}
 .info-rows{border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;}
 .info-row{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);}
 .info-row:last-child{border-bottom:none;}
@@ -1057,8 +1045,8 @@ body::after{
 .monev-reco-card.is-soft{background:linear-gradient(180deg, rgba(255,250,238,.9), rgba(255,255,255,.86))}
 
 /* ── IFRAME PANELS ───────────────────────────────────────────── */
-#panel-siarsiparis,#panel-bkn,#panel-sertifikasi{width:100%;height:calc(100vh - var(--header-h));}
-#panel-siarsiparis iframe,#panel-bkn iframe,#panel-sertifikasi iframe{width:100%;height:100%;border:none;}
+#panel-siarsiparis,#panel-bkn{width:100%;height:calc(100vh - var(--header-h));}
+#panel-siarsiparis iframe,#panel-bkn iframe{width:100%;height:100%;border:none;}
 
 /* ── RESPONSIVE ──────────────────────────────────────────────── */
 /* REMIX */
@@ -1070,6 +1058,7 @@ body::after{
   border:1px solid rgba(255,255,255,.58);
   box-shadow:0 16px 38px rgba(15,23,42,.09), inset 0 1px 0 rgba(255,255,255,.84);
 }
+.sidebar-tools{padding-left:0;padding-right:0}
 .search-wrap,.sb-section,.sb-select-wrap,.prov-wrap{padding-left:0;padding-right:0;}
 .search-wrap{padding-bottom:16px;}
 .search-input,.sb-select{
@@ -1203,7 +1192,6 @@ body::after{
     <a href="#" class="active" onclick="switchTab('rekap',this);return false;"><span class="tab-icon">📋</span>Rekomendasi</a>
     <a href="#" class="is-hidden" onclick="switchTab('siarsiparis',this);return false;"><span class="tab-icon">👤</span>SiArsiparis</a>
     <a href="#" onclick="switchTab('bkn',this);return false;"><span class="tab-icon">🏛️</span>Data BKN</a>
-    <a href="#" onclick="switchTab('sertifikasi',this);return false;"><span class="tab-icon">📜</span>Sertifikasi</a>
     <a href="#" onclick="switchTab('kegiatan',this);return false;"><span class="tab-icon">+</span>Kegiatan SDM</a>
   </nav>
   <div class="header-center">
@@ -1226,9 +1214,6 @@ body::after{
 </div>
 <div id="panel-bkn" style="display:none">
   <iframe id="iframe-bkn" src="" allowfullscreen></iframe>
-</div>
-<div id="panel-sertifikasi" style="display:none">
-  <iframe id="iframe-sertifikasi" src="" allowfullscreen></iframe>
 </div>
 
 <!-- KEGIATAN SDM PANEL -->
@@ -1391,6 +1376,11 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
+    <div class="sidebar-tools">
+      <button type="button" data-sidebar-collapse>Sembunyikan</button>
+      <button type="button" data-sidebar-pin aria-pressed="true">Lepas sticky</button>
+    </div>
+
     <div class="search-wrap">
       <span class="search-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg></span>
       <input type="text" class="search-input" id="search" placeholder="Cari instansi…" oninput="render()">
@@ -1528,30 +1518,6 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
         <div><div class="section-title">Grafik Statistik</div><div class="section-sub">Analitik interaktif dari data kebutuhan arsiparis nasional</div></div>
       </div>
 
-      <div class="stat-card" style="padding:20px;margin-bottom:16px">
-        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px">
-          <div class="stat-label" style="margin:0">Disparitas Rekomendasi vs Ketersediaan (Nasional)</div>
-          <div style="font-size:11px;color:var(--text-4)" id="disp-src">sumber BKN</div>
-        </div>
-        <div style="font-size:11px;color:var(--text-4);margin-bottom:2px">Batang penuh = Rekomendasi (ANRI) · batang transparan = Ketersediaan (Eksisting). Warna membedakan cluster.</div>
-        <div style="height:380px;margin-top:10px"><canvas id="chart-disparitas"></canvas></div>
-      </div>
-
-      <div class="stat-card" style="padding:20px;margin-bottom:16px">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px">
-          <div class="stat-label" style="margin:0">Rincian per Cluster per Jabatan</div>
-          <select id="cj-cluster" onchange="renderClusterJabatan()" style="font-size:11px;font-weight:600;border:1px solid var(--border-med);border-radius:var(--radius-xs);padding:5px 10px;background:var(--bg);color:var(--text);font-family:var(--font);cursor:pointer;outline:none">
-            <option value="nas">Nasional</option>
-            <option value="kem">Kementerian</option>
-            <option value="lemb">Lembaga (gabungan)</option>
-            <option value="prov">Provinsi</option>
-            <option value="kab">Kabupaten/Kota</option>
-          </select>
-        </div>
-        <div style="font-size:11px;color:var(--text-4);margin-bottom:2px">Batang penuh = Rekomendasi · transparan = Ketersediaan (Eksisting). Warna membedakan jenjang.</div>
-        <div style="height:380px;margin-top:8px"><canvas id="chart-cj"></canvas></div>
-      </div>
-
       <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:16px;margin-bottom:16px">
         <div class="stat-card" style="padding:20px">
           <div class="stat-label">Status Rekomendasi Nasional</div>
@@ -1635,7 +1601,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
     <div class="modal-color-bar" id="modal-rule"></div>
     <div class="modal-header">
       <div><div class="modal-title" id="modal-title"></div><div class="modal-subtitle" id="modal-sub"></div></div>
-      <div class="modal-close" onclick="document.getElementById('overlay').classList.remove('open');document.querySelector('.sidebar')?.classList.remove('detail-hidden')">✕</div>
+      <div class="modal-close" onclick="document.getElementById('overlay').classList.remove('open')">✕</div>
     </div>
     <div class="modal-body" id="modal-body"></div>
   </div>
@@ -1742,12 +1708,11 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 <div class="toast" id="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="./assets/data_bkn_rekap_2026.js?v=20260602"></script>
 <script src="config.js"></script>
 <script>
 // ── TAB SWITCHING ─────────────────────────────────────────────
-const TAB_SRCS = { siarsiparis:'siarsiparis_v4_fix.html', bkn:'Data_BKN_rekap.html', sertifikasi:'sertifikasi.html' };
-const iframeLoaded = { siarsiparis:false, bkn:false, sertifikasi:false };
+const TAB_SRCS = { siarsiparis:'siarsiparis_v4_fix.html', bkn:'Data_BKN_rekap.html' };
+const iframeLoaded = { siarsiparis:false, bkn:false };
 function switchTab(tabId, el) {
   document.querySelectorAll('.header-tabs a').forEach(a=>a.classList.remove('active'));
   el.classList.add('active');
@@ -1755,10 +1720,8 @@ function switchTab(tabId, el) {
   document.getElementById('panel-siarsiparis').style.display = tabId==='siarsiparis'?'':'none';
   document.getElementById('panel-bkn').style.display = tabId==='bkn'?'':'none';
   document.getElementById('panel-kegiatan').style.display = tabId==='kegiatan'?'':'none';
-  document.getElementById('panel-sertifikasi').style.display = tabId==='sertifikasi'?'':'none';
   if (tabId==='siarsiparis'&&!iframeLoaded.siarsiparis){document.getElementById('iframe-siarsiparis').src=TAB_SRCS.siarsiparis;iframeLoaded.siarsiparis=true;}
   if (tabId==='bkn'&&!iframeLoaded.bkn){document.getElementById('iframe-bkn').src=TAB_SRCS.bkn;iframeLoaded.bkn=true;}
-  if (tabId==='sertifikasi'&&!iframeLoaded.sertifikasi){document.getElementById('iframe-sertifikasi').src=TAB_SRCS.sertifikasi;iframeLoaded.sertifikasi=true;}
 }
 
 // ── AUTH ─────────────────────────────────────────────────────
@@ -1767,7 +1730,7 @@ const JKEYS = ['terampil','mahir','penyelia','ahli_pertama','ahli_muda','ahli_ma
 const PROVINSI_LIST = ["ACEH","BALI","BANTEN","BENGKULU","DI. YOGYAKARTA","DKI JAKARTA","GORONTALO","JAMBI","JAWA BARAT","JAWA TENGAH","JAWA TIMUR","KALIMANTAN BARAT","KALIMANTAN SELATAN","KALIMANTAN TENGAH","KALIMANTAN TIMUR","KALIMANTAN UTARA","KEPULAUAN RIAU","LAMPUNG","MALUKU","MALUKU UTARA","NUSA TENGGARA BARAT","NUSA TENGGARA TIMUR","PAPUA","PAPUA BARAT","PAPUA BARAT DAYA","PAPUA PEGUNUNGAN","PAPUA SELATAN","PAPUA TENGAH","RIAU","SULAWESI BARAT","SULAWESI SELATAN","SULAWESI TENGAH","SULAWESI TENGGARA","SULAWESI UTARA","SUMATERA BARAT","SUMATERA SELATAN","SUMATERA UTARA"];
 const CAT_COLOR = {'Kementerian':'#d97706','Alat Negara':'#dc2626','Sekretariat Lembaga Negara':'#2563eb','Lembaga Non Struktural':'#7c3aed','Lembaga Pemerintah Lainnya':'#b06030','Lembaga Pemerintah Non Kementerian':'#0d9488','Lembaga Penyiaran Publik':'#7a6020','Provinsi':'#1a4a6b','Kabupaten/Kota':'#3a6b3a'};
 const CAT_ICON = {'Kementerian':'🏛','Alat Negara':'⚔','Sekretariat Lembaga Negara':'🏦','Lembaga Non Struktural':'🔬','Lembaga Pemerintah Lainnya':'🏢','Lembaga Pemerintah Non Kementerian':'🏗','Lembaga Penyiaran Publik':'📡','Provinsi':'🗺','Kabupaten/Kota':'📍'};
-const JENJANG = [{k:'terampil',lbl:'Terampil',c:'#FF9500'},{k:'mahir',lbl:'Mahir',c:'#30B0C7'},{k:'penyelia',lbl:'Penyelia',c:'#007AFF'},{k:'ahli_pertama',lbl:'Ahli Pertama',c:'#FF3B30'},{k:'ahli_muda',lbl:'Ahli Muda',c:'#AF52DE'},{k:'ahli_madya',lbl:'Ahli Madya',c:'#5856D6'},{k:'ahli_utama',lbl:'Ahli Utama',c:'#FF2D55'}];
+const JENJANG = [{k:'terampil',lbl:'Terampil',c:'#d97706'},{k:'mahir',lbl:'Mahir',c:'#0d9488'},{k:'penyelia',lbl:'Penyelia',c:'#2563eb'},{k:'ahli_pertama',lbl:'Ahli Pertama',c:'#dc2626'},{k:'ahli_muda',lbl:'Ahli Muda',c:'#7c3aed'},{k:'ahli_madya',lbl:'Ahli Madya',c:'#b06030'},{k:'ahli_utama',lbl:'Ahli Utama',c:'#1a4a6b'}];
 const CLUSTERS = [{cat:'Kementerian'},{cat:'Lembaga Pemerintah Non Kementerian'},{cat:'Sekretariat Lembaga Negara'},{cat:'Lembaga Non Struktural'},{cat:'Alat Negara'},{cat:'Lembaga Pemerintah Lainnya'},{cat:'Lembaga Penyiaran Publik'},{cat:'Provinsi'},{cat:'Kabupaten/Kota'}];
 const CNT_MAP = {'semua':'cnt-semua','Kementerian':'cnt-kementerian','Alat Negara':'cnt-alat','Sekretariat Lembaga Negara':'cnt-sln','Lembaga Non Struktural':'cnt-lns','Lembaga Pemerintah Lainnya':'cnt-lpl','Lembaga Pemerintah Non Kementerian':'cnt-lpnk','Lembaga Penyiaran Publik':'cnt-lpp','Provinsi':'cnt-provinsi','Kabupaten/Kota':'cnt-kabkot'};
 const CAT_SHORT = {'Lembaga Pemerintah Non Kementerian':'Lembaga Pemerintahan Non Kementerian','Sekretariat Lembaga Negara':'Sekretariat Lembaga Negara','Lembaga Non Struktural':'Lembaga Non Struktural','Lembaga Pemerintah Lainnya':'Lembaga Pemerintahan Lainnya','Lembaga Penyiaran Publik':'Lembaga Penyiaran Publik'};
@@ -2025,66 +1988,31 @@ function closeClusterSheet(e) {
   }
 }
 
-const BKN = (window.BKN_REKAP_2026 && window.BKN_REKAP_2026.records) ? window.BKN_REKAP_2026 : null;
-function bknKey(raw){
-  let t=(raw||'').toString().toLowerCase().replace(/\([^)]*\)/g,' ').replace(/[.,\/]/g,' ').replace(/\s+/g,' ').trim();
-  t=t.replace(/^pemerintah\s+/,'');
-  let lvl='';
-  if(/\bprovinsi\b|\bprov\b/.test(t)) lvl='prov';
-  else if(/\bkabupaten\b|\bkab\b/.test(t)) lvl='kab';
-  else if(/\bkota\b/.test(t)) lvl='kota';
-  t=t.replace(/\b(provinsi|kabupaten|kota|kab|prov)\b/g,'');
-  t=t.replace(/daerah khusus ibukota/g,'dki').replace(/daerah istimewa/g,'di');
-  t=t.replace(/\s+/g,' ').trim();
-  return lvl?lvl+':'+t:t;
-}
-const BKN_MAP = (()=>{ const m={}; if(BKN){ BKN.records.forEach(r=>{ const k=bknKey(r.nama); if(k && !m[k]) m[k]=r; }); } return m; })();
-function gapHTML(d){
-  if(!BKN) return '';
-  const ex = BKN_MAP[bknKey(d.nama)];
-  if(!ex) return '';
-  let sumR=0,sumE=0;
-  const rows = JENJANG.map(j=>{
-    const r=d[j.k]||0, e=ex[j.k]||0, sel=e-r; sumR+=r; sumE+=e;
-    const sc = sel<0?'var(--red)':(sel>0?'var(--green)':'var(--text-4)');
-    return `<div class="gap-row"><div class="gap-c gap-name">${j.lbl}</div><div class="gap-c">${r.toLocaleString('id')}</div><div class="gap-c">${e.toLocaleString('id')}</div><div class="gap-c gap-d" style="color:${sc}">${sel>0?'+':''}${sel.toLocaleString('id')}</div></div>`;
-  }).join('');
-  const sumSel=sumE-sumR, ssc=sumSel<0?'var(--red)':(sumSel>0?'var(--green)':'var(--text-4)');
-  const src = (window.BKN_REKAP_2026 && window.BKN_REKAP_2026.updated_at) ? `sumber BKN · ${window.BKN_REKAP_2026.updated_at}` : 'sumber BKN';
-  return `<div class="gap-wrap">
-    <div class="gap-head"><span class="gap-title">Perbandingan Rekomendasi Arsiparis dan Ketersediaan</span><span class="gap-src">${src}</span></div>
-    <div class="gap-table">
-      <div class="gap-row gap-h"><div class="gap-c gap-name">Jenjang</div><div class="gap-c">Rekom.</div><div class="gap-c">Eksis.</div><div class="gap-c gap-d">Selisih</div></div>
-      ${rows}
-      <div class="gap-row gap-sum"><div class="gap-c gap-name">JUMLAH</div><div class="gap-c">${sumR.toLocaleString('id')}</div><div class="gap-c">${sumE.toLocaleString('id')}</div><div class="gap-c gap-d" style="color:${ssc}">${sumSel>0?'+':''}${sumSel.toLocaleString('id')}</div></div>
-    </div>
-    <div class="gap-note">Selisih negatif = kekurangan arsiparis dibanding rekomendasi.</div>
-  </div>`;
-}
 function cardHTML(d, i) {
   const icon = CAT_ICON[d.kategori] || '🏛';
   const color = CAT_COLOR[d.kategori] || '#888';
-  const badgeHtml = d.status === 'Ada Rekomendasi' ? '' : '<span class="badge badge-belum">— Belum</span>';
+  const bc = d.status === 'Ada Rekomendasi' ? 'badge-ada' : 'badge-belum';
+  const bt = d.status === 'Ada Rekomendasi' ? '✓ Rek.' : '— Belum';
   const prov = d.provinsi ? `<div class="card-province">${d.provinsi}</div>` : '';
   const tc = d.total === 0 ? 'total-num total-zero' : 'total-num';
-  const comp = d.total > 0 ? JENJANG.map(j=>{const v=d[j.k]||0;if(!v)return '';const pct=v/d.total*100;return `<div class="comp-seg" style="width:${pct}%;background:${j.c}" title="${j.lbl}: ${v}"></div>`;}).join('') : '';
-  const ranked = JENJANG.map(j=>({lbl:j.lbl,c:j.c,v:d[j.k]||0})).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
-  const legendTop = ranked.slice(0,2).map(x=>`<span class="card-leg"><span class="card-leg-dot" style="background:${x.c}"></span>${x.lbl} ${x.v.toLocaleString('id')}</span>`).join('');
-  const legendMore = ranked.length>2 ? `<span class="card-leg-more">+${ranked.length-2} jenjang</span>` : '';
+  const bars = d.total > 0 ? JENJANG.slice(0,5).map(j => {
+    const pct = Math.round((d[j.k]||0)/d.total*100);
+    return `<div class="bar-r"><div class="bar-lbl">${j.lbl}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${j.c}"></div></div><div class="bar-val">${d[j.k]||0}</div></div>`;
+  }).join('') : '';
   const ks = d.keterangan ? d.keterangan.replace(/\n/g,' ').slice(0,90)+(d.keterangan.length>90?'…':'') : '—';
   return `<div class="card" style="animation-delay:${Math.min(i,30)*.02}s" onclick="openDetail(${d.id})">
     <div class="card-stripe" style="background:${color}"></div>
     <div class="card-head">
       <div class="cat-dot">${icon}</div>
       <div style="flex:1"><div class="card-name">${d.nama}</div>${prov}</div>
-      ${badgeHtml}
+      <span class="badge ${bc}">${bt}</span>
     </div>
     <div class="card-body">
       <div class="total-row">
         <div class="${tc}">${d.total>0?d.total.toLocaleString('id'):'—'}</div>
         <div class="total-meta"><div class="total-lbl">Total Kebutuhan</div>${d.tahun?`<div class="total-year">${d.tahun}</div>`:''}</div>
       </div>
-      ${comp?`<div class="comp-bar comp-bar-card">${comp}</div><div class="card-legend">${legendTop}${legendMore}</div>`:''}
+      ${bars?`<div class="bars">${bars}</div>`:''}
     </div>
     <div class="card-foot">${ks}</div>
   </div>`;
@@ -2109,11 +2037,10 @@ function openDetail(id) {
   };
   const jHtml = jSection('Keterampilan',kt,JENJANG.slice(0,3)) + jSection('Keahlian',ka,JENJANG.slice(3));
   const compBar = d.total>0 ? `<div class="comp-bar">${JENJANG.map(j=>{const v=d[j.k]||0;if(!v)return '';const pct=v/d.total*100;return `<div class="comp-seg" style="width:${pct}%;background:${j.c}" title="${j.lbl}: ${v}"></div>`;}).join('')}</div>` : '';
-  const adminHtml = IS_ADMIN ? `<div class="modal-admin-actions visible"><button class="btn-modal-edit" onclick="document.getElementById('overlay').classList.remove('open');document.querySelector('.sidebar')?.classList.remove('detail-hidden');openForm(${d.id})">✎ Edit Data Ini</button><button class="btn-modal-del" onclick="confirmDelete(${d.id})">✕ Hapus</button></div>` : '';
+  const adminHtml = IS_ADMIN ? `<div class="modal-admin-actions visible"><button class="btn-modal-edit" onclick="document.getElementById('overlay').classList.remove('open');openForm(${d.id})">✎ Edit Data Ini</button><button class="btn-modal-del" onclick="confirmDelete(${d.id})">✕ Hapus</button></div>` : '';
   document.getElementById('modal-body').innerHTML = `
     <div class="big-total"><div class="big-num">${d.total>0?d.total.toLocaleString('id'):'—'}</div><div class="big-lbl">Total Kebutuhan Arsiparis</div>${compBar}</div>
     ${jHtml}
-    ${gapHTML(d)}
     <div class="info-rows">
       <div class="info-row"><span class="ir-lbl">Status Rekomendasi</span><span class="ir-val" style="color:${sc}">${d.status}</span></div>
       <div class="info-row"><span class="ir-lbl">Tahun Rekomendasi</span><span class="ir-val">${d.tahun||'—'}</span></div>
@@ -2121,10 +2048,10 @@ function openDetail(id) {
     </div>
     ${d.keterangan ? `<div class="ket-box">📎 ${d.keterangan.replace(/\n/g,'<br>')}</div>` : ''}
     ${adminHtml}`;
-  document.getElementById('overlay').classList.add('open');document.querySelector('.sidebar')?.classList.add('detail-hidden');
+  document.getElementById('overlay').classList.add('open');
 }
 
-function closeOverlay(e) { if (e.target === document.getElementById('overlay')) { document.getElementById('overlay').classList.remove('open');document.querySelector('.sidebar')?.classList.remove('detail-hidden'); } }
+function closeOverlay(e) { if (e.target === document.getElementById('overlay')) document.getElementById('overlay').classList.remove('open'); }
 
 function recalcTotal() {
   const vals = JKEYS.map(k => parseInt(document.getElementById('f-'+k).value)||0);
@@ -2134,7 +2061,7 @@ function recalcTotal() {
 
 function openForm(id) {
   if (!IS_ADMIN) { showToast('Akses ditolak. Login sebagai admin terlebih dahulu.', 'danger'); return; }
-  document.getElementById('overlay').classList.remove('open');document.querySelector('.sidebar')?.classList.remove('detail-hidden');
+  document.getElementById('overlay').classList.remove('open');
   const isNew = id === null;
   document.getElementById('form-title').textContent = isNew ? '+ Tambah Instansi Baru' : '✎ Edit Data Instansi';
   document.getElementById('f-id').value = isNew ? '' : id;
@@ -2206,7 +2133,7 @@ function confirmDelete(id) {
   const d = ALL.find(x => x.id === id);
   document.getElementById('confirm-msg').textContent = `"${d ? d.nama : '?'}" akan dihapus permanen dari database.`;
   document.getElementById('confirm-del-btn').onclick = doDelete;
-  document.getElementById('overlay').classList.remove('open');document.querySelector('.sidebar')?.classList.remove('detail-hidden');
+  document.getElementById('overlay').classList.remove('open');
   document.getElementById('confirm-overlay').classList.add('open');
 }
 
@@ -2270,10 +2197,10 @@ function mkChart(id, config) {
 }
 
 const CAT_COLORS = {
-  'Kementerian':'#FF9500','Alat Negara':'#FF3B30','Sekretariat Lembaga Negara':'#007AFF',
-  'Lembaga Non Struktural':'#AF52DE','Lembaga Pemerintah Lainnya':'#A2845E',
-  'Lembaga Pemerintah Non Kementerian':'#30B0C7','Lembaga Penyiaran Publik':'#FF2D55',
-  'Provinsi':'#5856D6','Kabupaten/Kota':'#34C759'
+  'Kementerian':'#d97706','Alat Negara':'#dc2626','Sekretariat Lembaga Negara':'#2563eb',
+  'Lembaga Non Struktural':'#7c3aed','Lembaga Pemerintah Lainnya':'#b06030',
+  'Lembaga Pemerintah Non Kementerian':'#0d9488','Lembaga Penyiaran Publik':'#db2777',
+  'Provinsi':'#1a4a6b','Kabupaten/Kota':'#3a6b3a'
 };
 
 function renderCharts() {
@@ -2381,7 +2308,7 @@ function renderCharts() {
     }
   });
 
-  const jenjangColors = ['#FF9500','#30B0C7','#007AFF','#FF3B30','#AF52DE','#5856D6','#FF2D55'];
+  const jenjangColors = ['#d97706','#0d9488','#0071e3','#dc2626','#7c3aed','#b06030','#1a4a6b'];
   const jenjangDatasets = JENJANG.map((j,i)=>({
     label:j.lbl, data:CAT_LABELS.map(cat=>ALL.filter(d=>d.kategori===cat).reduce((s,d)=>s+(d[j.k]||0),0)),
     backgroundColor:jenjangColors[i]+'55',borderColor:jenjangColors[i],borderWidth:1,borderSkipped:false,borderRadius:999
@@ -2396,95 +2323,6 @@ function renderCharts() {
       plugins:{legend:{position:'bottom',labels:{font:{family:font,size:9},boxWidth:9,padding:8}},tooltip:{mode:'index',intersect:false,...tooltipDefaults}},
       animation:{duration:700}
     }
-  });
-
-  // ── Disparitas Rekomendasi vs Ketersediaan (Nasional) ──
-  if (window.BKN_REKAP_2026 && window.BKN_REKAP_2026.records) {
-    const bknCls = n => { const t=(n||'').toLowerCase();
-      if(/provinsi|^pemerintah aceh$|daerah istimewa yogyakarta|^pemerintah dki/.test(t)) return 'prov';
-      if(/kabupaten|^pemerintah kab\b/.test(t)) return 'kab';
-      if(/kota /.test(t)||/^pemerintah kota/.test(t)) return 'kota';
-      if(/^kementerian/.test(t)) return 'kem';
-      return 'lemb'; };
-    const LEMB=['Alat Negara','Sekretariat Lembaga Negara','Lembaga Non Struktural','Lembaga Pemerintah Lainnya','Lembaga Pemerintah Non Kementerian','Lembaga Penyiaran Publik'];
-    const rsum=fn=>ALL.filter(fn).reduce((a,d)=>a+(d.total||0),0);
-    const rek={ nas:rsum(()=>true), kem:rsum(d=>d.kategori==='Kementerian'), lemb:rsum(d=>LEMB.includes(d.kategori)), prov:rsum(d=>d.kategori==='Provinsi'), kab:rsum(d=>d.kategori==='Kabupaten/Kota') };
-    const eks={nas:0,kem:0,lemb:0,prov:0,kab:0};
-    window.BKN_REKAP_2026.records.forEach(r=>{ const c=bknCls(r.nama); const v=r.total||0; eks.nas+=v;
-      if(c==='kem')eks.kem+=v; else if(c==='lemb')eks.lemb+=v; else if(c==='prov')eks.prov+=v; else eks.kab+=v; });
-    const gk=['nas','kem','lemb','prov','kab'];
-    const gl=['Nasional','Kementerian','Lembaga','Provinsi','Kabupaten/Kota'];
-    const dsrc=document.getElementById('disp-src'); if(dsrc) dsrc.textContent='sumber BKN · '+(window.BKN_REKAP_2026.updated_at||'');
-    const COL=['#636366','#FF9500','#AF52DE','#5856D6','#34C759'];
-    const dispLabels={ id:'dispLabels', afterDatasetsDraw(chart){
-      const ctx=chart.ctx; ctx.save();
-      ctx.font="600 10px "+font; ctx.textBaseline='middle'; ctx.textAlign='left';
-      chart.data.datasets.forEach((ds,di)=>{ const meta=chart.getDatasetMeta(di);
-        meta.data.forEach((bar,i)=>{ const v=ds.data[i]; if(v==null)return;
-          ctx.fillStyle = di===0 ? COL[i] : 'rgba(71,85,105,.9)';
-          ctx.fillText(v.toLocaleString('id'), bar.x+7, bar.y); }); });
-      ctx.restore(); } };
-    mkChart('chart-disparitas', {
-      type:'bar',
-      data:{ labels:gl, datasets:[
-        {label:'Rekomendasi (ANRI)', data:gk.map(k=>rek[k]), backgroundColor:COL, borderColor:COL, borderWidth:0, borderRadius:8, borderSkipped:false},
-        {label:'Ketersediaan (Eksisting)', data:gk.map(k=>eks[k]), backgroundColor:COL.map(c=>c+'40'), borderColor:COL, borderWidth:1.5, borderRadius:8, borderSkipped:false}
-      ]},
-      options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
-        layout:{padding:{right:54}},
-        scales:{ x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>v>=1000?(v/1000).toFixed(0)+'rb':v,font:{size:10,family:font}}},
-                 y:{grid:{display:false},ticks:{font:{size:11,family:font,weight:'600'}}} },
-        plugins:{ legend:{display:false},
-          tooltip:{mode:'index',intersect:false,...tooltipDefaults,callbacks:{
-            label:ctx=>`${ctx.dataset.label}: ${ctx.raw.toLocaleString('id')}`,
-            afterbody:items=>{const i=items[0].dataIndex;const sel=eks[gk[i]]-rek[gk[i]];return `Selisih: ${sel>0?'+':''}${sel.toLocaleString('id')}`;} }} },
-        animation:{duration:700} },
-      plugins:[dispLabels]
-    });
-
-    // ── Data per cluster per jabatan (untuk tabel rincian) ──
-    const JCL=['nas','kem','lemb','prov','kab'];
-    const JBYC={rek:{},eks:{}};
-    JCL.forEach(c=>{ JBYC.rek[c]={}; JBYC.eks[c]={}; JENJANG.forEach(j=>{JBYC.rek[c][j.k]=0;JBYC.eks[c][j.k]=0;}); });
-    const catCl = kat => kat==='Kementerian'?'kem': (LEMB.includes(kat)?'lemb': (kat==='Provinsi'?'prov': (kat==='Kabupaten/Kota'?'kab':null)));
-    ALL.forEach(d=>{ const cc=catCl(d.kategori); JENJANG.forEach(j=>{ const v=d[j.k]||0; JBYC.rek.nas[j.k]+=v; if(cc) JBYC.rek[cc][j.k]+=v; }); });
-    window.BKN_REKAP_2026.records.forEach(r=>{ const c=bknCls(r.nama); const cc=(c==='kem'?'kem':c==='lemb'?'lemb':c==='prov'?'prov':'kab'); JENJANG.forEach(j=>{ const v=r[j.k]||0; JBYC.eks.nas[j.k]+=v; JBYC.eks[cc][j.k]+=v; }); });
-    window.__JBYC=JBYC;
-    renderClusterJabatan();
-  }
-}
-
-function renderClusterJabatan(){
-  const J=window.__JBYC; if(!J || typeof Chart==='undefined') return;
-  const sel=document.getElementById('cj-cluster'); const c=sel?sel.value:'nas';
-  const font="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
-  const labels=JENJANG.map(j=>j.lbl);
-  const colors=JENJANG.map(j=>j.c);
-  const rek=JENJANG.map(j=>J.rek[c][j.k]||0);
-  const eks=JENJANG.map(j=>J.eks[c][j.k]||0);
-  const cjLabels={ id:'cjLabels', afterDatasetsDraw(chart){
-    const ctx=chart.ctx; ctx.save(); ctx.font="600 10px "+font; ctx.textBaseline='middle'; ctx.textAlign='left';
-    chart.data.datasets.forEach((ds,di)=>{ const meta=chart.getDatasetMeta(di);
-      meta.data.forEach((bar,i)=>{ const v=ds.data[i]; if(v==null)return;
-        ctx.fillStyle = di===0 ? colors[i] : 'rgba(71,85,105,.9)';
-        ctx.fillText(v.toLocaleString('id'), bar.x+7, bar.y); }); });
-    ctx.restore(); } };
-  mkChart('chart-cj', {
-    type:'bar',
-    data:{ labels, datasets:[
-      {label:'Rekomendasi', data:rek, backgroundColor:colors, borderColor:colors, borderWidth:0, borderRadius:7, borderSkipped:false},
-      {label:'Ketersediaan', data:eks, backgroundColor:colors.map(x=>x+'40'), borderColor:colors, borderWidth:1.5, borderRadius:7, borderSkipped:false}
-    ]},
-    options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
-      layout:{padding:{right:54}},
-      scales:{ x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>v>=1000?(v/1000).toFixed(0)+'rb':v,font:{size:10,family:font}}},
-               y:{grid:{display:false},ticks:{font:{size:11,family:font,weight:'600'}}} },
-      plugins:{ legend:{display:false},
-        tooltip:{mode:'index',intersect:false,backgroundColor:'rgba(255,255,255,.96)',titleColor:'#111827',bodyColor:'#4b5563',borderColor:'rgba(15,23,42,.08)',borderWidth:1,padding:12,cornerRadius:14,displayColors:false,
-          callbacks:{ label:ctx=>`${ctx.dataset.label}: ${ctx.raw.toLocaleString('id')}`,
-            afterbody:items=>{const i=items[0].dataIndex; const x=eks[i]-rek[i]; return `Selisih: ${x>0?'+':''}${x.toLocaleString('id')}`;} } } },
-      animation:{duration:600} },
-    plugins:[cjLabels]
   });
 }
 
@@ -2698,6 +2536,31 @@ function setupCustomFilterSelects(){
   window.syncCustomFilterSelects=()=>instances.forEach(instance=>instance.syncLabel());
 }
 
+function setupSidebarControls(){
+  const sidebar=document.querySelector('.sidebar');
+  if(!sidebar) return;
+  const collapseBtn=sidebar.querySelector('[data-sidebar-collapse]');
+  const pinBtn=sidebar.querySelector('[data-sidebar-pin]');
+  const sync=()=>{
+    if(collapseBtn) collapseBtn.textContent=sidebar.classList.contains('is-collapsed')?'Tampilkan':'Sembunyikan';
+    if(pinBtn){
+      const isPinned=!sidebar.classList.contains('is-unpinned');
+      pinBtn.textContent=isPinned?'Lepas sticky':'Sticky';
+      pinBtn.setAttribute('aria-pressed',isPinned?'true':'false');
+    }
+  };
+  collapseBtn?.addEventListener('click',()=>{
+    sidebar.classList.toggle('is-collapsed');
+    sidebar.classList.remove('dropdown-open');
+    sync();
+  });
+  pinBtn?.addEventListener('click',()=>{
+    sidebar.classList.toggle('is-unpinned');
+    sync();
+  });
+  sync();
+}
+
 function openMonevDetail(){
   const detail=document.getElementById('monev-detail');
   if(!detail) return;
@@ -2712,6 +2575,7 @@ function closeMonevDetail(){
 }
 
 setupCustomFilterSelects();
+setupSidebarControls();
 setupSidebarClusterGroups();
 init();
 </script>

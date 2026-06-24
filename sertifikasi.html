@@ -1,0 +1,1933 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jadwal Sertifikasi SDM Kearsipan 2026 — ANRI</title>
+<style>
+  /* ── APPLE DESIGN TOKENS ── */
+  :root {
+    /* Primary accent — iOS Blue */
+    --accent:        #0071e3;
+    --accent-light:  #e8f1fc;
+    --accent-mid:    #4d9ef5;
+
+    /* Semantic colours (matching iOS system palette) */
+    --green:         #34c759;
+    --green-bg:      #e8f8ed;
+    --orange:        #ff9500;
+    --orange-bg:     #fff4e0;
+    --purple:        #af52de;
+    --purple-bg:     #f5eafd;
+    --red:           #ff3b30;
+    --red-bg:        #fff0ef;
+    --teal:          #5ac8fa;
+    --teal-bg:       #eaf7fe;
+
+    /* Legacy aliases so the existing HTML doesn't break */
+    --anri-orange:       var(--accent);
+    --anri-orange-light: var(--accent-light);
+    --anri-orange-mid:   var(--accent-mid);
+    --daring:            var(--accent);
+    --daring-bg:         var(--accent-light);
+    --luring:            var(--green);
+    --luring-bg:         var(--green-bg);
+    --rm:                var(--purple);
+    --rm-bg:             var(--purple-bg);
+
+    /* Grays — Apple Human Interface Guidelines */
+    --label:         #1d1d1f;   /* primary label */
+    --label-2:       #6e6e73;   /* secondary label */
+    --label-3:       #aeaeb2;   /* tertiary label */
+    --fill:          #f5f5f7;   /* grouped background */
+    --fill-2:        #ffffff;   /* card surface */
+    --separator:     rgba(60,60,67,.12);
+    --separator-opaque: #d2d2d7;
+
+    --anri-dark:   var(--label);
+    --anri-gray:   var(--label-2);
+    --anri-light:  var(--fill);
+    --anri-border: var(--separator-opaque);
+    --anri-white:  var(--fill-2);
+
+    /* Shape & elevation */
+    --radius:   14px;
+    --radius-sm: 10px;
+    --shadow:   0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, 'SF Pro Text', 'Inter', system-ui, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--fill);
+    color: var(--label);
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--separator);
+    padding: 18px max(22px, calc(50% - 560px)) 16px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+  }
+  .page-header .logo-wrap {
+    width: 46px; height: 46px;
+    background: #fff;
+    border-radius: 13px;
+    padding: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    border: .5px solid rgba(20,30,55,.1);
+    box-shadow: 0 1px 2px rgba(20,30,55,.1), 0 4px 12px -4px rgba(20,30,55,.18), inset 0 1px 0 rgba(255,255,255,.9);
+  }
+  .page-header .logo-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .page-header h1 {
+    font-size: 15px; font-weight: 600;
+    color: var(--label);
+    letter-spacing: -.01em;
+    line-height: 1.3;
+  }
+  .page-header p {
+    font-size: 12px; color: var(--label-2);
+    letter-spacing: -.01em;
+  }
+
+  /* ── HERO ── */
+  .intro-banner {
+    position: relative;
+    overflow: hidden;
+    color: white;
+    padding: 46px max(22px, calc(50% - 560px)) 40px;
+    background:
+      radial-gradient(130% 120% at 12% -10%, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 42%),
+      linear-gradient(155deg, #0a3d6b 0%, #0a6fae 46%, #0d92cf 100%);
+  }
+  .intro-banner .nomor {
+    font-size: 11px; font-weight: 600;
+    opacity: 0.82; margin-bottom: 14px;
+    font-family: 'SF Mono', 'Menlo', monospace;
+    letter-spacing: .06em; text-transform: uppercase;
+  }
+  .intro-banner h2 {
+    font-family: -apple-system, 'SF Pro Display', 'Inter', sans-serif;
+    font-size: clamp(24px, 3.6vw, 36px);
+    font-weight: 700; line-height: 1.08;
+    letter-spacing: -.03em;
+    margin-bottom: 12px;
+    max-width: 16ch;
+  }
+  .intro-banner p {
+    font-size: clamp(14px, 1.6vw, 16px);
+    opacity: 0.9; max-width: 620px;
+    line-height: 1.5; font-weight: 400;
+  }
+  .intro-banner .catatan {
+    margin-top: 22px;
+    display: inline-flex; align-items: flex-start; gap: 9px;
+    background: rgba(255,255,255,.14);
+    border-radius: 12px;
+    padding: 11px 15px;
+    font-size: 12.5px; line-height: 1.45;
+    border: 1px solid rgba(255,255,255,.22);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .intro-banner .catatan span { font-weight: 700; }
+  .intro-banner .catatan .ic { flex-shrink: 0; margin-top: 1px; }
+
+  /* ── TABS ── */
+  .tab-wrap {
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--separator);
+    padding: 0 max(16px, calc(50% - 560px));
+    display: flex;
+    gap: 2px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tab-wrap::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    padding: 12px 16px;
+    border: none;
+    background: none;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--label-2);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.18s, border-color 0.18s;
+    white-space: nowrap;
+    letter-spacing: -.01em;
+    font-family: -apple-system, 'SF Pro Text', 'Inter', system-ui, 'Helvetica Neue', Arial, sans-serif;
+  }
+  .tab-btn:hover { color: var(--accent); }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main { padding: 26px max(20px, calc(50% - 560px)) 10px; }
+
+  .tab-section { display: none; }
+  .tab-section.active { display: block; }
+
+  /* ── STATS ROW ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .stat-card {
+    background: var(--fill-2);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    border: 1px solid var(--separator-opaque);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+  }
+  .stat-card .val {
+    font-size: 24px; font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -.02em;
+  }
+  .stat-card .lbl {
+    font-size: 11px; color: var(--label-2);
+    margin-top: 4px;
+    letter-spacing: -.01em;
+  }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-size: 11.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--label-2);
+    margin: 24px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--separator-opaque);
+  }
+
+  /* ── JADWAL CARDS ── */
+  .jadwal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+  }
+
+  .jadwal-card {
+    background: var(--fill-2);
+    border-radius: var(--radius);
+    border: 1px solid var(--separator-opaque);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .jadwal-card:hover {
+    box-shadow: 0 4px 20px rgba(10,112,172,.14);
+    transform: translateY(-1px);
+  }
+
+  .card-head {
+    background: var(--accent-light);
+    border-bottom: 1px solid var(--separator-opaque);
+    padding: 12px 14px 10px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .card-head .angkatan {
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--accent);
+    letter-spacing: .05em;
+  }
+  .card-head .nama {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--label);
+    margin-top: 2px;
+    letter-spacing: -.01em;
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: -.01em;
+  }
+  .badge.daring { background: var(--accent-light); color: var(--accent); }
+  .badge.luring { background: var(--green-bg); color: #1a7a35; }
+  .badge.rm     { background: var(--purple-bg); color: #7b2fa8; }
+  .badge.lewat  { background: #f2f2f7; color: var(--label-3); }
+  .badge.akan   { background: var(--orange-bg); color: #995800; }
+  .badge.aktif  { background: var(--green-bg); color: #1a7a35; }
+
+  .card-body { padding: 12px 14px; }
+
+  .info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 7px;
+    font-size: 13px;
+    color: var(--label-2);
+  }
+  .info-row .icon { flex-shrink: 0; width: 16px; text-align: center; }
+  .info-row strong { color: var(--label); font-weight: 600; }
+
+  .divider-info {
+    border-top: 1px solid var(--separator);
+    margin: 10px 0;
+  }
+
+  .kuota-bar-wrap { margin-top: 6px; }
+  .kuota-lbl {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--label-2);
+    margin-bottom: 4px;
+  }
+  .kuota-bar {
+    height: 4px;
+    background: var(--separator-opaque);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .kuota-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 4px;
+  }
+
+  .tuk-note {
+    font-size: 11px;
+    color: var(--green);
+    font-weight: 600;
+    margin-top: 6px;
+  }
+
+  /* ── SYARAT / PERSYARATAN ── */
+  .syarat-wrap {
+    background: var(--fill-2);
+    border-radius: var(--radius);
+    border: 1px solid var(--separator-opaque);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .syarat-head {
+    background: var(--accent);
+    color: white;
+    padding: 11px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -.01em;
+  }
+  .syarat-body { padding: 14px 16px; }
+  .syarat-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 9px;
+    font-size: 13px;
+    color: var(--label-2);
+    line-height: 1.5;
+  }
+  .syarat-item:last-child { margin-bottom: 0; }
+  .syarat-item .num {
+    background: var(--accent-light);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 10.5px;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ── TYPE TABLE ── */
+  .type-table-wrap {
+    background: var(--fill-2);
+    border-radius: var(--radius);
+    border: 1px solid var(--separator-opaque);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .type-table-wrap table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .type-table-wrap th {
+    background: var(--accent);
+    color: white;
+    padding: 10px 14px;
+    font-size: 12px;
+    text-align: left;
+    font-weight: 600;
+    letter-spacing: -.01em;
+  }
+  .type-table-wrap td {
+    padding: 9px 14px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--separator);
+    color: var(--label-2);
+    vertical-align: top;
+  }
+  .type-table-wrap tr:last-child td { border-bottom: none; }
+  .type-table-wrap tr:hover td { background: var(--accent-light); }
+
+  /* ── LINKS CARD ── */
+  .links-card {
+    background: var(--fill-2);
+    border-radius: var(--radius);
+    border: 1px solid var(--separator-opaque);
+    box-shadow: var(--shadow-sm);
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .links-card h4 {
+    font-size: 13px; font-weight: 600;
+    color: var(--label);
+    margin-bottom: 12px;
+    letter-spacing: -.01em;
+  }
+  .link-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--separator);
+    text-decoration: none;
+    color: var(--label);
+    font-size: 13px;
+    transition: color 0.15s;
+    letter-spacing: -.01em;
+  }
+  .link-item:last-child { border-bottom: none; }
+  .link-item:hover { color: var(--accent); }
+  .link-item .li-icon {
+    width: 32px; height: 32px;
+    background: var(--accent-light);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .link-item .li-text span {
+    display: block;
+    font-size: 11px;
+    color: var(--label-2);
+    margin-top: 1px;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 9px; top: 8px; bottom: 8px;
+    width: 2px;
+    background: var(--separator-opaque);
+  }
+  .tl-item { position: relative; margin-bottom: 14px; }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -23px; top: 6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+  .tl-item.lewat::before { background: var(--label-3); box-shadow: 0 0 0 2px var(--label-3); }
+  .tl-item.aktif::before {
+    background: var(--green);
+    box-shadow: 0 0 0 2px var(--green);
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 2px var(--green); }
+    50%       { box-shadow: 0 0 0 5px rgba(52,199,89,.2); }
+  }
+  .tl-date { font-size: 11px; color: var(--label-2); font-weight: 600; }
+  .tl-name { font-size: 13px; font-weight: 600; color: var(--label); letter-spacing: -.01em; }
+  .tl-meta { font-size: 11.5px; color: var(--label-2); margin-top: 2px; }
+
+  /* ── FOOTER ── */
+  .page-footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 11.5px;
+    color: var(--label-3);
+    border-top: 1px solid var(--separator-opaque);
+    margin-top: 24px;
+    letter-spacing: -.01em;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .jadwal-grid { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .main { padding: 16px 14px 8px; }
+    .tab-btn { padding: 11px 13px; font-size: 12px; }
+    .intro-banner { padding: 30px 18px 26px; }
+    .page-header { padding: 14px 16px 12px; }
+  }
+
+  /* ── LINE ICON SYSTEM (SF-Symbols style) ── */
+  .ic {
+    width: 16px; height: 16px;
+    display: inline-block; vertical-align: -3px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .badge .ic { width: 13px; height: 13px; vertical-align: -2px; stroke-width: 1.8; }
+  .info-row .icon { color: var(--accent); }
+  .info-row .icon .ic { vertical-align: -3px; }
+  .syarat-head .ic, .links-card h4 .ic { width: 17px; height: 17px; vertical-align: -3px; margin-right: 5px; }
+  .li-icon .ic { width: 19px; height: 19px; stroke-width: 1.6; }
+  .logo-wrap .logo-ic {
+    width: 22px; height: 22px;
+    stroke: #fff; fill: none; stroke-width: 1.7;
+    stroke-linecap: round; stroke-linejoin: round;
+  }
+  /* live "Berlangsung" dot */
+  .live-dot {
+    display: inline-block; width: 7px; height: 7px;
+    border-radius: 50%; background: #fff;
+    margin: 0 5px -1px 2px;
+    box-shadow: 0 0 0 0 rgba(255,255,255,.6);
+    animation: live-pulse 1.8s ease-out infinite;
+  }
+  @keyframes live-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(255,255,255,.55); }
+    70%  { box-shadow: 0 0 0 7px rgba(255,255,255,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+  }
+
+  /* ── WIDE / desktop (macOS) roominess ── */
+  @media (min-width: 1000px) {
+    .intro-banner { padding-top: 56px; padding-bottom: 48px; }
+    .stats-row { gap: 14px; margin-bottom: 26px; }
+    .jadwal-grid { gap: 16px; }
+    .section-label { margin: 30px 0 12px; }
+  }
+
+  /* ════════════════════════════════════════════════════
+     iOS 26 — LIQUID GLASS layer (restraint)
+     glassy chrome + accents, content stays solid & legible
+     ════════════════════════════════════════════════════ */
+  :root{
+    /* —— premium ANRI azure palette (sampled from logo) —— */
+    --accent:        #0a70ac;   /* refined deep azure, legible */
+    --accent-light:  #e7f3fb;
+    --accent-mid:    #3aa9de;
+    --anri-bright:   #009cd8;
+    --anri-deep:     #0084cc;
+    --anri-navy:     #0a3d6b;
+    --anri-sky:      #9cd8f0;
+    --glass-fill:        rgba(255,255,255,.55);
+    --glass-fill-strong: rgba(255,255,255,.72);
+    --glass-stroke:      rgba(255,255,255,.55);
+    --glass-blur:        saturate(185%) blur(28px);
+    --hl: inset 0 1px 0 rgba(255,255,255,.75), inset 0 0 0 .5px rgba(255,255,255,.22);
+    --float: 0 1px 1px rgba(18,28,52,.05), 0 8px 18px -8px rgba(18,28,52,.16), 0 24px 50px -26px rgba(18,28,52,.24);
+    --col: 1120px;
+    --gutter: 14px;
+  }
+
+  /* —— background layer the glass refracts —— */
+  body{ background:#e9edf4; }
+  body::before{
+    content:''; position:fixed; inset:0; z-index:-2; pointer-events:none;
+    background:
+      radial-gradient(58% 50% at 10% 6%,  rgba(0,156,216,.22), transparent 60%),
+      radial-gradient(54% 46% at 93% 2%,  rgba(0,132,204,.18), transparent 60%),
+      radial-gradient(62% 56% at 90% 96%, rgba(10,61,107,.16), transparent 62%),
+      radial-gradient(52% 46% at 4% 98%,  rgba(156,216,240,.20), transparent 60%),
+      linear-gradient(180deg,#eef2f9,#e4e9f2);
+  }
+
+  /* shared floating column sizing */
+  .page-header, .intro-banner, .main{
+    width: min(var(--col), calc(100% - var(--gutter)*2));
+    margin-left:auto; margin-right:auto;
+  }
+
+  /* —— top bar → floating glass —— */
+  .page-header{
+    position: static;
+    margin-top: 16px;
+    padding: 14px 20px;
+    border-radius: 22px;
+    background: var(--glass-fill);
+    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    border: .5px solid var(--glass-stroke);
+    box-shadow: var(--hl), var(--float);
+  }
+  .page-header .logo-wrap{ border-radius: 13px; }
+
+  /* —— hero → floating layered card —— */
+  .intro-banner{
+    margin: 16px auto;
+    padding: 42px 36px 36px;
+    border-radius: 30px;
+    box-shadow: var(--float), inset 0 1px 0 rgba(255,255,255,.3);
+  }
+  .intro-banner::after{
+    content:''; position:absolute; inset:0; pointer-events:none;
+    background: linear-gradient(120deg, rgba(255,255,255,.20), transparent 32%);
+    mix-blend-mode: screen;
+  }
+  .intro-banner .catatan{
+    display: block;
+    -webkit-backdrop-filter: blur(10px) saturate(160%); backdrop-filter: blur(10px) saturate(160%);
+  }
+  .intro-banner .catatan .ic{ margin-right: 6px; vertical-align: -3px; }
+
+  /* —— tab bar → floating glass pill (iOS 26 signature) —— */
+  .tab-wrap{
+    position: sticky; top: 12px; z-index: 60;
+    width: fit-content; max-width: calc(100% - var(--gutter)*2);
+    margin: 14px auto 6px;
+    padding: 5px 6px;
+    border-radius: 999px;
+    border: .5px solid var(--glass-stroke);
+    border-bottom: .5px solid var(--glass-stroke);
+    background: var(--glass-fill-strong);
+    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    box-shadow: var(--hl), var(--float);
+    gap: 2px;
+  }
+  .tab-btn{
+    border-radius: 999px;
+    border-bottom: 0 !important;
+    padding: 9px 16px;
+    transition: background .18s ease, color .18s ease;
+  }
+  .tab-btn:hover{ background: rgba(0,0,0,.05); color: var(--label); }
+  .tab-btn.active{
+    background: var(--accent); color:#fff; border-bottom: 0;
+    box-shadow: 0 2px 8px rgba(10,112,172,.42), inset 0 1px 0 rgba(255,255,255,.35);
+  }
+  .tab-btn.active:hover{ background: var(--accent); color:#fff; }
+
+  /* —— main column —— */
+  .main{ padding: 6px 0 28px; }
+
+  /* —— stat cards → glass (low text, safe) —— */
+  .stat-card{
+    background: var(--glass-fill-strong);
+    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    border: .5px solid var(--glass-stroke);
+    border-radius: 20px;
+    box-shadow: var(--hl), var(--float);
+    transition: transform .25s cubic-bezier(.32,.72,0,1), box-shadow .25s ease;
+  }
+  .stat-card:hover{ transform: translateY(-2px); }
+
+  /* —— content cards → SOLID (legibility) but elevated & squircle —— */
+  .jadwal-card, .syarat-wrap, .type-table-wrap, .links-card{
+    border-radius: 20px;
+    border: .5px solid rgba(20,30,55,.07);
+    box-shadow: var(--float);
+    transition: transform .25s cubic-bezier(.32,.72,0,1), box-shadow .25s ease;
+  }
+  .jadwal-card:hover{
+    transform: translateY(-3px);
+    box-shadow: var(--float), 0 0 0 1px rgba(10,112,172,.18);
+  }
+  .card-head{ border-bottom: .5px solid var(--separator); }
+
+  /* —— badges → glass chips —— */
+  .badge{
+    border-radius: 999px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 0 0 .5px rgba(255,255,255,.25);
+    -webkit-backdrop-filter: blur(6px) saturate(150%); backdrop-filter: blur(6px) saturate(150%);
+  }
+
+  /* —— section dividers softer —— */
+  .section-label::after{ background: rgba(20,30,55,.1); }
+
+  /* —— motion hygiene —— */
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; animation:none !important; }
+  }
+
+  /* —— small screens —— */
+  @media (max-width: 600px){
+    .page-header{ margin-top: 12px; padding: 12px 16px; border-radius: 20px; }
+    .intro-banner{ padding: 28px 20px 24px; border-radius: 24px; }
+    .tab-wrap{ max-width: calc(100% - 20px); }
+    .stat-card{ border-radius: 16px; }
+  }
+
+  /* ════════ SERAGAM — samakan dengan dashboard utama ════════ */
+  :root{
+    --accent:#0b63ce; --accent-light:#e6f1fb; --accent-mid:#85b7eb;
+    --label:#0f172a; --label-2:#425466; --label-3:#94a3b8;
+    --separator:rgba(15,23,42,.1); --separator-opaque:rgba(15,23,42,.12);
+  }
+  body{ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:#f4f7fb; }
+  body::before{
+    background:
+      radial-gradient(circle at top left, rgba(255,255,255,.95), transparent 34%),
+      radial-gradient(circle at 85% 12%, rgba(88,156,255,.22), transparent 28%),
+      radial-gradient(circle at 20% 100%, rgba(64,200,224,.14), transparent 28%),
+      linear-gradient(180deg,#fbfbfd 0%,#f4f7fb 46%,#e9eff6 100%);
+  }
+  .page-header{ display:none !important; }
+  .intro-banner, .main{ width:min(1280px, calc(100% - 28px)); }
+  .intro-banner{
+    color:var(--label); margin-top:18px; border-radius:32px;
+    border:1px solid rgba(255,255,255,.7);
+    background:linear-gradient(135deg, rgba(255,255,255,.96) 0%, rgba(245,249,255,.8) 52%, rgba(234,244,255,.72) 100%);
+    box-shadow:0 18px 46px rgba(15,23,42,.10);
+  }
+  .intro-banner::after{ display:none !important; }
+  .intro-banner::before{
+    content:''; position:absolute; width:240px; height:240px; right:-52px; top:-74px;
+    background:radial-gradient(circle, rgba(11,99,206,.18), transparent 68%); pointer-events:none;
+  }
+  .intro-banner .nomor{ color:var(--accent); opacity:1; }
+  .intro-banner h2{ color:var(--label); max-width:720px; text-wrap:balance; }
+  .intro-banner p{ color:var(--label-2); opacity:1; }
+  .intro-banner .catatan{
+    color:var(--label-2); background:rgba(255,255,255,.74);
+    border:1px solid rgba(255,255,255,.82); box-shadow:0 8px 20px rgba(15,23,42,.06);
+  }
+  .intro-banner .catatan span{ color:var(--label); }
+  .intro-banner .catatan .ic{ color:var(--accent); }
+  .tab-btn.active, .tab-btn.active:hover{
+    background:var(--accent); color:#fff;
+    box-shadow:0 8px 20px rgba(11,99,206,.28), inset 0 1px 0 rgba(255,255,255,.35);
+  }
+  .stat-card{
+    text-align:left; position:relative; overflow:hidden; border-radius:24px;
+    background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.80));
+    border:1px solid rgba(255,255,255,.76);
+  }
+  .stat-card::before{ content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--accent); }
+  .stat-card .val{ font-size:32px; color:var(--label); }
+  .stat-card .lbl{ text-transform:uppercase; letter-spacing:.06em; font-size:10px; font-weight:600; color:var(--label-3); margin-top:8px; }
+  .jadwal-card, .syarat-wrap, .type-table-wrap, .links-card{ border-radius:22px; }
+  .card-head{ background:var(--accent-light); }
+  .syarat-head, .type-table-wrap th{ background:var(--accent); }
+
+  /* header hero: logo + judul + tombol unduh */
+  .intro-banner .hero-head{ display:flex; align-items:center; gap:14px; margin-bottom:12px; }
+  .intro-banner .hero-logo{
+    width:56px; height:56px; flex-shrink:0; background:#fff; border-radius:14px; padding:7px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 24px rgba(15,23,42,.10), inset 0 1px 0 rgba(255,255,255,.95);
+    border:1px solid rgba(15,23,42,.06);
+  }
+  .intro-banner .hero-logo img{ width:100%; height:100%; object-fit:contain; display:block; }
+  .intro-banner .hero-head h2{ margin:0; max-width:none; }
+  .hero-actions{ margin-top:18px; }
+  .btn-download{
+    display:inline-flex; align-items:center; gap:7px; padding:8px 14px; border-radius:999px;
+    background:var(--accent); color:#fff; font-size:12px; font-weight:600; text-decoration:none;
+    box-shadow:0 8px 18px rgba(11,99,206,.22); transition:transform .16s ease, box-shadow .16s ease;
+  }
+  .btn-download svg{ width:14px; height:14px; }
+  .btn-download:hover{ transform:translateY(-1px); box-shadow:0 14px 30px rgba(11,99,206,.30); color:#fff; }
+</style>
+</head>
+<body>
+
+<!-- SF-Symbols-style line-icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 9.5h18M8 3v4M16 3v4"/></symbol>
+<symbol id="i-pencil" viewBox="0 0 24 24"><path d="M4 20l3.6-1L19 7.6a2.1 2.1 0 0 0-3-3L4.6 16 4 20z"/><path d="M14.5 6.1 17.9 9.5"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></symbol>
+<symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.4l2.6 2.6L16 9.4"/></symbol>
+<symbol id="i-display" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8.5 20h7M12 16v4"/></symbol>
+<symbol id="i-building" viewBox="0 0 24 24"><path d="M3 9.5 12 4l9 5.5"/><path d="M5 9.5v8.5M9.5 9.5v8.5M14.5 9.5v8.5M19 9.5v8.5"/><path d="M3.5 21h17"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></symbol>
+<symbol id="i-doctext" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h5"/></symbol>
+<symbol id="i-archive" viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="4.2" rx="1.2"/><path d="M5 8.2V18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.2"/><path d="M10 12h4"/></symbol>
+<symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 4 2.6 20h18.8L12 4z"/><path d="M12 10v4.2M12 17.3h.01"/></symbol>
+<symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="16" rx="2.4"/><path d="M9 5a3 3 0 0 1 6 0"/><path d="M8.6 12l1.4 1.4L13 10.4M8.6 17l1.4 1.4L13 15.4"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.4v3M12 18.6v3M2.4 12h3M18.6 12h3M5.1 5.1l2.1 2.1M16.8 16.8l2.1 2.1M18.9 5.1 16.8 7.2M7.2 16.8l-2.1 2.1"/></symbol>
+<symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5v3M8.5 20.5h7"/></symbol>
+<symbol id="i-bubble" viewBox="0 0 24 24"><path d="M20.5 12a8 8 0 0 1-11.4 7.2L4 20.8l1.7-5A8 8 0 1 1 20.5 12z"/></symbol>
+<symbol id="i-envelope" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.4"/><path d="M4 7.5l8 5.5 8-5.5"/></symbol>
+<symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13.2a4 4 0 0 0 5.7.3l2.5-2.5a4 4 0 0 0-5.7-5.7l-1.3 1.3"/><path d="M14 10.8a4 4 0 0 0-5.7-.3l-2.5 2.5a4 4 0 0 0 5.7 5.7l1.3-1.3"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><rect x="6.5" y="2.5" width="11" height="19" rx="2.6"/><path d="M10.5 18.5h3"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.6"/><path d="M10 9l5 3-5 3z"/></symbol>
+<symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M6.5 3.5h11M6.5 20.5h11M8 3.5v3.2c0 1.6 4 3.3 4 5.3 0 2-4 3.7-4 5.3v3.2M16 3.5v3.2c0 1.6-4 3.3-4 5.3 0 2 4 3.7 4 5.3v3.2"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11.2v5M12 7.7h.01"/></symbol>
+</defs></svg>
+
+<!-- HEADER -->
+<div class="page-header">
+  <div class="logo-wrap"><img src="data:image/png;base64,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" alt="Logo ANRI" /></div>
+  <div>
+    <h1>Sertifikasi SDM Kearsipan 2026</h1>
+    <p>Direktorat SDM Kearsipan dan Sertifikasi · ANRI</p>
+  </div>
+</div>
+
+<!-- INTRO BANNER -->
+<div class="intro-banner">
+  <h2>Jadwal Uji Kompetensi JFA &amp; Sertifikasi SDM Kearsipan Tahun 2026</h2>
+  <p>ANRI sebagai Instansi Pembina JFA menyelenggarakan kegiatan uji kompetensi dan sertifikasi dalam rangka promosi, kenaikan jenjang, perpindahan antar kelompok, serta sertifikasi teknis kearsipan tahun 2026.</p>
+  <div class="hero-actions">
+    <a class="btn-download" href="https://bit.ly/JadwalSertifikasiSDMK2026" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg> Unduh Pengumuman</a>
+  </div>
+  <div class="catatan">
+    <svg class="ic" aria-hidden="true"><use href="#i-warn"/></svg> <span>Penting:</span> Pendaftaran melalui aplikasi SiARSIPARIS di <strong>siarsiparis.anri.go.id</strong> · Surat usulan via SRIKANDI · Jadwal dapat berubah sewaktu-waktu
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tab-wrap">
+  <button class="tab-btn active" onclick="switchTab('syarat')">Persyaratan</button>
+  <button class="tab-btn" onclick="switchTab('dokumen')">Dokumen Persyaratan</button>
+  <button class="tab-btn" onclick="switchTab('pnbp')">Sertifikasi PNBP</button>
+  <button class="tab-btn" onclick="switchTab('rm')">Uji Kompetensi RM</button>
+  <button class="tab-btn" onclick="switchTab('metode')">Metode & Bobot Nilai</button>
+  <button class="tab-btn" onclick="switchTab('tautan')">Tautan & Referensi</button>
+</div>
+
+<!-- ===== TAB: RM ===== -->
+<div class="main">
+<div class="tab-section" id="tab-rm">
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="val">5</div>
+      <div class="lbl">Total Angkatan RM</div>
+    </div>
+    <div class="stat-card">
+      <div class="val">365</div>
+      <div class="lbl">Total Kuota Umum</div>
+    </div>
+    <div class="stat-card">
+      <div class="val">15</div>
+      <div class="lbl">Kuota Ahli Utama</div>
+    </div>
+    <div class="stat-card">
+      <div class="val">100%</div>
+      <div class="lbl">Mode Daring</div>
+    </div>
+  </div>
+
+  <!-- Jadwal Umum -->
+  <div class="section-label">Uji Kompetensi JFA Umum (RM)</div>
+  <div class="jadwal-grid">
+
+    <!-- Angkatan I -->
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div>
+          <div class="angkatan">Angkatan I · 2026</div>
+          <div class="nama">Uji Kompetensi JFA</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge rm">RM</span>
+          <span class="badge daring"><svg class="ic" aria-hidden="true"><use href="#i-display"/></svg> Daring</span>
+          <span class="badge lewat"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> Selesai</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row">
+          <span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span>
+          <div><strong>Pelaksanaan:</strong> 05 – 07 Mei 2026</div>
+        </div>
+        <div class="info-row">
+          <span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span>
+          <div><strong>Pendaftaran:</strong> 09 Mar – 10 Apr 2026</div>
+        </div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>180 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:100%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Angkatan II -->
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div>
+          <div class="angkatan">Angkatan II · 2026</div>
+          <div class="nama">Uji Kompetensi JFA</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge rm">RM</span>
+          <span class="badge daring"><svg class="ic" aria-hidden="true"><use href="#i-display"/></svg> Daring</span>
+          <span class="badge akan"><svg class="ic" aria-hidden="true"><use href="#i-hourglass"/></svg> Mendatang</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row">
+          <span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span>
+          <div><strong>Pelaksanaan:</strong> 08 – 10 Sep 2026</div>
+        </div>
+        <div class="info-row">
+          <span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span>
+          <div><strong>Pendaftaran:</strong> 13 Jul – 14 Ags 2026</div>
+        </div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>185 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /grid umum -->
+
+  <!-- Jadwal Ahli Utama -->
+  <div class="section-label">Uji Kompetensi JFA Arsiparis Ahli Utama (RM)</div>
+  <div class="jadwal-grid">
+
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div>
+          <div class="angkatan">Angkatan I · Ahli Utama</div>
+          <div class="nama">Uji Kompetensi JFA</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge rm">RM</span>
+          <span class="badge daring"><svg class="ic" aria-hidden="true"><use href="#i-display"/></svg> Daring</span>
+          <span class="badge lewat"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> Selesai</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><strong>Pelaksanaan:</strong> 03 – 05 Mar 2026</div></div>
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span><div><strong>Pendaftaran:</strong> 12 Jan – 13 Feb 2026</div></div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>5 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:100%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div>
+          <div class="angkatan">Angkatan II · Ahli Utama</div>
+          <div class="nama">Uji Kompetensi JFA</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge rm">RM</span>
+          <span class="badge daring"><svg class="ic" aria-hidden="true"><use href="#i-display"/></svg> Daring</span>
+          <span class="badge lewat"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> Selesai</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><strong>Pelaksanaan:</strong> 14 – 16 Jul 2026</div></div>
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span><div><strong>Pendaftaran:</strong> 13 Mei – 15 Jun 2026</div></div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>5 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:100%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div>
+          <div class="angkatan">Angkatan III · Ahli Utama</div>
+          <div class="nama">Uji Kompetensi JFA</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge rm">RM</span>
+          <span class="badge daring"><svg class="ic" aria-hidden="true"><use href="#i-display"/></svg> Daring</span>
+          <span class="badge akan"><svg class="ic" aria-hidden="true"><use href="#i-hourglass"/></svg> Mendatang</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><strong>Pelaksanaan:</strong> 29 Sep – 01 Okt 2026</div></div>
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span><div><strong>Pendaftaran:</strong> 28 Jul – 28 Ags 2026</div></div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>5 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /grid ahli utama -->
+
+  <!-- Jenis Uji Kompetensi -->
+  <div class="section-label">Jenis Uji Kompetensi yang Difasilitasi</div>
+  <div class="type-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Jenis</th>
+          <th>Jalur / Jenjang</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Promosi – Keterampilan</strong></td>
+          <td>Terampil → Mahir · Mahir → Penyelia</td>
+        </tr>
+        <tr>
+          <td><strong>Promosi – Keahlian</strong></td>
+          <td>Ahli Pertama → Ahli Muda · Ahli Muda → Ahli Madya · Ahli Madya → Ahli Utama</td>
+        </tr>
+        <tr>
+          <td><strong>Alih Kategori</strong></td>
+          <td>Terampil → Ahli Pertama · Mahir → Ahli Pertama · Penyelia → Ahli Muda</td>
+        </tr>
+        <tr>
+          <td><strong>Perpindahan JPT</strong></td>
+          <td>Jabatan Pimpinan Tinggi → Arsiparis Ahli Utama</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- /tab-rm -->
+
+
+<!-- ===== TAB: PNBP ===== -->
+<div class="tab-section" id="tab-pnbp">
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="val">14</div>
+      <div class="lbl">Total Angkatan PNBP</div>
+    </div>
+    <div class="stat-card">
+      <div class="val">1.530</div>
+      <div class="lbl">Total Kuota PNBP</div>
+    </div>
+    <div class="stat-card">
+      <div class="val">6</div>
+      <div class="lbl">Angkatan Luring</div>
+    </div>
+    <div class="stat-card">
+      <div class="val">8</div>
+      <div class="lbl">Angkatan Daring</div>
+    </div>
+  </div>
+
+  <div class="section-label">Sertifikasi SDM Kearsipan (PNBP) 2026</div>
+  <div class="jadwal-grid">
+
+    <!-- Angkatan I -->
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div>
+          <div class="angkatan">Angkatan I · 2026</div>
+          <div class="nama">Sertifikasi SDM Kearsipan</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge daring"><svg class="ic" aria-hidden="true"><use href="#i-display"/></svg> Daring</span>
+          <span class="badge lewat"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> Selesai</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><strong>Pelaksanaan:</strong> 25 – 27 Feb 2026</div></div>
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span><div><strong>Pendaftaran:</strong> 12 Jan – 06 Feb 2026</div></div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>110 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:100%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Angkatan II -->
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div>
+          <div class="angkatan">Angkatan II · 2026</div>
+          <div class="nama">Sertifikasi SDM Kearsipan</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge luring"><svg class="ic" aria-hidden="true"><use href="#i-building"/></svg> Luring ANRI</span>
+          <span class="badge lewat"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> Selesai</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><strong>Pelaksanaan:</strong> 08 – 10 Apr 2026</div></div>
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span><div><strong>Pendaftaran:</strong> 09 Feb – 09 Mar 2026</div></div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>85 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:100%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Angkatan III -->
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div>
+          <div class="angkatan">Angkatan III · 2026</div>
+          <div class="nama">Sertifikasi SDM Kearsipan</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge luring"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg> TUK Jawa Timur</span>
+          <span class="badge lewat"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> Selesai</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><strong>Pelaksanaan:</strong> 20 – 22 Mei 2026</div></div>
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span><div><strong>Pendaftaran:</strong> 13 Mar – 22 Apr 2026</div></div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>80 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:100%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Angkatan IV -->
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div>
+          <div class="angkatan">Angkatan IV · 2026</div>
+          <div class="nama">Sertifikasi SDM Kearsipan</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge daring"><svg class="ic" aria-hidden="true"><use href="#i-display"/></svg> Daring</span>
+          <span class="badge lewat"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> Selesai</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><strong>Pelaksanaan:</strong> 03 – 05 Jun 2026</div></div>
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span><div><strong>Pendaftaran:</strong> 01 Apr – 05 Mei 2026</div></div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>120 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:100%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Angkatan V — AKTIF -->
+    <div class="jadwal-card" style="border-color:var(--luring);box-shadow:0 0 0 2px rgba(5,150,105,0.15),var(--shadow);">
+      <div class="card-head" style="background:#dcfce7;">
+        <div>
+          <div class="angkatan" style="color:var(--luring);">Angkatan V · 2026 <span class="live-dot"></span> Berlangsung</div>
+          <div class="nama">Sertifikasi SDM Kearsipan</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge daring"><svg class="ic" aria-hidden="true"><use href="#i-display"/></svg> Daring</span>
+          <span class="badge aktif"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg> Aktif</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><strong>Pelaksanaan:</strong> 24 – 26 Jun 2026</div></div>
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span><div><strong>Pendaftaran:</strong> 22 Apr – 22 Mei 2026</div></div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>125 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:100%;background:var(--luring)"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Angkatan VI -->
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div>
+          <div class="angkatan">Angkatan VI · 2026</div>
+          <div class="nama">Sertifikasi SDM Kearsipan</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge luring"><svg class="ic" aria-hidden="true"><use href="#i-building"/></svg> Luring</span>
+          <span class="badge akan"><svg class="ic" aria-hidden="true"><use href="#i-hourglass"/></svg> Mendatang</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><strong>Pelaksanaan:</strong> 01 – 03 Jul 2026</div></div>
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span><div><strong>Pendaftaran:</strong> 04 Mei – 02 Jun 2026</div></div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>120 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Angkatan VII -->
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div>
+          <div class="angkatan">Angkatan VII · 2026</div>
+          <div class="nama">Sertifikasi SDM Kearsipan</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge luring"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg> TUK Kaltim</span>
+          <span class="badge akan"><svg class="ic" aria-hidden="true"><use href="#i-hourglass"/></svg> Mendatang</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><strong>Pelaksanaan:</strong> 29 – 31 Jul 2026</div></div>
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span><div><strong>Pendaftaran:</strong> 29 Mei – 30 Jun 2026</div></div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>80 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Angkatan VIII -->
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div>
+          <div class="angkatan">Angkatan VIII · 2026</div>
+          <div class="nama">Sertifikasi SDM Kearsipan</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge daring"><svg class="ic" aria-hidden="true"><use href="#i-display"/></svg> Daring</span>
+          <span class="badge akan"><svg class="ic" aria-hidden="true"><use href="#i-hourglass"/></svg> Mendatang</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><strong>Pelaksanaan:</strong> 05 – 07 Ags 2026</div></div>
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span><div><strong>Pendaftaran:</strong> 05 Jun – 06 Jul 2026</div></div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>125 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Angkatan IX -->
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div>
+          <div class="angkatan">Angkatan IX · 2026</div>
+          <div class="nama">Sertifikasi SDM Kearsipan</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge daring"><svg class="ic" aria-hidden="true"><use href="#i-display"/></svg> Daring</span>
+          <span class="badge akan"><svg class="ic" aria-hidden="true"><use href="#i-hourglass"/></svg> Mendatang</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><strong>Pelaksanaan:</strong> 26 – 28 Ags 2026</div></div>
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span><div><strong>Pendaftaran:</strong> 29 Jun – 28 Jul 2026</div></div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>125 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Angkatan X -->
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div>
+          <div class="angkatan">Angkatan X · 2026</div>
+          <div class="nama">Sertifikasi SDM Kearsipan</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge luring"><svg class="ic" aria-hidden="true"><use href="#i-building"/></svg> Luring ANRI</span>
+          <span class="badge akan"><svg class="ic" aria-hidden="true"><use href="#i-hourglass"/></svg> Mendatang</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><strong>Pelaksanaan:</strong> 02 – 04 Sep 2026</div></div>
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span><div><strong>Pendaftaran:</strong> 03 Jul – 04 Ags 2026</div></div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>120 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Angkatan XI -->
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div>
+          <div class="angkatan">Angkatan XI · 2026</div>
+          <div class="nama">Sertifikasi SDM Kearsipan</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge luring"><svg class="ic" aria-hidden="true"><use href="#i-building"/></svg> Luring ANRI</span>
+          <span class="badge akan"><svg class="ic" aria-hidden="true"><use href="#i-hourglass"/></svg> Mendatang</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><strong>Pelaksanaan:</strong> 16 – 18 Sep 2026</div></div>
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span><div><strong>Pendaftaran:</strong> 16 Jul – 14 Ags 2026</div></div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>120 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Angkatan XII -->
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div>
+          <div class="angkatan">Angkatan XII · 2026</div>
+          <div class="nama">Sertifikasi SDM Kearsipan</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge luring"><svg class="ic" aria-hidden="true"><use href="#i-building"/></svg> ANRI · Non-Pem</span>
+          <span class="badge akan"><svg class="ic" aria-hidden="true"><use href="#i-hourglass"/></svg> Mendatang</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><strong>Pelaksanaan:</strong> 14 – 16 Okt 2026</div></div>
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span><div><strong>Pendaftaran:</strong> 14 Ags – 14 Sep 2026</div></div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>95 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Angkatan XIII -->
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div>
+          <div class="angkatan">Angkatan XIII · 2026</div>
+          <div class="nama">Sertifikasi SDM Kearsipan</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge luring"><svg class="ic" aria-hidden="true"><use href="#i-building"/></svg> Luring ANRI</span>
+          <span class="badge akan"><svg class="ic" aria-hidden="true"><use href="#i-hourglass"/></svg> Mendatang</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><strong>Pelaksanaan:</strong> 28 – 30 Okt 2026</div></div>
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span><div><strong>Pendaftaran:</strong> 28 Ags – 28 Sep 2026</div></div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>120 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Angkatan XIV -->
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div>
+          <div class="angkatan">Angkatan XIV · 2026</div>
+          <div class="nama">Sertifikasi SDM Kearsipan</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+          <span class="badge daring"><svg class="ic" aria-hidden="true"><use href="#i-display"/></svg> Daring</span>
+          <span class="badge akan"><svg class="ic" aria-hidden="true"><use href="#i-hourglass"/></svg> Mendatang</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div><strong>Pelaksanaan:</strong> 04 – 06 Nov 2026</div></div>
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></span><div><strong>Pendaftaran:</strong> 07 Sep – 05 Okt 2026</div></div>
+        <div class="divider-info"></div>
+        <div class="kuota-bar-wrap">
+          <div class="kuota-lbl"><span>Kuota</span><span>125 peserta</span></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /jadwal-grid pnbp -->
+
+  <!-- Jenis PNBP -->
+  <div class="section-label">Jenis Kegiatan Sertifikasi PNBP</div>
+  <div class="type-table-wrap">
+    <table>
+      <thead>
+        <tr><th>Kategori</th><th>Jalur</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Promosi Keterampilan</td><td>Terampil → Mahir · Mahir → Penyelia</td></tr>
+        <tr><td>Promosi Keahlian</td><td>Ahli Pertama → Ahli Muda · Ahli Muda → Ahli Madya</td></tr>
+        <tr><td>Alih Kategori</td><td>Terampil/Mahir → Ahli Pertama · Penyelia → Ahli Muda</td></tr>
+        <tr><td>Perpindahan dari Jabatan Lain</td><td>Administrator → Ahli Madya · Pengawas → Ahli Muda · Pelaksana → Keahlian/Keterampilan · JF Lain → Keahlian/Keterampilan</td></tr>
+        <tr><td>Sertifikasi Teknis</td><td>SDM Kearsipan di instansi pengusul (non-arsiparis)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="background:#fef9c3;border:1px solid #fde047;border-radius:var(--radius);padding:12px 14px;font-size:12.5px;color:#854d0e;">
+    <svg class="ic" aria-hidden="true"><use href="#i-info"/></svg> <strong>Biaya PNBP</strong> sesuai Peraturan Menteri Keuangan No. 57 Tahun 2025. Sudah termasuk konsumsi untuk luring, belum termasuk akomodasi dan transportasi. Pembayaran via sistem billing Kemenkeu — <strong>bukan transfer rekening pribadi.</strong>
+  </div>
+
+</div><!-- /tab-pnbp -->
+
+
+<!-- ===== TAB: SYARAT ===== -->
+<div class="tab-section active" id="tab-syarat">
+
+  <div class="section-label">Persyaratan Umum</div>
+  <div class="syarat-wrap">
+    <div class="syarat-head">Ketentuan Umum Pendaftaran</div>
+    <div class="syarat-body">
+      <div class="syarat-item">
+        <span class="num">A</span>
+        <span>Surat usulan dibuat oleh pejabat yang berwenang (PyB) atau pimpinan unit kepegawaian, disampaikan melalui aplikasi <strong>SRIKANDI</strong>.</span>
+      </div>
+      <div class="syarat-item">
+        <span class="num">B</span>
+        <span>Peserta wajib melakukan sinkronisasi data pada aplikasi <strong>SiARSIPARIS</strong> (siarsiparis.anri.go.id).</span>
+      </div>
+      <div class="syarat-item">
+        <span class="num">C</span>
+        <span>Dasar hukum: Peraturan ANRI No. 7/2025, SE Kepala ANRI No. 1/2024, dan Kepmen PANRB SKJ.10/2022.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">Kualifikasi Per Jalur</div>
+
+  <div class="syarat-wrap">
+    <div class="syarat-head">Kenaikan Jenjang Keterampilan</div>
+    <div class="syarat-body">
+      <div class="syarat-item"><span class="num">1</span><span>Tersedia peta jabatan sesuai jenjang tujuan</span></div>
+      <div class="syarat-item"><span class="num">2</span><span>Ijazah min. D-III bidang kearsipan atau ilmu lain yang diakui</span></div>
+      <div class="syarat-item"><span class="num">3</span><span>STTPP Diklat Pengangkatan/Pelatihan Fungsional Keterampilan (jika non-kearsipan)</span></div>
+      <div class="syarat-item"><span class="num">4</span><span>Telah menduduki jabatan terakhir min. 1 tahun</span></div>
+      <div class="syarat-item"><span class="num">5</span><span>AKK terpenuhi + rekomendasi kenaikan jenjang</span></div>
+      <div class="syarat-item"><span class="num">6</span><span>Nilai kinerja min. <strong>Baik</strong> dalam 1 tahun terakhir</span></div>
+    </div>
+  </div>
+
+  <div class="syarat-wrap">
+    <div class="syarat-head">Kenaikan Jenjang Keahlian</div>
+    <div class="syarat-body">
+      <div class="syarat-item"><span class="num">1</span><span>Tersedia peta jabatan sesuai jenjang tujuan</span></div>
+      <div class="syarat-item"><span class="num">2</span><span>Ijazah min. S1/D-IV bidang kearsipan atau ilmu lain yang diakui</span></div>
+      <div class="syarat-item"><span class="num">3</span><span>STTPP Diklat Pengangkatan/Pelatihan Fungsional Keahlian (jika non-kearsipan)</span></div>
+      <div class="syarat-item"><span class="num">4</span><span>Telah menduduki jabatan terakhir min. 1 tahun</span></div>
+      <div class="syarat-item"><span class="num">5</span><span>AKK terpenuhi + rekomendasi kenaikan jenjang</span></div>
+      <div class="syarat-item"><span class="num">6</span><span>Nilai kinerja min. <strong>Baik</strong> dalam 1 tahun terakhir</span></div>
+    </div>
+  </div>
+
+  <div class="syarat-wrap">
+    <div class="syarat-head">Alih Kategori (Keterampilan → Keahlian)</div>
+    <div class="syarat-body">
+      <div class="syarat-item"><span class="num">1</span><span>Tersedia peta jabatan sesuai jenjang tujuan</span></div>
+      <div class="syarat-item"><span class="num">2</span><span>Ijazah S1/D-IV (diakui BKN)</span></div>
+      <div class="syarat-item"><span class="num">3</span><span>STTPP Diklat Penjenjangan Arsiparis (jika non-kearsipan)</span></div>
+      <div class="syarat-item"><span class="num">4</span><span>Rekomendasi PAK alih kategori</span></div>
+      <div class="syarat-item"><span class="num">5</span><span>Min. pangkat Penata Muda, gol. III/a</span></div>
+      <div class="syarat-item"><span class="num">6</span><span>Nilai kinerja min. <strong>Baik</strong> dalam 1 tahun terakhir</span></div>
+    </div>
+  </div>
+
+  <div class="syarat-wrap">
+    <div class="syarat-head">Perpindahan dari Jabatan Lain (Kategori Keahlian)</div>
+    <div class="syarat-body">
+      <div class="syarat-item"><span class="num">1</span><span>Tersedia peta jabatan</span></div>
+      <div class="syarat-item"><span class="num">2</span><span>Ijazah S1/D-IV</span></div>
+      <div class="syarat-item"><span class="num">3</span><span>Pengalaman di bidang kearsipan min. <strong>2 tahun</strong> (surat pernyataan unit kerja)</span></div>
+      <div class="syarat-item"><span class="num">4</span><span>Nilai kinerja min. <strong>Baik</strong> dalam 1 tahun terakhir</span></div>
+      <div class="syarat-item"><span class="num">5</span><span>Usia max. 52 tahun 6 bulan (Ahli Pertama/Muda) atau 54 tahun 6 bulan (Ahli Madya)</span></div>
+    </div>
+  </div>
+
+  <div class="syarat-wrap">
+    <div class="syarat-head">Perpindahan dari JPT ke Arsiparis Ahli Utama</div>
+    <div class="syarat-body">
+      <div class="syarat-item"><span class="num">1</span><span>Tersedia formasi jabatan</span></div>
+      <div class="syarat-item"><span class="num">2</span><span>Ijazah S1/S2/D-IV</span></div>
+      <div class="syarat-item"><span class="num">3</span><span>Pengalaman kearsipan min. 2 tahun</span></div>
+      <div class="syarat-item"><span class="num">4</span><span>Usia paling tinggi 59 tahun saat pengusulan</span></div>
+      <div class="syarat-item"><span class="num">5</span><span>Nilai kinerja min. <strong>Baik</strong> dalam 2 tahun terakhir</span></div>
+    </div>
+  </div>
+
+</div><!-- /tab-syarat -->
+
+
+<!-- ===== TAB: METODE & BOBOT NILAI ===== -->
+<div class="tab-section" id="tab-metode">
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="val">7</div>
+      <div class="lbl">Metode Ujian</div>
+    </div>
+    <div class="stat-card">
+      <div class="val">70</div>
+      <div class="lbl">Nilai Lulus (umum)</div>
+    </div>
+    <div class="stat-card">
+      <div class="val">90</div>
+      <div class="lbl">Nilai Lulus Ahli Utama</div>
+    </div>
+    <div class="stat-card">
+      <div class="val">50</div>
+      <div class="lbl">Soal Ujian Tertulis</div>
+    </div>
+  </div>
+
+  <!-- Tabel Bobot Nilai -->
+  <div class="section-label">Bobot Nilai Kelulusan (PerANRI No. 7 Tahun 2025)</div>
+  <div class="type-table-wrap" style="overflow-x:auto;">
+    <table style="min-width:560px;">
+      <thead>
+        <tr>
+          <th>Metode Ujian</th>
+          <th>Ke Terampil / Mahir / Penyelia / Ahli Pertama</th>
+          <th>Ke Ahli Muda</th>
+          <th>Ke Ahli Madya</th>
+          <th>Ke Ahli Utama</th>
+          <th>Sertifikasi Teknis</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Portofolio</strong></td>
+          <td style="text-align:center;">25%</td>
+          <td style="text-align:center;">20%</td>
+          <td style="text-align:center;">20%</td>
+          <td style="text-align:center;">15%</td>
+          <td style="text-align:center;">—</td>
+        </tr>
+        <tr>
+          <td><strong>2. Tertulis</strong></td>
+          <td style="text-align:center;">20%</td>
+          <td style="text-align:center;">15%</td>
+          <td style="text-align:center;">15%</td>
+          <td style="text-align:center;">15%</td>
+          <td style="text-align:center;">50%</td>
+        </tr>
+        <tr>
+          <td><strong>3. Praktik</strong></td>
+          <td style="text-align:center;">25%</td>
+          <td style="text-align:center;">20%</td>
+          <td style="text-align:center;">—</td>
+          <td style="text-align:center;">—</td>
+          <td style="text-align:center;">30%</td>
+        </tr>
+        <tr>
+          <td><strong>4. Wawancara</strong></td>
+          <td style="text-align:center;">30%</td>
+          <td style="text-align:center;">25%</td>
+          <td style="text-align:center;">25%</td>
+          <td style="text-align:center;">20%</td>
+          <td style="text-align:center;">20%</td>
+        </tr>
+        <tr>
+          <td><strong>5. Makalah</strong></td>
+          <td style="text-align:center;">—</td>
+          <td style="text-align:center;">20%</td>
+          <td style="text-align:center;">20%</td>
+          <td style="text-align:center;">20%</td>
+          <td style="text-align:center;">—</td>
+        </tr>
+        <tr>
+          <td><strong>6. Presentasi</strong></td>
+          <td style="text-align:center;">—</td>
+          <td style="text-align:center;">—</td>
+          <td style="text-align:center;">20%</td>
+          <td style="text-align:center;">15%</td>
+          <td style="text-align:center;">—</td>
+        </tr>
+        <tr>
+          <td><strong>7. FGD</strong></td>
+          <td style="text-align:center;">—</td>
+          <td style="text-align:center;">—</td>
+          <td style="text-align:center;">—</td>
+          <td style="text-align:center;">15%</td>
+          <td style="text-align:center;">—</td>
+        </tr>
+        <tr style="background:var(--anri-orange-light);">
+          <td><strong>Bobot Kelulusan</strong></td>
+          <td style="text-align:center;font-weight:800;color:var(--anri-orange);">70</td>
+          <td style="text-align:center;font-weight:800;color:var(--anri-orange);">70</td>
+          <td style="text-align:center;font-weight:800;color:var(--anri-orange);">70</td>
+          <td style="text-align:center;font-weight:800;color:var(--anri-orange);">90</td>
+          <td style="text-align:center;font-weight:800;color:var(--anri-orange);">70</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Nilai Kelulusan Sertifikasi Teknis -->
+  <div class="section-label">Nilai Kelulusan Sertifikasi Teknis Kearsipan</div>
+  <div class="jadwal-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));">
+    <div class="jadwal-card">
+      <div class="card-head" style="background:#dcfce7;">
+        <div><div class="angkatan" style="color:var(--luring);">Level 1</div><div class="nama">Sangat Baik</div></div>
+        <span class="badge aktif">90 – 100</span>
+      </div>
+      <div class="card-body"><div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div>Berlaku <strong>3 tahun</strong></div></div></div>
+    </div>
+    <div class="jadwal-card">
+      <div class="card-head" style="background:#dbeafe;">
+        <div><div class="angkatan" style="color:var(--daring);">Level 2</div><div class="nama">Baik</div></div>
+        <span class="badge daring">80 – 89</span>
+      </div>
+      <div class="card-body"><div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div>Berlaku <strong>2 tahun</strong></div></div></div>
+    </div>
+    <div class="jadwal-card">
+      <div class="card-head" style="background:#fef9c3;">
+        <div><div class="angkatan" style="color:#854d0e;">Level 3</div><div class="nama">Cukup</div></div>
+        <span class="badge akan">70 – 79</span>
+      </div>
+      <div class="card-body"><div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-cal"/></svg></span><div>Berlaku <strong>1 tahun</strong></div></div></div>
+    </div>
+    <div class="jadwal-card">
+      <div class="card-head" style="background:#f1f5f9;">
+        <div><div class="angkatan" style="color:#94a3b8;">Tidak Lulus</div><div class="nama">Tidak Tersertifikasi</div></div>
+        <span class="badge lewat">< 70</span>
+      </div>
+      <div class="card-body"><div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-info"/></svg></span><div>Dapat mengikuti kembali angkatan berikutnya</div></div></div>
+    </div>
+  </div>
+
+  <!-- Detail per Metode -->
+  <div class="section-label">Detail Pelaksanaan Per Metode</div>
+
+  <div class="syarat-wrap">
+    <div class="syarat-head"><svg class="ic" aria-hidden="true"><use href="#i-clipboard"/></svg> Portofolio</div>
+    <div class="syarat-body">
+      <div class="syarat-item"><span class="num">→</span><span>Berkas yang diunggah saat mendaftar di SiARSIPARIS: Ijazah, Sertifikat Diklat/Bimtek/Seminar, dan Keanggotaan Profesi selama periode jabatan terakhir.</span></div>
+    </div>
+  </div>
+
+  <div class="syarat-wrap">
+    <div class="syarat-head"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg> Ujian Tertulis</div>
+    <div class="syarat-body">
+      <div class="syarat-item"><span class="num">1</span><span>Menggunakan aplikasi SiARSIPARIS, wajib diikuti seluruh peserta.</span></div>
+      <div class="syarat-item"><span class="num">2</span><span>Pilihan ganda <strong>50 soal</strong>, peserta memilih jenjang/sertifikasi yang dituju.</span></div>
+      <div class="syarat-item"><span class="num">3</span><span>Materi mengacu pada Standar Kompetensi JFA (Kepmen PANRB SKJ.10/2022): kompetensi teknis kearsipan, manajerial, dan sosial kultural.</span></div>
+    </div>
+  </div>
+
+  <div class="syarat-wrap">
+    <div class="syarat-head"><svg class="ic" aria-hidden="true"><use href="#i-gear"/></svg> Ujian Praktik</div>
+    <div class="syarat-body">
+      <div class="syarat-item"><span class="num">1</span><span>Diikuti peserta ke Ahli Muda, Ahli Pertama, Penyelia, Mahir, Terampil, dan Sertifikasi Teknis. <strong>Tidak berlaku untuk Ahli Madya ke atas.</strong></span></div>
+      <div class="syarat-item"><span class="num">2</span><span>Ujian via tautan (berbeda per jenjang), menggunakan <strong>Ms. Excel + Folder + ZIP/RAR + Email</strong>.</span></div>
+      <div class="syarat-item"><span class="num">3</span><span>Waktu <strong>3 jam (180 menit)</strong> termasuk waktu unggah hasil.</span></div>
+      <div class="syarat-item"><span class="num">4</span><span>Hasil: Folder Pemberkasan + Daftar Arsip (Daftar Berkas Isi Berkas). Ahli Muda dan Ahli Pertama tambah penentuan Retensi; Ahli Muda tambah Daftar Usul Pindah, Musnah, dan Serah.</span></div>
+      <div class="syarat-item"><span class="num">5</span><span>Simulasi: <a href="https://bit.ly/InformasiKegiatanUkomJFArsiparis" target="_blank" style="color:var(--anri-orange);">bit.ly/InformasiKegiatanUkomJFArsiparis</a></span></div>
+    </div>
+  </div>
+
+  <div class="syarat-wrap">
+    <div class="syarat-head"><svg class="ic" aria-hidden="true"><use href="#i-mic"/></svg> Wawancara</div>
+    <div class="syarat-body">
+      <div class="syarat-item"><span class="num">1</span><span>Diikuti peserta ke Terampil, Mahir, Penyelia, Ahli Pertama, Ahli Muda, dan Sertifikasi Teknis. <strong>Tidak berlaku untuk Ahli Madya ke atas (diganti presentasi).</strong></span></div>
+      <div class="syarat-item"><span class="num">2</span><span>Setiap peserta diuji oleh 1 Asesor selama <strong>30–45 menit</strong> per orang.</span></div>
+      <div class="syarat-item"><span class="num">3</span><span>Daftar Asesor dan urutan panggil akan dibagikan sebelum ujian. Peserta menunggu di luar ruangan.</span></div>
+    </div>
+  </div>
+
+  <div class="syarat-wrap">
+    <div class="syarat-head"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg> Makalah</div>
+    <div class="syarat-body">
+      <div class="syarat-item"><span class="num">1</span><span>Diikuti peserta ke <strong>Ahli Muda, Ahli Madya, dan Ahli Utama</strong>.</span></div>
+      <div class="syarat-item"><span class="num">2</span><span>Tema dan ketentuan lengkap ada di Surat Pemanggilan Peserta.</span></div>
+      <div class="syarat-item"><span class="num">3</span><span>Format: kertas A4, <strong>Bookman Old Style 12pt</strong>, spasi 1,5, margin atas 4cm / bawah & kanan 3cm / kiri 4cm.</span></div>
+      <div class="syarat-item"><span class="num">4</span><span>Minimal <strong>7 halaman</strong> (tidak termasuk lampiran), disimpan dalam PDF.</span></div>
+      <div class="syarat-item"><span class="num">5</span><span>Dikirim ke <strong>calonpesertasertifikasi@gmail.com</strong> paling lambat H-1 sebelum kegiatan. Subjek email: <em>Nama_Jabatan yang dituju_Instansi</em>.</span></div>
+    </div>
+  </div>
+
+  <div class="syarat-wrap">
+    <div class="syarat-head"><svg class="ic" aria-hidden="true"><use href="#i-display"/></svg> Presentasi & Wawancara Lanjutan</div>
+    <div class="syarat-body">
+      <div class="syarat-item"><span class="num">1</span><span>Diikuti peserta ke <strong>Ahli Madya dan Ahli Utama</strong>.</span></div>
+      <div class="syarat-item"><span class="num">2</span><span>Pemaparan PowerPoint makalah maksimal <strong>10 menit</strong>, dilanjutkan tanya jawab sekitar <strong>50 menit</strong>.</span></div>
+      <div class="syarat-item"><span class="num">3</span><span>Materi presentasi dikirimkan bersamaan dengan makalah ke email panitia.</span></div>
+    </div>
+  </div>
+
+  <div class="syarat-wrap">
+    <div class="syarat-head"><svg class="ic" aria-hidden="true"><use href="#i-bubble"/></svg> Focus Group Discussion (FGD)</div>
+    <div class="syarat-body">
+      <div class="syarat-item"><span class="num">1</span><span>Hanya untuk peserta ke <strong>Ahli Utama</strong>.</span></div>
+      <div class="syarat-item"><span class="num">2</span><span>Durasi <strong>2 jam</strong>, tema dipilih dari pilihan yang sudah ditentukan panitia.</span></div>
+      <div class="syarat-item"><span class="num">3</span><span>Output berupa rekomendasi tertulis sesuai tema yang dipilih.</span></div>
+    </div>
+  </div>
+
+  <!-- Hasil Ukom -->
+  <div class="section-label">Hasil Uji Kompetensi / Sertifikasi</div>
+  <div class="jadwal-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));">
+    <div class="jadwal-card">
+      <div class="card-head" style="background:#dcfce7;">
+        <div><div class="angkatan" style="color:var(--luring);">Berkompeten</div><div class="nama">Sertifikat Kompetensi</div></div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-check-circle"/></svg></span><div>Diterbitkan bagi yang lulus ambang nilai. Masa berlaku sertifikat teknis <strong>2 tahun</strong>.</div></div>
+      </div>
+    </div>
+    <div class="jadwal-card">
+      <div class="card-head" style="background:#fef2f2;">
+        <div><div class="angkatan" style="color:#dc2626;">Tidak Berkompeten</div><div class="nama">SKTL</div></div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-doc"/></svg></span><div>Surat Keterangan Tidak Lulus. Dapat mendaftar kembali angkatan berikutnya.</div></div>
+      </div>
+    </div>
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div><div class="angkatan">Semua Peserta Lulus</div><div class="nama">Petikan Kepka ANRI</div></div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-doctext"/></svg></span><div>Diterbitkan sebagai dasar kenaikan jenjang jabatan di instansi masing-masing.</div></div>
+      </div>
+    </div>
+    <div class="jadwal-card">
+      <div class="card-head">
+        <div><div class="angkatan">Semua Peserta</div><div class="nama">Surat Rekomendasi & Penyampaian Hasil</div></div>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-envelope"/></svg></span><div>Dikirimkan ke instansi pengusul sebagai tindak lanjut proses kepegawaian.</div></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /tab-metode -->
+
+
+<!-- ===== TAB: DOKUMEN & PERSIAPAN ===== -->
+<div class="tab-section" id="tab-dokumen">
+
+  <div class="section-label">Dokumen yang Harus Dipersiapkan</div>
+  <div class="syarat-wrap">
+    <div class="syarat-head">Berkas Wajib yang Diunggah ke SiARSIPARIS</div>
+    <div class="syarat-body">
+      <div class="syarat-item"><span class="num">1</span><span><strong>Surat Usul</strong> dibuat oleh PyB atau pimpinan unit kepegawaian, diverifikasi sesuai format terlampir, disampaikan via SRIKANDI.</span></div>
+      <div class="syarat-item"><span class="num">2</span><span>Riwayat <strong>SK Jabatan</strong></span></div>
+      <div class="syarat-item"><span class="num">3</span><span>Riwayat <strong>SK Pangkat</strong></span></div>
+      <div class="syarat-item"><span class="num">4</span><span>Riwayat <strong>Ijazah</strong> yang sudah diakui</span></div>
+      <div class="syarat-item"><span class="num">5</span><span>Riwayat <strong>PAK</strong> di Jabatan Terakhir (kenaikan jabatan) atau <strong>Surat Keterangan Melaksanakan Kegiatan Kearsipan</strong> (perpindahan jabatan)</span></div>
+      <div class="syarat-item"><span class="num">6</span><span><strong>Surat Keterangan Izin Pencantuman Gelar</strong> dari BKN — khusus bagi yang alih kategori dari Keterampilan ke Keahlian</span></div>
+      <div class="syarat-item"><span class="num">7</span><span>Riwayat <strong>SKP / Evaluasi Kinerja</strong></span></div>
+      <div class="syarat-item"><span class="num">8</span><span><strong>Peta Jabatan / Formasi</strong> sesuai jabatan yang dituju</span></div>
+      <div class="syarat-item"><span class="num">9</span><span>Sertifikat <strong>Diklat Fungsional / Diklat Teknis / Seminar / Workshop / Bimtek / Sertifikasi Teknis Kearsipan</strong> yang pernah diikuti selama periode jabatan terakhir</span></div>
+      <div class="syarat-item"><span class="num">10</span><span>Softfile <strong>Pas Foto</strong> berlatar belakang merah ukuran 3×4</span></div>
+    </div>
+  </div>
+
+  <!-- Tahapan SiARSIPARIS -->
+  <div class="section-label">Alur Pendaftaran di SiARSIPARIS</div>
+  <div style="background:var(--anri-white);border-radius:var(--radius);border:1px solid var(--anri-border);box-shadow:var(--shadow);padding:18px;margin-bottom:16px;">
+    <div style="display:flex;gap:0;overflow-x:auto;padding-bottom:8px;">
+      <div style="display:flex;flex-direction:column;align-items:center;min-width:110px;flex:1;">
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--daring);color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;">1</div>
+        <div style="width:100%;height:3px;background:var(--daring);margin:8px 0;"></div>
+        <div style="font-size:11px;font-weight:700;text-align:center;color:var(--daring);">Registrasi / Login</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;min-width:110px;flex:1;">
+        <div style="width:40px;height:40px;border-radius:50%;background:#0891b2;color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;">2</div>
+        <div style="width:100%;height:3px;background:#0891b2;margin:8px 0;"></div>
+        <div style="font-size:11px;font-weight:700;text-align:center;color:#0891b2;">Upload Berkas Riwayat</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;min-width:110px;flex:1;">
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--luring);color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;">3</div>
+        <div style="width:100%;height:3px;background:var(--luring);margin:8px 0;"></div>
+        <div style="font-size:11px;font-weight:700;text-align:center;color:var(--luring);">Verifikasi Berkas</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;min-width:110px;flex:1;">
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--anri-orange);color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;">4</div>
+        <div style="width:100%;height:3px;background:var(--anri-orange);margin:8px 0;"></div>
+        <div style="font-size:11px;font-weight:700;text-align:center;color:var(--anri-orange);">Uji Kompetensi</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;min-width:110px;flex:1;">
+        <div style="width:40px;height:40px;border-radius:50%;background:#7c3aed;color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;">5</div>
+        <div style="width:100%;height:3px;background:#7c3aed;margin:8px 0;"></div>
+        <div style="font-size:11px;font-weight:700;text-align:center;color:#7c3aed;">Profil Kompetensi</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sinkronisasi SIASN -->
+  <div class="section-label">Sinkronisasi Data SIASN di SiARSIPARIS</div>
+  <div class="syarat-wrap">
+    <div class="syarat-head">Data yang Bisa Disinkronkan dari MySAPK/SIASN</div>
+    <div class="syarat-body">
+      <p style="font-size:12.5px;color:var(--anri-gray);margin-bottom:10px;">Setelah login, klik tombol <strong>Sync SIASN</strong> di pojok kanan atas. Selain JF Arsiparis dapat upload/update manual.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px;">
+        <div class="syarat-item" style="margin:0;"><span class="num"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span>Profil Data Personal (sebagian)</span></div>
+        <div class="syarat-item" style="margin:0;"><span class="num"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span>Riwayat Pangkat/Golongan</span></div>
+        <div class="syarat-item" style="margin:0;"><span class="num"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span>Riwayat Jabatan</span></div>
+        <div class="syarat-item" style="margin:0;"><span class="num"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span>Riwayat Instansi & Unit Kerja</span></div>
+        <div class="syarat-item" style="margin:0;"><span class="num"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span>Riwayat SKP</span></div>
+        <div class="syarat-item" style="margin:0;"><span class="num"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span>Riwayat PAK</span></div>
+        <div class="syarat-item" style="margin:0;"><span class="num"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span>Riwayat Kompetensi</span></div>
+        <div class="syarat-item" style="margin:0;"><span class="num"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span>Riwayat Pendidikan</span></div>
+        <div class="syarat-item" style="margin:0;"><span class="num"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span>Riwayat Organisasi</span></div>
+        <div class="syarat-item" style="margin:0;"><span class="num"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span><span>Grafik Kompetensi</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Persiapan Materi -->
+  <div class="section-label">Persiapan Substansi Ujian</div>
+  <div class="syarat-wrap">
+    <div class="syarat-head">Kompetensi yang Diuji (Kepmen PANRB SKJ.10/2022)</div>
+    <div class="syarat-body">
+      <p style="font-size:12.5px;color:var(--anri-gray);margin-bottom:10px;">Peserta perlu memahami dan mampu menerapkan kompetensi berikut sesuai jenjang jabatan yang dituju:</p>
+      <div class="syarat-item"><span class="num">A</span><span><strong>Kompetensi Teknis:</strong> Pengelolaan arsip dinamis (penciptaan, penggunaan, pemeliharaan, penyusutan), pengelolaan arsip statis, pembinaan kearsipan, pengelolaan dan penyajian arsip sebagai informasi.</span></div>
+      <div class="syarat-item"><span class="num">B</span><span><strong>Kompetensi Manajerial:</strong> Integritas, kerja sama, komunikasi, orientasi pada hasil, pelayanan publik, pengembangan diri dan orang lain, mengelola perubahan, pengambilan keputusan.</span></div>
+      <div class="syarat-item"><span class="num">C</span><span><strong>Kompetensi Sosial Kultural:</strong> Perekat kebangsaan.</span></div>
+    </div>
+  </div>
+
+  <!-- Tarif PNBP -->
+  <div class="section-label">Tarif PNBP Sertifikasi SDM Kearsipan</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:16px;">
+    <div class="stat-card" style="border-left:3px solid var(--luring);">
+      <div class="val" style="color:var(--luring);font-size:18px;">Rp 1.514.000</div>
+      <div class="lbl">Pelaksanaan Luring</div>
+    </div>
+    <div class="stat-card" style="border-left:3px solid var(--daring);">
+      <div class="val" style="color:var(--daring);font-size:18px;">Rp 1.025.000</div>
+      <div class="lbl">Pelaksanaan Daring</div>
+    </div>
+  </div>
+  <div style="background:#fef9c3;border:1px solid #fde047;border-radius:var(--radius);padding:12px 14px;font-size:12.5px;color:#854d0e;margin-bottom:16px;">
+    <svg class="ic" aria-hidden="true"><use href="#i-info"/></svg> Berdasarkan <strong>Peraturan Menteri Keuangan No. 57 Tahun 2025</strong>. Tarif luring sudah termasuk konsumsi, tidak termasuk akomodasi dan transportasi. Pembayaran via sistem billing Kemenkeu — <strong>bukan transfer rekening pribadi.</strong>
+    <br><a href="https://bit.ly/PerMenKeuNo57Tahun2025ttgTarifVolatilPNBPANRI" target="_blank" style="color:var(--anri-orange);">bit.ly/PerMenKeuNo57Tahun2025ttgTarifVolatilPNBPANRI</a>
+  </div>
+
+</div><!-- /tab-dokumen -->
+
+
+
+<div class="tab-section" id="tab-tautan">
+
+  <div class="section-label">Tautan Pendaftaran & Formulir</div>
+  <div class="links-card">
+    <h4><svg class="ic" aria-hidden="true"><use href="#i-link"/></svg> Akses Cepat</h4>
+
+    <a class="link-item" href="https://siarsiparis.anri.go.id" target="_blank">
+      <div class="li-icon"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg></div>
+      <div class="li-text">
+        Aplikasi SiARSIPARIS
+        <span>siarsiparis.anri.go.id · Pendaftaran & sinkronisasi data peserta</span>
+      </div>
+    </a>
+
+    <a class="link-item" href="https://bit.ly/FormulirPersyaratanUjikomSertifikasi2026" target="_blank">
+      <div class="li-icon"><svg class="ic" aria-hidden="true"><use href="#i-doc"/></svg></div>
+      <div class="li-text">
+        Formulir Persyaratan 2026
+        <span>bit.ly/FormulirPersyaratanUjikomSertifikasi2026 · Format surat usulan & surat pernyataan</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="section-label">Tutorial Aplikasi SiARSIPARIS</div>
+  <div class="links-card">
+    <h4><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg> Video Tutorial</h4>
+
+    <a class="link-item" href="https://youtu.be/Ux_Sw6OAK-8" target="_blank">
+      <div class="li-icon"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg></div>
+      <div class="li-text">
+        Part 1 — Cara Login SiARSIPARIS
+        <span>youtu.be/Ux_Sw6OAK-8</span>
+      </div>
+    </a>
+
+    <a class="link-item" href="https://youtu.be/-eX7rbTTOQk" target="_blank">
+      <div class="li-icon"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg></div>
+      <div class="li-text">
+        Part 2 — Melengkapi Data Profil
+        <span>youtu.be/-eX7rbTTOQk</span>
+      </div>
+    </a>
+
+    <a class="link-item" href="https://youtu.be/iyI7FNcjhpE" target="_blank">
+      <div class="li-icon"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg></div>
+      <div class="li-text">
+        Part 3 — Mendaftar Kegiatan Sertifikasi
+        <span>youtu.be/iyI7FNcjhpE</span>
+      </div>
+    </a>
+
+    <a class="link-item" href="https://youtu.be/88dXCEGa6BM" target="_blank">
+      <div class="li-icon"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg></div>
+      <div class="li-text">
+        Part 4 — Simulasi Ujian Tertulis
+        <span>youtu.be/88dXCEGa6BM</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="section-label">Dasar Hukum</div>
+  <div class="syarat-wrap">
+    <div class="syarat-head">Regulasi yang Mendasari</div>
+    <div class="syarat-body">
+      <div class="syarat-item"><span class="num">1</span><span>Peraturan ANRI Nomor 7 Tahun 2025 tentang Perubahan atas Perka ANRI No. 6/2016 tentang Pedoman Sertifikasi JFA</span></div>
+      <div class="syarat-item"><span class="num">2</span><span>Surat Edaran Kepala ANRI Nomor 1 Tahun 2024 tentang Uji Kompetensi/Sertifikasi dan Penilaian Kinerja JFA</span></div>
+      <div class="syarat-item"><span class="num">3</span><span>Keputusan Menteri PANRB Nomor SKJ.10 Tahun 2022 tentang Standar Kompetensi JFA</span></div>
+      <div class="syarat-item"><span class="num">4</span><span>Peraturan Menteri Keuangan No. 57 Tahun 2025 tentang Jenis dan Tarif PNBP Volatil di ANRI</span></div>
+    </div>
+  </div>
+
+</div><!-- /tab-tautan -->
+</div><!-- /main -->
+
+<div class="page-footer">
+  Direktorat SDM Kearsipan dan Sertifikasi · ANRI · Data berdasarkan Surat Nomor B/BA.01.00/2/2026, 5 Januari 2026 · Jadwal dapat berubah sewaktu-waktu
+</div>
+
+<script>
+function switchTab(id) {
+  document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

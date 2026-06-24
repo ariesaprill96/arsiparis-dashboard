@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BKN — Pengelompokan per Cluster</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f4f7fb;--bg2:#e9eff6;--surface:rgba(255,255,255,.92);--border:rgba(15,23,42,.1);
+  --text:#0f172a;--text2:#334155;--text3:#64748b;--text4:#94a3b8;--blue:#0b63ce;
+  --shadow:0 18px 40px rgba(15,23,42,.08);--shadow-soft:0 10px 24px rgba(15,23,42,.06);
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--mono:ui-monospace,'SFMono-Regular',monospace;
+}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font)}
+body{min-height:100vh;background:
+  radial-gradient(circle at top left,rgba(255,255,255,.95),transparent 34%),
+  radial-gradient(circle at 85% 12%,rgba(88,156,255,.2),transparent 28%),
+  radial-gradient(circle at 20% 100%,rgba(64,200,224,.12),transparent 28%),
+  linear-gradient(180deg,#fbfbfd 0%,var(--bg) 46%,var(--bg2) 100%);-webkit-font-smoothing:antialiased}
+.page{width:min(calc(100% - 24px),1200px);margin:18px auto 40px}
+.hero{background:var(--surface);border:1px solid rgba(255,255,255,.7);box-shadow:var(--shadow);border-radius:30px;
+  padding:26px 30px;position:relative;overflow:hidden;backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px)}
+.hero::before{content:"";position:absolute;right:-40px;top:-52px;width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle,rgba(11,99,206,.18),transparent 68%)}
+.hero>*{position:relative;z-index:1}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+.h-title{font-size:clamp(24px,3vw,34px);font-weight:700;letter-spacing:-.04em;margin-top:8px;line-height:1.05}
+.h-sub{font-size:13px;color:var(--text3);margin-top:10px;max-width:680px;line-height:1.6}
+.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.kpi{background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.8);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow-soft)}
+.kpi-v{font-size:26px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.kpi-l{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text4);margin-top:3px}
+.section-t{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:26px 4px 12px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.cc{background:var(--surface);border:1px solid rgba(255,255,255,.7);border-radius:22px;padding:16px 18px;cursor:pointer;
+  box-shadow:var(--shadow-soft);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;backdrop-filter:blur(14px)}
+.cc:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.cc.active{border-color:rgba(11,99,206,.4);box-shadow:0 16px 32px rgba(11,99,206,.16)}
+.cc-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.cc-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.cc-name{font-size:13px;font-weight:700}
+.cc-v{font-size:30px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.cc-meta{font-size:11px;color:var(--text3);margin-top:2px}
+.cc-bar{display:flex;height:7px;border-radius:999px;overflow:hidden;background:var(--bg);margin-top:12px;box-shadow:inset 0 0 0 1px var(--border)}
+.cc-pct{font-size:11px;font-weight:600;color:var(--blue);margin-top:8px}
+.panel{background:var(--surface);border:1px solid rgba(255,255,255,.7);box-shadow:var(--shadow);border-radius:24px;
+  padding:20px 22px;margin-top:14px;backdrop-filter:blur(16px)}
+.panel-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.panel-title{font-size:16px;font-weight:700;letter-spacing:-.02em}
+.panel-sub{font-size:11px;color:var(--text3)}
+table{width:100%;border-collapse:collapse}
+th,td{padding:9px 10px;font-size:12px;text-align:right;border-bottom:1px solid rgba(15,23,42,.06)}
+th{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text4);background:var(--bg);position:sticky;top:0}
+th:first-child,td:first-child{text-align:left}
+tbody tr:hover{background:rgba(11,99,206,.04)}
+tr.sum td{font-weight:700;color:var(--text);background:var(--bg);border-top:1px solid var(--border)}
+.num{font-variant-numeric:tabular-nums}
+.j-bar{display:inline-block;height:6px;border-radius:6px;vertical-align:middle;background:var(--blue);opacity:.85}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:780px){.kpi-row{grid-template-columns:1fr}.detail-grid{grid-template-columns:1fr}.matrix-wrap{overflow-x:auto}}
+.muted{color:var(--text4)}
+.foot{font-size:11px;color:var(--text4);margin-top:18px;text-align:center}
+</style>
+</head>
+<body>
+<div class="page">
+  <section class="hero">
+    <div class="kicker">Data BKN · Pengelompokan</div>
+    <div class="h-title" id="h-title">JF Arsiparis per Cluster Instansi</div>
+    <div class="h-sub">Pengelompokan jumlah arsiparis berdasarkan jenis instansi (Kementerian, Lembaga/Badan, Provinsi, Kabupaten, Kota), lengkap dengan rincian per jenjang. Klik kartu cluster untuk melihat detail jenjang dan instansi teratasnya.</div>
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-v" id="kpi-inst">—</div><div class="kpi-l">Total Instansi</div></div>
+      <div class="kpi"><div class="kpi-v" id="kpi-ars">—</div><div class="kpi-l">Total Arsiparis</div></div>
+      <div class="kpi"><div class="kpi-v">5</div><div class="kpi-l">Cluster</div></div>
+    </div>
+  </section>
+
+  <div class="section-t">Ringkasan per Cluster</div>
+  <div class="cards" id="cards"></div>
+
+  <div class="panel matrix-wrap">
+    <div class="panel-h"><div class="panel-title">Matriks Cluster × Jenjang</div><div class="panel-sub" id="src1"></div></div>
+    <table id="matrix"></table>
+  </div>
+
+  <div class="panel">
+    <div class="panel-h"><div class="panel-title" id="dtitle">Detail Cluster</div><div class="panel-sub">Klik kartu cluster di atas untuk mengganti</div></div>
+    <div class="detail-grid">
+      <div><div class="section-t" style="margin:0 0 8px">Sebaran Jenjang</div><table id="d-jenjang"></table></div>
+      <div><div class="section-t" style="margin:0 0 8px">Instansi Teratas</div><table id="d-top"></table></div>
+    </div>
+  </div>
+
+  <div class="foot" id="foot"></div>
+</div>
+
+<script src="./assets/data_bkn_rekap_2026.js?v=20260602"></script>
+<script>
+const B=window.BKN_REKAP_2026||{records:[],updated_at:''};
+const J=[['terampil','Terampil','#d97706'],['mahir','Mahir','#0d9488'],['penyelia','Penyelia','#2563eb'],['ahli_pertama','Ahli Pertama','#dc2626'],['ahli_muda','Ahli Muda','#7c3aed'],['ahli_madya','Ahli Madya','#b06030'],['ahli_utama','Ahli Utama','#1a4a6b']];
+const ORDER=['Kementerian','Lembaga/Badan','Provinsi','Kabupaten','Kota'];
+const CCOL={'Kementerian':'#d97706','Lembaga/Badan':'#7c3aed','Provinsi':'#1a4a6b','Kabupaten':'#0d9488','Kota':'#2563eb'};
+function cls(n){const t=n.toLowerCase();
+  if(/provinsi|^pemerintah aceh$|daerah istimewa yogyakarta|^pemerintah dki/.test(t))return 'Provinsi';
+  if(/kabupaten|^pemerintah kab\b/.test(t))return 'Kabupaten';
+  if(/kota /.test(t)||/^pemerintah kota/.test(t))return 'Kota';
+  if(/^kementerian/.test(t))return 'Kementerian';
+  return 'Lembaga/Badan';}
+const fmt=x=>(x||0).toLocaleString('id');
+
+const G={};ORDER.forEach(c=>{G[c]={n:0,total:0,items:[]};J.forEach(([k])=>G[c][k]=0);});
+let TOT=0,NINST=0;
+B.records.forEach(r=>{const c=cls(r.nama);G[c].n++;G[c].total+=r.total;G[c].items.push(r);J.forEach(([k])=>G[c][k]+=r[k]||0);TOT+=r.total;NINST++;});
+
+document.getElementById('kpi-inst').textContent=fmt(NINST);
+document.getElementById('kpi-ars').textContent=fmt(TOT);
+const srcTxt='Sumber BKN · '+(B.updated_at||'');
+document.getElementById('src1').textContent=srcTxt;
+document.getElementById('foot').textContent='Data otomatis dari assets/data_bkn_rekap_2026.js — '+srcTxt+'. Cluster diklasifikasi dari nama instansi.';
+
+document.getElementById('cards').innerHTML=ORDER.map(c=>{
+  const g=G[c];const pct=(g.total/TOT*100);
+  const segs=J.map(([k,,col])=>{const v=g[k];if(!v)return '';return `<div style="width:${v/g.total*100}%;background:${col}"></div>`;}).join('');
+  return `<div class="cc" data-c="${c}" onclick="sel('${c}')">
+    <div class="cc-top"><span class="cc-dot" style="background:${CCOL[c]}"></span><span class="cc-name">${c}</span></div>
+    <div class="cc-v">${fmt(g.total)}</div>
+    <div class="cc-meta">${fmt(g.n)} instansi · arsiparis</div>
+    <div class="cc-bar">${segs}</div>
+    <div class="cc-pct">${pct.toFixed(1)}% dari nasional</div>
+  </div>`;}).join('');
+
+(function(){
+  let h='<thead><tr><th>Cluster</th>'+J.map(([,l])=>`<th>${l}</th>`).join('')+'<th>Total</th><th>Inst.</th></tr></thead><tbody>';
+  ORDER.forEach(c=>{const g=G[c];h+=`<tr><td><span class="cc-dot" style="display:inline-block;margin-right:6px;background:${CCOL[c]}"></span>${c}</td>`+J.map(([k])=>`<td class="num">${g[k]?fmt(g[k]):'<span class=muted>-</span>'}</td>`).join('')+`<td class="num"><b>${fmt(g.total)}</b></td><td class="num">${fmt(g.n)}</td></tr>`;});
+  h+='<tr class="sum"><td>TOTAL</td>'+J.map(([k])=>`<td class="num">${fmt(ORDER.reduce((s,c)=>s+G[c][k],0))}</td>`).join('')+`<td class="num">${fmt(TOT)}</td><td class="num">${fmt(NINST)}</td></tr>`;
+  h+='</tbody>';document.getElementById('matrix').innerHTML=h;
+})();
+
+function sel(c){
+  document.querySelectorAll('.cc').forEach(e=>e.classList.toggle('active',e.dataset.c===c));
+  const g=G[c];document.getElementById('dtitle').textContent='Detail: '+c;
+  const maxJ=Math.max(...J.map(([k])=>g[k]));
+  document.getElementById('d-jenjang').innerHTML='<thead><tr><th>Jenjang</th><th>Jumlah</th><th>%</th><th style="width:34%"></th></tr></thead><tbody>'+
+    J.map(([k,l,col])=>{const v=g[k];const pct=g.total?v/g.total*100:0;return `<tr><td>${l}</td><td class="num">${v?fmt(v):'<span class=muted>-</span>'}</td><td class="num">${pct.toFixed(1)}%</td><td><span class="j-bar" style="width:${maxJ?v/maxJ*100:0}%;background:${col}"></span></td></tr>`;}).join('')+
+    `<tr class="sum"><td>Total</td><td class="num">${fmt(g.total)}</td><td class="num">100%</td><td></td></tr></tbody>`;
+  const top=[...g.items].sort((a,b)=>b.total-a.total).slice(0,12);
+  document.getElementById('d-top').innerHTML='<thead><tr><th>Instansi</th><th>Arsiparis</th></tr></thead><tbody>'+
+    top.map(r=>`<tr><td>${r.nama}</td><td class="num">${fmt(r.total)}</td></tr>`).join('')+'</tbody>';
+}
+sel('Kementerian');
+</script>
+</body>
+</html>

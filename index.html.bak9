@@ -1537,21 +1537,6 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
         <div style="height:380px;margin-top:10px"><canvas id="chart-disparitas"></canvas></div>
       </div>
 
-      <div class="stat-card" style="padding:20px;margin-bottom:16px">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px">
-          <div class="stat-label" style="margin:0">Rincian per Cluster per Jabatan</div>
-          <select id="cj-cluster" onchange="renderClusterJabatan()" style="font-size:11px;font-weight:600;border:1px solid var(--border-med);border-radius:var(--radius-xs);padding:5px 10px;background:var(--bg);color:var(--text);font-family:var(--font);cursor:pointer;outline:none">
-            <option value="nas">Nasional</option>
-            <option value="kem">Kementerian</option>
-            <option value="lemb">Lembaga (gabungan)</option>
-            <option value="prov">Provinsi</option>
-            <option value="kab">Kabupaten/Kota</option>
-          </select>
-        </div>
-        <div style="font-size:11px;color:var(--text-4);margin-bottom:2px">Batang penuh = Rekomendasi · transparan = Ketersediaan (Eksisting). Warna membedakan jenjang.</div>
-        <div style="height:380px;margin-top:8px"><canvas id="chart-cj"></canvas></div>
-      </div>
-
       <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:16px;margin-bottom:16px">
         <div class="stat-card" style="padding:20px">
           <div class="stat-label">Status Rekomendasi Nasional</div>
@@ -1767,7 +1752,7 @@ const JKEYS = ['terampil','mahir','penyelia','ahli_pertama','ahli_muda','ahli_ma
 const PROVINSI_LIST = ["ACEH","BALI","BANTEN","BENGKULU","DI. YOGYAKARTA","DKI JAKARTA","GORONTALO","JAMBI","JAWA BARAT","JAWA TENGAH","JAWA TIMUR","KALIMANTAN BARAT","KALIMANTAN SELATAN","KALIMANTAN TENGAH","KALIMANTAN TIMUR","KALIMANTAN UTARA","KEPULAUAN RIAU","LAMPUNG","MALUKU","MALUKU UTARA","NUSA TENGGARA BARAT","NUSA TENGGARA TIMUR","PAPUA","PAPUA BARAT","PAPUA BARAT DAYA","PAPUA PEGUNUNGAN","PAPUA SELATAN","PAPUA TENGAH","RIAU","SULAWESI BARAT","SULAWESI SELATAN","SULAWESI TENGAH","SULAWESI TENGGARA","SULAWESI UTARA","SUMATERA BARAT","SUMATERA SELATAN","SUMATERA UTARA"];
 const CAT_COLOR = {'Kementerian':'#d97706','Alat Negara':'#dc2626','Sekretariat Lembaga Negara':'#2563eb','Lembaga Non Struktural':'#7c3aed','Lembaga Pemerintah Lainnya':'#b06030','Lembaga Pemerintah Non Kementerian':'#0d9488','Lembaga Penyiaran Publik':'#7a6020','Provinsi':'#1a4a6b','Kabupaten/Kota':'#3a6b3a'};
 const CAT_ICON = {'Kementerian':'🏛','Alat Negara':'⚔','Sekretariat Lembaga Negara':'🏦','Lembaga Non Struktural':'🔬','Lembaga Pemerintah Lainnya':'🏢','Lembaga Pemerintah Non Kementerian':'🏗','Lembaga Penyiaran Publik':'📡','Provinsi':'🗺','Kabupaten/Kota':'📍'};
-const JENJANG = [{k:'terampil',lbl:'Terampil',c:'#FF9500'},{k:'mahir',lbl:'Mahir',c:'#30B0C7'},{k:'penyelia',lbl:'Penyelia',c:'#007AFF'},{k:'ahli_pertama',lbl:'Ahli Pertama',c:'#FF3B30'},{k:'ahli_muda',lbl:'Ahli Muda',c:'#AF52DE'},{k:'ahli_madya',lbl:'Ahli Madya',c:'#5856D6'},{k:'ahli_utama',lbl:'Ahli Utama',c:'#FF2D55'}];
+const JENJANG = [{k:'terampil',lbl:'Terampil',c:'#d97706'},{k:'mahir',lbl:'Mahir',c:'#0d9488'},{k:'penyelia',lbl:'Penyelia',c:'#2563eb'},{k:'ahli_pertama',lbl:'Ahli Pertama',c:'#dc2626'},{k:'ahli_muda',lbl:'Ahli Muda',c:'#7c3aed'},{k:'ahli_madya',lbl:'Ahli Madya',c:'#b06030'},{k:'ahli_utama',lbl:'Ahli Utama',c:'#1a4a6b'}];
 const CLUSTERS = [{cat:'Kementerian'},{cat:'Lembaga Pemerintah Non Kementerian'},{cat:'Sekretariat Lembaga Negara'},{cat:'Lembaga Non Struktural'},{cat:'Alat Negara'},{cat:'Lembaga Pemerintah Lainnya'},{cat:'Lembaga Penyiaran Publik'},{cat:'Provinsi'},{cat:'Kabupaten/Kota'}];
 const CNT_MAP = {'semua':'cnt-semua','Kementerian':'cnt-kementerian','Alat Negara':'cnt-alat','Sekretariat Lembaga Negara':'cnt-sln','Lembaga Non Struktural':'cnt-lns','Lembaga Pemerintah Lainnya':'cnt-lpl','Lembaga Pemerintah Non Kementerian':'cnt-lpnk','Lembaga Penyiaran Publik':'cnt-lpp','Provinsi':'cnt-provinsi','Kabupaten/Kota':'cnt-kabkot'};
 const CAT_SHORT = {'Lembaga Pemerintah Non Kementerian':'Lembaga Pemerintahan Non Kementerian','Sekretariat Lembaga Negara':'Sekretariat Lembaga Negara','Lembaga Non Struktural':'Lembaga Non Struktural','Lembaga Pemerintah Lainnya':'Lembaga Pemerintahan Lainnya','Lembaga Penyiaran Publik':'Lembaga Penyiaran Publik'};
@@ -2270,10 +2255,10 @@ function mkChart(id, config) {
 }
 
 const CAT_COLORS = {
-  'Kementerian':'#FF9500','Alat Negara':'#FF3B30','Sekretariat Lembaga Negara':'#007AFF',
-  'Lembaga Non Struktural':'#AF52DE','Lembaga Pemerintah Lainnya':'#A2845E',
-  'Lembaga Pemerintah Non Kementerian':'#30B0C7','Lembaga Penyiaran Publik':'#FF2D55',
-  'Provinsi':'#5856D6','Kabupaten/Kota':'#34C759'
+  'Kementerian':'#d97706','Alat Negara':'#dc2626','Sekretariat Lembaga Negara':'#2563eb',
+  'Lembaga Non Struktural':'#7c3aed','Lembaga Pemerintah Lainnya':'#b06030',
+  'Lembaga Pemerintah Non Kementerian':'#0d9488','Lembaga Penyiaran Publik':'#db2777',
+  'Provinsi':'#1a4a6b','Kabupaten/Kota':'#3a6b3a'
 };
 
 function renderCharts() {
@@ -2381,7 +2366,7 @@ function renderCharts() {
     }
   });
 
-  const jenjangColors = ['#FF9500','#30B0C7','#007AFF','#FF3B30','#AF52DE','#5856D6','#FF2D55'];
+  const jenjangColors = ['#d97706','#0d9488','#0071e3','#dc2626','#7c3aed','#b06030','#1a4a6b'];
   const jenjangDatasets = JENJANG.map((j,i)=>({
     label:j.lbl, data:CAT_LABELS.map(cat=>ALL.filter(d=>d.kategori===cat).reduce((s,d)=>s+(d[j.k]||0),0)),
     backgroundColor:jenjangColors[i]+'55',borderColor:jenjangColors[i],borderWidth:1,borderSkipped:false,borderRadius:999
@@ -2415,7 +2400,7 @@ function renderCharts() {
     const gk=['nas','kem','lemb','prov','kab'];
     const gl=['Nasional','Kementerian','Lembaga','Provinsi','Kabupaten/Kota'];
     const dsrc=document.getElementById('disp-src'); if(dsrc) dsrc.textContent='sumber BKN · '+(window.BKN_REKAP_2026.updated_at||'');
-    const COL=['#636366','#FF9500','#AF52DE','#5856D6','#34C759'];
+    const COL=['#334155','#d97706','#7c3aed','#2563eb','#0d9488'];
     const dispLabels={ id:'dispLabels', afterDatasetsDraw(chart){
       const ctx=chart.ctx; ctx.save();
       ctx.font="600 10px "+font; ctx.textBaseline='middle'; ctx.textAlign='left';
@@ -2441,51 +2426,7 @@ function renderCharts() {
         animation:{duration:700} },
       plugins:[dispLabels]
     });
-
-    // ── Data per cluster per jabatan (untuk tabel rincian) ──
-    const JCL=['nas','kem','lemb','prov','kab'];
-    const JBYC={rek:{},eks:{}};
-    JCL.forEach(c=>{ JBYC.rek[c]={}; JBYC.eks[c]={}; JENJANG.forEach(j=>{JBYC.rek[c][j.k]=0;JBYC.eks[c][j.k]=0;}); });
-    const catCl = kat => kat==='Kementerian'?'kem': (LEMB.includes(kat)?'lemb': (kat==='Provinsi'?'prov': (kat==='Kabupaten/Kota'?'kab':null)));
-    ALL.forEach(d=>{ const cc=catCl(d.kategori); JENJANG.forEach(j=>{ const v=d[j.k]||0; JBYC.rek.nas[j.k]+=v; if(cc) JBYC.rek[cc][j.k]+=v; }); });
-    window.BKN_REKAP_2026.records.forEach(r=>{ const c=bknCls(r.nama); const cc=(c==='kem'?'kem':c==='lemb'?'lemb':c==='prov'?'prov':'kab'); JENJANG.forEach(j=>{ const v=r[j.k]||0; JBYC.eks.nas[j.k]+=v; JBYC.eks[cc][j.k]+=v; }); });
-    window.__JBYC=JBYC;
-    renderClusterJabatan();
   }
-}
-
-function renderClusterJabatan(){
-  const J=window.__JBYC; if(!J || typeof Chart==='undefined') return;
-  const sel=document.getElementById('cj-cluster'); const c=sel?sel.value:'nas';
-  const font="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
-  const labels=JENJANG.map(j=>j.lbl);
-  const colors=JENJANG.map(j=>j.c);
-  const rek=JENJANG.map(j=>J.rek[c][j.k]||0);
-  const eks=JENJANG.map(j=>J.eks[c][j.k]||0);
-  const cjLabels={ id:'cjLabels', afterDatasetsDraw(chart){
-    const ctx=chart.ctx; ctx.save(); ctx.font="600 10px "+font; ctx.textBaseline='middle'; ctx.textAlign='left';
-    chart.data.datasets.forEach((ds,di)=>{ const meta=chart.getDatasetMeta(di);
-      meta.data.forEach((bar,i)=>{ const v=ds.data[i]; if(v==null)return;
-        ctx.fillStyle = di===0 ? colors[i] : 'rgba(71,85,105,.9)';
-        ctx.fillText(v.toLocaleString('id'), bar.x+7, bar.y); }); });
-    ctx.restore(); } };
-  mkChart('chart-cj', {
-    type:'bar',
-    data:{ labels, datasets:[
-      {label:'Rekomendasi', data:rek, backgroundColor:colors, borderColor:colors, borderWidth:0, borderRadius:7, borderSkipped:false},
-      {label:'Ketersediaan', data:eks, backgroundColor:colors.map(x=>x+'40'), borderColor:colors, borderWidth:1.5, borderRadius:7, borderSkipped:false}
-    ]},
-    options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
-      layout:{padding:{right:54}},
-      scales:{ x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>v>=1000?(v/1000).toFixed(0)+'rb':v,font:{size:10,family:font}}},
-               y:{grid:{display:false},ticks:{font:{size:11,family:font,weight:'600'}}} },
-      plugins:{ legend:{display:false},
-        tooltip:{mode:'index',intersect:false,backgroundColor:'rgba(255,255,255,.96)',titleColor:'#111827',bodyColor:'#4b5563',borderColor:'rgba(15,23,42,.08)',borderWidth:1,padding:12,cornerRadius:14,displayColors:false,
-          callbacks:{ label:ctx=>`${ctx.dataset.label}: ${ctx.raw.toLocaleString('id')}`,
-            afterbody:items=>{const i=items[0].dataIndex; const x=eks[i]-rek[i]; return `Selisih: ${x>0?'+':''}${x.toLocaleString('id')}`;} } } },
-      animation:{duration:600} },
-    plugins:[cjLabels]
-  });
 }
 
 function setCat(cat, el) {
