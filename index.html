@@ -1533,7 +1533,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
           <div class="stat-label" style="margin:0">Disparitas Rekomendasi vs Ketersediaan (Nasional)</div>
           <div style="font-size:11px;color:var(--text-4)" id="disp-src">sumber BKN</div>
         </div>
-        <div style="font-size:11px;color:var(--text-4);margin-bottom:2px">Batang penuh = Rekomendasi (ANRI) · batang transparan = Ketersediaan (Eksisting). Warna membedakan cluster.</div>
+        <div style="font-size:11px;color:var(--text-4);margin-bottom:2px">Batang terisi = Rekomendasi (ANRI) · batang kosong/outline = Ketersediaan (Eksisting). Warna membedakan cluster.</div>
         <div style="height:380px;margin-top:10px"><canvas id="chart-disparitas"></canvas></div>
       </div>
 
@@ -1548,7 +1548,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
             <option value="kab">Kabupaten/Kota</option>
           </select>
         </div>
-        <div style="font-size:11px;color:var(--text-4);margin-bottom:2px">Batang penuh = Rekomendasi · transparan = Ketersediaan (Eksisting). Warna membedakan jenjang.</div>
+        <div style="font-size:11px;color:var(--text-4);margin-bottom:2px">Batang terisi = Rekomendasi · kosong/outline = Ketersediaan (Eksisting). Warna membedakan jenjang.</div>
         <div style="height:380px;margin-top:8px"><canvas id="chart-cj"></canvas></div>
       </div>
 
@@ -2276,20 +2276,31 @@ const CAT_COLORS = {
   'Provinsi':'#5856D6','Kabupaten/Kota':'#34C759'
 };
 
+/* ── Token visual seragam untuk semua chart batang ──
+   Satu bahasa: isian transparan tipis + garis tepi warna penuh, sudut rounded halus. */
+const CHART_FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+const TOOLTIP_DEFAULTS = {
+  backgroundColor:'rgba(255,255,255,.96)',titleColor:'#111827',bodyColor:'#4b5563',
+  borderColor:'rgba(15,23,42,.08)',borderWidth:1,
+  padding:12,cornerRadius:14,displayColors:false,
+  titleFont:{family:CHART_FONT,weight:'600',size:12},
+  bodyFont:{family:CHART_FONT,size:11}
+};
+const BAR_RADIUS  = 6;     // sudut rounded halus, dipakai semua batang
+const BAR_BORDER  = 1.5;   // tebal garis tepi seragam
+const BAR_PCT     = 0.62;  // ketebalan batang seragam
+const CAT_PCT     = 0.72;  // jarak antar grup seragam
+const fillSolid = c => c+'33'; // isian "terisi"  (Rekomendasi / seri tunggal)
+const fillGhost = c => c+'0D'; // isian "kosong"  (Ketersediaan)
+
 function renderCharts() {
   if (!ALL.length) return;
   Chart.defaults.color = '#344054';
   Chart.defaults.borderColor = 'rgba(15,23,42,.16)';
   Chart.defaults.font.family = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
   Chart.defaults.font.size = 12;
-  const font = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
-  const tooltipDefaults = {
-    backgroundColor:'rgba(255,255,255,.96)',titleColor:'#111827',bodyColor:'#4b5563',
-    borderColor:'rgba(15,23,42,.08)',borderWidth:1,
-    padding:12,cornerRadius:14,displayColors:false,
-    titleFont:{family:font,weight:'600',size:12},
-    bodyFont:{family:font,size:11}
-  };
+  const font = CHART_FONT;
+  const tooltipDefaults = TOOLTIP_DEFAULTS;
 
   const ada = ALL.filter(d=>d.status==='Ada Rekomendasi').length;
   const belum = ALL.length - ada;
@@ -2300,7 +2311,7 @@ function renderCharts() {
   mkChart('chart-donut', {
     type:'doughnut',
     data:{ datasets:[{ data:[ada,belum], backgroundColor:['#34c759','#e5e7eb'], borderWidth:0, hoverOffset:4 }] },
-    options:{ cutout:'74%', plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>`${ctx.raw.toLocaleString('id')} instansi`},...tooltipDefaults} }, animation:{duration:800} }
+    options:{ cutout:'74%', plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>`${ctx.raw.toLocaleString('id')} instansi`},...tooltipDefaults} }, animation:{duration:700} }
   });
 
   const klusterPct = CAT_LABELS.map(cat => {
@@ -2313,7 +2324,7 @@ function renderCharts() {
     type:'bar',
     data:{ labels:CAT_LABELS.map(c=>CAT_SHORT2[c]||c), datasets:[{
       label:'% Ada Rekomendasi', data:klusterPct,
-      backgroundColor:klusterColors.map(c=>c+'33'),borderColor:klusterColors,borderWidth:1.5,borderRadius:999,borderSkipped:false,barPercentage:.62,categoryPercentage:.7
+      backgroundColor:klusterColors.map(fillSolid),borderColor:klusterColors,borderWidth:BAR_BORDER,borderRadius:BAR_RADIUS,borderSkipped:false,barPercentage:BAR_PCT,categoryPercentage:CAT_PCT
     }]},
     options:{
       indexAxis:'y',responsive:true,maintainAspectRatio:false,
@@ -2332,7 +2343,7 @@ function renderCharts() {
   mkChart('chart-tahun', {
     type:'bar',
     data:{ labels:tahunKeys, datasets:[
-      { type:'bar', label:'Terbit Tahun Ini', data:tahunKeys.map(t=>byTahun[t]), backgroundColor:'rgba(0,122,255,.15)', borderColor:'#007aff', borderWidth:1.5, borderRadius:999, yAxisID:'y', barPercentage:.58, categoryPercentage:.7 },
+      { type:'bar', label:'Terbit Tahun Ini', data:tahunKeys.map(t=>byTahun[t]), backgroundColor:fillSolid('#007aff'), borderColor:'#007aff', borderWidth:BAR_BORDER, borderRadius:BAR_RADIUS, borderSkipped:false, yAxisID:'y', barPercentage:BAR_PCT, categoryPercentage:CAT_PCT },
       { type:'line', label:'Kumulatif', data:cumData, borderColor:'#34c759', backgroundColor:'rgba(52,199,89,.08)', borderWidth:2.5, pointRadius:4, pointBackgroundColor:'#34c759', tension:.35, fill:true, yAxisID:'y1' }
     ]},
     options:{
@@ -2353,7 +2364,7 @@ function renderCharts() {
     type:'bar',
     data:{ labels:CAT_LABELS.map(c=>CAT_SHORT2[c]||c), datasets:[{
       label:'Total Rekomendasi', data:formasiPerKluster,
-      backgroundColor:formasiColors.map(c=>c+'33'),borderColor:formasiColors,borderWidth:1.5,borderRadius:999,borderSkipped:false,barPercentage:.58,categoryPercentage:.7
+      backgroundColor:formasiColors.map(fillSolid),borderColor:formasiColors,borderWidth:BAR_BORDER,borderRadius:BAR_RADIUS,borderSkipped:false,barPercentage:BAR_PCT,categoryPercentage:CAT_PCT
     }]},
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -2371,7 +2382,7 @@ function renderCharts() {
   mkChart('chart-top15', {
     type:'bar',
     data:{ labels:top15src.map(d=>d.nama.length>35?d.nama.slice(0,35)+'…':d.nama),
-      datasets:[{ label:'Rekomendasi', data:top15src.map(d=>d.total), backgroundColor:top15colors.map(c=>c+'33'), borderColor:top15colors, borderWidth:1.5, borderRadius:999, borderSkipped:false, barThickness:12 }] },
+      datasets:[{ label:'Rekomendasi', data:top15src.map(d=>d.total), backgroundColor:top15colors.map(fillSolid), borderColor:top15colors, borderWidth:BAR_BORDER, borderRadius:BAR_RADIUS, borderSkipped:false, barThickness:12 }] },
     options:{
       indexAxis:'y',responsive:true,maintainAspectRatio:false,
       scales:{ x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>v>=1000?(v/1000).toFixed(0)+'rb':v,font:{size:10,family:font}}},
@@ -2384,7 +2395,7 @@ function renderCharts() {
   const jenjangColors = ['#FF9500','#30B0C7','#007AFF','#FF3B30','#AF52DE','#5856D6','#FF2D55'];
   const jenjangDatasets = JENJANG.map((j,i)=>({
     label:j.lbl, data:CAT_LABELS.map(cat=>ALL.filter(d=>d.kategori===cat).reduce((s,d)=>s+(d[j.k]||0),0)),
-    backgroundColor:jenjangColors[i]+'55',borderColor:jenjangColors[i],borderWidth:1,borderSkipped:false,borderRadius:999
+    backgroundColor:fillSolid(jenjangColors[i]),borderColor:jenjangColors[i],borderWidth:BAR_BORDER,borderSkipped:false,borderRadius:BAR_RADIUS
   }));
   mkChart('chart-jenjang', {
     type:'bar',
@@ -2427,8 +2438,8 @@ function renderCharts() {
     mkChart('chart-disparitas', {
       type:'bar',
       data:{ labels:gl, datasets:[
-        {label:'Rekomendasi (ANRI)', data:gk.map(k=>rek[k]), backgroundColor:COL, borderColor:COL, borderWidth:0, borderRadius:8, borderSkipped:false},
-        {label:'Ketersediaan (Eksisting)', data:gk.map(k=>eks[k]), backgroundColor:COL.map(c=>c+'40'), borderColor:COL, borderWidth:1.5, borderRadius:8, borderSkipped:false}
+        {label:'Rekomendasi (ANRI)', data:gk.map(k=>rek[k]), backgroundColor:COL.map(fillSolid), borderColor:COL, borderWidth:BAR_BORDER, borderRadius:BAR_RADIUS, borderSkipped:false},
+        {label:'Ketersediaan (Eksisting)', data:gk.map(k=>eks[k]), backgroundColor:COL.map(fillGhost), borderColor:COL, borderWidth:BAR_BORDER, borderRadius:BAR_RADIUS, borderSkipped:false}
       ]},
       options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
         layout:{padding:{right:54}},
@@ -2472,18 +2483,18 @@ function renderClusterJabatan(){
   mkChart('chart-cj', {
     type:'bar',
     data:{ labels, datasets:[
-      {label:'Rekomendasi', data:rek, backgroundColor:colors, borderColor:colors, borderWidth:0, borderRadius:7, borderSkipped:false},
-      {label:'Ketersediaan', data:eks, backgroundColor:colors.map(x=>x+'40'), borderColor:colors, borderWidth:1.5, borderRadius:7, borderSkipped:false}
+      {label:'Rekomendasi', data:rek, backgroundColor:colors.map(fillSolid), borderColor:colors, borderWidth:BAR_BORDER, borderRadius:BAR_RADIUS, borderSkipped:false},
+      {label:'Ketersediaan', data:eks, backgroundColor:colors.map(fillGhost), borderColor:colors, borderWidth:BAR_BORDER, borderRadius:BAR_RADIUS, borderSkipped:false}
     ]},
     options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
       layout:{padding:{right:54}},
       scales:{ x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>v>=1000?(v/1000).toFixed(0)+'rb':v,font:{size:10,family:font}}},
                y:{grid:{display:false},ticks:{font:{size:11,family:font,weight:'600'}}} },
       plugins:{ legend:{display:false},
-        tooltip:{mode:'index',intersect:false,backgroundColor:'rgba(255,255,255,.96)',titleColor:'#111827',bodyColor:'#4b5563',borderColor:'rgba(15,23,42,.08)',borderWidth:1,padding:12,cornerRadius:14,displayColors:false,
+        tooltip:{mode:'index',intersect:false,...TOOLTIP_DEFAULTS,
           callbacks:{ label:ctx=>`${ctx.dataset.label}: ${ctx.raw.toLocaleString('id')}`,
             afterbody:items=>{const i=items[0].dataIndex; const x=eks[i]-rek[i]; return `Selisih: ${x>0?'+':''}${x.toLocaleString('id')}`;} } } },
-      animation:{duration:600} },
+      animation:{duration:700} },
     plugins:[cjLabels]
   });
 }
