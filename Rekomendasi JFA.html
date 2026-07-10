@@ -1,0 +1,3965 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulir Penghitungan Kebutuhan Arsiparis</title>
+<style>
+
+/* ═══════════════════════════════════════
+   APPLE PRODUCT STYLE — JFA ARSIPARIS
+   SF Pro Display · SF Pro Text
+═══════════════════════════════════════ */
+
+/* — FONT SYSTEM — */
+@supports (font: -apple-system-body) {
+  :root {
+    --f-display: 'SF Pro Display',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;
+    --f-text:    'SF Pro Text',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;
+    --f-mono:    'SF Mono','Menlo','Monaco',monospace;
+  }
+}
+@supports not (font: -apple-system-body) {
+  :root {
+    --f-display: -apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',sans-serif;
+    --f-text:    -apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',sans-serif;
+    --f-mono:    'Cascadia Code','Consolas','Menlo',monospace;
+  }
+}
+
+/* — DESIGN TOKENS — */
+:root {
+  /* Backgrounds */
+  --bg:          #f5f5f7;
+  --bg-sidebar:  rgba(255,255,255,0.72);
+  --bg-chrome:   rgba(246,246,248,0.94);
+  --bg-card:     #ffffff;
+  --bg-surface:  #fafafa;
+
+  /* Text */
+  --t1: #1d1d1f;
+  --t2: #3d3d3f;
+  --t3: #86868b;
+  --t4: #aeaeb2;
+
+  /* Borders & Separators */
+  --bdr:  rgba(0,0,0,0.08);
+  --sep:  rgba(0,0,0,0.06);
+  --sep2: rgba(0,0,0,0.04);
+
+  /* Accent */
+  --accent:       #0071e3;
+  --accent-light: rgba(0,113,227,0.08);
+  --accent-hover: #0077ed;
+  --green:        #34c759;
+  --red:          #ff3b30;
+  --orange:       #ff9f0a;
+
+  /* Shadows */
+  --sh-xs:  0 1px 3px rgba(0,0,0,0.06);
+  --sh-sm:  0 2px 8px rgba(0,0,0,0.08);
+  --sh-md:  0 4px 16px rgba(0,0,0,0.1);
+  --sh-lg:  0 8px 32px rgba(0,0,0,0.12);
+  --sh-xl:  0 20px 60px rgba(0,0,0,0.18);
+
+  /* Radius */
+  --r4:  4px;
+  --r8:  8px;
+  --r12: 12px;
+  --r16: 16px;
+
+  /* Easing */
+  --ease:  cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+  /* Legacy compat */
+  --card: #ffffff;
+  --win-bg: #f5f5f7;
+  --row-h: rgba(0,0,0,0.02);
+  --row-s: #f5f5f7;
+  --row-c: #f0fdf5;
+  --sh: var(--sh-sm);
+  --r4: 4px; --r8: 8px; --r12: 12px;
+  --chrome: var(--bg-chrome);
+  --chrome-b: rgba(0,0,0,0.1);
+}
+
+/* — RESET — */
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* — BASE — */
+body {
+  font-family: var(--f-text);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--t1);
+  background: var(--bg);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* — TYPOGRAPHY — */
+h1,h2,h3,
+.unit-hdr-name, .sb-title, .card-hdr h3,
+.empty-title, .rk-val, .pad-acc-title,
+#unit-hdr-name, #detail-name {
+  font-family: var(--f-display);
+  letter-spacing: -0.02em;
+}
+
+/* ══════════════ CHROME / TITLEBAR ══════════════ */
+.chrome {
+  height: 52px;
+  background: var(--bg-chrome);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--bdr);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 14px;
+  position: relative;
+  flex-shrink: 0;
+  z-index: 100;
+}
+.tls { display: flex; gap: 7px; }
+.tl  { width: 12px; height: 12px; border-radius: 50%; }
+.tl-r { background: #ff5f57; box-shadow: 0 0 0 0.5px rgba(0,0,0,0.12) inset; }
+.tl-y { background: #febc2e; box-shadow: 0 0 0 0.5px rgba(0,0,0,0.12) inset; }
+.tl-g { background: #28c840; box-shadow: 0 0 0 0.5px rgba(0,0,0,0.12) inset; }
+.win-title {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  font-family: var(--f-display);
+  font-size: 13px; font-weight: 600;
+  color: var(--t3); pointer-events: none; white-space: nowrap;
+}
+.chrome-r { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+
+/* — CHROME BUTTONS — */
+.tbtn {
+  font-family: var(--f-text);
+  font-size: 12px; font-weight: 500;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 8px;
+  color: var(--t1);
+  padding: 5px 12px;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 5px;
+  white-space: nowrap;
+  box-shadow: var(--sh-xs);
+  transition: all 0.15s var(--ease);
+}
+.tbtn:hover  { background: #fff; box-shadow: var(--sh-sm); transform: translateY(-0.5px); }
+.tbtn:active { transform: scale(0.97); box-shadow: none; }
+.tbtn-p {
+  background: var(--accent); border-color: transparent;
+  color: #fff; box-shadow: 0 2px 8px rgba(0,113,227,0.3);
+}
+.tbtn-p:hover { background: var(--accent-hover); }
+.tbtn-d {
+  background: var(--red); border-color: transparent;
+  color: #fff; box-shadow: 0 2px 8px rgba(255,59,48,0.3);
+}
+.save-st { font-size: 11px; color: var(--t3); }
+
+/* ══════════════ LAYOUT ══════════════ */
+.app { display: flex; flex: 1; overflow: hidden; }
+
+/* ══════════════ SIDEBAR ══════════════ */
+.sidebar {
+  width: 224px; flex-shrink: 0;
+  background: var(--bg-sidebar);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border-right: 1px solid var(--bdr);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.sb-header {
+  padding: 16px 14px 10px;
+  border-bottom: 1px solid var(--sep);
+}
+.sb-title {
+  font-family: var(--f-display);
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--t4); margin-bottom: 10px; padding: 0 4px;
+}
+.sb-nav-btn {
+  display: flex; align-items: center; gap: 9px;
+  width: 100%; padding: 7px 10px;
+  border: none; border-radius: 10px;
+  font-family: var(--f-text);
+  font-size: 13px; font-weight: 400;
+  color: var(--t2); background: none; cursor: pointer;
+  text-align: left; margin-bottom: 2px;
+  transition: all 0.18s var(--ease);
+}
+.sb-nav-btn:hover:not(.active) { background: rgba(0,0,0,0.05); color: var(--t1); }
+.sb-nav-btn.active {
+  background: var(--accent);
+  color: #fff; font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0,113,227,0.25);
+}
+.sb-nav-btn.active .sb-ico { background: rgba(255,255,255,0.18) !important; }
+.sb-ico {
+  width: 24px; height: 24px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; flex-shrink: 0;
+}
+.ico-b { background: rgba(0,113,227,0.1); }
+.ico-g { background: rgba(52,199,89,0.1); }
+
+/* — UNIT LIST — */
+.sb-units { flex: 1; overflow-y: auto; padding: 10px 14px; }
+.sb-units-hdr {
+  display: flex; align-items: center;
+  justify-content: space-between; margin-bottom: 8px;
+}
+.sb-units-label {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--t4);
+}
+.sb-add-btn {
+  font-size: 11px; font-weight: 600;
+  color: var(--accent); background: none; border: none;
+  cursor: pointer; padding: 2px 6px; border-radius: 6px;
+  transition: background 0.12s;
+}
+.sb-add-btn:hover { background: var(--accent-light); }
+.sb-add-btn:active { transform: scale(0.95); }
+.unit-item {
+  display: flex; align-items: flex-start; gap: 7px;
+  padding: 7px 10px; border-radius: 10px;
+  cursor: pointer; margin-bottom: 2px;
+  border: none; background: none; width: 100%; text-align: left;
+  transition: all 0.15s var(--ease);
+}
+.unit-item:hover:not(.active) { background: rgba(0,0,0,0.05); }
+.unit-item.active {
+  background: var(--accent);
+  box-shadow: 0 2px 10px rgba(0,113,227,0.22);
+}
+.unit-item.active .unit-name { color: #fff; font-weight: 500; }
+.unit-item.active .unit-type { background: rgba(255,255,255,0.22) !important; color: #fff !important; border-color: transparent !important; }
+.unit-item.active .unit-dot { background: rgba(255,255,255,0.7) !important; }
+.unit-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.dot-upuk { background: #5e5ce6; }
+.dot-up   { background: var(--accent); }
+.unit-name { font-size: 12.5px; color: var(--t2); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.unit-type { font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 4px; flex-shrink: 0; }
+.type-upuk { background: #ede9fe; color: #5e5ce6; }
+.type-up   { background: #e8f0fe; color: var(--accent); }
+.sb-empty  { font-size: 12px; color: var(--t3); padding: 8px 4px; font-style: italic; }
+
+/* ══════════════ CONTENT ══════════════ */
+.content { flex: 1; overflow: hidden; display: flex; flex-direction: column; background: var(--bg); }
+.page { display: none; flex: 1; flex-direction: column; overflow: hidden; }
+.page.active { display: flex; }
+
+/* — UNIT HEADER — */
+.unit-hdr {
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--bdr);
+  padding: 12px 24px;
+  display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+}
+.unit-hdr-name {
+  font-family: var(--f-display);
+  font-size: 16px; font-weight: 700; color: var(--t1); letter-spacing: -0.02em;
+}
+.unit-hdr-type { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 20px; }
+.unit-hdr-edit {
+  font-size: 12px; color: var(--accent); background: none; border: none;
+  cursor: pointer; padding: 5px 10px; border-radius: 8px;
+  transition: background 0.12s;
+}
+.unit-hdr-edit:hover { background: var(--accent-light); }
+
+/* — SECTION TABS — */
+.sec-tabs {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--bdr);
+  padding: 0 24px; display: flex; gap: 0; flex-shrink: 0;
+}
+.sec-tab {
+  font-family: var(--f-text);
+  font-size: 12.5px; font-weight: 500; color: var(--t3);
+  background: none; border: none; border-bottom: 2px solid transparent;
+  padding: 10px 16px; cursor: pointer;
+  display: flex; align-items: center; gap: 5px;
+  transition: color 0.15s, border-color 0.15s; white-space: nowrap;
+}
+.sec-tab:hover { color: var(--t2); }
+.sec-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+
+/* — SCROLL AREA — */
+.sec-scroll { flex: 1; overflow-y: auto; padding: 24px 24px 100px; }
+.section { display: none; }
+.section.active { display: block; }
+
+/* ══════════════ CARDS ══════════════ */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--bdr);
+  border-radius: var(--r16);
+  overflow: hidden;
+  margin-bottom: 16px;
+  box-shadow: var(--sh-sm);
+  transition: box-shadow 0.2s var(--ease);
+}
+.card-hdr {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--sep2);
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg-card);
+}
+.card-hdr h3 {
+  font-family: var(--f-display);
+  font-size: 13px; font-weight: 600; color: var(--t1);
+}
+.cpill {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.04em;
+  background: var(--accent-light); color: var(--accent);
+  padding: 2px 9px; border-radius: 20px; margin-left: auto;
+}
+
+/* — LEGEND — */
+.legend {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  padding: 8px 20px; border-bottom: 1px solid var(--sep2);
+  background: var(--bg-surface);
+}
+.leg { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--t3); }
+.leg-d { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+/* ══════════════ TABLES ══════════════ */
+.tbl-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+thead th {
+  background: var(--bg-surface);
+  color: var(--t3);
+  font-family: var(--f-text);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 8px 14px; text-align: left;
+  border-bottom: 1px solid var(--sep);
+  white-space: nowrap;
+}
+thead th.r { text-align: right; }
+tbody tr { border-bottom: 1px solid var(--sep2); transition: background 0.1s; }
+tbody tr:not(.tr-sec):not(.tr-comp):nth-child(even) td { background: rgba(0,0,0,0.015); }
+tbody tr:not(.tr-sec):not(.tr-comp):nth-child(odd)  td { background: transparent; }
+tbody tr:not(.tr-sec):not(.tr-comp):hover td { background: var(--accent-light) !important; }
+tbody tr:last-child { border-bottom: none; }
+tbody td { padding: 7px 14px; vertical-align: middle; }
+
+.tr-sec td {
+  background: var(--bg-surface) !important;
+  color: var(--t3) !important;
+  font-family: var(--f-text);
+  font-size: 10px !important; font-weight: 700 !important;
+  letter-spacing: 0.06em !important; text-transform: uppercase !important;
+  padding: 6px 14px !important;
+  border-top: 1px solid var(--sep) !important;
+}
+.tr-comp td {
+  background: rgba(52,199,89,0.05) !important;
+  color: var(--t3) !important;
+}
+
+td.no    { color: var(--t4); font-family: var(--f-mono); font-size: 11px; }
+td.no-c  { color: var(--t4); font-size: 11px; padding-left: 24px !important; }
+td.sat   { color: var(--t3); font-size: 11.5px; }
+td.desc-c{ color: var(--t3); font-size: 11px; }
+
+/* ══════════════ PAD ACCORDION ══════════════ */
+.pad-acc {
+  border: 1px solid var(--bdr);
+  border-radius: 12px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  background: var(--bg-card);
+  box-shadow: var(--sh-xs);
+  transition: box-shadow 0.2s var(--ease);
+}
+.pad-acc:hover { box-shadow: var(--sh-sm); }
+.pad-acc-hdr {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px;
+  cursor: pointer; user-select: none;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background 0.15s var(--ease);
+}
+.pad-acc-hdr:hover { background: rgba(0,0,0,0.02); }
+.pad-acc-hdr.open  { border-bottom-color: var(--sep2); }
+.pad-acc-icon  { font-size: 16px; flex-shrink: 0; }
+.pad-acc-title {
+  font-family: var(--f-display);
+  font-size: 13px; font-weight: 600; color: var(--t1); flex: 1;
+}
+.pad-acc-badge {
+  font-size: 10px; font-weight: 600;
+  padding: 2px 9px; border-radius: 20px;
+  background: rgba(0,0,0,0.05); color: var(--t3);
+}
+.pad-acc-chev {
+  color: var(--t3); font-size: 11px;
+  transition: transform 0.22s var(--ease);
+}
+.pad-acc-hdr.open .pad-acc-chev { transform: rotate(90deg); }
+.pad-acc-body {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  display: block !important;
+  transition: max-height 0.3s var(--ease), opacity 0.22s ease;
+}
+.pad-acc-body.open { max-height: 2000px; opacity: 1; }
+
+/* ══════════════ TAGS / BADGES ══════════════ */
+.utag {
+  display: inline-flex; align-items: center;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 2px 8px; border-radius: 5px; white-space: nowrap;
+}
+.u-up   { background: #e8f0fe; color: #0a5fd4; border: 1px solid rgba(10,95,212,0.15); }
+.u-uk   { background: #f3e8ff; color: #7c3aed; border: 1px solid rgba(124,58,237,0.15); }
+.u-both { background: #e8f8ee; color: #1a7f44; border: 1px solid rgba(26,127,68,0.15); }
+.u-none { background: #f5f5f7; color: var(--t3); border: 1px solid rgba(0,0,0,0.08); }
+.jw { display: flex; flex-wrap: wrap; gap: 3px; }
+.jb {
+  font-size: 10px; font-weight: 500;
+  padding: 1px 7px; border-radius: 5px; white-space: nowrap;
+}
+.jb-t  { background: #dbeafe; color: #1d4ed8; }
+.jb-m  { background: #dcfce7; color: #15803d; }
+.jb-p  { background: #fef9c3; color: #a16207; }
+.jb-ap { background: #fee2e2; color: #b91c1c; }
+.jb-am { background: #ede9fe; color: #6d28d9; }
+.jb-ad { background: #fef3c7; color: #92400e; }
+.jb-au { background: #f0fdf4; color: #166534; }
+
+/* ══════════════ INPUTS ══════════════ */
+.ni {
+  width: 96px;
+  background: var(--bg-surface);
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 8px;
+  color: var(--t1);
+  font-family: var(--f-mono);
+  font-size: 12px; font-weight: 500;
+  text-align: right;
+  padding: 5px 10px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.12s;
+  display: block; margin-left: auto;
+}
+.ni:focus {
+  background: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0,113,227,0.15);
+}
+.ni-c {
+  background: #f0fdf5;
+  border-color: rgba(52,199,89,0.3);
+  color: #1a7f44; font-weight: 600;
+  pointer-events: none;
+}
+
+/* ══════════════ REKAP CARDS ══════════════ */
+.rk-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 10px; padding: 16px 20px;
+}
+.rk-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bdr);
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: var(--sh-xs);
+  transition: box-shadow 0.18s var(--ease), transform 0.15s var(--ease);
+}
+.rk-card:hover { box-shadow: var(--sh-md); transform: translateY(-2px); }
+.rk-lbl { font-size: 10px; font-weight: 500; color: var(--t3); line-height: 1.4; }
+.rk-val {
+  font-family: var(--f-mono);
+  font-size: 32px; font-weight: 700; line-height: 1;
+  margin: 6px 0 3px; letter-spacing: -0.03em;
+}
+.rk-sub { font-size: 10px; color: var(--t3); }
+.rk-0 .rk-val { color: var(--accent); }
+.rk-1 .rk-val { color: var(--green); }
+.rk-2 .rk-val { color: #a2845e; }
+.rk-3 .rk-val { color: var(--red); }
+.rk-4 .rk-val { color: #5e5ce6; }
+.rk-5 .rk-val { color: var(--orange); }
+.rk-6 .rk-val { color: #30b0c7; }
+.dtbl { padding: 0 20px 20px; }
+.dtbl table thead th { background: var(--bg-surface); }
+.dtbl table tbody td { color: var(--t2); border-bottom: 1px solid var(--sep2); }
+td.mono { font-family: var(--f-mono); text-align: right; color: var(--t1); }
+td.acc  { color: var(--accent); font-weight: 700; font-family: var(--f-mono); text-align: right; }
+.tfoot-tr td { border-top: 1px solid var(--sep) !important; font-weight: 600; padding-top: 10px !important; }
+
+/* ══════════════ EMPTY STATE ══════════════ */
+.empty-state {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  height: 100%; gap: 14px; color: var(--t3);
+}
+.empty-icon  { font-size: 52px; opacity: 0.3; }
+.empty-title { font-family: var(--f-display); font-size: 17px; font-weight: 600; color: var(--t2); }
+.empty-desc  { font-size: 13px; text-align: center; max-width: 280px; line-height: 1.6; color: var(--t3); }
+.empty-btn {
+  font-family: var(--f-text);
+  font-size: 13px; font-weight: 600;
+  background: var(--accent); color: #fff; border: none;
+  border-radius: 10px; padding: 10px 22px; cursor: pointer;
+  margin-top: 6px; box-shadow: 0 2px 8px rgba(0,113,227,0.3);
+  transition: all 0.15s var(--ease);
+}
+.empty-btn:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,113,227,0.35); }
+.empty-btn:active { transform: scale(0.97); }
+
+/* ══════════════ MODAL ══════════════ */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 500; opacity: 0; pointer-events: none;
+  transition: opacity 0.2s;
+}
+.modal-overlay.show { opacity: 1; pointer-events: all; }
+.modal {
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 18px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.22), 0 0 0 0.5px rgba(0,0,0,0.08);
+  width: 400px; max-width: 90vw; overflow: hidden;
+  transform: scale(0.95) translateY(10px);
+  transition: transform 0.25s var(--ease-spring);
+}
+.modal-overlay.show .modal { transform: scale(1) translateY(0); }
+.modal-hdr { padding: 20px 24px 14px; border-bottom: 1px solid var(--sep); }
+.modal-hdr h3 { font-family: var(--f-display); font-size: 15px; font-weight: 700; color: var(--t1); }
+.modal-hdr p  { font-size: 12px; color: var(--t3); margin-top: 3px; }
+.modal-body   { padding: 18px 24px; }
+.mfld { margin-bottom: 16px; }
+.mfld label {
+  display: block; font-size: 11px; font-weight: 600;
+  color: var(--t2); margin-bottom: 6px;
+}
+.mfld input, .mfld select {
+  width: 100%;
+  font-family: var(--f-text); font-size: 13px;
+  background: var(--bg-surface);
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 10px; padding: 9px 12px; outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.12s;
+}
+.mfld input:focus, .mfld select:focus {
+  background: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0,113,227,0.15);
+}
+.type-desc {
+  margin-top: 8px; font-size: 11px; color: var(--t3);
+  line-height: 1.5; padding: 9px 12px;
+  background: var(--bg-surface); border-radius: 8px;
+  border: 1px solid var(--sep);
+}
+.modal-footer {
+  padding: 14px 24px; border-top: 1px solid var(--sep);
+  display: flex; gap: 8px; justify-content: flex-end;
+}
+.mbtn {
+  font-family: var(--f-text); font-size: 13px; font-weight: 500;
+  border-radius: 9px; padding: 7px 16px; cursor: pointer;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: var(--bg-surface); color: var(--t1);
+  transition: all 0.12s var(--ease);
+}
+.mbtn:hover  { background: #fff; box-shadow: var(--sh-xs); }
+.mbtn:active { transform: scale(0.97); }
+.mbtn-p {
+  background: var(--accent); border-color: transparent; color: #fff;
+  box-shadow: 0 2px 8px rgba(0,113,227,0.3);
+}
+.mbtn-p:hover { background: var(--accent-hover); }
+.mbtn-d {
+  background: var(--red); border-color: transparent; color: #fff;
+  box-shadow: 0 2px 8px rgba(255,59,48,0.3);
+}
+
+/* ══════════════ TOAST ══════════════ */
+#toast {
+  position: fixed; bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  background: rgba(30,30,35,0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #fff; font-size: 12.5px; font-weight: 500;
+  padding: 8px 20px; border-radius: 24px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.24);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.22s, transform 0.22s var(--ease-spring);
+  z-index: 999; white-space: nowrap;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ══════════════ LIVE PREVIEW ══════════════ */
+#live-preview {
+  position: fixed; bottom: 0; right: 24px; width: 232px;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 14px 14px 0 0;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.1), 0 0 0 0.5px rgba(0,0,0,0.06);
+  transform: translateY(100%);
+  transition: transform 0.3s var(--ease-spring);
+  overflow: hidden; z-index: 200;
+}
+#lp-tab {
+  position: fixed; bottom: 0; right: 28px;
+  background: var(--accent); color: #fff;
+  border-radius: 8px 8px 0 0;
+  padding: 6px 14px;
+  font-family: var(--f-text);
+  font-size: 11.5px; font-weight: 600;
+  cursor: pointer; display: none;
+  align-items: center; gap: 6px;
+  box-shadow: 0 -2px 12px rgba(0,113,227,0.25);
+  z-index: 199;
+  transition: background 0.15s, transform 0.1s;
+  user-select: none;
+}
+#lp-tab:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+/* ══════════════ SCROLLBAR ══════════════ */
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.15);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.25); background-clip: content-box; border: 2px solid transparent; }
+
+/* ══════════════ MISC ══════════════ */
+.unit-row-hover:hover td { background: var(--accent-light) !important; }
+canvas { border-radius: 8px; }
+
+/* ══════════════ ANIMATIONS ══════════════ */
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.section.active { animation: fadeSlideIn 0.22s var(--ease); }
+
+/* Rekap page */
+#page-rekap .sec-scroll { padding: 24px 24px 80px; }
+
+/* Chart */
+#page-rekap canvas { background: transparent; }
+
+/* ════════════════════════════════════════════
+   APPLE PRODUCT PAGE LAYER
+   Calm · Focused · Premium
+════════════════════════════════════════════ */
+
+/* — CHROME: thinner, more translucent — */
+.chrome {
+  height: 48px !important;
+  background: rgba(252,252,254,0.82) !important;
+  backdrop-filter: blur(28px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+  border-bottom: 1px solid rgba(0,0,0,0.07) !important;
+  padding: 0 18px !important;
+}
+.win-title {
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.01em !important;
+  color: rgba(0,0,0,0.45) !important;
+}
+
+/* — SIDEBAR: frosted glass, no hard borders — */
+.sidebar {
+  width: 220px !important;
+  background: rgba(248,248,250,0.78) !important;
+  backdrop-filter: blur(28px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
+  border-right: 1px solid rgba(0,0,0,0.06) !important;
+}
+.sb-header { padding: 18px 12px 12px !important; border-bottom: none !important; }
+.sb-title {
+  font-size: 9.5px !important;
+  letter-spacing: 0.1em !important;
+  color: rgba(0,0,0,0.3) !important;
+  margin-bottom: 12px !important;
+  padding: 0 8px !important;
+}
+.sb-nav-btn {
+  padding: 8px 10px !important;
+  border-radius: 10px !important;
+  font-size: 13px !important;
+  letter-spacing: -0.01em !important;
+  margin-bottom: 1px !important;
+  transition: all 0.16s cubic-bezier(0.4,0,0.2,1) !important;
+}
+.sb-nav-btn:hover:not(.active) {
+  background: rgba(0,0,0,0.055) !important;
+  color: var(--t1) !important;
+}
+.sb-nav-btn.active {
+  background: rgba(0,113,227,0.9) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 10px rgba(0,113,227,0.3), 0 1px 3px rgba(0,0,0,0.12) !important;
+}
+.sb-ico {
+  width: 22px !important; height: 22px !important;
+  border-radius: 6px !important; font-size: 11px !important;
+}
+.unit-item {
+  padding: 8px 10px !important;
+  border-radius: 10px !important;
+  transition: all 0.15s cubic-bezier(0.4,0,0.2,1) !important;
+}
+.unit-item.active {
+  background: rgba(0,113,227,0.88) !important;
+  box-shadow: 0 2px 8px rgba(0,113,227,0.28) !important;
+}
+.unit-name { font-size: 12.5px !important; letter-spacing: -0.01em !important; }
+.sb-units { padding: 8px 12px !important; }
+.sb-units-hdr { margin-bottom: 6px !important; }
+
+/* — UNIT HEADER: Apple section header style — */
+.unit-hdr {
+  background: rgba(255,255,255,0.72) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(0,0,0,0.07) !important;
+  padding: 14px 28px !important;
+}
+.unit-hdr-name {
+  font-size: 17px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  background: linear-gradient(135deg, #1d1d1f 0%, #3d3d3f 100%);
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+/* — SECTION TABS: pill indicator style — */
+.sec-tabs {
+  background: rgba(255,255,255,0.6) !important;
+  backdrop-filter: blur(8px) !important;
+  border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+  padding: 0 28px !important;
+}
+.sec-tab {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  padding: 11px 14px !important;
+  color: rgba(0,0,0,0.4) !important;
+  transition: color 0.15s !important;
+  letter-spacing: -0.01em !important;
+  border-bottom: 2px solid transparent !important;
+}
+.sec-tab:hover { color: var(--t2) !important; }
+.sec-tab.active {
+  color: var(--accent) !important;
+  border-bottom-color: var(--accent) !important;
+  font-weight: 600 !important;
+}
+
+/* — CONTENT AREA: breathable spacing — */
+.sec-scroll { padding: 28px 28px 120px !important; }
+
+/* — CARDS: Apple-style minimal cards — */
+.card {
+  background: #fff !important;
+  border: 1px solid rgba(0,0,0,0.07) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04) !important;
+  margin-bottom: 20px !important;
+  transition: box-shadow 0.22s cubic-bezier(0.4,0,0.2,1) !important;
+  overflow: hidden !important;
+}
+.card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.09), 0 1px 4px rgba(0,0,0,0.05) !important;
+}
+.card-hdr {
+  padding: 16px 22px !important;
+  border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+  background: rgba(250,250,252,0.7) !important;
+}
+.card-hdr h3 {
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--t1) !important;
+}
+.cpill {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  padding: 3px 10px !important;
+  border-radius: 20px !important;
+  background: rgba(0,113,227,0.08) !important;
+  color: var(--accent) !important;
+}
+
+/* — TABLES: airy, minimal grid — */
+thead th {
+  font-size: 9.5px !important;
+  letter-spacing: 0.08em !important;
+  padding: 9px 16px !important;
+  background: rgba(248,248,250,0.8) !important;
+  color: rgba(0,0,0,0.35) !important;
+  border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+}
+tbody td { padding: 8px 16px !important; }
+tbody tr { border-bottom: 1px solid rgba(0,0,0,0.04) !important; }
+tbody tr:not(.tr-sec):not(.tr-comp):hover td {
+  background: rgba(0,113,227,0.04) !important;
+}
+
+/* — PAD ACCORDION: clean Apple expansion — */
+.pad-acc {
+  border: 1px solid rgba(0,0,0,0.07) !important;
+  border-radius: 14px !important;
+  margin-bottom: 10px !important;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05) !important;
+  transition: box-shadow 0.2s !important;
+}
+.pad-acc:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08) !important; }
+.pad-acc-hdr {
+  padding: 13px 18px !important;
+  border-radius: 14px !important;
+}
+.pad-acc-hdr.open { border-radius: 14px 14px 0 0 !important; }
+.pad-acc-hdr:hover { background: rgba(0,0,0,0.018) !important; }
+.pad-acc-title {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
+}
+.pad-acc-badge {
+  font-size: 9.5px !important;
+  padding: 2px 9px !important;
+  background: rgba(0,0,0,0.04) !important;
+  color: rgba(0,0,0,0.35) !important;
+  border-radius: 20px !important;
+}
+
+/* — INPUT FIELDS: subtle, Apple-like — */
+.ni {
+  background: rgba(0,0,0,0.025) !important;
+  border: 1px solid rgba(0,0,0,0.1) !important;
+  border-radius: 9px !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  transition: all 0.15s !important;
+}
+.ni:hover { background: rgba(0,0,0,0.035) !important; border-color: rgba(0,0,0,0.15) !important; }
+.ni:focus {
+  background: #fff !important;
+  border-color: rgba(0,113,227,0.6) !important;
+  box-shadow: 0 0 0 3.5px rgba(0,113,227,0.12) !important;
+}
+.ni-c {
+  background: rgba(52,199,89,0.06) !important;
+  border-color: rgba(52,199,89,0.2) !important;
+  color: #1a7f44 !important;
+}
+.ni-anri {
+  border-color: rgba(0,113,227,0.24) !important;
+  background: rgba(0,113,227,0.04) !important;
+}
+.ni-anri::placeholder {
+  color: var(--t4);
+}
+.val-anri {
+  background: rgba(0,113,227,0.035) !important;
+}
+.anri-used {
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 600;
+  margin-top: 3px;
+  text-align: right;
+}
+.role-pill {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  background: rgba(0,113,227,0.08);
+  border: 1px solid rgba(0,113,227,0.18);
+  border-radius: 999px;
+  padding: 4px 9px;
+  white-space: nowrap;
+}
+body.role-instansi .anri-col,
+body.role-instansi .val-anri {
+  display: none !important;
+}
+body.role-instansi .anri-only {
+  display: none !important;
+}
+body.role-anri .instansi-only {
+  display: none !important;
+}
+body.role-anri .ni:not(.ni-anri):not(.ni-c) {
+  color: var(--t3) !important;
+  background: rgba(0,0,0,0.035) !important;
+}
+
+/* — REKAP CARDS: premium stat display — */
+.rk-card {
+  background: #fff !important;
+  border: 1px solid rgba(0,0,0,0.07) !important;
+  border-radius: 16px !important;
+  padding: 18px 18px 14px !important;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05) !important;
+  transition: all 0.2s cubic-bezier(0.4,0,0.2,1) !important;
+}
+.rk-card:hover {
+  box-shadow: 0 6px 24px rgba(0,0,0,0.1) !important;
+  transform: translateY(-3px) !important;
+}
+.rk-lbl {
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em !important;
+  color: rgba(0,0,0,0.35) !important;
+  line-height: 1.5 !important;
+}
+.rk-val {
+  font-size: 36px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.04em !important;
+  margin: 8px 0 4px !important;
+}
+.rk-sub { font-size: 10px !important; color: rgba(0,0,0,0.3) !important; }
+
+/* — BUTTONS: Apple pill style — */
+.tbtn {
+  border-radius: 9px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  padding: 6px 13px !important;
+  letter-spacing: -0.01em !important;
+  border: 1px solid rgba(0,0,0,0.1) !important;
+  background: rgba(255,255,255,0.9) !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07) !important;
+  transition: all 0.14s cubic-bezier(0.4,0,0.2,1) !important;
+}
+.tbtn:hover {
+  background: #fff !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+  transform: translateY(-0.5px) !important;
+}
+.tbtn:active { transform: scale(0.97) translateY(0) !important; box-shadow: none !important; }
+.tbtn-p {
+  background: var(--accent) !important;
+  box-shadow: 0 2px 10px rgba(0,113,227,0.35) !important;
+  color: #fff !important;
+}
+.tbtn-p:hover { background: #0077ed !important; box-shadow: 0 4px 14px rgba(0,113,227,0.4) !important; }
+.tbtn-d {
+  background: var(--red) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(255,59,48,0.3) !important;
+}
+.tbtn-d:hover { background: #e0302a !important; }
+
+/* — MODAL: Apple sheet — */
+.modal {
+  border-radius: 20px !important;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.24), 0 0 0 0.5px rgba(0,0,0,0.07) !important;
+  background: rgba(255,255,255,0.97) !important;
+}
+.modal-hdr { padding: 24px 26px 16px !important; }
+.modal-hdr h3 { font-size: 17px !important; font-weight: 700 !important; letter-spacing: -0.03em !important; }
+.modal-body { padding: 20px 26px !important; }
+.modal-footer { padding: 16px 26px !important; }
+.mfld input, .mfld select {
+  border-radius: 11px !important;
+  padding: 10px 14px !important;
+  background: rgba(0,0,0,0.025) !important;
+  border: 1px solid rgba(0,0,0,0.1) !important;
+  transition: all 0.15s !important;
+}
+.mfld input:focus, .mfld select:focus {
+  background: #fff !important;
+  border-color: rgba(0,113,227,0.55) !important;
+  box-shadow: 0 0 0 3.5px rgba(0,113,227,0.12) !important;
+}
+.mbtn { border-radius: 10px !important; padding: 8px 18px !important; font-size: 13px !important; }
+
+/* — TOAST: floating pill — */
+#toast {
+  background: rgba(28,28,30,0.9) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  border: none !important;
+  border-radius: 28px !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.01em !important;
+  padding: 9px 22px !important;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.22) !important;
+}
+
+/* — EMPTY STATE / SETUP: Apple onboarding — */
+#setup-step > div:first-child > div:nth-child(2) {
+  font-family: var(--f-display) !important;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  color: var(--t1) !important;
+}
+#setup-step > div:first-child > div:nth-child(3) {
+  font-size: 14px !important;
+  color: var(--t3) !important;
+  line-height: 1.65 !important;
+}
+#setup-step > div:last-child {
+  border-radius: 18px !important;
+  padding: 24px 26px !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.05) !important;
+  border: 1px solid rgba(0,0,0,0.07) !important;
+}
+
+/* — LIVE PREVIEW: glass panel — */
+#live-preview {
+  border-radius: 16px 16px 0 0 !important;
+  background: rgba(255,255,255,0.92) !important;
+  backdrop-filter: blur(28px) saturate(200%) !important;
+  border: 1px solid rgba(255,255,255,0.7) !important;
+  border-bottom: none !important;
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.1), 0 0 0 0.5px rgba(0,0,0,0.06) !important;
+}
+#lp-tab {
+  border-radius: 10px 10px 0 0 !important;
+  background: var(--accent) !important;
+  box-shadow: 0 -4px 16px rgba(0,113,227,0.32) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* — BADGE TAGS: minimal Apple pill — */
+.jb {
+  font-size: 9.5px !important;
+  font-weight: 600 !important;
+  padding: 2px 8px !important;
+  border-radius: 6px !important;
+  letter-spacing: 0.01em !important;
+}
+.utag { font-size: 9.5px !important; padding: 2px 7px !important; border-radius: 5px !important; }
+
+/* — WIKI PAGE: editorial layout — */
+#page-wiki { background: var(--bg) !important; }
+#page-wiki .card { border-radius: 18px !important; }
+
+/* — SCROLL REVEAL ANIMATIONS — */
+@keyframes appleReveal {
+  from { opacity: 0; transform: translateY(16px) scale(0.99); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes appleSlideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes appleFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.section.active {
+  animation: appleReveal 0.3s cubic-bezier(0.4,0,0.2,1) !important;
+}
+.card {
+  animation: appleReveal 0.28s cubic-bezier(0.4,0,0.2,1) backwards;
+}
+.pad-acc {
+  animation: appleReveal 0.24s cubic-bezier(0.4,0,0.2,1) backwards;
+}
+.pad-acc:nth-child(1) { animation-delay: 0ms; }
+.pad-acc:nth-child(2) { animation-delay: 40ms; }
+.pad-acc:nth-child(3) { animation-delay: 80ms; }
+.pad-acc:nth-child(4) { animation-delay: 120ms; }
+.pad-acc:nth-child(5) { animation-delay: 160ms; }
+.pad-acc:nth-child(6) { animation-delay: 200ms; }
+
+.unit-item {
+  animation: appleSlideIn 0.2s cubic-bezier(0.4,0,0.2,1) backwards;
+}
+.rk-card {
+  animation: appleReveal 0.26s cubic-bezier(0.4,0,0.2,1) backwards;
+}
+.rk-card:nth-child(1) { animation-delay: 0ms; }
+.rk-card:nth-child(2) { animation-delay: 30ms; }
+.rk-card:nth-child(3) { animation-delay: 60ms; }
+.rk-card:nth-child(4) { animation-delay: 90ms; }
+.rk-card:nth-child(5) { animation-delay: 120ms; }
+.rk-card:nth-child(6) { animation-delay: 150ms; }
+.rk-card:nth-child(7) { animation-delay: 180ms; }
+
+/* — WIKI ACCORDION: smooth reveal — */
+[id^="w1"],[id^="w2"],[id^="w3"],[id^="w4"],[id^="w5"],[id^="w6"],[id^="w7"],[id^="w8"] {
+  transition: all 0.26s cubic-bezier(0.4,0,0.2,1) !important;
+}
+
+/* — SCROLLBAR: macOS invisible style — */
+::-webkit-scrollbar { width: 6px !important; height: 6px !important; }
+::-webkit-scrollbar-track { background: transparent !important; }
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.12) !important;
+  border-radius: 3px !important;
+  border: 1.5px solid transparent !important;
+  background-clip: content-box !important;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.22) !important;
+  background-clip: content-box !important;
+  border: 1.5px solid transparent !important;
+}
+
+/* — REKAP PAGE TYPOGRAPHY — */
+#view-all > div:first-child > div:first-child {
+  font-family: var(--f-display) !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.04em !important;
+  color: var(--t1) !important;
+}
+#view-all > div:first-child > div:last-child {
+  font-size: 13px !important;
+  color: var(--t3) !important;
+  margin-top: 4px !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* — DETAIL VIEW: Apple product detail style — */
+#detail-name {
+  font-family: var(--f-display) !important;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.04em !important;
+}
+
+/* — TR-SEC (section header rows): cleaner — */
+.tr-sec td {
+  font-size: 9.5px !important;
+  letter-spacing: 0.08em !important;
+  padding: 7px 16px !important;
+  background: rgba(248,248,250,0.9) !important;
+  color: rgba(0,0,0,0.3) !important;
+}
+
+/* — LEGEND: minimal — */
+.legend {
+  padding: 8px 22px !important;
+  gap: 14px !important;
+  background: rgba(248,248,250,0.5) !important;
+  border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+}
+.leg { font-size: 10.5px !important; color: rgba(0,0,0,0.38) !important; }
+.leg-d { border-radius: 3px !important; }
+
+/* ══════════════════════════════════════
+   SIDEBAR EXPAND — icon + label inline
+══════════════════════════════════════ */
+.sidebar {
+  width: 48px !important;
+  min-width: 48px !important;
+  background: rgba(250,250,252,0.92) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border-right: 1px solid rgba(0,0,0,0.07) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  position: relative !important;
+  z-index: 50 !important;
+  padding: 8px 0 10px !important;
+  flex-shrink: 0 !important;
+  transition: width 0.24s cubic-bezier(0.4,0,0.2,1) !important;
+}
+.sidebar.nsb-open {
+  width: 220px !important;
+}
+
+/* Every sidebar item: icon + label in one row */
+.nsb-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 0 7px;
+  margin-bottom: 2px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+.nsb-item-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 34px;
+  padding: 0 7px;
+  border: none;
+  border-radius: 9px;
+  background: none;
+  cursor: pointer;
+  color: rgba(0,0,0,0.4);
+  font-family: var(--f-text);
+  font-size: 13px;
+  font-weight: 400;
+  text-align: left;
+  transition: background 0.13s, color 0.13s;
+  white-space: nowrap;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.nsb-item-btn:hover  { background: rgba(0,0,0,0.055); color: rgba(0,0,0,0.75); }
+.nsb-item-btn:active { transform: scale(0.97); }
+.nsb-item-btn.active {
+  background: rgba(0,113,227,0.1);
+  color: #0071e3;
+}
+.nsb-item-btn.active-fill {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0,113,227,0.22);
+}
+.nsb-item-btn.active-fill:hover { background: var(--accent-hover); }
+
+/* Icon slot — fixed 24px so text always starts same x */
+.nsb-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Label — hidden when collapsed, visible when open */
+.nsb-label {
+  opacity: 0;
+  max-width: 0;
+  overflow: hidden;
+  transition: opacity 0.18s ease, max-width 0.24s cubic-bezier(0.4,0,0.2,1);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.sidebar.nsb-open .nsb-label {
+  opacity: 1;
+  max-width: 160px;
+  pointer-events: auto;
+}
+
+/* Separator */
+.nsb-sep {
+  height: 1px;
+  background: rgba(0,0,0,0.07);
+  margin: 4px 12px;
+  flex-shrink: 0;
+}
+
+/* Section label (NAVIGASI, UNIT KERJA) */
+.nsb-sec-label {
+  font-family: var(--f-display);
+  font-size: 9.5px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(0,0,0,0.28);
+  padding: 8px 14px 2px;
+  display: block;
+  opacity: 0;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: opacity 0.18s ease, max-width 0.24s cubic-bezier(0.4,0,0.2,1);
+}
+.sidebar.nsb-open .nsb-sec-label {
+  opacity: 1;
+  max-width: 160px;
+}
+
+/* Unit dots (collapsed) vs unit rows (expanded) */
+.nsb-dot-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 0;
+  overflow: hidden;
+}
+.sidebar.nsb-open .nsb-dot-wrap { display: none; }
+
+.nsb-unit-rows { display: none; }
+.sidebar.nsb-open .nsb-unit-rows {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 220px;
+  scrollbar-width: none;
+}
+.nsb-unit-rows::-webkit-scrollbar { display: none; }
+
+.nsb-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.18);
+  cursor: pointer;
+  transition: background 0.15s, transform 0.12s;
+  flex-shrink: 0;
+  border: none; padding: 0;
+}
+.nsb-dot:hover   { background: #0071e3; transform: scale(1.3); }
+.nsb-dot.active  { background: #0071e3; transform: scale(1.25); }
+.nsb-dot.dot-upuk { background: rgba(94,92,230,0.55); }
+.nsb-dot.dot-upuk.active { background: #5e5ce6; }
+
+</style>
+</head>
+<body>
+
+<!-- CHROME -->
+<div class="chrome">
+  <div style="display:flex;align-items:center;gap:10px">
+    <div>
+      <div style="font-size:12px;font-weight:700;color:var(--t1);line-height:1.2">Formulir Penghitungan Kebutuhan Arsiparis</div>
+      <div style="font-size:10px;color:var(--t3);line-height:1.2">Arsip Nasional Republik Indonesia</div>
+    </div>
+  </div>
+  <div class="chrome-r">
+        <span class="role-pill" id="role-pill">Mode Instansi</span>
+    <button class="tbtn" id="role-btn-anri" onclick="enterAnriMode()">Masuk ANRI</button>
+    <button class="tbtn" id="role-btn-instansi" onclick="setRole('instansi')" style="display:none">Keluar ANRI</button>
+    <button class="tbtn tbtn-p instansi-only" onclick="submitToAnri()" style="background:#15803d;box-shadow:0 2px 8px rgba(21,128,61,.28)">Kirim ke ANRI</button>
+    <button class="tbtn anri-only" onclick="document.getElementById('import-input').click()" style="color:#7c3aed;border-color:rgba(124,58,237,.3);background:rgba(124,58,237,.06)">Import Data</button>
+    <input type="file" id="import-input" accept=".html" multiple style="display:none" onchange="importDataFile(this)">
+    <button class="tbtn tbtn-p" onclick="saveAll()">Simpan</button>
+    <span class="save-st" id="save-st">Belum disimpan</span>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="main-sidebar">
+
+    <!-- Toggle collapse/expand -->
+    <button class="nsb-item-btn" onclick="nsbToggle()" title="Toggle sidebar">
+      <span class="nsb-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="1.5" rx=".75" fill="currentColor"/><rect x="2" y="7.25" width="12" height="1.5" rx=".75" fill="currentColor"/><rect x="2" y="11.5" width="12" height="1.5" rx=".75" fill="currentColor"/></svg></span>
+      <span class="nsb-label"></span>
+    </button>
+
+    <div class="nsb-sep"></div>
+
+    <!-- Nav section label (only visible when open) -->
+    <span class="nsb-sec-label">Navigasi</span>
+
+    <!-- Wiki -->
+    <button class="nsb-item-btn" id="nav-wiki" onclick="goMain('wiki')">
+      <span class="nsb-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.4"/><line x1="10.5" y1="10.5" x2="13.5" y2="13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+      <span class="nsb-label">Deskripsi Informasi Kearsipan</span>
+    </button>
+
+    <!-- Input -->
+    <button class="nsb-item-btn" id="nav-input" onclick="goMain('input')" class="nsb-item-btn active">
+      <span class="nsb-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2.5" width="12" height="3" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="6.5" width="12" height="3" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="10.5" width="12" height="3" rx="1" stroke="currentColor" stroke-width="1.3"/></svg></span>
+      <span class="nsb-label">Input per Unit Kerja</span>
+    </button>
+
+    <!-- Rekap -->
+    <button class="nsb-item-btn" id="nav-rekap" onclick="goMain('rekap')">
+      <span class="nsb-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="8" width="3" height="6" rx="1" fill="currentColor" opacity=".6"/><rect x="6.5" y="5" width="3" height="9" rx="1" fill="currentColor" opacity=".8"/><rect x="11" y="2" width="3" height="12" rx="1" fill="currentColor"/></svg></span>
+      <span class="nsb-label">Rekap Kebutuhan</span>
+    </button>
+
+    <div class="nsb-sep"></div>
+
+    <!-- Unit Kerja section -->
+    <div style="display:flex;align-items:center;width:100%">
+      <span class="nsb-sec-label" style="flex:1">Unit Kerja</span>
+      <button class="nsb-item-btn instansi-only" onclick="openModal()" title="Tambah Unit Kerja"
+        style="min-height:28px;padding:0 7px;flex-shrink:0;width:auto">
+        <span class="nsb-icon" style="width:16px"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.4"/><line x1="8" y1="5.5" x2="8" y2="10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="5.5" y1="8" x2="10.5" y2="8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+        <span class="nsb-label" style="font-size:11px;font-weight:600;color:var(--accent)">Tambah</span>
+      </button>
+    </div>
+
+    <!-- Dots (collapsed) -->
+    <div class="nsb-dot-wrap" id="nsb-unit-dots"></div>
+
+    <!-- Unit rows (expanded) -->
+    <div class="nsb-unit-rows" id="nsb-unit-rows"></div>
+
+    <div style="flex:1"></div>
+
+    <div class="nsb-sep"></div>
+
+    <!-- Export -->
+    <button class="nsb-item-btn" onclick="exportDataFile()" title="Export Data">
+      <span class="nsb-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 12h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+      <span class="nsb-label">Export Data</span>
+    </button>
+    <button class="nsb-item-btn" onclick="exportExcel()" title="Export Excel">
+      <span class="nsb-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 5h5M4 8h5M4 11h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M10.5 9.5l2 2-2 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.3"/></svg></span>
+      <span class="nsb-label">Export Excel</span>
+    </button>
+
+  </aside>
+
+  <!-- hidden stubs so goMain's querySelector still works -->
+  <div style="display:none">
+    <div id="sb-units"></div>
+    <div id="unit-list"></div>
+  </div>
+
+  <!-- ── INPUT PAGE ── -->
+  <div id="page-input" class="page active">
+
+    <!-- empty state -->
+    <div id="empty-state" class="empty-state" style="flex-direction:column;align-items:center;padding:40px 24px">
+      <!-- Step 1: isi K/L dulu -->
+      <div id="setup-step" style="width:100%;max-width:440px">
+        <div style="text-align:center;margin-bottom:28px">
+          <div style="font-size:36px;margin-bottom:10px">🏛️</div>
+          <div style="font-size:17px;font-weight:700;color:var(--t1);margin-bottom:6px">Selamat datang!</div>
+          <div style="font-size:12.5px;color:var(--t3);line-height:1.6">Mulai dengan mengisi nama Kementerian / Lembaga,<br>lalu tambahkan unit kerja yang akan dihitung kebutuhannya.</div>
+        </div>
+        <div style="background:#fff;border:1px solid var(--bdr);border-radius:var(--r12);padding:20px 22px;box-shadow:var(--sh)">
+          <div class="mfld" style="margin-bottom:14px">
+            <label style="font-size:12px;font-weight:600;color:var(--t2);display:block;margin-bottom:5px">Nama Kementerian / Lembaga</label>
+            <input id="setup-kl" type="text" placeholder="Kementerian Agama RI"
+              style="width:100%;font-family:inherit;font-size:13px;background:#fff;border:1px solid rgba(0,0,0,.18);border-radius:var(--r4);padding:8px 12px;outline:none;box-shadow:0 1px 2px rgba(0,0,0,.06) inset;transition:border-color .15s"
+              onkeydown="if(event.key==='Enter')startSetup()">
+          </div>
+          <button onclick="startSetup()" style="width:100%;font-family:inherit;font-size:13px;font-weight:600;background:var(--accent);color:#fff;border:none;border-radius:var(--r8);padding:10px;cursor:pointer;transition:background .15s" onmouseover="this.style.background='#1a8fff'" onmouseout="this.style.background='var(--accent)'">
+            Lanjut → Tambah Unit Kerja
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- form area (hidden until unit selected) -->
+    <div id="form-area" style="display:none;flex:1;flex-direction:column;overflow:hidden">
+
+      <!-- unit header -->
+      <div class="unit-hdr">
+        <div>
+          <div class="unit-hdr-name" id="unit-hdr-name">—</div>
+          <div style="font-size:11px;color:var(--t3);margin-top:1px" id="unit-hdr-sub">—</div>
+        </div>
+        <span class="unit-hdr-type" id="unit-hdr-type"></span>
+        <div style="display:flex;align-items:center;gap:6px;margin-left:auto">
+          <button class="tbtn" style="font-size:11px;padding:3px 10px;color:var(--accent);border-color:rgba(10,122,255,.3);background:rgba(10,122,255,.06)" onclick="rekapSementara()">
+            ◈ Rekap Sementara
+          </button>
+          <button class="unit-hdr-edit instansi-only" onclick="editUnit()">✏ Edit</button>
+          <button class="tbtn tbtn-d instansi-only" style="font-size:11px;padding:3px 10px" onclick="deleteUnit()">Hapus</button>
+        </div>
+      </div>
+
+      <!-- horizontal section tabs -->
+      <div class="sec-tabs" id="sec-tabs">
+        <!-- populated by JS based on unit type -->
+      </div>
+
+      <!-- scroll content -->
+      <div class="sec-scroll" id="sec-scroll">
+        <!-- sections populated by JS -->
+      </div>
+
+    </div>
+  </div><!-- /page-input -->
+
+  <!-- ── REKAP PAGE ── -->
+  <div id="page-rekap" class="page">
+    <div class="sec-scroll" style="max-width:980px;margin:0 auto;width:100%">
+
+      <!-- ── VIEW: REKAP SEMUA UNIT ── -->
+      <div id="view-all">
+        <div style="margin-bottom:16px">
+          <div style="font-size:20px;font-weight:700;letter-spacing:-.025em;color:var(--t1)">Rekap Kebutuhan JFA</div>
+          <div style="font-size:12px;color:var(--t3);margin-top:2px">Kementerian Agama · Klik nama unit untuk melihat rincian</div>
+        </div>
+
+        <div class="card">
+          <div class="card-hdr"><h3>Ringkasan per Unit Kerja</h3><div class="cpill" id="rekap-count">0 unit</div></div>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr>
+                <th>Unit Kerja</th><th>K/L</th><th>Tipe</th>
+                <th class="r">Terampil</th><th class="r">Mahir</th><th class="r">Penyelia</th>
+                <th class="r">Ahli Pertama</th><th class="r">Ahli Muda</th><th class="r">Ahli Madya</th><th class="r">Ahli Utama</th>
+                <th class="r">Total</th>
+              </tr></thead>
+              <tbody id="rekap-unit-tbody"></tbody>
+              <tfoot>
+                <tr style="background:#f8f8f8">
+                  <td style="padding:8px 12px;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--t3)" colspan="3">TOTAL</td>
+                  <td class="mono" id="rt-0">—</td><td class="mono" id="rt-1">—</td><td class="mono" id="rt-2">—</td>
+                  <td class="mono" id="rt-3">—</td><td class="mono" id="rt-4">—</td><td class="mono" id="rt-5">—</td>
+                  <td class="mono" id="rt-6">—</td><td class="mono acc" id="rt-total">0</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-hdr"><h3>Total Kebutuhan per Jabatan — Semua Unit</h3></div>
+          <div class="rk-cards" id="rekap-cards"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-hdr">
+            <h3>Visualisasi Kebutuhan</h3>
+            <div style="margin-left:auto;display:flex;gap:6px">
+              <button onclick="setChartMode('stacked')" id="btn-stacked" class="tbtn" style="font-size:11px;padding:3px 10px;background:var(--accent);color:#fff;border-color:var(--accent)">Per Unit</button>
+              <button onclick="setChartMode('total')"   id="btn-total"   class="tbtn" style="font-size:11px;padding:3px 10px">Total</button>
+            </div>
+          </div>
+          <div style="padding:16px;position:relative;height:280px">
+            <canvas id="rekapChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── VIEW: REKAP DETAIL SATU UNIT ── -->
+      <div id="view-unit" style="display:none">
+        <!-- breadcrumb -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+          <button onclick="showAllView()" style="font-size:12px;color:var(--accent);background:none;border:none;cursor:pointer;padding:4px 0;display:flex;align-items:center;gap:4px">
+            ← Rekap Kebutuhan
+          </button>
+          <span style="color:var(--t3);font-size:12px">/</span>
+          <span style="font-size:12px;color:var(--t2);font-weight:500" id="detail-breadcrumb">—</span>
+        </div>
+
+        <!-- unit info header -->
+        <div style="margin-bottom:16px;display:flex;align-items:center;gap:10px">
+          <div>
+            <div style="font-size:20px;font-weight:700;letter-spacing:-.025em;color:var(--t1)" id="detail-name">—</div>
+            <div style="font-size:12px;color:var(--t3);margin-top:2px">Kementerian Agama · <span id="detail-type-label">—</span></div>
+          </div>
+          <span id="detail-type-badge" style="font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;margin-left:auto"></span>
+        </div>
+
+        <!-- cards per jabatan -->
+        <div class="card">
+          <div class="card-hdr"><h3>Kebutuhan per Jenjang Jabatan</h3></div>
+          <div class="rk-cards" id="detail-cards"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-hdr"><h3>Grafik Beban Kerja</h3><div class="cpill">menit / WKE</div></div>
+          <div style="padding:16px;position:relative;height:220px">
+            <canvas id="detailChart"></canvas>
+          </div>
+        </div>
+
+        <!-- tabel presisi -->
+        <div class="card">
+          <div class="card-hdr">
+            <h3>Rincian Perhitungan</h3>
+            <div class="cpill">WKE = 75.000 mnt/org/thn</div>
+          </div>
+          <div class="dtbl">
+            <table>
+              <thead><tr>
+                <th>Jabatan Fungsional</th>
+                <th class="r">Total Beban (mnt)</th>
+                <th class="r">WKE</th>
+                <th class="r">Presisi</th>
+                <th class="r">Kebutuhan</th>
+              </tr></thead>
+              <tbody id="detail-tbody"></tbody>
+              <tfoot>
+                <tr class="tfoot-tr">
+                  <td style="padding:8px 12px;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--t3)">Total</td>
+                  <td style="text-align:right;padding:8px 12px;font-family:'SF Mono','Menlo',monospace;font-weight:600" id="detail-total-beban">0</td>
+                  <td></td><td></td>
+                  <td style="text-align:right;padding:8px 12px;font-family:'SF Mono','Menlo',monospace;color:var(--accent);font-weight:700" id="detail-total-org">0</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <!-- tombol ke input unit ini -->
+        <div style="margin-top:4px;text-align:right">
+          <button class="tbtn tbtn-p" id="detail-goto-input" onclick="">
+            ✏ Edit Input Unit Ini
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── WIKI PAGE ── -->
+  <div id="page-wiki" class="page" style="overflow-y:auto;display:none">
+  <div style="max-width:880px;margin:0 auto;padding:28px 28px 80px;width:100%">
+
+    <div style="margin-bottom:22px">
+      <div style="font-size:20px;font-weight:700;letter-spacing:-.025em;color:var(--t1)">Deskripsi Informasi Kearsipan</div>
+      
+    </div>
+
+    <!-- Legend jabatan -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;padding:10px 14px;background:#fff;border:1px solid var(--sep);border-radius:10px;align-items:center">
+      <div style="font-size:11px;font-weight:600;color:var(--t3);margin-right:4px">Jabatan:</div>
+      <span class="jb jb-t">Terampil</span>
+      <span class="jb jb-m">Mahir</span>
+      <span class="jb jb-p">Penyelia</span>
+      <span class="jb jb-ap">Ahli Pertama</span>
+      <span class="jb jb-am">Ahli Muda</span>
+      <span class="jb jb-ad">Ahli Madya</span>
+    </div>
+
+    <!-- Siklus flow -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-hdr"><h3>Siklus Hidup Arsip</h3><div class="cpill">Overview</div></div>
+      <div style="padding:18px 16px">
+        <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;justify-content:center">
+          <div style="background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:600">✍️ Penciptaan</div>
+          <div style="color:#9ca3af;font-size:18px">→</div>
+          <div style="background:#fefce8;color:#a16207;border:1px solid #fde68a;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:600">🛡️ Pemeliharaan</div>
+          <div style="color:#9ca3af;font-size:18px">→</div>
+          <div style="background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:600">📂 Penggunaan</div>
+          <div style="color:#9ca3af;font-size:18px">→</div>
+          <div style="background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:600">📦 Penyusutan</div>
+        </div>
+        <div style="margin-top:12px;font-size:12px;color:var(--t3);text-align:center;line-height:1.7">
+          Arsip melewati empat fase sejak tercipta hingga dimusnahkan atau diserahkan ke lembaga kearsipan.<br>Setiap fase melibatkan jenjang jabatan fungsional arsiparis yang berbeda.
+        </div>
+      </div>
+    </div>
+
+    <!-- 1 -->
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-hdr" style="cursor:pointer" onclick="toggleWiki('w1')">
+        <div style="width:28px;height:28px;border-radius:7px;background:#eff6ff;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">✍️</div>
+        <h3 style="margin-left:8px">1 · Penerimaan & Pembuatan Arsip</h3>
+        <span id="w1-chev" style="margin-left:auto;color:var(--t3);font-size:13px">▸</span>
+      </div>
+      <div id="w1" style="padding:16px;display:none;flex-direction:column;gap:10px">
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Pembuatan Arsip</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-t" style="font-size:10.5px">Terampil</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Proses terciptanya arsip sebagai rekaman kegiatan atau peristiwa dalam pelaksanaan fungsi dan tugas pencipta arsip, baik dalam bentuk fisik maupun elektronik, sejak kegiatan direncanakan, dilaksanakan, hingga diselesaikan, sehingga arsip yang dihasilkan bersifat autentik, utuh, dan dapat dipertanggungjawabkan.</div>
+          </div>
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Penerimaan Arsip</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-t" style="font-size:10.5px">Terampil</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan menerima arsip oleh unit pengolah dan unit kearsipan sesuai kewenangannya, baik arsip yang berasal dari kegiatan internal maupun dari pihak eksternal, sebagai bagian dari tahap penciptaan arsip untuk selanjutnya dikelola sesuai ketentuan kearsipan.</div>
+          </div>
+        <div style="background:#fefce8;border:1px solid #fde68a;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Verifikasi Autentisitas Arsip yang Tercipta</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-p" style="font-size:10.5px">Penyelia</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan pemeriksaan terhadap keaslian, keabsahan, dan keutuhan arsip yang dibuat atau diterima, guna menjamin arsip tersebut dapat dipertanggungjawabkan sebagai bukti pelaksanaan kegiatan pencipta arsip.</div>
+          </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-hdr" style="cursor:pointer" onclick="toggleWiki('w2')">
+        <div style="width:28px;height:28px;border-radius:7px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">📁</div>
+        <h3 style="margin-left:8px">2 · Pemberkasan Arsip</h3>
+        <span id="w2-chev" style="margin-left:auto;color:var(--t3);font-size:13px">▾</span>
+      </div>
+      <div id="w2" style="padding:16px;display:none;flex-direction:column;gap:10px">
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Pemberkasan Arsip</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-t" style="font-size:10.5px">Terampil</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan menempatkan dan menghimpun arsip yang telah dibuat atau diterima ke dalam suatu berkas secara sistematis dan logis berdasarkan klasifikasi arsip, sehingga arsip tersusun utuh sesuai konteks kegiatan dan mudah ditemukan kembali.</div>
+          </div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-hdr" style="cursor:pointer" onclick="toggleWiki('w3')">
+        <div style="width:28px;height:28px;border-radius:7px;background:#fefce8;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">📂</div>
+        <h3 style="margin-left:8px">3 · Layanan Arsip Aktif & Inaktif</h3>
+        <span id="w3-chev" style="margin-left:auto;color:var(--t3);font-size:13px">▾</span>
+      </div>
+      <div id="w3" style="padding:16px;display:none;flex-direction:column;gap:10px">
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Layanan Arsip Aktif & Arsip Inaktif</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-m" style="font-size:10.5px">Mahir</span><span class="jb jb-p" style="font-size:10.5px">Penyelia</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan pemberian akses dan pemanfaatan arsip aktif dan arsip inaktif kepada pihak yang berwenang sesuai ketentuan kearsipan (Klasifikasi Keamanan dan Akses Arsip Dinamis), untuk mendukung pelaksanaan tugas, fungsi, serta pertanggungjawaban organisasi.</div>
+          </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-hdr" style="cursor:pointer" onclick="toggleWiki('w4')">
+        <div style="width:28px;height:28px;border-radius:7px;background:#fef2f2;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">📦</div>
+        <h3 style="margin-left:8px">4 · Penyusutan Arsip</h3>
+        <span id="w4-chev" style="margin-left:auto;color:var(--t3);font-size:13px">▾</span>
+      </div>
+      <div id="w4" style="padding:16px;display:none;flex-direction:column;gap:10px">
+        <div style="font-size:12.5px;color:var(--t2);line-height:1.7;padding:12px 14px;background:#fef2f2;border-radius:8px;border:1px solid #fecaca">
+          Penyusutan arsip merupakan rangkaian kegiatan untuk mengendalikan jumlah dan nilai guna arsip dengan cara <strong>memindahkan arsip inaktif</strong>, <strong>memusnahkan arsip yang telah habis retensinya</strong>, dan <strong>menyerahkan arsip bernilai permanen</strong> kepada lembaga kearsipan.
+        </div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Pemindahan Arsip</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-m" style="font-size:10.5px">Mahir</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan memindahkan arsip yang berdasarkan Jadwal Retensi Arsip telah melewati masa retensi aktif dan frekuensi penggunaannya menurun dari unit pengolah ke unit kearsipan.</div>
+          </div>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Pemusnahan Arsip</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-ap" style="font-size:10.5px">Ahli Pertama</span><span class="jb jb-am" style="font-size:10.5px">Ahli Muda</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan penyusutan arsip yang dilakukan terhadap arsip yang tidak memiliki nilai guna, telah habis masa retensinya, berketerangan musnah dalam Jadwal Retensi Arsip, serta tidak terkait dengan proses hukum atau peraturan perundang-undangan yang melarang pemusnahan.</div>
+          </div>
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Penyerahan Arsip Statis</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-ap" style="font-size:10.5px">Ahli Pertama</span><span class="jb jb-am" style="font-size:10.5px">Ahli Muda</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Penyerahan arsip statis dilakukan terhadap arsip yang memiliki nilai guna kesejarahan, telah habis masa retensinya, dan berketerangan dipermanenkan dalam Jadwal Retensi Arsip, untuk diserahkan oleh pencipta arsip kepada lembaga kearsipan sesuai kewenangannya.</div>
+          </div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-hdr" style="cursor:pointer" onclick="toggleWiki('w5')">
+        <div style="width:28px;height:28px;border-radius:7px;background:#f5f3ff;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">💿</div>
+        <h3 style="margin-left:8px">5 · Alih Media Arsip</h3>
+        <span id="w5-chev" style="margin-left:auto;color:var(--t3);font-size:13px">▾</span>
+      </div>
+      <div id="w5" style="padding:16px;display:none;flex-direction:column;gap:10px">
+        <div style="background:#fefce8;border:1px solid #fde68a;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Alih Media Arsip</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-p" style="font-size:10.5px">Penyelia</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan pengalihan arsip dari satu media ke media lain dalam rangka menjaga keutuhan informasi, memudahkan akses, dan menjamin keberlanjutan arsip sesuai dengan perkembangan teknologi informasi.</div>
+          </div>
+        <div style="background:#fefce8;border:1px solid #fde68a;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Autentikasi Arsip Hasil Alih Media</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-p" style="font-size:10.5px">Penyelia</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan pemberian tanda pengesahan untuk menjamin bahwa arsip hasil alih media merupakan salinan yang sah, utuh, dan sesuai dengan arsip aslinya.</div>
+          </div>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-hdr" style="cursor:pointer" onclick="toggleWiki('w6')">
+        <div style="width:28px;height:28px;border-radius:7px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">🛡️</div>
+        <h3 style="margin-left:8px">6 · Arsip Terjaga & Arsip Vital</h3>
+        <span id="w6-chev" style="margin-left:auto;color:var(--t3);font-size:13px">▾</span>
+      </div>
+      <div id="w6" style="padding:16px;display:none;flex-direction:column;gap:10px">
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Arsip Terjaga</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-m" style="font-size:10.5px">Mahir</span><span class="jb jb-am" style="font-size:10.5px">Ahli Muda</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Arsip negara yang karena nilai strategis dan dampaknya terhadap kedaulatan, pertahanan, dan kepentingan nasional, harus dikelola secara khusus, dilindungi tingkat tinggi, serta dilaporkan dan diserahkan salinan autentiknya kepada ANRI sesuai ketentuan peraturan perundang-undangan.</div>
+          </div>
+        <div style="background:#fefce8;border:1px solid #fde68a;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Arsip Vital</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-p" style="font-size:10.5px">Penyelia</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Arsip yang diperlukan untuk menjamin keberlangsungan fungsi dan kegiatan organisasi, karena berkaitan dengan status hukum, hak, kewajiban, dan/atau aset, yang apabila hilang tidak dapat diganti dan dapat mengganggu pelaksanaan kegiatan organisasi.</div>
+          </div>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-hdr" style="cursor:pointer" onclick="toggleWiki('w7')">
+        <div style="width:28px;height:28px;border-radius:7px;background:#fff7ed;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">📋</div>
+        <h3 style="margin-left:8px">7 · Pembinaan Kearsipan</h3>
+        <span id="w7-chev" style="margin-left:auto;color:var(--t3);font-size:13px">▾</span>
+      </div>
+      <div id="w7" style="padding:16px;display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Penyusunan SOP Kearsipan</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-ap" style="font-size:10.5px">Ahli Pertama</span><span class="jb jb-am" style="font-size:10.5px">Ahli Muda</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan merumuskan dan menetapkan prosedur kerja baku dalam penyelenggaraan kearsipan agar setiap proses pengelolaan arsip dilakukan secara seragam, sistematis, tertib, dan sesuai ketentuan peraturan perundang-undangan.</div>
+          </div>
+          <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">BIMTEK Pengelolaan Arsip</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-m" style="font-size:10.5px">Mahir</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan pemberian pembinaan teknis dan peningkatan kompetensi kepada SDM kearsipan mengenai tata cara pengelolaan arsip, mulai dari penciptaan, penggunaan, pemeliharaan, hingga penyusutan arsip sesuai standar kearsipan.</div>
+          </div>
+          <div style="background:#f5f3ff;border:1px solid #ddd6fe;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">BIMTEK SDM Kearsipan</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-am" style="font-size:10.5px">Ahli Muda</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan pengembangan pengetahuan, keterampilan, dan sikap profesional SDM kearsipan agar mampu melaksanakan tugas dan fungsi kearsipan secara efektif, sesuai standar kompetensi dan ketentuan jabatan fungsional kearsipan.</div>
+          </div>
+          <div style="background:#f5f3ff;border:1px solid #ddd6fe;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Penyuluhan Kearsipan</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-am" style="font-size:10.5px">Ahli Muda</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan sosialisasi dan penyadaran SDM Kearsipan serta Jabatan Fungsional terkait lainnya, mengenai pentingnya arsip, nilai guna arsip, serta kewajiban penyelenggaraan kearsipan dalam rangka meningkatkan kesadaran tertib arsip.</div>
+          </div>
+          <div style="background:#f5f3ff;border:1px solid #ddd6fe;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Fasilitasi Kearsipan</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-am" style="font-size:10.5px">Ahli Muda</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan pemberian pendampingan, bantuan, dan dukungan teknis kepada pencipta arsip dalam penyelenggaraan kearsipan agar sesuai dengan norma, standar, prosedur, dan kriteria (NSPK) kearsipan.</div>
+          </div>
+          <div style="background:#f5f3ff;border:1px solid #ddd6fe;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Monev Sistem Kearsipan</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-am" style="font-size:10.5px">Ahli Muda</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan pemantauan dan penilaian terhadap penerapan sistem kearsipan untuk mengetahui tingkat kesesuaian, efektivitas, dan permasalahan penyelenggaraan kearsipan sebagai dasar perbaikan berkelanjutan.</div>
+          </div>
+          <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">BIMKOS Penyelenggaraan Kearsipan</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-ad" style="font-size:10.5px">Ahli Madya</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan pemberian arahan, solusi, dan rekomendasi teknis kepada pencipta arsip dalam menghadapi permasalahan kearsipan agar penyelenggaraan kearsipan berjalan sesuai ketentuan.</div>
+          </div>
+          <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Supervisi Penyelenggaraan Kearsipan</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-ad" style="font-size:10.5px">Ahli Madya</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan pengawasan dan pembinaan langsung terhadap pelaksanaan kearsipan oleh pencipta arsip untuk memastikan kepatuhan terhadap kebijakan, standar, dan regulasi kearsipan.</div>
+          </div>
+          <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Pengawasan Kearsipan</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-ad" style="font-size:10.5px">Ahli Madya</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Proses kegiatan dalam menilai kesesuaian antara prinsip, kaidah, dan standar kearsipan dengan penyelenggaraan kearsipan yang dilakukan oleh pencipta arsip.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-hdr" style="cursor:pointer" onclick="toggleWiki('w8')">
+        <div style="width:28px;height:28px;border-radius:7px;background:#f0f9ff;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">💾</div>
+        <h3 style="margin-left:8px">8 · Pengelolaan Arsip & SIKN / JIKN</h3>
+        <span id="w8-chev" style="margin-left:auto;color:var(--t3);font-size:13px">▾</span>
+      </div>
+      <div id="w8" style="padding:16px;display:none;flex-direction:column;gap:10px">
+        <div style="font-size:12.5px;color:var(--t2);line-height:1.7;padding:12px 14px;background:#f0f9ff;border-radius:8px;border:1px solid #bae6fd">
+          Pengolahan dan penyajian arsip menjadi informasi melalui <strong>SIKN</strong> dan <strong>JIKN</strong> merupakan kegiatan pengelolaan data arsip aktif, inaktif, vital, dan terjaga secara sistematis melalui proses identifikasi, pengolahan, dan entry data sesuai standar kearsipan, guna menjamin ketersediaan informasi arsip yang autentik, akurat, aman, dan dapat dimanfaatkan dalam mendukung akuntabilitas dan pelayanan informasi.
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="background:#fefce8;border:1px solid #fde68a;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Identifikasi & Pengolahan Data Arsip Aktif</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-p" style="font-size:10.5px">Penyelia</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan identifikasi, pengolahan, dan entry data arsip aktif ke dalam sistem informasi kearsipan untuk mendukung temu balik arsip dan pelayanan informasi.</div>
+          </div>
+          <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Identifikasi & Pengolahan Data Arsip Inaktif</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-ap" style="font-size:10.5px">Ahli Pertama</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan identifikasi, pengolahan, dan entry data arsip inaktif yang tersimpan di record center ke dalam sistem informasi kearsipan nasional.</div>
+          </div>
+          <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Identifikasi & Pengolahan Data Arsip Vital</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-ap" style="font-size:10.5px">Ahli Pertama</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan identifikasi dan pengolahan data arsip vital ke dalam sistem informasi kearsipan untuk mendukung perlindungan dan pengelolaan arsip vital organisasi.</div>
+          </div>
+          <div style="background:#f5f3ff;border:1px solid #ddd6fe;border-radius:10px;padding:14px;position:relative">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+              <div style="font-size:12.5px;font-weight:700;color:var(--t1);line-height:1.4">Identifikasi & Pengolahan Data Arsip Terjaga</div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0"><span class="jb jb-am" style="font-size:10.5px">Ahli Muda</span></div>
+            </div>
+            <div style="font-size:12px;color:var(--t2);line-height:1.65">Kegiatan identifikasi dan pengolahan data arsip terjaga ke dalam sistem informasi kearsipan nasional sebagai bagian dari upaya perlindungan arsip negara.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Referensi regulasi -->
+    <div class="card">
+      <div class="card-hdr"><h3>Referensi Regulasi</h3></div>
+      <div style="padding:14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="display:flex;gap:8px;align-items:flex-start;padding:8px 12px;background:#f9fafb;border-radius:8px;border:1px solid var(--sep)">
+          <div style="font-size:11px;font-weight:700;color:var(--accent);white-space:nowrap">UU No. 43/2009</div>
+          <div style="font-size:11px;color:var(--t2)">Kearsipan</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:flex-start;padding:8px 12px;background:#f9fafb;border-radius:8px;border:1px solid var(--sep)">
+          <div style="font-size:11px;font-weight:700;color:var(--accent);white-space:nowrap">PP No. 28/2012</div>
+          <div style="font-size:11px;color:var(--t2)">Pelaksanaan UU Kearsipan</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:flex-start;padding:8px 12px;background:#f9fafb;border-radius:8px;border:1px solid var(--sep)">
+          <div style="font-size:11px;font-weight:700;color:var(--accent);white-space:nowrap">Perpres No. 95/2018</div>
+          <div style="font-size:11px;color:var(--t2)">Sistem Pemerintahan Berbasis Elektronik</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:flex-start;padding:8px 12px;background:#f9fafb;border-radius:8px;border:1px solid var(--sep)">
+          <div style="font-size:11px;font-weight:700;color:var(--accent);white-space:nowrap">PerKa ANRI No. 9/2018</div>
+          <div style="font-size:11px;color:var(--t2)">Standar Layanan JFA</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:flex-start;padding:8px 12px;background:#f9fafb;border-radius:8px;border:1px solid var(--sep)">
+          <div style="font-size:11px;font-weight:700;color:var(--accent);white-space:nowrap">PerKa ANRI No. 5/2021</div>
+          <div style="font-size:11px;color:var(--t2)">Program Arsip Vital</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:flex-start;padding:8px 12px;background:#f9fafb;border-radius:8px;border:1px solid var(--sep)">
+          <div style="font-size:11px;font-weight:700;color:var(--accent);white-space:nowrap">Permenpan-RB No. 48/2014</div>
+          <div style="font-size:11px;color:var(--t2)">Jabatan Fungsional Arsiparis</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </div><!-- /page-wiki -->
+
+
+
+<!-- ── LIVE PREVIEW PANEL ── -->
+<!-- Live Preview Tab (always visible when active unit) -->
+<div id="lp-tab" style="
+  position:fixed;bottom:0;right:28px;
+  background:var(--accent);color:#fff;
+  border-radius:8px 8px 0 0;padding:6px 14px;
+  font-size:11.5px;font-weight:600;cursor:pointer;
+  display:none;align-items:center;gap:6px;
+  box-shadow:0 -2px 8px rgba(10,122,255,.25);
+  z-index:199;transition:background .15s;
+  user-select:none;
+" onclick="expandLivePreview()" onmouseover="this.style.background='#1a8fff'" onmouseout="this.style.background='var(--accent)'">
+  ◈ Rekap Sementara
+  <span id="lp-tab-total" style="background:rgba(255,255,255,.25);border-radius:10px;padding:1px 7px;font-family:'SF Mono',monospace;font-size:11px">0</span>
+</div>
+
+<div id="live-preview" style="
+  position:fixed;bottom:0;right:20px;width:230px;
+  background:#fff;border:1px solid var(--bdr);border-radius:var(--r12) var(--r12) 0 0;
+  box-shadow:0 -4px 20px rgba(0,0,0,.12);z-index:200;
+  transform:translateY(100%);
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+  overflow:hidden;
+">
+  <div style="padding:10px 14px;background:linear-gradient(to bottom,#fafafa,#f4f4f4);border-bottom:1px solid var(--sep);display:flex;align-items:center;gap:6px;cursor:pointer" onclick="minimizeLivePreview()">
+    <div style="font-size:11px;font-weight:700;color:var(--t2)">◈ Rekap Sementara</div>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:6px">
+      <span style="font-size:10px;color:var(--t3)">klik untuk minimize</span>
+      <span style="color:var(--t3);font-size:11px">⌄</span>
+    </div>
+  </div>
+  <div style="padding:10px 14px" id="lp-body">
+    <div style="font-size:11px;color:var(--t3);margin-bottom:8px;font-weight:500" id="lp-unit-name">—</div>
+    <div id="lp-rows"></div>
+    <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--sep);display:flex;justify-content:space-between;align-items:center">
+      <span style="font-size:11px;font-weight:600;color:var(--t3)">Total</span>
+      <span style="font-family:'SF Mono','Menlo',monospace;font-size:16px;font-weight:700;color:var(--accent)" id="lp-total">0</span>
+    </div>
+  </div>
+</div>
+
+</div><!-- /app -->
+
+<!-- ── MODAL TAMBAH/EDIT UNIT ── -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3 id="modal-title">Tambah Unit Kerja</h3>
+      <p id="modal-sub">Masukkan informasi unit kerja</p>
+    </div>
+    <div class="modal-body">
+      <div class="mfld">
+        <label>Nama Kementerian / Lembaga</label>
+        <input id="m-kl" type="text" placeholder="Kementerian Agama RI">
+      </div>
+      <div class="mfld">
+        <label>Nama Unit Kerja</label>
+        <input id="m-name" type="text" placeholder="Biro Umum / Setditjen Pendis ...">
+      </div>
+      <div class="mfld">
+        <label>Tipe Unit</label>
+        <select id="m-type" onchange="updateTypeDesc()">
+          <option value="upuk">Unit Pengolah & Unit Kearsipan</option>
+          <option value="up">Unit Pengolah</option>
+        </select>
+        <div class="type-desc" id="type-desc">
+          Memiliki fungsi sebagai Unit Pengolah sekaligus Unit Kearsipan. Form input mencakup PAD, Pembinaan Kearsipan, dan SIKN/JIKN lengkap.
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="mbtn mbtn-d" id="modal-delete-btn" style="display:none;margin-right:auto" onclick="confirmDeleteFromModal()">Hapus Unit</button>
+      <button class="mbtn" onclick="closeModal()">Batal</button>
+      <button class="mbtn mbtn-p" onclick="submitModal()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const WKE = 75000;
+const TYPE_DESC = {
+  upuk: 'Memiliki fungsi sebagai Unit Pengolah sekaligus Unit Kearsipan. Form input mencakup PAD, Pembinaan Kearsipan, dan SIKN/JIKN lengkap.',
+  up:   'Hanya sebagai Unit Pengolah (UP). Form input mencakup kegiatan Pengelolaan Arsip Dinamis sisi UP, Pembinaan Kearsipan, dan SIKN/JIKN yang relevan bagi Unit Pengolah.'
+};
+
+// ── STATE ──
+let units = [];      // [{id, name, type, data:{}}]
+let activeUnitId = null;
+let modalMode = 'add'; // 'add' | 'edit'
+let editingUnitId = null;
+let appRole = localStorage.getItem('jfa_role_v1') || 'instansi'; // 'instansi' | 'anri'
+
+// ── INIT ──
+// ── SETUP FLOW ──
+
+function setRole(role) {
+  appRole = role === 'anri' ? 'anri' : 'instansi';
+  localStorage.setItem('jfa_role_v1', appRole);
+  applyRoleMode();
+  toast(appRole === 'anri' ? 'Mode ANRI Validator aktif' : 'Mode Instansi aktif');
+}
+
+function enterAnriMode() {
+  let gate = document.getElementById('role-gate');
+  if (!gate) {
+    gate = document.createElement('div');
+    gate.id = 'role-gate';
+    gate.className = 'modal-overlay';
+    gate.innerHTML = `
+      <div class="modal" style="width:360px">
+        <div class="modal-hdr">
+          <h3>Masuk ANRI Validator</h3>
+          <p>Masukkan PIN untuk membuka kolom validasi volume</p>
+        </div>
+        <div class="modal-body">
+          <div class="mfld" style="margin-bottom:0">
+            <label>PIN Validator</label>
+            <input id="role-pin" type="password" autocomplete="off" placeholder="PIN ANRI">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="mbtn" onclick="closeRoleGate()">Batal</button>
+          <button class="mbtn mbtn-p" onclick="submitAnriPin()">Masuk</button>
+        </div>
+      </div>`;
+    document.body.appendChild(gate);
+  }
+  gate.classList.add('show');
+  setTimeout(() => document.getElementById('role-pin')?.focus(), 80);
+}
+
+function closeRoleGate() {
+  document.getElementById('role-gate')?.classList.remove('show');
+}
+
+function submitAnriPin() {
+  const pin = document.getElementById('role-pin')?.value || '';
+  if (pin.trim().toLowerCase() !== 'anri') {
+    toast('PIN Validator ANRI tidak sesuai');
+    return;
+  }
+  closeRoleGate();
+  setRole('anri');
+}
+
+function applyRoleMode() {
+  document.body.classList.toggle('role-anri', appRole === 'anri');
+  document.body.classList.toggle('role-instansi', appRole !== 'anri');
+
+  const pill = document.getElementById('role-pill');
+  if (pill) pill.textContent = appRole === 'anri' ? 'Mode ANRI Validator' : 'Mode Instansi';
+  const btnAnri = document.getElementById('role-btn-anri');
+  const btnInstansi = document.getElementById('role-btn-instansi');
+  if (btnAnri) btnAnri.style.display = appRole === 'anri' ? 'none' : '';
+  if (btnInstansi) btnInstansi.style.display = appRole === 'anri' ? '' : 'none';
+
+  document.querySelectorAll('.ni:not(.ni-c)').forEach(el => {
+    const isAnriInput = el.classList.contains('ni-anri');
+    el.readOnly = appRole === 'anri' ? !isAnriInput : isAnriInput;
+    el.title = appRole === 'anri'
+      ? (isAnriInput ? 'Diisi oleh validator ANRI' : 'Volume instansi dikunci saat validasi ANRI')
+      : (isAnriInput ? 'Hanya dapat diisi pada mode ANRI Validator' : 'Diisi oleh instansi pengusul');
+  });
+}
+function startSetup() {
+  const kl = document.getElementById('setup-kl')?.value.trim();
+  // save kl as default for new units
+  window._defaultKL = kl || '';
+  openModal();
+}
+
+// Pre-fill K/L dari setup saat buka modal add
+document.addEventListener('DOMContentLoaded', () => {
+  loadFromStorage();
+  applyRoleMode();
+  renderSidebar();
+  if (units.length > 0) selectUnit(units[0].id);
+});
+
+// ── STORAGE ──
+function loadFromStorage() {
+  const raw = localStorage.getItem('jfa_kemenag_v1');
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw);
+      units = Array.isArray(parsed) ? parsed : (Array.isArray(parsed.units) ? parsed.units : []);
+    } catch(e) { units = []; }
+  }
+}
+function saveToStorage() {
+  localStorage.setItem('jfa_kemenag_v1', JSON.stringify(units));
+  document.getElementById('save-st').textContent = `Disimpan ${new Date().toLocaleTimeString('id')}`;
+}
+function saveAll() {
+  // also pull current form values into active unit
+  if (activeUnitId) pullFormValues();
+  saveToStorage();
+  toast('✓  Semua data disimpan');
+}
+
+// ── SIDEBAR RENDER ──
+function cleanKey(value) {
+  return String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+}
+function instansiLabel(value) {
+  const label = String(value || '').trim();
+  return label || 'Instansi tidak tercatat';
+}
+function unitIdentity(u, fallbackKl='') {
+  return `${cleanKey(u?.kl || fallbackKl)}::${cleanKey(u?.name)}`;
+}
+function instansiCount() {
+  return new Set(units.map(u => cleanKey(u.kl)).filter(Boolean)).size;
+}
+function renderSidebar() {
+  const list = document.getElementById('unit-list');
+  if (units.length === 0) {
+    list.innerHTML = '<div class="sb-empty">Belum ada unit kerja</div>';
+    return;
+  }
+  list.innerHTML = units.map(u => `
+    <button class="unit-item ${u.id === activeUnitId ? 'active' : ''}" onclick="selectUnit('${u.id}')" title="${instansiLabel(u.kl)} - ${u.name}">
+      <div class="unit-dot ${u.type==='upuk'?'dot-upuk':'dot-up'}"></div>
+      <div style="flex:1;overflow:hidden;min-width:0">
+        <div class="unit-name">${u.name}</div>
+        <div style="font-size:10px;color:${u.id === activeUnitId ? 'rgba(255,255,255,.78)' : 'var(--t3)'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px">${instansiLabel(u.kl)}</div>
+      </div>
+      <span class="unit-type ${u.type==='upuk'?'type-upuk':'type-up'}" style="flex-shrink:0">${u.type==='upuk'?'UP+UK':'UP'}</span>
+    </button>
+  `).join('');
+}
+
+// ── SELECT UNIT ──
+function selectUnit(id) {
+  // save current form before switching
+  if (activeUnitId && activeUnitId !== id) pullFormValues();
+
+  activeUnitId = id;
+  const unit = units.find(u => u.id === id);
+  if (!unit) return;
+
+  renderSidebar();
+  renderFormArea(unit);
+  lpActive = false; // reset, akan diset ulang di updateLivePreview
+
+  // make sure we're on input page
+  document.getElementById('page-input').classList.add('active');
+  document.getElementById('page-rekap').classList.remove('active');
+  document.getElementById('page-wiki') && (document.getElementById('page-wiki').style.display='none');
+  document.getElementById('nav-input').classList.add('active');
+  document.getElementById('nav-rekap').classList.remove('active');
+  document.getElementById('nav-wiki') && document.getElementById('nav-wiki').classList.remove('active');
+  document.getElementById('empty-state').style.display = 'none';
+  document.getElementById('form-area').style.display = 'flex';
+  document.getElementById('sb-units').style.display = '';
+  setTimeout(updateLivePreview, 100);
+}
+
+// ── RENDER FORM AREA ──
+function renderFormArea(unit) {
+  // header
+  document.getElementById('unit-hdr-name').textContent = unit.name;
+  document.getElementById('unit-hdr-sub').textContent  = unit.kl || 'Kementerian / Lembaga';
+  const typeEl = document.getElementById('unit-hdr-type');
+  if (unit.type === 'upuk') {
+    typeEl.textContent = 'UP + UK';
+    typeEl.style.cssText = 'background:#ede9fe;color:#6d28d9;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px';
+  } else {
+    typeEl.textContent = 'Unit Pengolah';
+    typeEl.style.cssText = 'background:#e0f2fe;color:#0369a1;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px';
+  }
+
+  // tabs & sections
+  const tabs = unit.type === 'upuk'
+    ? [['pad','📁 Arsip Dinamis'],['pk','📋 Pembinaan Kearsipan'],['sikn','💾 SIKN / JIKN']]
+    : [['pad-up','📁 Arsip Dinamis'],['pk-up','📋 Pembinaan Kearsipan'],['sikn-up','💾 SIKN / JIKN']];
+
+  document.getElementById('sec-tabs').innerHTML = tabs.map((t,i) =>
+    `<button class="sec-tab ${i===0?'active':''}" onclick="goSec('${t[0]}',this)">${t[1]}</button>`
+  ).join('');
+
+  // render sections
+  const scroll = document.getElementById('sec-scroll');
+  if (unit.type === 'upuk') {
+    scroll.innerHTML = renderPAD() + renderPK() + renderSIKN();
+  } else {
+    scroll.innerHTML = renderPAD_UP() + renderPK_UP() + renderSIKN_UP();
+  }
+
+  // populate values
+  pushFormValues(unit);
+  if (unit.type === 'upuk') calc(); else calcUP();
+  applyRoleMode();
+}
+
+// ── PULL/PUSH VALUES ──
+// ANRI validation helpers
+function anriId(id) { return id + '__anri'; }
+function baseIdFromAnri(id) { return id.endsWith('__anri') ? id.slice(0, -6) : id; }
+function hasAnriValue(data, id) {
+  const key = anriId(id);
+  return data && Object.prototype.hasOwnProperty.call(data, key) && data[key] !== '' && data[key] !== null && data[key] !== undefined;
+}
+function effectiveValue(data, id) {
+  return hasAnriValue(data, id) ? (parseFloat(data[anriId(id)]) || 0) : (parseFloat(data?.[id]) || 0);
+}
+function effectiveData(data) {
+  const out = {...(data || {})};
+  Object.keys(out).forEach(key => {
+    if (key.endsWith('__anri')) out[baseIdFromAnri(key)] = parseFloat(out[key]) || 0;
+  });
+  return out;
+}
+function readEffectiveInput(id) {
+  const base = document.getElementById(id);
+  const anri = document.getElementById(anriId(id));
+  if (anri && anri.value.trim() !== '') return parseFloat(anri.value) || 0;
+  return parseFloat(base?.value) || 0;
+}
+
+function pullFormValues() {
+  const unit = units.find(u => u.id === activeUnitId);
+  if (!unit) return;
+  if (!unit.data) unit.data = {};
+  document.querySelectorAll('.ni:not(.ni-c)').forEach(el => {
+    if (!el.id) return;
+    if (el.classList.contains('ni-anri')) {
+      if (el.value.trim() === '') delete unit.data[el.id];
+      else unit.data[el.id] = parseFloat(el.value) || 0;
+    } else {
+      unit.data[el.id] = parseFloat(el.value) || 0;
+    }
+  });
+}
+function pushFormValues(unit) {
+  if (!unit.data) return;
+  const PCT_FIELDS = new Set(['d8','d16','d22','up_d8','up_d16','up_d33']);
+  Object.entries(unit.data).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const baseId = baseIdFromAnri(id);
+    if (PCT_FIELDS.has(baseId) && val > 0 && val <= 1) {
+      el.value = Math.round(val * 100);
+      unit.data[id] = Math.round(val * 100);
+    } else {
+      el.value = val;
+    }
+  });
+}
+
+function rekapSementara() {
+  if (!activeUnitId) return;
+  pullFormValues();
+  goMain('rekap');
+  showUnitDetail(activeUnitId);
+}
+
+function goMain(id) {
+  if (id === 'rekap') {
+    if (activeUnitId) pullFormValues();
+    saveToStorage();
+    renderRekap();
+    setTimeout(renderRekapChart, 50);
+  }
+  document.querySelectorAll('.sb-nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('nav-' + id).classList.add('active');
+  ['input','rekap','wiki'].forEach(p => {
+    const el = document.getElementById('page-' + p);
+    if (el) { el.classList.remove('active'); el.style.display = 'none'; }
+  });
+  const pg = document.getElementById('page-' + id);
+  if (pg) { pg.classList.add('active'); pg.style.display = id === 'wiki' ? 'block' : 'flex'; }
+  // unit kerja list hanya muncul saat Input per Unit Kerja aktif
+  const sbUnits = document.getElementById('sb-units');
+  if (sbUnits) sbUnits.style.display = id === 'input' ? '' : 'none';
+  // live preview
+  if (id !== 'input') {
+    hideLivePreviewAll();
+  } else if (activeUnitId) {
+    updateLivePreview();
+    if (lpActive) _showPanel();
+  }
+}
+
+// ── WIKI HELPERS ──
+function wikiList(items, icon='•') {
+  return `<div style="display:flex;flex-direction:column;gap:5px">${items.map(i=>`
+    <div style="display:flex;gap:7px;align-items:flex-start;font-size:12px;color:var(--t2)">
+      <span style="color:var(--accent);flex-shrink:0;margin-top:1px">${icon}</span><span>${i}</span>
+    </div>`).join('')}</div>`;
+}
+function wikiBadges(items) {
+  return `<div style="display:flex;flex-direction:column;gap:6px">${items.map(([label,cls,desc])=>`
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="jb ${cls}" style="font-size:11px">${label}</span>
+      <span style="font-size:11.5px;color:var(--t2)">${desc}</span>
+    </div>`).join('')}</div>`;
+}
+function toggleWiki(id) {
+  const el = document.getElementById(id);
+  const chev = document.getElementById(id+'-chev');
+  if (!el) return;
+  const open = el.style.display !== 'none';
+  el.style.display = open ? 'none' : 'block';
+  if (chev) chev.textContent = open ? '▸' : '▾';
+}
+
+// ── HIGHLIGHT WIKI dari klik baris form ──
+// Map ID field → ID seksi wiki
+const FIELD_WIKI_MAP = {
+  // Seksi 1: Penerimaan & Pembuatan
+  d6:'w1', d7:'w1', d8:'w1', up_d6:'w1', up_d7:'w1', up_d8:'w1',
+  // Seksi 2: Pemberkasan
+  d10:'w2', g10:'w2', up_d10:'w2', up_g10:'w2',
+  // Seksi 3: Layanan
+  d12:'w3', d13:'w3', d29:'w3', d30:'w3', d31:'w3',
+  up_d12:'w3', up_d13:'w3', up_d19:'w3',
+  // Seksi 4: Penyusutan — Pemindahan
+  d15:'w4', d16:'w4', d17:'w4', up_d15:'w4', up_d16:'w4', up_d17:'w4',
+  // Seksi 4: Penyusutan — Pemusnahan
+  d21:'w4', d22:'w4', d23:'w4', d48:'w4', d50:'w4',
+  up_d32:'w4', up_d33:'w4', up_d34:'w4',
+  // Seksi 4: Penyusutan — Penyerahan
+  d26:'w4', d27:'w4', d49:'w4', d51:'w4',
+  // Seksi 5: Alih Media
+  d33:'w5', d34:'w5', up_d21:'w5', up_d22:'w5',
+  // Seksi 6: Arsip Khusus
+  d36:'w6', d37:'w6', d38:'w6', d40:'w6', d41:'w6', d42:'w6', d43:'w6',
+  up_d24:'w6', up_d25:'w6', up_d27:'w6', up_d28:'w6', up_d29:'w6', up_d30:'w6',
+  // Seksi 7: Pembinaan
+  d57:'w7', d59:'w7', d60:'w7', d61:'w7', d62:'w7', d63:'w7',
+  d65:'w7', d66:'w7', d69:'w7', d70:'w7', d71:'w7', d73:'w7',
+  up_d37:'w7', up_d39:'w7', up_d40:'w7', up_d41:'w7', up_d42:'w7', up_d43:'w7',
+  // Seksi 8: SIKN
+  d76:'w8', d77:'w8', d78:'w8', d79:'w8', d81:'w8', d82:'w8', d83:'w8', d84:'w8',
+  up_d45:'w8', up_d46:'w8',
+};
+
+
+
+function goSec(id, btn) {
+  document.querySelectorAll('.sec-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sec-' + id)?.classList.add('active');
+  document.getElementById('sec-scroll').scrollTop = 0;
+}
+
+// ── MODAL ──
+function openModal(mode='add', unitId=null) {
+  if (appRole === 'anri') {
+    toast('Mode ANRI hanya untuk validasi volume');
+    return;
+  }
+  modalMode = mode;
+  editingUnitId = unitId;
+  const modal = document.getElementById('modal');
+  const delBtn = document.getElementById('modal-delete-btn');
+
+  if (mode === 'edit' && unitId) {
+    const unit = units.find(u => u.id === unitId);
+    document.getElementById('modal-title').textContent = 'Edit Unit Kerja';
+    document.getElementById('modal-sub').textContent = 'Ubah informasi unit kerja';
+    document.getElementById('m-kl').value = unit.kl || '';
+    document.getElementById('m-name').value = unit.name;
+    document.getElementById('m-type').value = unit.type;
+    delBtn.style.display = 'block';
+  } else {
+    document.getElementById('modal-title').textContent = 'Tambah Unit Kerja';
+    document.getElementById('modal-sub').textContent = 'Masukkan informasi unit kerja';
+    document.getElementById('m-kl').value = window._defaultKL || '';
+    document.getElementById('m-name').value = '';
+    document.getElementById('m-type').value = 'upuk';
+    delBtn.style.display = 'none';
+  }
+  updateTypeDesc();
+  modal.classList.add('show');
+  setTimeout(() => document.getElementById('m-name').focus(), 100);
+}
+
+function editUnit() { openModal('edit', activeUnitId); }
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('show');
+}
+
+function updateTypeDesc() {
+  const type = document.getElementById('m-type').value;
+  document.getElementById('type-desc').textContent = TYPE_DESC[type];
+}
+
+function submitModal() {
+  const name = document.getElementById('m-name').value.trim();
+  const kl   = document.getElementById('m-kl').value.trim();
+  if (kl) window._defaultKL = kl; // remember for next unit
+  const type = document.getElementById('m-type').value;
+  if (!name) { document.getElementById('m-name').focus(); return; }
+
+  if (modalMode === 'add') {
+    const id = 'uk_' + Date.now();
+    units.push({ id, name, kl, type, data: {} });
+    saveToStorage();
+    renderSidebar();
+    selectUnit(id);
+    toast(`✓  Unit "${name}" ditambahkan`);
+  } else {
+    const unit = units.find(u => u.id === editingUnitId);
+    if (unit) {
+      unit.name = name;
+      unit.kl   = kl;
+      if (unit.type !== type) { unit.type = type; unit.data = {}; }
+      saveToStorage();
+      renderSidebar();
+      if (activeUnitId === editingUnitId) renderFormArea(unit);
+      toast(`✓  Unit "${name}" diperbarui`);
+    }
+  }
+  closeModal();
+}
+
+function deleteUnit() {
+  const unit = units.find(u => u.id === activeUnitId);
+  if (!unit) return;
+  openModal('edit', activeUnitId);
+}
+
+function confirmDeleteFromModal() {
+  const unit = units.find(u => u.id === editingUnitId);
+  if (!unit) return;
+  if (!confirm(`Hapus unit "${unit.name}"? Data akan hilang permanen.`)) return;
+  units = units.filter(u => u.id !== editingUnitId);
+  if (activeUnitId === editingUnitId) {
+    activeUnitId = null;
+    document.getElementById('form-area').style.display = 'none';
+    document.getElementById('empty-state').style.display = units.length ? 'none' : '';
+    if (units.length > 0) selectUnit(units[0].id);
+  }
+  saveToStorage();
+  renderSidebar();
+  closeModal();
+  toast('↺  Unit dihapus');
+}
+
+// ── CALC UP+UK ──
+function calc() {
+  const v = id => readEffectiveInput(id);
+  const s = (id, val) => { const e = document.getElementById(id); if (e) e.value = +(Math.round(val * 100) / 100); };
+
+  const d6=v('d6'),d7=v('d7'),d8=v('d8')/100,d10=v('d10');
+  const d16=v('d16')/100,d17=v('d17'),d19=v('d19');
+  const d22=v('d22')/100,d23=v('d23'),d27=v('d27');
+  const d48=v('d48'),d49=v('d49'),d50=v('d50'),d51=v('d51');
+
+  const g10 = d10 > 0 ? (d6 + d7) / d10 : 0;
+  const g16 = d16 * g10;
+  const g17 = g16 + d17;
+  const g19 = g17 + d19;
+  const g22 = d22 * g19;
+  const g24 = g22 + d23;
+
+  s('g8', d8*(d7+d6));
+  s('g10',g10); s('g16',g16); s('g17',g17); s('g19',g19);
+  s('g22',g22); s('g24',g24); s('g27',d27);
+  s('g50', g24+(d48*d50));
+  s('g51', d27+(d49*d51));
+  if (typeof updateLivePreview === 'function') updateLivePreview();
+}
+
+// ── CALC UP ONLY ──
+function calcUP() {
+  const v = id => readEffectiveInput(id);
+  const s = (id,val) => { const e=document.getElementById(id); if(e) e.value=+(Math.round(val*100)/100); };
+
+  const d6=v('up_d6'),d7=v('up_d7'),d8=v('up_d8')/100,d10=v('up_d10');
+  const d16=v('up_d16')/100,d17=v('up_d17');
+  const d33=v('up_d33')/100,d34=v('up_d34');
+
+  const g10 = d10>0 ? (d6+d7)/d10 : 0;
+  const g16 = d16*g10;
+  const g17 = g16+d17;
+  const g22 = d33*g17;
+  const g24 = g22+d34;
+
+  s('up_g8',  d8*(d7+d6));
+  s('up_g10', g10); s('up_g16', g16); s('up_g17', g17);
+  s('up_g22', g22); s('up_g24', g24);
+  if (typeof updateLivePreview === 'function') updateLivePreview();
+}
+
+// ── TASK MAP (UP+UK) ──
+const TASKS = {
+  terampil:[
+    {u:'Membuat arsip',w:15,r:'d7'},{u:'Menerima arsip',w:15,r:'d6'},
+    {u:'Pemberkasan arsip aktif',w:25,r:'g10'},{u:'Menata arsip inaktif dipindahkan',w:15,r:'g17'},
+  ],
+  mahir:[
+    // row9:  D37 — pemberkasan arsip terjaga
+    {u:'Pemberkasan arsip terjaga',             w:10,   r:'d37'},
+    // row12-13: G17
+    {u:'Menyeleksi arsip inaktif usul pindah',  w:15,   r:'g17'},
+    {u:'Membuat daftar arsip inaktif usul pindah',w:15, r:'g17'},
+    // row14: D15, waktu=5*330=1650
+    {u:'Melaksanakan pemindahan arsip inaktif', w:1650, r:'d15'},
+    // row15: D12, waktu=5*330=1650 — layanan arsip aktif (laporan)
+    {u:'Memberikan layanan arsip aktif',        w:1650, r:'d12'},
+    // row16: D13, waktu=10 — jumlah nomor arsip aktif dilayani (sub-task HILANG)
+    {u:'Jumlah nomor arsip aktif dilayani',     w:10,   r:'d13'},
+    // row21: D61→UP!D59, waktu=5*330=1650
+    {u:'BINTEK Pengelolaan Arsip',              w:1650, r:'d59'},
+  ],
+  penyelia:[
+    {u:'Verifikasi autentisitas arsip tercipta',w:10,   r:'g8'},
+    {u:'Penataan & penyimpanan arsip inaktif',  w:10,   r:'g19'},
+    {u:'Identifikasi arsip untuk alih media',   w:1650, r:'d33'},
+    {u:'Identifikasi & alih media arsip dinamis',w:1650,r:'d34'},
+    {u:'Identifikasi arsip terjaga',            w:1650, r:'d36'},
+    {u:'Identifikasi arsip vital',              w:1650, r:'d40'},
+    {u:'Mengolah arsip vital',                  w:15,   r:'d41'},
+    {u:'Layanan arsip vital',                   w:1650, r:'d42'},
+    // row31: D44→UP!d43 — jumlah nomor arsip vital dilayani (sub-task, SEBELUMNYA HILANG)
+    {u:'Jumlah nomor arsip vital dilayani',     w:10,   r:'d43'},
+    // row32: D29 — layanan arsip inaktif (laporan)
+    {u:'Layanan arsip inaktif (laporan)',        w:1650, r:'d29'},
+    // row33: D30→UP!d30 — layanan arsip inaktif UK per nomor (sub-task, SEBELUMNYA HILANG)
+    {u:'Layanan arsip inaktif UK (nomor)',       w:15,   r:'d30'},
+    // row34: D31→UP!d31 — layanan arsip inaktif PPID per nomor (sub-task, SEBELUMNYA HILANG)
+    {u:'Layanan arsip inaktif PPID (nomor)',     w:30,   r:'d31'},
+    {u:'Identifikasi & pengolahan data arsip aktif', w:1650, r:'d76'},
+    {u:'Entry data arsip aktif (SIKN)',         w:10,   r:'d81'},
+    {u:'Entry data arsip inaktif (SIKN)',       w:10,   r:'d82'},
+    {u:'Entry data arsip vital (SIKN)',         w:10,   r:'d83'},
+    {u:'Entry data arsip terjaga (SIKN)',       w:10,   r:'d84'},
+  ],
+  pertama:[
+    {u:'Menyeleksi arsip inaktif usul musnah',w:1650,r:'sum_d21_d48'},
+    {u:'Membuat daftar arsip usul musnah',w:15,r:'g50'},
+    {u:'Melaksanakan pemusnahan arsip',w:15,r:'g50'},
+    {u:'Menyeleksi arsip inaktif usul serah',w:1650,r:'sum_d26_d48'},
+    {u:'Membuat daftar arsip usul serah',w:15,r:'g51'},
+    {u:'Melaksanakan penyerahan arsip',w:15,r:'g51'},
+    {u:'Penelusuran referensi SOP',w:2310,r:'d57'},
+    {u:'Identifikasi & pengolahan data arsip inaktif',w:1650,r:'d77'},
+    {u:'Identifikasi & pengolahan data arsip vital',w:1650,r:'d78'},
+  ],
+  muda:[
+    // row10: D21+D49 — FIXED: D49 = UK II tdk ada Ahli Muda (bukan D48)
+    {u:'Menilai arsip inaktif usul musnah',     w:1650, r:'sum_d21_d49'},
+    // row11: D26+D49 — FIXED
+    {u:'Menilai arsip inaktif usul serah',      w:1650, r:'sum_d26_d49'},
+    {u:'Layanan arsip terjaga',                 w:10,   r:'d38'},
+    {u:'BIMTEK SDM Kearsipan',                  w:1650, r:'d60'},
+    {u:'Penyuluhan Kearsipan',                  w:1650, r:'d61'},
+    {u:'Fasilitasi Kearsipan',                  w:1650, r:'d62'},
+    {u:'Monev sistem informasi kearsipan',      w:6600, r:'d63'},
+    {u:'Pengujian lapangan audit kearsipan',    w:1650, r:'d70'},
+    {u:'Wawancara audit kearsipan',             w:1650, r:'d70'},
+    {u:'Inventaris masalah NSPK',               w:990,  r:'d73'},
+    {u:'Menyusun konsepsi SOP',                 w:990,  r:'d57'},
+    // row87 task51: F=F86=D59→UP!d57, waktu=7*330=2310 (HILANG sebelumnya)
+    {u:'Menyusun rancangan SOP',                w:2310, r:'d57'},
+    {u:'Identifikasi & pengolahan data arsip terjaga', w:1650, r:'d79'},
+  ],
+  madya:[
+    // row17: D55→UP!d53 = Naskah Persetujuan Pemusnahan — DIHAPUS dari input (selalu 0 di Input all D53/D54)
+    // row21: D56→UP!d54 = Naskah Pertimbangan Pemusnahan — DIHAPUS
+    // row46: D67→UP!d65, waktu=5*330=1650
+    {u:'BIMKOS Penyelenggaraan Kearsipan',      w:1650, r:'d65'},
+    // row47: D68→UP!d66, waktu=10*330=3300
+    {u:'Supervisi penyelenggaraan kearsipan',   w:3300, r:'d66'},
+    // row61: D71→UP!d69 = RKA, waktu=10*330=3300
+    {u:'Rencana Kerja Audit Kearsipan (RKA)',   w:3300, r:'d69'},
+    // row62: D72→UP!d70, waktu=10*330=3300
+    {u:'Laporan audit kearsipan',               w:3300, r:'d70'},
+    // row63: D73→UP!d71, waktu=10*330=3300
+    {u:'Monev hasil pengawasan',                w:3300, r:'d71'},
+    // row69: D75→UP!d73, waktu=990
+    {u:'Menyusun referensi NSPK daerah/instansi',w:990, r:'d73'},
+    // row70: F=F69 (beban=d73), waktu=60*330=19800
+    {u:'Penyusunan naskah akademik NSPK',       w:19800,r:'d73'},
+    // row71: F=F70 (beban=d73), waktu=990
+    {u:'Konsepsi NSPK daerah/instansi',         w:990,  r:'d73'},
+  ],
+  utama:[
+    {u:'Evaluasi pengelolaan arsip dinamis',w:6300,r:null},
+    {u:'Evaluasi pengelolaan arsip statis',w:6300,r:null},
+    {u:'Penilaian kinerja semua jenjang',w:45,r:null},
+    {u:'Evaluasi pasca sertifikasi',w:4410,r:null},
+    {u:'Menyusun LHPKN',w:6300,r:null},
+    {u:'Telaah rekomendasi sanksi',w:1575,r:null},
+    {u:'Telaah pertimbangan penghargaan',w:3150,r:null},
+  ],
+};
+
+// ── TASKS untuk UP saja (field IDs pakai prefix up_) ──
+const UP_TASKS = {
+  terampil:[
+    {u:'Membuat arsip',                         w:15,   r:'up_d7'},
+    {u:'Menerima arsip',                        w:15,   r:'up_d6'},
+    {u:'Pemberkasan arsip aktif',               w:25,   r:'up_g10'},
+    {u:'Menata arsip inaktif yang dipindahkan', w:15,   r:'up_g17'},
+  ],
+  mahir:[
+    {u:'Pemberkasan arsip terjaga',             w:10,   r:'up_d24'},
+    {u:'Menyeleksi arsip inaktif usul pindah',  w:15,   r:'up_g17'},
+    {u:'Membuat daftar arsip usul pindah',      w:15,   r:'up_g17'},
+    {u:'Melaksanakan pemindahan arsip inaktif', w:1650, r:'up_d15'},
+    {u:'Memberikan layanan arsip aktif',        w:1650, r:'up_d12'},
+    {u:'Jumlah nomor arsip aktif dilayani',     w:10,   r:'up_d13'},
+    {u:'BINTEK Pengelolaan Arsip',              w:1650, r:'up_d39'},
+  ],
+  penyelia:[
+    {u:'Verifikasi autentisitas arsip tercipta',w:10,   r:'up_g8'},
+    {u:'Penataan & penyimpanan arsip inaktif',  w:10,   r:'up_g17'}, // G19=G17 (tidak ada UK)
+    {u:'Identifikasi arsip untuk alih media',   w:1650, r:'up_d21'},
+    {u:'Identifikasi & alih media arsip dinamis',w:1650,r:'up_d22'},
+    {u:'Identifikasi arsip vital',              w:1650, r:'up_d27'},
+    {u:'Mengolah arsip vital',                  w:15,   r:'up_d28'},
+    {u:'Layanan arsip vital',                   w:1650, r:'up_d29'},
+    {u:'Jumlah nomor arsip vital dilayani',     w:10,   r:'up_d30'},
+    {u:'Layanan arsip inaktif PPID (nomor)',    w:30,   r:'up_d19'},
+    {u:'Identifikasi & pengolahan data arsip aktif',w:1650,r:'up_d45'},
+    {u:'Entry data arsip aktif (SIKN)',         w:10,   r:'up_d46'},
+  ],
+  pertama:[
+    {u:'Menyeleksi arsip inaktif usul musnah',  w:1650, r:'up_d32'}, // D48=0 hardcode
+    {u:'Membuat daftar arsip usul musnah',      w:15,   r:'up_g24'},
+    {u:'Melaksanakan pemusnahan arsip',         w:15,   r:'up_g24'},
+    {u:'Penelusuran referensi SOP',             w:2310, r:'up_d37'},
+  ],
+  muda:[
+    {u:'Menilai arsip inaktif usul musnah',     w:1650, r:'up_d32'}, // D49=0 hardcode
+    {u:'Layanan arsip terjaga',                 w:10,   r:'up_d25'},
+    {u:'BIMTEK SDM Kearsipan',                  w:1650, r:'up_d40'},
+    {u:'Penyuluhan Kearsipan',                  w:1650, r:'up_d41'},
+    {u:'Fasilitasi Kearsipan',                  w:1650, r:'up_d42'},
+    {u:'Monev sistem informasi kearsipan',      w:6600, r:'up_d43'},
+    {u:'Menyusun konsepsi SOP',                 w:990,  r:'up_d37'},
+    {u:'Menyusun rancangan SOP',                w:2310, r:'up_d37'},
+  ],
+  madya:[], utama:[],
+};
+const JAB_KEYS = ['terampil','mahir','penyelia','pertama','muda','madya','utama'];
+const JAB_LABELS = ['Terampil','Mahir','Penyelia','Ahli Pertama','Ahli Muda','Ahli Madya','Ahli Utama'];
+const JAB_FULL = ['Arsiparis Terampil Pelaksana','Arsiparis Mahir Pelaksana Lanjutan','Arsiparis Penyelia','Arsiparis Ahli Pertama','Arsiparis Ahli Muda','Arsiparis Ahli Madya','Arsiparis Ahli Utama'];
+
+function gv(r) {
+  if (!r) return 0;
+  if (r==='sum_d21_d48') return (parseFloat(document.getElementById('d21')?.value)||0)+(parseFloat(document.getElementById('d48')?.value)||0);
+  if (r==='sum_d26_d48') return (parseFloat(document.getElementById('d26')?.value)||0)+(parseFloat(document.getElementById('d48')?.value)||0);
+  if (r==='sum_d21_d49') return (parseFloat(document.getElementById('d21')?.value)||0)+(parseFloat(document.getElementById('d49')?.value)||0);
+  if (r==='sum_d26_d49') return (parseFloat(document.getElementById('d26')?.value)||0)+(parseFloat(document.getElementById('d49')?.value)||0);
+  const e = document.getElementById(r);
+  return e ? parseFloat(e.value)||0 : 0;
+}
+
+function r51(x) { return (x - Math.floor(x)) >= 0.51 ? Math.ceil(x) : Math.floor(x); }
+
+function calcUnit(data, type) {
+  const isUP = type === 'up';
+  const tasks = isUP ? UP_TASKS : TASKS;
+  const dataEff = effectiveData(data);
+  const v = k => dataEff[k] || 0;
+  let derived;
+
+  if (isUP) {
+    const g10 = v('up_d10')>0 ? (v('up_d6')+v('up_d7'))/v('up_d10') : 0;
+    const g16 = (v('up_d16')/100)*g10, g17 = g16+v('up_d17');
+    const g22 = (v('up_d33')/100)*g17, g24 = g22+v('up_d34');
+    derived = {...dataEff,
+      up_g8:  (v('up_d8')/100)*(v('up_d7')+v('up_d6')),
+      up_g10: g10, up_g16: g16, up_g17: g17,
+      up_g22: g22, up_g24: g24,
+    };
+  } else {
+    const g10 = v('d10')>0 ? (v('d6')+v('d7'))/v('d10') : 0;
+    const g16=(v('d16')/100)*g10, g17=g16+v('d17'), g19=g17+v('d19');
+    const g22=(v('d22')/100)*g19, g24=g22+v('d23'), g27=v('d27');
+    const g50=g24+(v('d48')*v('d50')), g51=g27+(v('d49')*v('d51'));
+    derived = {...dataEff,
+      g8:(v('d8')/100)*(v('d7')+v('d6')), g10,g16,g17,g19,g22,g24,g27,g50,g51
+    };
+  }
+
+  return JAB_KEYS.map(key => {
+    let m = 0;
+    (tasks[key]||[]).forEach(t => {
+      let val = 0;
+      if (!t.r) val = 0;
+      else if (t.r==='sum_d21_d48') val=(derived.d21||0)+(derived.d48||0);
+      else if (t.r==='sum_d26_d48') val=(derived.d26||0)+(derived.d48||0);
+      else if (t.r==='sum_d21_d49') val=(derived.d21||0)+(derived.d49||0);
+      else if (t.r==='sum_d26_d49') val=(derived.d26||0)+(derived.d49||0);
+      else val = derived[t.r] || 0;
+      m += t.w * val;
+    });
+    return r51(m / WKE);
+  });
+}
+
+// ── REKAP ALL UNITS ──
+function renderRekap() {
+  showAllView();
+  const tbody = document.getElementById('rekap-unit-tbody');
+  const cards = document.getElementById('rekap-cards');
+  const totals = [0,0,0,0,0,0,0];
+
+  tbody.innerHTML = '';
+  units.forEach(u => {
+    const res = calcUnit(u.data || {}, u.type);
+    const rowTotal = res.reduce((a,b)=>a+b,0);
+    res.forEach((v,i) => totals[i] += v);
+    tbody.innerHTML += `
+      <tr style="cursor:pointer" onclick="showUnitDetail('${u.id}')" class="unit-row-hover">
+        <td style="font-weight:500;color:var(--accent)">${u.name}</td>
+        <td style="color:var(--t3);font-size:11.5px">${u.kl||'—'}</td>
+        <td><span class="unit-type ${u.type==='upuk'?'type-upuk':'type-up'}">${u.type==='upuk'?'UP+UK':'UP'}</span></td>
+        ${res.map(v=>`<td class="mono" style="text-align:right">${v||'—'}</td>`).join('')}
+        <td class="mono acc">${rowTotal}</td>
+      </tr>`;
+  });
+
+  totals.forEach((v,i) => { document.getElementById(`rt-${i}`).textContent = v || '—'; });
+  document.getElementById('rt-total').textContent = totals.reduce((a,b)=>a+b,0);
+  document.getElementById('rekap-count').textContent = `${units.length} unit - ${instansiCount()} instansi`;
+
+  cards.innerHTML = JAB_FULL.map((label,i) => `
+    <div class="rk-card rk-${i}">
+      <div class="rk-lbl">${label}</div>
+      <div class="rk-val">${totals[i]}</div>
+      <div class="rk-sub">orang · semua unit</div>
+    </div>`).join('');
+  setTimeout(renderRekapChart, 50);
+}
+
+// ── REKAP DETAIL PER UNIT ──
+function showUnitDetail(unitId) {
+  const unit = units.find(u => u.id === unitId);
+  if (!unit) return;
+
+  // switch view
+  document.getElementById('view-all').style.display = 'none';
+  document.getElementById('view-unit').style.display = 'block';
+
+  // header
+  document.getElementById('detail-name').textContent = unit.name;
+  document.getElementById('detail-breadcrumb').textContent = unit.name;
+  document.getElementById('detail-type-label').textContent = unit.type === 'upuk' ? 'UP + UK' : 'Unit Pengolah';
+  const badge = document.getElementById('detail-type-badge');
+  if (unit.type === 'upuk') {
+    badge.textContent = 'UP + UK';
+    badge.style.cssText = 'background:#ede9fe;color:#6d28d9;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;margin-left:auto';
+  } else {
+    badge.textContent = 'Unit Pengolah';
+    badge.style.cssText = 'background:#e0f2fe;color:#0369a1;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;margin-left:auto';
+  }
+
+  // tombol ke input
+  document.getElementById('detail-goto-input').onclick = () => {
+    selectUnit(unitId);
+    goMain('input');
+  };
+
+  // hitung detail
+  const data = unit.data || {};
+  const dataEff = effectiveData(data);
+  const v = k => dataEff[k] || 0;
+  const isUP = unit.type === 'up';
+  let derived;
+  let taskMap;
+
+  if (isUP) {
+    const g10 = v('up_d10')>0 ? (v('up_d6')+v('up_d7'))/v('up_d10') : 0;
+    const g16 = (v('up_d16')/100)*g10, g17 = g16+v('up_d17');
+    const g22 = (v('up_d33')/100)*g17, g24 = g22+v('up_d34');
+    derived = {...dataEff, up_g8:v('up_d8')*(v('up_d7')+v('up_d6')),
+      up_g10:g10, up_g16:g16, up_g17:g17, up_g22:g22, up_g24:g24};
+    taskMap = UP_TASKS;
+  } else {
+    const g10 = v('d10')>0 ? (v('d6')+v('d7'))/v('d10') : 0;
+    const g16=(v('d16')/100)*g10, g17=g16+v('d17'), g19=g17+v('d19');
+    const g22=(v('d22')/100)*g19, g24=g22+v('d23'), g27=v('d27');
+    const g50=g24+(v('d48')*v('d50')), g51=g27+(v('d49')*v('d51'));
+    derived = {...dataEff, g8:(v('d8')/100)*(v('d7')+v('d6')), g10,g16,g17,g19,g22,g24,g27,g50,g51};
+    taskMap = TASKS;
+  }
+
+  const cards   = document.getElementById('detail-cards');
+  const tbody   = document.getElementById('detail-tbody');
+  cards.innerHTML = ''; tbody.innerHTML = '';
+
+  let totBeban = 0, totOrg = 0;
+
+  JAB_KEYS.forEach((key, ci) => {
+    let menit = 0;
+    (taskMap[key]||[]).forEach(t => {
+      let val = 0;
+      if (!t.r) val = 0;
+      else if (t.r==='sum_d21_d48') val=(derived.d21||0)+(derived.d48||0);
+      else if (t.r==='sum_d26_d48') val=(derived.d26||0)+(derived.d48||0);
+      else if (t.r==='sum_d21_d49') val=(derived.d21||0)+(derived.d49||0);
+      else if (t.r==='sum_d26_d49') val=(derived.d26||0)+(derived.d49||0);
+      else val = derived[t.r] || 0;
+      menit += t.w * val;
+    });
+    const presisi = menit / WKE;
+    const bulat   = r51(presisi);
+    totBeban += menit; totOrg += bulat;
+
+    cards.innerHTML += `
+      <div class="rk-card rk-${ci}">
+        <div class="rk-lbl">${JAB_FULL[ci]}</div>
+        <div class="rk-val">${bulat}</div>
+        <div class="rk-sub">${presisi.toFixed(3)} presisi</div>
+      </div>`;
+
+    tbody.innerHTML += `
+      <tr>
+        <td>${JAB_FULL[ci]}</td>
+        <td class="mono">${menit.toLocaleString('id')}</td>
+        <td class="mono" style="color:var(--t3)">75.000</td>
+        <td class="mono">${presisi.toFixed(4)}</td>
+        <td class="acc">${bulat}</td>
+      </tr>`;
+  });
+
+  document.getElementById('detail-total-beban').textContent = totBeban.toLocaleString('id');
+  document.getElementById('detail-total-org').textContent   = totOrg;
+
+  // draw chart
+  const res = JAB_KEYS.map((key,ci) => {
+    let m = 0;
+    (taskMap[key]||[]).forEach(t => {
+      let val = 0;
+      if (!t.r) val = 0;
+      else if (t.r==='sum_d21_d48') val=(derived.d21||0)+(derived.d48||0);
+      else if (t.r==='sum_d26_d48') val=(derived.d26||0)+(derived.d48||0);
+      else if (t.r==='sum_d21_d49') val=(derived.d21||0)+(derived.d49||0);
+      else if (t.r==='sum_d26_d49') val=(derived.d26||0)+(derived.d49||0);
+      else val = derived[t.r] || 0;
+      m += t.w * val;
+    });
+    return r51(m / WKE);
+  });
+  setTimeout(() => renderDetailChart(res), 50);
+
+  // scroll to top
+  document.querySelector('#page-rekap .sec-scroll').scrollTop = 0;
+}
+
+function showAllView() {
+  document.getElementById('view-all').style.display  = 'block';
+  document.getElementById('view-unit').style.display = 'none';
+  document.querySelector('#page-rekap .sec-scroll').scrollTop = 0;
+}
+
+// ── EXPORT ──
+function exportExcel(kind='excel') {
+  if (activeUnitId) pullFormValues();
+  const wb = XLSX.utils.book_new();
+  const kl = units.length > 0 ? (units[0].kl || 'Kementerian / Lembaga') : 'Kementerian / Lembaga';
+  const tgl = new Date().toLocaleDateString('id-ID', {day:'2-digit',month:'long',year:'numeric'});
+
+  // ── SHEET REKAP ──
+  const wsData = [];
+
+  // Baris 1-2: kosong
+  wsData.push([]);
+  wsData.push([]);
+
+  // Baris 3: judul blok
+  wsData.push(['', '', '', 'KEBUTUHAN JF ARSIPARIS', '', '', '', '', '', '']);
+
+  // Baris 4: header kolom
+  wsData.push(['No', 'NAMA UNIT KERJA', 'TIPE', 'TERAMPIL', 'MAHIR', 'PENYELIA', 'AHLI PERTAMA', 'AHLI MUDA', 'AHLI MADYA', 'TOTAL']);
+
+  // Baris data
+  let totals = [0,0,0,0,0,0,0];
+  units.forEach((u, idx) => {
+    const res = calcUnit(u.data||{}, u.type);
+    res.forEach((v,i) => totals[i] += v);
+    const rowTotal = res.reduce((a,b)=>a+b,0);
+    wsData.push([
+      idx+1,
+      u.name,
+      u.type==='upuk' ? 'UP + UK' : 'UP',
+      res[0]||0, res[1]||0, res[2]||0, res[3]||0, res[4]||0, res[5]||0,
+      rowTotal
+    ]);
+  });
+
+  // Baris total
+  wsData.push([
+    '', 'TOTAL', '',
+    totals[0], totals[1], totals[2], totals[3], totals[4], totals[5],
+    totals.reduce((a,b)=>a+b,0)
+  ]);
+
+  const ws = XLSX.utils.aoa_to_sheet(wsData);
+
+  // Merge header "KEBUTUHAN JF ARSIPARIS" → C3:J3
+  ws['!merges'] = [
+    {s:{r:2,c:3}, e:{r:2,c:9}},  // KEBUTUHAN JF ARSIPARIS
+  ];
+
+  // Column widths
+  ws['!cols'] = [
+    {wch:5},   // No
+    {wch:42},  // Nama unit
+    {wch:10},  // Tipe
+    {wch:10},  // Terampil
+    {wch:8},   // Mahir
+    {wch:10},  // Penyelia
+    {wch:13},  // Ahli Pertama
+    {wch:11},  // Ahli Muda
+    {wch:11},  // Ahli Madya
+    {wch:8},   // Total
+  ];
+
+  XLSX.utils.book_append_sheet(wb, ws, 'Rekap Kebutuhan');
+
+  // ── SHEET PER UNIT (detail) ──
+  units.forEach(u => {
+    const res = calcUnit(u.data||{}, u.type);
+    const sheetData = [
+      [`Unit Kerja: ${u.name}`],
+      [`K/L: ${u.kl||'-'}`],
+      [`Tipe: ${u.type==='upuk'?'UP + UK':'Unit Pengolah'}`],
+      [],
+      ['Jabatan Fungsional', 'Kebutuhan (Orang)'],
+    ];
+    JAB_FULL.forEach((jab, i) => {
+      sheetData.push([jab, res[i]||0]);
+    });
+    sheetData.push(['TOTAL', res.reduce((a,b)=>a+b,0)]);
+
+    const wsUnit = XLSX.utils.aoa_to_sheet(sheetData);
+    wsUnit['!cols'] = [{wch:35},{wch:18}];
+    // Nama sheet maks 31 karakter
+    const sheetName = u.name.replace(/[\\/:*?\[\]]/g,'').slice(0,28);
+    XLSX.utils.book_append_sheet(wb, wsUnit, sheetName || `Unit ${units.indexOf(u)+1}`);
+  });
+
+  const prefix = kind === 'submission' ? 'Pengajuan_JFA' : (kind === 'validation' ? 'Validasi_ANRI_JFA' : 'Kebutuhan_JFA');
+  const fname = `${prefix}_${kl.replace(/[^a-zA-Z0-9]/g,'_')}_${new Date().toISOString().slice(0,10)}.xlsx`;  XLSX.writeFile(wb, fname);
+  toast(kind === 'submission' ? 'File Excel pengajuan siap dikirim ke ANRI' : 'File Excel diunduh');
+}
+
+// ── TOAST ──
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// ── HTML RENDERERS ──
+function row(no, uraian, satuan, unit, jab, id, isComp=false, compDesc='', calcFn='calc()', pct=false) {
+  if (isComp) return `
+    <tr class="tr-comp">
+      <td class="no-c">â†³</td>
+      <td class="desc-c">${compDesc}</td>
+      <td></td><td></td><td></td>
+      <td><input class="ni ni-c" readonly id="${id}" value="0"></td>
+      <td class="val-anri anri-col"><span style="font-size:10.5px;color:var(--t4)">Otomatis</span></td>
+    </tr>`;
+  const attrs = pct ? 'type="number" min="0" max="100" step="1"' : 'type="number" min="0"';
+  return `
+    <tr>
+      <td class="no">${no}</td>
+      <td>${uraian}</td>
+      <td class="sat">${satuan}</td>
+      <td>${unit}</td>
+      <td>${jab}</td>
+      <td><input class="ni" ${attrs} id="${id}" value="0" oninput="${calcFn}"></td>
+      <td class="val-anri anri-col"><input class="ni ni-anri" ${attrs} id="${anriId(id)}" placeholder="-" oninput="${calcFn}"></td>
+    </tr>`;
+}
+function sec(label) { return `<tr class="tr-sec"><td colspan="7">${label}</td></tr>`; }// ── PAD ACCORDION ──
+function togglePadAcc(id) {
+  const hdr  = document.getElementById('pah-'+id);
+  const body = document.getElementById('pab-'+id);
+  if (!hdr || !body) return;
+  const open = body.classList.contains('open');
+  body.classList.toggle('open', !open);
+  hdr.classList.toggle('open', !open);
+}
+function padAcc(id, icon, title, badge, content, defaultOpen=false) {
+  const openCls = defaultOpen ? 'open' : '';
+  const bdg = badge ? '<span class="pad-acc-badge">' + badge + '</span>' : '';
+  return '<div class="pad-acc">'
+    + '<div class="pad-acc-hdr ' + openCls + '" id="pah-' + id + '" onclick="togglePadAcc(\'' + id + '\')">'
+    + '<span class="pad-acc-icon">' + icon + '</span>'
+    + '<span class="pad-acc-title">' + title + '</span>'
+    + bdg
+    + '<span class="pad-acc-chev">▶</span>'
+    + '</div>'
+    + '<div class="pad-acc-body ' + openCls + '" id="pab-' + id + '">'
+    + '<div class="tbl-wrap"><table>'
+    + '<thead><tr><th style="width:36px">No</th><th>Uraian</th><th style="width:175px">Satuan</th><th style="width:74px">Unit</th><th style="width:155px">Jabatan</th><th class="r" style="width:108px">Volume Instansi</th><th class="r anri-col" style="width:108px">Validasi ANRI</th></tr></thead>'
+    + '<tbody>' + content + '</tbody>'
+    + '</table></div></div></div>';
+}
+function padAccUP(id, icon, title, badge, content, defaultOpen=false) {
+  const openCls = defaultOpen ? 'open' : '';
+  const bdg = badge ? '<span class="pad-acc-badge">' + badge + '</span>' : '';
+  return '<div class="pad-acc">'
+    + '<div class="pad-acc-hdr ' + openCls + '" id="pah-up-' + id + '" onclick="togglePadAcc(\'up-' + id + '\')">'
+    + '<span class="pad-acc-icon">' + icon + '</span>'
+    + '<span class="pad-acc-title">' + title + '</span>'
+    + bdg
+    + '<span class="pad-acc-chev">▶</span>'
+    + '</div>'
+    + '<div class="pad-acc-body ' + openCls + '" id="pab-up-' + id + '">'
+    + '<div class="tbl-wrap"><table>'
+    + '<thead><tr><th style="width:36px">No</th><th>Uraian</th><th style="width:175px">Satuan</th><th style="width:74px">Unit</th><th style="width:155px">Jabatan</th><th class="r" style="width:108px">Volume Instansi</th><th class="r anri-col" style="width:108px">Validasi ANRI</th></tr></thead>'
+    + '<tbody>' + content + '</tbody>'
+    + '</table></div></div></div>';
+}
+
+function up(cls,txt){return `<span class="utag ${cls}">${txt}</span>`}
+function jb(...cls_txt){return `<div class="jw">${cls_txt.map(([c,t])=>`<span class="jb ${c}">${t}</span>`).join('')}</div>`}
+
+function renderPAD() {
+  const rowsAktif = `
+    ${row(1,'Penerimaan Arsip','Nomor per Tahun',up('u-both','UP+UK'),jb(['jb-t','Terampil']),'d6')}
+    ${row(2,'Pembuatan Arsip','Nomor per Tahun',up('u-both','UP+UK'),jb(['jb-t','Terampil']),'d7')}
+    ${row(3,'Persentase Arsip Diverifikasi Autentisitas','Persen (%)',up('u-up','UP'),jb(['jb-p','Penyelia']),'d8',false,'','calc()',true)}
+    ${row(0,'','','','','g8',true,'Arsip diverifikasi = d8 × (Penerimaan + Pembuatan)')}
+    ${row(4,'Rasio Pemberkasan Arsip','Item/Berkas (÷5/÷15/÷30)',up('u-up','UP'),jb(['jb-t','Terampil']),'d10')}
+    ${row(0,'','','','','g10',true,'Nomor Berkas = (Penerimaan + Pembuatan) ÷ Rasio')}
+    ${row(5,'Layanan Arsip Aktif di Central File','Laporan per tahun',up('u-up','UP'),jb(['jb-m','Mahir']),'d12')}
+    ${row(6,'Jumlah nomor arsip aktif yang dilayani','Nomor per tahun',up('u-up','UP'),jb(['jb-m','Mahir']),'d13')}`;
+
+  const rowsPindah = `
+    ${row(7,'Pemindahan Arsip','Kegiatan per Tahun',up('u-up','UP'),jb(['jb-t','Terampil'],['jb-m','Mahir']),'d15')}
+    ${row(8,'Persentase Arsip Usul Pindah','Persen (%)',up('u-up','UP'),jb(['jb-m','Mahir']),'d16',false,'','calc()',true)}
+    ${row(0,'','','','','g16',true,'Nomor Berkas Usul Pindah = d16 × Nomor Berkas')}
+    ${row(9,'Arsip Inaktif masih di UP (tambahan)','Nomor Berkas',up('u-up','UP'),jb(['jb-m','Mahir'],['jb-p','Penyelia']),'d17')}
+    ${row(0,'','','','','g17',true,'Total Arsip Usul Pindah = g16 + d17')}
+    ${row(10,'Arsip Inaktif sudah ada di UK sebelumnya','Nomor Berkas',up('u-uk','UK'),jb(['jb-p','Penyelia']),'d19')}
+    ${row(0,'','','','','g19',true,'Total Inaktif di UK = g17 + d19')}`;
+
+  const rowsMusnah = `
+    ${row(11,'Pemusnahan Arsip','Laporan per tahun',up('u-uk','UK'),jb(['jb-ap','Ahli Pertama'],['jb-am','Ahli Muda']),'d21')}
+    ${row(12,'Persentase Arsip Usul Musnah dari Inaktif','Persen (%)',up('u-uk','UK'),jb(['jb-ap','Ahli Pertama'],['jb-am','Ahli Muda']),'d22',false,'','calc()',true)}
+    ${row(0,'','','','','g22',true,'Berkas Usul Musnah (Tahun -1) = d22 × Total Inaktif UK')}
+    ${row(13,'Arsip Usul Musnah Tambahan (Tahun -2)','Nomor Berkas',up('u-none','—'),jb(['jb-ap','Ahli Pertama'],['jb-am','Ahli Muda']),'d23')}
+    ${row(0,'','','','','g24',true,'Total Berkas Usul Musnah = g22 + d23')}
+    ${row(14,'Penyerahan Arsip Statis ke Lembaga Kearsipan','Laporan per tahun',up('u-uk','UK'),jb(['jb-ap','Ahli Pertama'],['jb-am','Ahli Muda']),'d26')}
+    ${row(15,'Jumlah Arsip Statis yang diserahkan','Nomor Berkas',up('u-uk','UK'),jb(['jb-ap','Ahli Pertama'],['jb-am','Ahli Muda']),'d27')}
+    ${row(0,'','','','','g27',true,'Nomor Berkas Usul Serah = d27')}`;
+
+  const rowsLayanan = `
+    ${row(16,'Layanan Arsip Inaktif di Record Center','Laporan per tahun',up('u-uk','UK'),jb(['jb-p','Penyelia']),'d29')}
+    ${row(17,'Nomor arsip inaktif dilayani di Unit Kearsipan','Nomor per tahun',up('u-uk','UK'),jb(['jb-p','Penyelia']),'d30')}
+    ${row(18,'Nomor arsip inaktif dilayani di PPID','Nomor per tahun',up('u-up','UP'),jb(['jb-p','Penyelia']),'d31')}`;
+
+  const rowsAlih = `
+    ${row(19,'Identifikasi Alih Media Arsip untuk Autentikasi','Laporan per tahun',up('u-both','UP+UK'),jb(['jb-p','Penyelia']),'d33')}
+    ${row(20,'Identifikasi dan Alih Media Arsip Dinamis','Laporan per tahun',up('u-both','UP+UK'),jb(['jb-p','Penyelia']),'d34')}
+    ${row(21,'Identifikasi Arsip Terjaga','Laporan per tahun',up('u-uk','UK'),jb(['jb-p','Penyelia']),'d36')}
+    ${row(22,'Pemberkasan Arsip Terjaga','Nomor Arsip Terjaga',up('u-up','UP'),jb(['jb-m','Mahir']),'d37')}
+    ${row(23,'Layanan Arsip Terjaga','Laporan',up('u-both','UP+UK'),jb(['jb-am','Ahli Muda']),'d38')}
+    ${row(24,'Identifikasi Arsip Vital','Laporan per tahun',up('u-both','UP+UK'),jb(['jb-p','Penyelia']),'d40')}
+    ${row(25,'Mengolah Arsip Vital','Nomor',up('u-both','UP+UK'),jb(['jb-p','Penyelia']),'d41')}
+    ${row(26,'Layanan Arsip Vital','Laporan per tahun',up('u-both','UP+UK'),jb(['jb-p','Penyelia']),'d42')}
+    ${row(27,'Jumlah Arsip Vital yang dilayani','Nomor per tahun',up('u-both','UP+UK'),jb(['jb-p','Penyelia']),'d43')}`;
+
+  const rowsUK2 = `
+    ${row(28,'Jumlah Unit Pengolah tidak ada Ahli Pertama','Unit',up('u-up','UP'),jb(['jb-ap','Ahli Pertama']),'d48')}
+    ${row(29,'Jumlah Unit Pengolah tidak ada Ahli Muda','Unit',up('u-up','UP'),jb(['jb-am','Ahli Muda']),'d49')}
+    ${row(30,'Rata-rata berkas usul musnah di Unit Pengolah','Nomor Berkas / UP',up('u-up','UP'),jb(['jb-ap','Ahli Pertama']),'d50')}
+    ${row(0,'','','','','g50',true,'Total Berkas Usul Musnah + UP = g24 + (d48 × d50)')}
+    ${row(31,'Rata-rata berkas usul serah di Unit Pengolah','Nomor Berkas / UP',up('u-up','UP'),jb(['jb-am','Ahli Muda']),'d51')}
+    ${row(0,'','','','','g51',true,'Total Berkas Usul Serah + UP = g27 + (d49 × d51)')}`;
+
+  return `
+  <div class="section active" id="sec-pad">
+  <div class="card">
+    <div class="card-hdr"><h3>Pengelolaan Arsip Dinamis</h3><div class="cpill">PAD</div></div>
+    <div class="legend">
+      <div class="leg"><div class="leg-d" style="background:#bae6fd"></div>Unit Pengolah</div>
+      <div class="leg"><div class="leg-d" style="background:#e9d5ff"></div>Unit Kearsipan</div>
+      <div class="leg"><div class="leg-d" style="background:#bbf7d0"></div>UP + UK</div>
+      <div class="leg"><div class="leg-d" style="background:#86efac"></div>Computed (otomatis)</div>
+    </div>
+    <div style="padding:12px 14px;display:flex;flex-direction:column;gap:0">
+      ${padAcc('aktif','📄','Arsip Aktif','No. 1–6', rowsAktif, true)}
+      ${padAcc('pindah','📦','Pemindahan & Arsip Inaktif','No. 7–10', rowsPindah)}
+      ${padAcc('musnah','🗑️','Pemusnahan & Penyerahan','No. 11–15', rowsMusnah)}
+      ${padAcc('layanan','📂','Layanan Arsip Inaktif','No. 16–18', rowsLayanan)}
+      ${padAcc('alih','💿','Alih Media & Arsip Khusus','No. 19–27', rowsAlih)}
+      ${padAcc('uk2','🏢','Distribusi Beban ke Unit Kearsipan','No. 28–31', rowsUK2)}
+    </div>
+  </div>
+  </div>`;
+}
+
+function renderPK() {
+  return `
+  <div class="section" id="sec-pk">
+  <div class="card">
+    <div class="card-hdr"><h3>Pembinaan Kearsipan</h3><div class="cpill">PK</div></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>No</th><th>Uraian</th><th>Satuan</th><th>Unit</th><th>Jabatan</th><th class="r">Volume Instansi</th><th class="r anri-col">Validasi ANRI</th></tr></thead>
+      <tbody>
+        ${row('P1','Penyusunan SOP Kearsipan','SOP per tahun',up('u-uk','UK'),jb(['jb-ap','Ahli Pertama'],['jb-am','Ahli Muda']),'d57')}
+        ${row('P2','BIMTEK Pengelolaan Arsip','Laporan per tahun',up('u-uk','UK'),jb(['jb-m','Mahir']),'d59')}
+        ${row('P3','BIMTEK SDM Kearsipan','Laporan per tahun',up('u-uk','UK'),jb(['jb-am','Ahli Muda']),'d60')}
+        ${row('P4','Penyuluhan Kearsipan','Laporan per tahun',up('u-uk','UK'),jb(['jb-am','Ahli Muda']),'d61')}
+        ${row('P5','Fasilitasi Kearsipan','Laporan per tahun',up('u-uk','UK'),jb(['jb-am','Ahli Muda']),'d62')}
+        ${row('P6','Monev Sistem Kearsipan','Laporan per tahun',up('u-uk','UK'),jb(['jb-am','Ahli Muda']),'d63')}
+        ${row('P7','BIMKOS Penyelenggaraan Kearsipan','Laporan per tahun',up('u-uk','UK'),jb(['jb-ad','Ahli Madya']),'d65')}
+        ${row('P8','Supervisi Penyelenggaraan Kearsipan','Laporan per tahun',up('u-uk','UK'),jb(['jb-ad','Ahli Madya']),'d66')}
+        ${row('P9','Rencana Audit Kearsipan','Laporan per tahun',up('u-uk','UK'),jb(['jb-ad','Ahli Madya']),'d69')}
+        ${row('P10','Laporan Audit Kearsipan','IP yang di Audit',up('u-uk','UK'),jb(['jb-am','Ahli Muda'],['jb-ad','Ahli Madya']),'d70')}
+        ${row('P11','Monev Hasil Pengawasan','IP yang di Monev',up('u-uk','UK'),jb(['jb-ad','Ahli Madya']),'d71')}
+        ${row('P12','Menyusun NSPK tingkat daerah dan instansi','DIM/NSPK',up('u-uk','UK'),jb(['jb-am','Ahli Muda'],['jb-ad','Ahli Madya']),'d73')}
+      </tbody>
+    </table></div>
+  </div>
+  </div>`;
+}
+
+function renderSIKN() {
+  return `
+  <div class="section" id="sec-sikn">
+  <div class="card">
+    <div class="card-hdr"><h3>Pengolahan & Penyajian Arsip menjadi Informasi</h3><div class="cpill">SIKN</div></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>No</th><th>Uraian</th><th>Satuan</th><th>Unit</th><th>Jabatan</th><th class="r">Volume Instansi</th><th class="r anri-col">Validasi ANRI</th></tr></thead>
+      <tbody>
+        ${row('I1','Identifikasi & pengolahan data Arsip Aktif','Laporan per tahun',up('u-up','UP'),jb(['jb-p','Penyelia']),'d76')}
+        ${row('I2','Identifikasi & pengolahan data Arsip Inaktif','Laporan per tahun',up('u-uk','UK'),jb(['jb-ap','Ahli Pertama']),'d77')}
+        ${row('I3','Identifikasi & pengolahan data Arsip Vital','Laporan per tahun',up('u-uk','UK'),jb(['jb-ap','Ahli Pertama']),'d78')}
+        ${row('I4','Identifikasi & pengolahan data Arsip Terjaga','Laporan per tahun',up('u-uk','UK'),jb(['jb-am','Ahli Muda']),'d79')}
+        ${row('I5','Entry Data Arsip Aktif','Nomor',up('u-up','UP'),jb(['jb-p','Penyelia']),'d81')}
+        ${row('I6','Entry Data Arsip Inaktif','Nomor',up('u-uk','UK'),jb(['jb-p','Penyelia']),'d82')}
+        ${row('I7','Entry Data Arsip Vital','Nomor',up('u-uk','UK'),jb(['jb-p','Penyelia']),'d83')}
+        ${row('I8','Entry Data Arsip Terjaga','Nomor',up('u-uk','UK'),jb(['jb-p','Penyelia']),'d84')}
+      </tbody>
+    </table></div>
+  </div>
+  </div>`;
+}
+
+function renderPAD_UP() {
+  const upAktif = [
+    row(1,'Penerimaan Arsip','Nomor per Tahun',up('u-up','UP'),jb(['jb-t','Terampil']),'up_d6',false,'','calcUP()'),
+    row(2,'Pembuatan Arsip','Nomor per Tahun',up('u-up','UP'),jb(['jb-t','Terampil']),'up_d7',false,'','calcUP()'),
+    row(3,'Persentase Arsip Diverifikasi Autentisitas','Persen (%)',up('u-up','UP'),jb(['jb-p','Penyelia']),'up_d8',false,'','calcUP()',true),
+    row(0,'','','','','up_g8',true,'Arsip diverifikasi = d8 × (Penerimaan + Pembuatan)'),
+    row(4,'Rasio Pemberkasan Arsip','Item/Berkas (÷5/÷15/÷30)',up('u-up','UP'),jb(['jb-t','Terampil']),'up_d10',false,'','calcUP()'),
+    row(0,'','','','','up_g10',true,'Nomor Berkas = (Penerimaan + Pembuatan) ÷ Rasio'),
+    row(5,'Layanan Arsip Aktif di Central File','Laporan per tahun',up('u-up','UP'),jb(['jb-m','Mahir']),'up_d12',false,'','calcUP()'),
+    row(6,'Jumlah nomor arsip aktif yang dilayani','Nomor per tahun',up('u-up','UP'),jb(['jb-m','Mahir']),'up_d13',false,'','calcUP()'),
+  ].join('');
+
+  const upPindah = [
+    row(7,'Pemindahan Arsip','Kegiatan per Tahun',up('u-up','UP'),jb(['jb-t','Terampil'],['jb-m','Mahir']),'up_d15',false,'','calcUP()'),
+    row(8,'Persentase Arsip Usul Pindah','Persen (%)',up('u-up','UP'),jb(['jb-m','Mahir']),'up_d16',false,'','calcUP()',true),
+    row(0,'','','','','up_g16',true,'Nomor Berkas Usul Pindah = d16 × Nomor Berkas'),
+    row(9,'Arsip Inaktif masih di UP (tambahan)','Nomor Berkas',up('u-up','UP'),jb(['jb-m','Mahir'],['jb-p','Penyelia']),'up_d17',false,'','calcUP()'),
+    row(0,'','','','','up_g17',true,'Total Arsip Usul Pindah = g16 + d17'),
+    row(10,'Nomor arsip inaktif dilayani di PPID','Nomor per tahun',up('u-up','UP'),jb(['jb-p','Penyelia']),'up_d19',false,'','calcUP()'),
+  ].join('');
+
+  const upMusnah = [
+    row(11,'Pemusnahan Arsip','Laporan per tahun',up('u-up','UP'),jb(['jb-ap','Ahli Pertama'],['jb-am','Ahli Muda']),'up_d32',false,'','calcUP()'),
+    row(12,'Persentase Arsip Usul Musnah dari Inaktif','Persen (%)',up('u-up','UP'),jb(['jb-ap','Ahli Pertama'],['jb-am','Ahli Muda']),'up_d33',false,'','calcUP()',true),
+    row(0,'','','','','up_g22',true,'Berkas Usul Musnah (Tahun -1) = d33 × Total Inaktif UP'),
+    row(13,'Arsip Usul Musnah Tambahan (Tahun -2)','Nomor Berkas',up('u-none','—'),jb(['jb-ap','Ahli Pertama'],['jb-am','Ahli Muda']),'up_d34',false,'','calcUP()'),
+    row(0,'','','','','up_g24',true,'Total Berkas Usul Musnah = g22 + d34'),
+  ].join('');
+
+  const upAlih = [
+    row(14,'Identifikasi Alih Media Arsip untuk Autentikasi','Laporan per tahun',up('u-up','UP'),jb(['jb-p','Penyelia']),'up_d21',false,'','calcUP()'),
+    row(15,'Identifikasi dan Alih Media Arsip Dinamis','Laporan per tahun',up('u-up','UP'),jb(['jb-p','Penyelia']),'up_d22',false,'','calcUP()'),
+    row(16,'Pemberkasan Arsip Terjaga','Nomor Arsip Terjaga',up('u-up','UP'),jb(['jb-m','Mahir']),'up_d24',false,'','calcUP()'),
+    row(17,'Layanan Arsip Terjaga','Laporan',up('u-up','UP'),jb(['jb-am','Ahli Muda']),'up_d25',false,'','calcUP()'),
+    row(18,'Identifikasi Arsip Vital','Laporan per tahun',up('u-up','UP'),jb(['jb-p','Penyelia']),'up_d27',false,'','calcUP()'),
+    row(19,'Mengolah Arsip Vital','Nomor',up('u-up','UP'),jb(['jb-p','Penyelia']),'up_d28',false,'','calcUP()'),
+    row(20,'Layanan Arsip Vital','Laporan per tahun',up('u-up','UP'),jb(['jb-p','Penyelia']),'up_d29',false,'','calcUP()'),
+    row(21,'Jumlah Arsip Vital yang dilayani','Nomor per tahun',up('u-up','UP'),jb(['jb-p','Penyelia']),'up_d30',false,'','calcUP()'),
+  ].join('');
+
+  return `
+  <div class="section active" id="sec-pad-up">
+  <div class="card">
+    <div class="card-hdr"><h3>Pengelolaan Arsip Dinamis</h3><div class="cpill">UP</div></div>
+    <div class="legend">
+      <div class="leg"><div class="leg-d" style="background:#bae6fd"></div>Unit Pengolah</div>
+      <div class="leg"><div class="leg-d" style="background:#86efac"></div>Computed (otomatis)</div>
+    </div>
+    <div style="padding:12px 14px;display:flex;flex-direction:column;gap:0">
+      ${padAccUP('aktif','📄','Arsip Aktif','No. 1–6', upAktif, true)}
+      ${padAccUP('pindah','📦','Pemindahan & Arsip Inaktif','No. 7–10', upPindah)}
+      ${padAccUP('musnah','🗑️','Pemusnahan','No. 11–13', upMusnah)}
+      ${padAccUP('alih','💿','Alih Media & Arsip Khusus','No. 14–21', upAlih)}
+    </div>
+  </div>
+  </div>`;
+}
+
+function renderPK_UP() {
+  return `
+  <div class="section" id="sec-pk-up">
+  <div class="card">
+    <div class="card-hdr"><h3>Pembinaan Kearsipan</h3><div class="cpill">PK</div></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>No</th><th>Uraian</th><th>Satuan</th><th>Unit</th><th>Jabatan</th><th class="r">Volume Instansi</th><th class="r anri-col">Validasi ANRI</th></tr></thead>
+      <tbody>
+        ${row('P1','Penyusunan SOP Kearsipan','SOP per tahun',up('u-up','UP'),jb(['jb-ap','Ahli Pertama'],['jb-am','Ahli Muda']),'up_d37',false,'','calcUP()')}
+        ${row('P2','BIMTEK Pengelolaan Arsip','Laporan per tahun',up('u-up','UP'),jb(['jb-m','Mahir']),'up_d39',false,'','calcUP()')}
+        ${row('P3','BIMTEK SDM Kearsipan','Laporan per tahun',up('u-up','UP'),jb(['jb-am','Ahli Muda']),'up_d40',false,'','calcUP()')}
+        ${row('P4','Penyuluhan Kearsipan','Laporan per tahun',up('u-up','UP'),jb(['jb-am','Ahli Muda']),'up_d41',false,'','calcUP()')}
+        ${row('P5','Fasilitasi Kearsipan','Laporan per tahun',up('u-up','UP'),jb(['jb-am','Ahli Muda']),'up_d42',false,'','calcUP()')}
+        ${row('P6','Monev Sistem Kearsipan','Laporan per tahun',up('u-up','UP'),jb(['jb-am','Ahli Muda']),'up_d43',false,'','calcUP()')}
+      </tbody>
+    </table></div>
+  </div>
+  </div>`;
+}
+
+function renderSIKN_UP() {
+  return `
+  <div class="section" id="sec-sikn-up">
+  <div class="card">
+    <div class="card-hdr"><h3>Pengolahan & Penyajian Arsip menjadi Informasi</h3><div class="cpill">SIKN</div></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>No</th><th>Uraian</th><th>Satuan</th><th>Unit</th><th>Jabatan</th><th class="r">Volume Instansi</th><th class="r anri-col">Validasi ANRI</th></tr></thead>
+      <tbody>
+        ${row('I1','Identifikasi & pengolahan data Arsip Aktif','Laporan per tahun',up('u-up','UP'),jb(['jb-p','Penyelia']),'up_d45',false,'','calcUP()')}
+        ${row('I2','Entry Data Arsip Aktif','Nomor',up('u-up','UP'),jb(['jb-p','Penyelia']),'up_d46',false,'','calcUP()')}
+      </tbody>
+    </table></div>
+  </div>
+  </div>`;
+}
+</script>
+
+<!-- SheetJS untuk export Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<!-- Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+// ── CHART COLORS ──
+const JAB_COLORS = [
+  '#3b82f6','#22c55e','#eab308','#ef4444','#8b5cf6','#f97316','#14b8a6'
+];
+const JAB_COLORS_LIGHT = [
+  'rgba(59,130,246,.15)','rgba(34,197,94,.15)','rgba(234,179,8,.15)',
+  'rgba(239,68,68,.15)','rgba(139,92,246,.15)','rgba(249,115,22,.15)','rgba(20,184,166,.15)'
+];
+
+let rekapChartInst = null;
+let detailChartInst = null;
+let chartMode = 'stacked';
+
+function setChartMode(mode) {
+  chartMode = mode;
+  document.getElementById('btn-stacked').style.cssText =
+    mode === 'stacked'
+      ? 'font-size:11px;padding:3px 10px;background:var(--accent);color:#fff;border-color:var(--accent);border-radius:4px;border:1px solid;cursor:pointer'
+      : 'font-size:11px;padding:3px 10px;background:linear-gradient(to bottom,#fefefe,#f2f2f2);color:var(--t1);border:1px solid #bbb;border-radius:4px;cursor:pointer';
+  document.getElementById('btn-total').style.cssText =
+    mode === 'total'
+      ? 'font-size:11px;padding:3px 10px;background:var(--accent);color:#fff;border-color:var(--accent);border-radius:4px;border:1px solid;cursor:pointer'
+      : 'font-size:11px;padding:3px 10px;background:linear-gradient(to bottom,#fefefe,#f2f2f2);color:var(--t1);border:1px solid #bbb;border-radius:4px;cursor:pointer';
+  renderCharts();
+}
+
+function renderCharts() {
+  renderRekapChart();
+}
+
+function renderRekapChart() {
+  const canvas = document.getElementById('rekapChart');
+  if (!canvas) return;
+  if (rekapChartInst) { rekapChartInst.destroy(); rekapChartInst = null; }
+  if (!units.length) return;
+
+  const ctx = canvas.getContext('2d');
+
+  if (chartMode === 'total') {
+    // Bar chart: total per jabatan across all units
+    const totals = JAB_KEYS.map((_,i) => 0);
+    units.forEach(u => {
+      const res = calcUnit(u.data||{}, u.type);
+      res.forEach((v,i) => totals[i] += v);
+    });
+
+    rekapChartInst = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: JAB_LABELS,
+        datasets: [{
+          label: 'Total Kebutuhan (orang)',
+          data: totals,
+          backgroundColor: JAB_COLORS.map(c => c + 'cc'),
+          borderColor: JAB_COLORS,
+          borderWidth: 1.5,
+          borderRadius: 6,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false },
+          tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y} orang` } } },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+          y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 11 } },
+               grid: { color: 'rgba(0,0,0,.05)' } }
+        }
+      }
+    });
+
+  } else {
+    // Stacked bar: each unit = one group, stacked by jabatan
+    const datasets = JAB_KEYS.map((key, i) => ({
+      label: JAB_LABELS[i],
+      data: units.map(u => calcUnit(u.data||{}, u.type)[i]),
+      backgroundColor: JAB_COLORS[i] + 'cc',
+      borderColor: JAB_COLORS[i],
+      borderWidth: 1,
+      borderRadius: 3,
+    }));
+
+    rekapChartInst = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: units.map(u => u.name.length > 16 ? u.name.slice(0,14)+'…' : u.name),
+        datasets,
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 12, padding: 10 } },
+          tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y} orang` } }
+        },
+        scales: {
+          x: { stacked: true, grid: { display: false }, ticks: { font: { size: 10 } } },
+          y: { stacked: true, beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } },
+               grid: { color: 'rgba(0,0,0,.05)' } }
+        }
+      }
+    });
+  }
+}
+
+function renderDetailChart(results) {
+  const canvas = document.getElementById('detailChart');
+  if (!canvas) return;
+  if (detailChartInst) { detailChartInst.destroy(); detailChartInst = null; }
+  const ctx = canvas.getContext('2d');
+
+  detailChartInst = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: JAB_LABELS,
+      datasets: [{
+        label: 'Kebutuhan (orang)',
+        data: results,
+        backgroundColor: JAB_COLORS.map(c => c + 'cc'),
+        borderColor: JAB_COLORS,
+        borderWidth: 1.5,
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y} orang` } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+        y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 11 } },
+             grid: { color: 'rgba(0,0,0,.05)' } }
+      }
+    }
+  });
+}
+
+// ── LIVE PREVIEW ──
+let lpVisible = false;   // panel expanded
+let lpActive  = false;   // ada unit aktif & data
+
+function updateLivePreview() {
+  if (!activeUnitId) return;
+  const unit = units.find(u => u.id === activeUnitId);
+  if (!unit) return;
+
+  const snap = {};
+  document.querySelectorAll('.ni:not(.ni-c)').forEach(el => {
+    if (!el.id) return;
+    if (el.classList.contains('ni-anri')) {
+      if (el.value.trim() !== '') snap[el.id] = parseFloat(el.value) || 0;
+    } else {
+      snap[el.id] = parseFloat(el.value) || 0;
+    }
+  });
+  const merged = {...(unit.data||{}), ...snap};
+  const res = calcUnit(merged, unit.type);
+  const total = res.reduce((a,b)=>a+b,0);
+
+  // update content
+  const nameEl = document.getElementById('lp-unit-name');
+  const totalEl = document.getElementById('lp-total');
+  const tabTotalEl = document.getElementById('lp-tab-total');
+  if (nameEl) nameEl.textContent = unit.name;
+  if (totalEl) totalEl.textContent = total;
+  if (tabTotalEl) tabTotalEl.textContent = total;
+
+  const rows = document.getElementById('lp-rows');
+  const JB_CLS = ['jb-t','jb-m','jb-p','jb-ap','jb-am','jb-ad','jb-au'];
+  if (rows) rows.innerHTML = res.map((v,i) => v > 0 ? `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--sep)">
+      <span class="jb ${JB_CLS[i]}" style="font-size:10px">${JAB_LABELS[i]}</span>
+      <span style="font-family:'SF Mono','Menlo',monospace;font-size:12px;font-weight:600;color:var(--t1)">${v}</span>
+    </div>` : '').join('');
+
+  // show tab jika belum visible
+  lpActive = true;
+  const tab = document.getElementById('lp-tab');
+  if (tab) tab.style.display = 'flex';
+  // kalau panel sedang expanded, pastikan tetap expanded
+  if (lpVisible) _showPanel();
+}
+
+function _showPanel() {
+  const panel = document.getElementById('live-preview');
+  const tab   = document.getElementById('lp-tab');
+  if (panel) panel.style.transform = 'translateY(0)';
+  if (tab)   tab.style.display = 'none';
+  lpVisible = true;
+}
+
+function _hidePanel() {
+  const panel = document.getElementById('live-preview');
+  const tab   = document.getElementById('lp-tab');
+  if (panel) panel.style.transform = 'translateY(100%)';
+  if (lpActive && tab) tab.style.display = 'flex';
+  lpVisible = false;
+}
+
+function expandLivePreview() {
+  _showPanel();
+}
+
+function minimizeLivePreview() {
+  _hidePanel();
+}
+
+function hideLivePreviewAll() {
+  const panel = document.getElementById('live-preview');
+  const tab   = document.getElementById('lp-tab');
+  if (panel) panel.style.transform = 'translateY(100%)';
+  if (tab)   tab.style.display = 'none';
+  lpVisible = false; lpActive = false;
+}
+
+// ── EXPORT DATA (HTML dengan data embedded) ──
+function buildExportPayload(kind='data') {
+  const statusMap = {
+    data: 'draft_export',
+    submission: 'diajukan_ke_anri',
+    validation: 'hasil_validasi_anri',
+  };
+  return {
+    units,
+    exportedAt: new Date().toISOString(),
+    exportedBy: units[0]?.kl || 'Instansi',
+    workflowStatus: statusMap[kind] || statusMap.data,
+    workflowLabel: kind === 'submission' ? 'Pengajuan ke ANRI' : (kind === 'validation' ? 'Hasil Validasi ANRI' : 'Export Data'),
+  };
+}
+
+function exportFilename(kind='data') {
+  const kl = (units[0]?.kl || 'Instansi').replace(/[^a-zA-Z0-9]/g, '_');
+  const tgl = new Date().toISOString().slice(0,10);
+  const prefix = kind === 'submission' ? 'Pengajuan_JFA' : (kind === 'validation' ? 'Validasi_ANRI_JFA' : 'FormulirJFA');
+  return `${prefix}_${kl}_${tgl}.html`;
+}
+
+function submitToAnri() {
+  if (appRole === 'anri') {
+    toast('Keluar dari Mode ANRI untuk mengirim pengajuan');
+    return;
+  }
+  exportDataFile('submission');
+  setTimeout(() => exportExcel('submission'), 350);
+  toast('Paket pengajuan HTML dan Excel sedang disiapkan');
+}
+
+function exportDataFile(kind='data') {
+  if (activeUnitId) pullFormValues();
+  if (!units.length) { toast('Belum ada data untuk diekspor'); return; }
+
+  // Ambil HTML file ini sendiri lalu inject data ke dalamnya
+  fetch(location.href)
+    .then(r => r.text())
+    .then(html => {
+      const payload = JSON.stringify(buildExportPayload(kind));
+      // Inject data sebagai script tag sebelum </body>
+      const scriptTag = `<script id="__data_seed__">
+/* __EXPORTED_DATA__ */
+(function(){
+  try {
+    var d = ${payload};
+    if (d && d.units) window.__seedData__ = d;
+  } catch(e){}
+})();
+<\/script>`;
+
+      // Hapus seed lama jika ada, lalu inject baru
+      let out = html.replace(/<script id="__data_seed__">[\s\S]*?<\/script>\n?/g, '');
+      out = out.replace('</body>', scriptTag + '\n</body>');
+
+      const fname = exportFilename(kind);
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([out], {type:'text/html'}));
+      a.download = fname;
+      a.click();
+      toast(kind === 'submission' ? `File pengajuan "${fname}" siap dikirim ke ANRI` : `File "${fname}" berhasil diekspor`);
+    })
+    .catch(() => {
+      // Fallback: buka dengan file:// - fetch tidak bisa, pakai cara lain
+      exportDataFileFallback(kind);
+    });
+}
+
+function exportDataFileFallback(kind='data') {
+  // Jika file dibuka dari file://, gunakan cara inline
+  if (activeUnitId) pullFormValues();
+  if (!units.length) { toast('Belum ada data untuk diekspor'); return; }
+  const payload = JSON.stringify(buildExportPayload(kind));
+  const html = document.documentElement.outerHTML;
+  const scriptTag = `<script id="__data_seed__">(function(){try{var d=${payload};if(d&&d.units)window.__seedData__=d;}catch(e){}})();<\/script>`;
+  let out = html.replace(/<script id="__data_seed__">[\s\S]*?<\/script>/g, '');
+  out = '<!DOCTYPE html>\n' + out.replace('</body>', scriptTag + '\n</body>');
+
+  const fname = exportFilename(kind);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([out], {type:'text/html'}));
+  a.download = fname;
+  a.click();
+  toast(kind === 'submission' ? `File pengajuan "${fname}" siap dikirim ke ANRI` : 'File berhasil diekspor');
+}
+function readSubmissionFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const html = e.target.result;
+        const scriptMatch = html.match(/<script id="__data_seed__">([\s\S]*?)<\/script>/);
+        if (!scriptMatch) throw new Error('File ini tidak mengandung data formulir JFA');
+
+        const scriptContent = scriptMatch[1];
+        const jsonMatch = scriptContent.match(/(\{"units":\[[\s\S]*\})\s*;/);
+        if (!jsonMatch) throw new Error('Data tidak ditemukan di file ini');
+
+        const imported = JSON.parse(jsonMatch[1]);
+        if (!imported.units || !imported.units.length) throw new Error('Tidak ada data unit kerja di file ini');
+        resolve(imported);
+      } catch(err) {
+        reject(err);
+      }
+    };
+    reader.onerror = () => reject(new Error('Gagal membaca file'));
+    reader.readAsText(file);
+  });
+}
+
+async function importDataFile(input) {
+  if (appRole !== 'anri') {
+    input.value = '';
+    toast('Masuk sebagai ANRI dulu untuk import file');
+    return;
+  }
+  const files = Array.from(input.files || []);
+  if (!files.length) return;
+  input.value = '';
+
+  let added = 0, skipped = 0, failed = 0;
+  const importedInstansi = new Set();
+  const existing = new Set(units.map(u => unitIdentity(u)));
+  const firstAddedIds = [];
+
+  for (const file of files) {
+    try {
+      const imported = await readSubmissionFile(file);
+      const fallbackKl = imported.exportedBy || file.name.replace(/\.html$/i, '');
+      importedInstansi.add(instansiLabel(fallbackKl));
+
+      imported.units.forEach(u => {
+        const kl = instansiLabel(u.kl || fallbackKl);
+        const normalized = {...u, kl};
+        const key = unitIdentity(normalized, fallbackKl);
+        if (existing.has(key)) {
+          skipped++;
+          return;
+        }
+        const id = 'uk_' + Date.now() + '_' + Math.random().toString(36).slice(2,6);
+        units.push({...normalized, id});
+        existing.add(key);
+        firstAddedIds.push(id);
+        added++;
+      });
+    } catch(err) {
+      failed++;
+      toast(`Gagal import ${file.name}: ${err.message}`);
+    }
+  }
+
+  if (added > 0) {
+    saveToStorage();
+    renderSidebar();
+    goMain('input');
+    selectUnit(firstAddedIds[0]);
+  }
+
+  const instansiText = importedInstansi.size ? `${importedInstansi.size} instansi` : 'file pengajuan';
+  if (added > 0 && skipped === 0 && failed === 0)
+    toast(`${added} unit dari ${instansiText} berhasil diimport untuk validasi ANRI`);
+  else if (added > 0)
+    toast(`${added} unit ditambahkan, ${skipped} duplikat dilewati, ${failed} file gagal`);
+  else if (failed > 0)
+    toast(`Import selesai: ${failed} file gagal, ${skipped} duplikat dilewati`);
+  else
+    toast(`Semua ${skipped} unit sudah ada, tidak ada yang ditambahkan`);
+}
+(function loadSeedData() {
+  if (window.__seedData__ && window.__seedData__.units) {
+    const seed = window.__seedData__;
+    // Hanya load jika localStorage kosong (file baru dibuka)
+    const existing = localStorage.getItem('jfa_kemenag_v1');
+    if (!existing) {
+      localStorage.setItem('jfa_kemenag_v1', JSON.stringify({
+        units: seed.units,
+        seedFrom: seed.exportedBy,
+        seedAt: seed.exportedAt,
+      }));
+    }
+  }
+})();
+
+// ══════════════════════════════════════════
+// APPLE INTERACTION LAYER
+// Scroll reveal · Micro-animations · Premium feel
+// ══════════════════════════════════════════
+
+(function appleUI() {
+
+  // — Scroll-based reveal for cards in wiki/rekap —
+  function initReveal() {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0) scale(1)';
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+
+    document.querySelectorAll('#page-wiki .card, #page-rekap .card').forEach((el, i) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(18px) scale(0.99)';
+      el.style.transition = `opacity 0.4s cubic-bezier(0.4,0,0.2,1) ${i * 60}ms, transform 0.4s cubic-bezier(0.4,0,0.2,1) ${i * 60}ms`;
+      io.observe(el);
+    });
+  }
+
+  // — Re-run reveal when page changes —
+  const _appleOrigGoMain = window.goMain;
+  window.goMain = function(id) {
+    _appleOrigGoMain(id);
+    setTimeout(initReveal, 80);
+    // Fade-in content area
+    const pg = document.getElementById('page-' + id);
+    if (pg) {
+      pg.style.opacity = '0';
+      requestAnimationFrame(() => {
+        pg.style.transition = 'opacity 0.22s ease';
+        pg.style.opacity = '1';
+      });
+    }
+    // nav active states handled by new nsbRender patch
+  };
+
+  // — Unit item stagger animation on sidebar render —
+  const _appleOrigRenderSidebar = window.renderSidebar;
+  if (_appleOrigRenderSidebar) {
+    window.renderSidebar = function() {
+      _appleOrigRenderSidebar();
+      document.querySelectorAll('.unit-item').forEach((el, i) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateX(-6px)';
+        el.style.transition = `opacity 0.2s ease ${i * 30}ms, transform 0.2s cubic-bezier(0.4,0,0.2,1) ${i * 30}ms, background 0.15s, box-shadow 0.15s`;
+        requestAnimationFrame(() => {
+          el.style.opacity = '1';
+          el.style.transform = 'translateX(0)';
+        });
+      });
+    };
+  }
+
+  // — Button ripple effect —
+  document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.tbtn, .mbtn, .empty-btn, .sb-add-btn');
+    if (!btn) return;
+    const ripple = document.createElement('span');
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height) * 1.4;
+    ripple.style.cssText = `
+      position:absolute; border-radius:50%;
+      width:${size}px; height:${size}px;
+      left:${e.clientX - rect.left - size/2}px;
+      top:${e.clientY - rect.top - size/2}px;
+      background:rgba(255,255,255,0.25);
+      pointer-events:none; z-index:10;
+      animation: ripple 0.5s cubic-bezier(0.4,0,0.2,1) forwards;
+    `;
+    if (!document.getElementById('ripple-style')) {
+      const s = document.createElement('style');
+      s.id = 'ripple-style';
+      s.textContent = '@keyframes ripple{from{transform:scale(0);opacity:1}to{transform:scale(1);opacity:0}}';
+      document.head.appendChild(s);
+    }
+    const pos = getComputedStyle(btn).position;
+    if (pos === 'static') btn.style.position = 'relative';
+    btn.style.overflow = 'hidden';
+    btn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 520);
+  });
+
+  // — Input number: subtle scale on focus —
+  document.addEventListener('focusin', function(e) {
+    if (e.target.classList.contains('ni') && !e.target.classList.contains('ni-c')) {
+      e.target.style.transform = 'scale(1.01)';
+    }
+  });
+  document.addEventListener('focusout', function(e) {
+    if (e.target.classList.contains('ni')) {
+      e.target.style.transform = 'scale(1)';
+    }
+  });
+
+  // — Rekap card counter animation —
+  function animateCounter(el, target) {
+    const start = 0;
+    const dur = 600;
+    const startTime = performance.now();
+    function step(now) {
+      const progress = Math.min((now - startTime) / dur, 1);
+      const ease = 1 - Math.pow(1 - progress, 3); // ease-out-cubic
+      el.textContent = Math.round(ease * target);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  const _appleOrigRenderRekap = window.renderRekap;
+  if (_appleOrigRenderRekap) {
+    window.renderRekap = function() {
+      _appleOrigRenderRekap();
+      setTimeout(() => {
+        document.querySelectorAll('.rk-val').forEach(el => {
+          const val = parseInt(el.textContent) || 0;
+          if (val > 0) animateCounter(el, val);
+        });
+        initReveal();
+      }, 100);
+    };
+  }
+
+  // — PAD accordion smooth height —
+  const _appleOrigTogglePad = window.togglePadAcc;
+  if (_appleOrigTogglePad) {
+    window.togglePadAcc = function(id) {
+      _appleOrigTogglePad(id);
+      // add haptic-like micro-bounce to header
+      const hdr = document.getElementById('pah-' + id) || document.getElementById('pah-up-' + id);
+      if (hdr) {
+        hdr.style.transform = 'scale(0.995)';
+        setTimeout(() => { hdr.style.transform = ''; }, 120);
+      }
+    };
+  }
+
+  // — Initial reveal —
+  setTimeout(initReveal, 300);
+
+})();
+
+// ══════════════════════════════════════
+// SIDEBAR EXPAND/COLLAPSE
+// ══════════════════════════════════════
+(function() {
+  let _open = false;
+
+  function nsbSetOpen(open) {
+    _open = open;
+    const sb = document.getElementById('main-sidebar');
+    if (!sb) return;
+    if (open) sb.classList.add('nsb-open');
+    else sb.classList.remove('nsb-open');
+  }
+
+  window.nsbToggle = function() { nsbSetOpen(!_open); };
+
+  // Render unit dots (collapsed) + unit rows (expanded)
+  function nsbRender() {
+    const dotsWrap = document.getElementById('nsb-unit-dots');
+    const rowsWrap = document.getElementById('nsb-unit-rows');
+    if (!dotsWrap || !rowsWrap) return;
+    const uList = (typeof units !== 'undefined') ? units : [];
+    const curId = (typeof activeUnitId !== 'undefined') ? activeUnitId : '';
+
+    // dots
+    dotsWrap.innerHTML = '';
+    uList.forEach(u => {
+      const b = document.createElement('button');
+      b.className = 'nsb-dot' + (u.type==='upuk'?' dot-upuk':'') + (u.id===curId?' active':'');
+      b.title = u.name;
+      b.onclick = () => { selectUnit(u.id); goMain('input'); };
+      dotsWrap.appendChild(b);
+    });
+
+    // rows
+    rowsWrap.innerHTML = '';
+    uList.forEach(u => {
+      const isActive = u.id === curId;
+      const dotCls   = u.type === 'upuk' ? 'dot-upuk' : 'dot-up';
+      const badge    = u.type === 'upuk' ? 'UP+UK' : 'UP';
+      const bColor   = u.type === 'upuk' ? '#5e5ce6' : '#0071e3';
+      const bBg      = u.type === 'upuk' ? 'rgba(94,92,230,.1)' : 'rgba(0,113,227,.1)';
+      const b = document.createElement('button');
+      b.className = 'nsb-item-btn' + (isActive ? ' active-fill' : '');
+      b.style.cssText = 'gap:8px;padding:0 7px;min-height:34px;';
+      b.title = `${instansiLabel(u.kl)} - ${u.name}`;
+      b.innerHTML = `
+        <span class="nsb-icon" style="width:20px;height:20px">
+          <span class="nsb-dot ${dotCls}" style="pointer-events:none"></span>
+        </span>
+        <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;overflow:hidden">
+          <span class="nsb-label" style="font-size:12.5px;max-width:unset;opacity:1;overflow:hidden;text-overflow:ellipsis">${u.name}</span>
+          <span class="nsb-label" style="font-size:9.5px;max-width:unset;opacity:.72;overflow:hidden;text-overflow:ellipsis">${instansiLabel(u.kl)}</span>
+        </span>
+        <span style="font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;flex-shrink:0;
+          background:${isActive?'rgba(255,255,255,.22)':bBg};
+          color:${isActive?'#fff':bColor}">${badge}</span>`;
+      b.onclick = () => { selectUnit(u.id); goMain('input'); };
+      rowsWrap.appendChild(b);
+    });
+  }
+  window.nsbRender = nsbRender;
+
+  // Patch goMain to update active states on nav buttons
+  const _origGoMain = window.goMain;
+  window.goMain = function(id) {
+    if (_origGoMain) _origGoMain.apply(this, arguments);
+    ['wiki','input','rekap'].forEach(p => {
+      const b = document.getElementById('nav-' + p);
+      if (!b) return;
+      if (p === id) b.classList.add('active');
+      else b.classList.remove('active');
+    });
+    setTimeout(nsbRender, 20);
+  };
+
+  // Patch renderUnitList
+  const _origRender = window.renderUnitList;
+  window.renderUnitList = function() {
+    if (_origRender) _origRender.apply(this, arguments);
+    nsbRender();
+  };
+
+  // Patch selectUnit to refresh active
+  const _origSelect = window.selectUnit;
+  window.selectUnit = function(id) {
+    if (_origSelect) _origSelect.apply(this, arguments);
+    setTimeout(nsbRender, 20);
+  };
+
+  setTimeout(nsbRender, 300);
+})();
+
+</script>
+</body>
+</html>
