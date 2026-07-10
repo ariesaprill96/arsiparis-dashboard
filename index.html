@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +6,7 @@
 <link rel="shortcut icon" href="./favicon.png?v=2" type="image/png">
 <link rel="icon" type="image/png" href="./favicon.png?v=2">
 <link rel="apple-touch-icon" href="./favicon.png?v=2">
-<title>Arsiparis RI — Rekomendasi Kebutuhan</title>
+<title>Arsiparis RI - Rekomendasi Kebutuhan</title>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 
@@ -95,14 +95,14 @@ body::after{
   background:radial-gradient(circle, rgba(110,210,222,.12), transparent 70%);
 }
 
-/* ── LOADING ──────────────────────────────────────────────────── */
+/* -- LOADING ---------------------------------------------------- */
 .loading-overlay{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .4s;}
 .loading-overlay.hidden{opacity:0;pointer-events:none;}
 .loading-ring{width:32px;height:32px;border:2px solid var(--border-med);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .loading-text{font-size:13px;font-weight:600;color:var(--text-3);letter-spacing:.02em;}
 
-/* ── HEADER ───────────────────────────────────────────────────── */
+/* -- HEADER ----------------------------------------------------- */
 .header{
   height:var(--header-h);
   width:min(calc(100% - 24px), var(--content-max));
@@ -194,7 +194,7 @@ body::after{
 .btn-pill-login{background:rgba(255,255,255,.76);color:var(--text-2);border:1px solid rgba(255,255,255,.76);display:inline-flex;box-shadow:var(--shadow-xs);}
 .btn-pill-login:hover{border-color:rgba(0,122,255,.22);color:var(--blue);background:#fff;}
 
-/* ── LAYOUT ───────────────────────────────────────────────────── */
+/* -- LAYOUT ----------------------------------------------------- */
 .main{
   display:flex;
   gap:20px;
@@ -203,7 +203,7 @@ body::after{
   min-height:calc(100vh - var(--header-h) - 30px);
 }
 
-/* ── SIDEBAR ──────────────────────────────────────────────────── */
+/* -- SIDEBAR ---------------------------------------------------- */
 .sidebar{
   width:248px;flex-shrink:0;
   background:var(--glass-panel);
@@ -470,7 +470,7 @@ body::after{
 .custom-select-option.is-selected .custom-select-check{opacity:1}
 .prov-wrap{padding:0 12px 10px;display:none;}
 
-/* ── CONTENT ──────────────────────────────────────────────────── */
+/* -- CONTENT ---------------------------------------------------- */
 .content{
   flex:1;padding:0 4px 24px;overflow:auto;min-width:0;
 }
@@ -532,7 +532,7 @@ body::after{
 }
 .hero-chip span{font-size:13px;}
 
-/* ── STAT ROW ─────────────────────────────────────────────────── */
+/* -- STAT ROW --------------------------------------------------- */
 .stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:26px;}
 .stat-card{
   background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.78));
@@ -552,7 +552,7 @@ body::after{
 .stat-label{font-size:10px;font-weight:700;color:var(--text-4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;}
 .stat-value{font-size:36px;font-weight:700;color:var(--text);letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums;}
 .stat-sub{font-size:11px;color:var(--text-4);margin-top:8px;font-weight:500;}
-/* ── NATIONAL PROJECTION ────────────────────────────────────── */
+/* -- NATIONAL PROJECTION -------------------------------------- */
 .projection-panel{
   background:linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,255,255,.8));
   border:1px solid rgba(255,255,255,.78);
@@ -649,7 +649,7 @@ body::after{
 .directory-control.prov-wrap{display:none;}
 .directory-control .sb-select-lbl{padding:0;margin-bottom:6px;}
 .directory-control .sb-select{min-height:42px;}
-/* ── RESULTS BAR ─────────────────────────────────────────────── */
+/* -- RESULTS BAR ----------------------------------------------- */
 .results-bar{
   display:none;align-items:center;gap:10px;padding:12px 16px;
   background:rgba(255,255,255,.78);
@@ -662,12 +662,12 @@ body::after{
 .res-count{font-size:12px;font-weight:600;color:var(--text);}
 .res-formasi{font-size:12px;font-weight:500;color:var(--blue);}
 
-/* ── SECTION HEADER ──────────────────────────────────────────── */
+/* -- SECTION HEADER -------------------------------------------- */
 .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
 .section-title{font-size:20px;font-weight:700;color:var(--text);letter-spacing:-.03em;}
 .section-sub{font-size:12px;color:var(--text-4);margin-top:5px;font-weight:500;}
 
-/* ── REKAP GRID ─────────────────────────────────────────────── */
+/* -- REKAP GRID ----------------------------------------------- */
 .rekap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:28px;}
 .rekap-card{
   background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.78));
@@ -686,7 +686,7 @@ body::after{
 .rekap-formasi{font-size:11px;font-weight:500;color:var(--blue);margin-top:4px;}
 .rekap-sub{font-size:10px;color:var(--text-4);margin-top:2px;font-weight:400;}
 
-/* ── KLUSTER ─────────────────────────────────────────────────── */
+/* -- KLUSTER --------------------------------------------------- */
 .kluster-block{margin-bottom:28px;}
 .kluster-head{
   display:flex;align-items:center;gap:10px;
@@ -698,7 +698,7 @@ body::after{
   box-shadow:var(--shadow-xs);
 }
 .kluster-stripe{width:3px;height:20px;border-radius:2px;flex-shrink:0;}
-.kluster-icon{font-size:14px;}
+.kluster-icon{font-size:10px;font-weight:800;letter-spacing:0;color:var(--text-3);}
 .kluster-name{font-size:12.5px;font-weight:600;color:var(--text);}
 .kluster-formasi{font-size:11px;font-weight:500;color:var(--blue);margin-left:auto;}
 .kluster-count{font-size:11px;font-weight:400;color:var(--text-4);margin-left:6px;}
@@ -720,7 +720,7 @@ body::after{
 .btn-viewless{background:rgba(0,0,0,.04);color:var(--text-4);}
 .btn-viewless:hover{color:var(--text);}
 
-/* ── CARD ────────────────────────────────────────────────────── */
+/* -- CARD ------------------------------------------------------ */
 .card{
   background:rgba(255,255,255,.92);cursor:pointer;
   transition:background .15s,box-shadow .15s;
@@ -729,7 +729,7 @@ body::after{
 .card:hover{background:#fafcff;z-index:2;box-shadow:0 0 0 1px rgba(0,122,255,.12) inset,var(--shadow-sm);}
 .card-stripe{position:absolute;top:0;left:0;bottom:0;width:2.5px;}
 .card-head{padding:12px 14px 10px 16px;display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid var(--border);}
-.cat-dot{width:28px;height:28px;border-radius:var(--radius-xs);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.cat-dot{width:34px;height:28px;border-radius:var(--radius-xs);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:850;letter-spacing:0;color:var(--text-3);flex-shrink:0;}
 .card-name{font-size:11.5px;font-weight:600;line-height:1.45;flex:1;color:var(--text);letter-spacing:-.005em;}
 .card-province{font-size:10px;color:var(--text-4);font-weight:400;margin-top:2px;}
 .badge{font-size:9px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0;letter-spacing:.01em;}
@@ -751,22 +751,22 @@ body::after{
 .card-foot{padding:7px 14px 10px 16px;font-size:10px;font-weight:400;color:var(--text-4);line-height:1.55;border-top:1px solid var(--border);}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 
-/* ── INSTANSI GRID ───────────────────────────────────────────── */
+/* -- INSTANSI GRID --------------------------------------------- */
 .instansi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px;}
 .instansi-grid .card{border:1px solid rgba(255,255,255,.76);border-radius:22px;overflow:hidden;box-shadow:var(--shadow-xs);}
 .instansi-grid .card:hover{transform:translateY(-1px);}
 
-/* ── EMPTY ───────────────────────────────────────────────────── */
+/* -- EMPTY ----------------------------------------------------- */
 .empty-state{grid-column:1/-1;text-align:center;padding:64px 20px;}
 .empty-icon{font-size:36px;opacity:.1;margin-bottom:12px;}
 .empty-text{font-size:13px;font-weight:500;color:var(--text-4);}
 
-/* ── OVERLAYS ────────────────────────────────────────────────── */
+/* -- OVERLAYS -------------------------------------------------- */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:500;display:none;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
 .overlay.open{display:flex;}
 @keyframes modalIn{from{opacity:0;transform:translateY(16px) scale(.97);}to{opacity:1;transform:none;}}
 
-/* ── DETAIL MODAL ────────────────────────────────────────────── */
+/* -- DETAIL MODAL ---------------------------------------------- */
 .modal{
   background:var(--surface-solid);
   border:1px solid var(--border);
@@ -833,7 +833,7 @@ body::after{
 .btn-modal-del{padding:11px 16px;background:transparent;border:1px solid rgba(255,59,48,.25);color:var(--red);border-radius:var(--radius-sm);font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;}
 .btn-modal-del:hover{background:var(--red-dim);}
 
-/* ── FORM ────────────────────────────────────────────────────── */
+/* -- FORM ------------------------------------------------------ */
 .form-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:600;display:none;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
 .form-overlay.open{display:flex;}
 .form-modal{background:var(--surface-solid);border:1px solid var(--border);border-radius:var(--radius-xl);width:100%;max-width:520px;max-height:92vh;overflow-y:auto;animation:modalIn .25s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--shadow-lg);}
@@ -866,7 +866,7 @@ body::after{
 .btn-cancel{padding:11px 18px;background:transparent;border:1px solid var(--border-med);color:var(--text-4);border-radius:var(--radius-sm);font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;}
 .btn-cancel:hover{color:var(--text);}
 
-/* ── CONFIRM ─────────────────────────────────────────────────── */
+/* -- CONFIRM --------------------------------------------------- */
 .confirm-box{background:var(--surface-solid);border:1px solid var(--border);border-radius:var(--radius-xl);padding:32px 28px 26px;width:100%;max-width:340px;text-align:center;animation:modalIn .25s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--shadow-lg);}
 .confirm-rule{height:3px;background:var(--red);border-radius:var(--radius-xl) var(--radius-xl) 0 0;margin:-32px -28px 24px;}
 .confirm-icon{font-size:32px;margin-bottom:12px;}
@@ -878,7 +878,7 @@ body::after{
 .btn-confirm-cancel{padding:10px 22px;background:transparent;border:1px solid var(--border-med);color:var(--text-4);border-radius:var(--radius-sm);font-family:var(--font);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;}
 .btn-confirm-cancel:hover{color:var(--text);}
 
-/* ── LOGIN MODAL ─────────────────────────────────────────────── */
+/* -- LOGIN MODAL ----------------------------------------------- */
 .login-overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:700;display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
 .login-overlay.open{display:flex;}
 .login-box{background:var(--surface-solid);border:1px solid var(--border);border-radius:var(--radius-xl);width:100%;max-width:340px;overflow:hidden;animation:modalIn .25s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--shadow-lg);}
@@ -898,13 +898,13 @@ body::after{
 .btn-login-cancel{width:100%;padding:10px;background:transparent;border:1px solid var(--border-med);color:var(--text-4);border-radius:var(--radius-sm);font-family:var(--font);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;}
 .btn-login-cancel:hover{color:var(--text);}
 
-/* ── TOAST ───────────────────────────────────────────────────── */
+/* -- TOAST ----------------------------------------------------- */
 .toast{position:fixed;bottom:24px;right:24px;z-index:999;background:var(--text);border-radius:var(--radius-sm);padding:12px 18px;font-family:var(--font);font-size:12px;font-weight:600;color:#fff;transform:translateY(20px) scale(.96);opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);pointer-events:none;box-shadow:var(--shadow-lg);max-width:300px;}
 .toast.show{transform:translateY(0) scale(1);opacity:1;}
 .toast.success{background:#1c1c1e;}
 .toast.danger{background:var(--red);}
 
-/* ── GRAFIK VIEW ─────────────────────────────────────────────── */
+/* -- GRAFIK VIEW ----------------------------------------------- */
 #grafik-view .stat-card{border-radius:24px;}
 #progress-view{display:none;}
 .progress-toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px;}
@@ -951,7 +951,7 @@ body::after{
 @media (max-width:1100px){.progress-admin-form{grid-template-columns:repeat(2,minmax(160px,1fr));}.progress-edit-grid{grid-template-columns:1fr;min-width:240px;}}
 @media (max-width:720px){.progress-admin-form{grid-template-columns:1fr}.progress-edit-grid{min-width:0}.progress-table{min-width:980px}}
 
-/* ── KEGIATAN SDM PANEL ─────────────────────────────────────── */
+/* -- KEGIATAN SDM PANEL --------------------------------------- */
 .activity-panel{
   width:min(calc(100% - 24px), var(--content-max));
   margin:18px auto 0;
@@ -1353,11 +1353,11 @@ body::after{
 .monev-reco-copy{margin-top:12px;color:var(--text-2);font-size:12px;line-height:1.7;font-weight:700}
 .monev-reco-card.is-soft{background:linear-gradient(180deg, rgba(255,250,238,.9), rgba(255,255,255,.86))}
 
-/* ── IFRAME PANELS ───────────────────────────────────────────── */
-#panel-siarsiparis,#panel-bkn,#panel-sertifikasi,#panel-standar-kompetensi{width:100%;height:calc(100vh - var(--header-h));}
-#panel-siarsiparis iframe,#panel-bkn iframe,#panel-sertifikasi iframe,#panel-standar-kompetensi iframe{width:100%;height:100%;border:none;}
+/* -- IFRAME PANELS --------------------------------------------- */
+#panel-siarsiparis,#panel-bkn,#panel-sertifikasi,#panel-standar-kompetensi,#panel-rekomendasi-jfa{width:100%;height:calc(100vh - var(--header-h));}
+#panel-siarsiparis iframe,#panel-bkn iframe,#panel-sertifikasi iframe,#panel-standar-kompetensi iframe,#panel-rekomendasi-jfa iframe{width:100%;height:100%;border:none;}
 
-/* ── RESPONSIVE ──────────────────────────────────────────────── */
+/* -- RESPONSIVE ------------------------------------------------ */
 /* REMIX */
 .main{align-items:start;gap:24px;}
 .sidebar{
@@ -1407,14 +1407,14 @@ body::after{
 .kluster-block{position:relative;padding:22px;border-radius:32px;background:linear-gradient(180deg, rgba(255,255,255,.97), rgba(248,250,255,.88));border:1px solid rgba(255,255,255,.9);box-shadow:0 16px 42px rgba(15,23,42,.09), inset 0 1px 0 rgba(255,255,255,.94);}
 .kluster-head{padding:0;border:none;background:transparent;box-shadow:none;margin-bottom:18px;}
 .kluster-stripe{width:6px;height:28px;border-radius:999px;}
-.kluster-icon{width:40px;height:40px;border-radius:14px;background:rgba(255,255,255,.84);display:inline-flex;align-items:center;justify-content:center;box-shadow:0 8px 18px rgba(15,23,42,.08);}
+.kluster-icon{width:44px;height:34px;border-radius:12px;background:rgba(255,255,255,.84);display:inline-flex;align-items:center;justify-content:center;box-shadow:0 8px 18px rgba(15,23,42,.08);font-size:10px;font-weight:850;letter-spacing:0;color:var(--text-3);}
 .kluster-name{font-size:18px;font-weight:700;letter-spacing:-.03em;}
 .kluster-formasi,.kluster-count{font-size:12px;font-weight:600;}
 .kluster-grid{background:transparent;border:none;box-shadow:none;gap:14px;grid-template-columns:repeat(3,minmax(0,1fr));}
 .kluster-block .card{border-radius:26px;border:1px solid rgba(255,255,255,.9);background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(249,251,255,.84));box-shadow:0 12px 28px rgba(15,23,42,.07), inset 0 1px 0 rgba(255,255,255,.94);}
 .card:hover{transform:translateY(-3px);background:#fff;}
 .card-head{padding:16px 18px 12px 20px;}
-.cat-dot{width:34px;height:34px;border-radius:12px;background:rgba(240,244,251,.88);box-shadow:inset 0 1px 0 rgba(255,255,255,.9);}
+.cat-dot{width:42px;height:34px;border-radius:12px;background:rgba(240,244,251,.88);box-shadow:inset 0 1px 0 rgba(255,255,255,.9);font-size:9px;font-weight:850;letter-spacing:0;color:var(--text-3);}
 .card-name{font-size:13px;line-height:1.4;}
 .card-province{font-size:11px;margin-top:4px;}
 .badge{padding:5px 10px;font-size:10px;}
@@ -1498,7 +1498,7 @@ body::after{
 
 <div class="loading-overlay" id="loading-overlay">
   <div class="loading-ring"></div>
-  <div class="loading-text">Memuat data…</div>
+  <div class="loading-text">Memuat data...</div>
 </div>
 
 <!-- HEADER -->
@@ -1511,21 +1511,19 @@ body::after{
     </div>
   </div>
   <nav class="header-tabs" id="header-tabs">
-    <a href="#" class="active" onclick="switchTab('rekap',this);return false;"><span class="tab-icon">📋</span>Rekomendasi</a>
-    <a href="#" class="is-hidden" onclick="switchTab('siarsiparis',this);return false;"><span class="tab-icon">👤</span>SiArsiparis</a>
-    <a href="#" onclick="switchTab('bkn',this);return false;"><span class="tab-icon">🏛️</span>Data BKN</a>
-    <a href="#" onclick="switchTab('sertifikasi',this);return false;"><span class="tab-icon">📜</span>Sertifikasi</a>
-    <a href="#" onclick="switchTab('standar-kompetensi',this);return false;"><span class="tab-icon">✓</span>Standar Kompetensi</a>
-    <a href="#" onclick="switchTab('kegiatan',this);return false;"><span class="tab-icon">+</span>Kegiatan SDM</a>
+    <a href="#" class="active" onclick="switchTab('rekap',this);return false;">Dashboard Rekomendasi JFA</a>
+    <a href="#" onclick="switchTab('rekomendasi-jfa',this);return false;">Formulir Penghitungan JFA</a>
+    <a href="#" onclick="switchTab('bkn',this);return false;">Data BKN</a>
+    <a href="#" onclick="switchTab('sertifikasi',this);return false;">Jadwal Sertifikasi</a>
+    <a href="#" onclick="switchTab('standar-kompetensi',this);return false;">Standar Kompetensi</a>
   </nav>
   <div class="header-center">
-    <div class="hstat-chip"><div class="hstat-val" id="st-total">—</div><div class="hstat-lbl">Instansi</div></div>
-    <div class="hstat-chip"><div class="hstat-val" id="st-rek">—</div><div class="hstat-lbl">Rekomendasi</div></div>
-    <div class="hstat-chip"><div class="hstat-val" id="st-formasi">—</div><div class="hstat-lbl">Total Rekom.</div></div>
+    <div class="hstat-chip"><div class="hstat-val" id="st-total">-</div><div class="hstat-lbl">Instansi</div></div>
+    <div class="hstat-chip"><div class="hstat-val" id="st-rek">-</div><div class="hstat-lbl">Rekomendasi</div></div>
+    <div class="hstat-chip"><div class="hstat-val" id="st-formasi">-</div><div class="hstat-lbl">Total Rekom.</div></div>
   </div>
   <div class="header-right">
-    <span class="source-badge">ANRI · 2020–2025</span>
-    <span class="admin-pill" id="admin-pill">🔐 Admin</span>
+    <span class="admin-pill" id="admin-pill">Admin</span>
     <button class="btn-pill btn-pill-blue" id="btn-add" onclick="openForm(null)">+ Tambah</button>
     <button class="btn-pill btn-pill-ghost" id="btn-logout" onclick="doLogout()">Logout</button>
     <button class="btn-pill btn-pill-login" id="btn-login-open" onclick="openLoginModal()">Login Admin</button>
@@ -1535,6 +1533,9 @@ body::after{
 <!-- IFRAME PANELS -->
 <div id="panel-siarsiparis" style="display:none">
   <iframe id="iframe-siarsiparis" src="" allowfullscreen></iframe>
+</div>
+<div id="panel-rekomendasi-jfa" style="display:none">
+  <iframe id="iframe-rekomendasi-jfa" src="" allowfullscreen></iframe>
 </div>
 <div id="panel-bkn" style="display:none">
   <iframe id="iframe-bkn" src="" allowfullscreen></iframe>
@@ -1710,15 +1711,15 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
           <div class="monev-panel-sub">Komposisi awal dari responden Monev JFA yang mengisi kuesioner daring.</div>
           <div class="monev-bars">
             <div class="monev-bar-row">
-              <div class="monev-bar-top"><span>S1/D4</span><span>43,35% · 2.088 orang</span></div>
+              <div class="monev-bar-top"><span>S1/D4</span><span>43,35% - 2.088 orang</span></div>
               <div class="monev-bar-track"><div class="monev-bar-fill" style="width:43.35%;--bar-color:#0b63ce"></div></div>
             </div>
             <div class="monev-bar-row">
-              <div class="monev-bar-top"><span>D3</span><span>41,13% · 1.981 orang</span></div>
+              <div class="monev-bar-top"><span>D3</span><span>41,13% - 1.981 orang</span></div>
               <div class="monev-bar-track"><div class="monev-bar-fill" style="width:41.13%;--bar-color:#40c8e0"></div></div>
             </div>
             <div class="monev-bar-row">
-              <div class="monev-bar-top"><span>S2</span><span>13,20% · 636 orang</span></div>
+              <div class="monev-bar-top"><span>S2</span><span>13,20% - 636 orang</span></div>
               <div class="monev-bar-track"><div class="monev-bar-fill" style="width:13.2%;--bar-color:#0f8f5f"></div></div>
             </div>
           </div>
@@ -1843,7 +1844,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
     <div class="directory-toolbar" id="directory-toolbar">
       <div class="directory-search-wrap">
         <span class="search-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg></span>
-        <input type="text" class="search-input" id="search" placeholder="Cari instansi…" oninput="render()">
+        <input type="text" class="search-input" id="search" placeholder="Cari instansi..." oninput="render()">
       </div>
       <div class="directory-controls">
         <div class="sb-select-wrap directory-control">
@@ -1873,7 +1874,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
       </div>
     </div>
     <div class="results-bar" id="results-bar">
-      <span class="res-count" id="res-count">—</span>
+      <span class="res-count" id="res-count">-</span>
       <span class="res-formasi" id="res-total"></span>
     </div>
 
@@ -1925,7 +1926,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
           <div class="stat-label" style="margin:0">Disparitas Rekomendasi vs Ketersediaan (Nasional)</div>
           <div style="font-size:11px;color:var(--text-4)" id="disp-src">sumber BKN</div>
         </div>
-        <div style="font-size:11px;color:var(--text-4);margin-bottom:2px">Batang terisi = Rekomendasi (ANRI) · batang kosong/outline = Ketersediaan (Eksisting). Warna membedakan cluster.</div>
+        <div style="font-size:11px;color:var(--text-4);margin-bottom:2px">Batang terisi = Rekomendasi (ANRI) - batang kosong/outline = Ketersediaan (Eksisting). Warna membedakan cluster.</div>
         <div style="height:380px;margin-top:10px"><canvas id="chart-disparitas"></canvas></div>
       </div>
 
@@ -1940,7 +1941,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
             <option value="kab">Kabupaten/Kota</option>
           </select>
         </div>
-        <div style="font-size:11px;color:var(--text-4);margin-bottom:2px">Batang terisi = Rekomendasi · kosong/outline = Ketersediaan (Eksisting). Warna membedakan jenjang.</div>
+        <div style="font-size:11px;color:var(--text-4);margin-bottom:2px">Batang terisi = Rekomendasi - kosong/outline = Ketersediaan (Eksisting). Warna membedakan jenjang.</div>
         <div style="height:380px;margin-top:8px"><canvas id="chart-cj"></canvas></div>
       </div>
 
@@ -1950,13 +1951,13 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
           <div style="position:relative;width:180px;height:180px;margin:12px auto 0">
             <canvas id="chart-donut"></canvas>
             <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none">
-              <div style="font-size:26px;font-weight:700;color:var(--text);letter-spacing:-.03em" id="donut-pct">—</div>
+              <div style="font-size:26px;font-weight:700;color:var(--text);letter-spacing:-.03em" id="donut-pct">-</div>
               <div style="font-size:9px;font-weight:600;color:var(--text-4);text-transform:uppercase;letter-spacing:.05em">sudah rek.</div>
             </div>
           </div>
           <div style="display:flex;justify-content:center;gap:16px;margin-top:12px;font-size:10px;font-weight:500">
-            <div style="display:flex;align-items:center;gap:5px"><div style="width:7px;height:7px;background:var(--green);border-radius:50%"></div><span style="color:var(--text-4)" id="lbl-ada">—</span></div>
-            <div style="display:flex;align-items:center;gap:5px"><div style="width:7px;height:7px;background:#e5e7eb;border-radius:50%"></div><span style="color:var(--text-4)" id="lbl-belum">—</span></div>
+            <div style="display:flex;align-items:center;gap:5px"><div style="width:7px;height:7px;background:var(--green);border-radius:50%"></div><span style="color:var(--text-4)" id="lbl-ada">-</span></div>
+            <div style="display:flex;align-items:center;gap:5px"><div style="width:7px;height:7px;background:#e5e7eb;border-radius:50%"></div><span style="color:var(--text-4)" id="lbl-belum">-</span></div>
           </div>
         </div>
         <div class="stat-card" style="padding:20px">
@@ -1979,7 +1980,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
         <div class="stat-card" style="padding:20px">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-            <div class="stat-label" style="margin:0">Top 15 Instansi — Rekomendasi Terbesar</div>
+            <div class="stat-label" style="margin:0">Top 15 Instansi - Rekomendasi Terbesar</div>
             <select id="top15-filter" onchange="renderCharts()" style="font-size:10px;font-weight:600;border:1px solid var(--border-med);border-radius:var(--radius-xs);padding:3px 8px;background:var(--bg);color:var(--text);font-family:var(--font);cursor:pointer;outline:none">
               <option value="">Semua Kluster</option>
               <option value="Kementerian">Kementerian</option>
@@ -2010,10 +2011,10 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
     <div class="cluster-sheet-head">
       <div>
         <div class="cluster-sheet-kicker" id="cluster-sheet-kicker">Cluster Collection</div>
-        <div class="cluster-sheet-title" id="cluster-sheet-title">—</div>
-        <div class="cluster-sheet-sub" id="cluster-sheet-sub">—</div>
+        <div class="cluster-sheet-title" id="cluster-sheet-title">-</div>
+        <div class="cluster-sheet-sub" id="cluster-sheet-sub">-</div>
       </div>
-      <button class="cluster-sheet-close" onclick="document.getElementById('cluster-sheet-overlay').classList.remove('open')">✕</button>
+      <button class="cluster-sheet-close" onclick="document.getElementById('cluster-sheet-overlay').classList.remove('open')">?</button>
     </div>
     <div class="cluster-sheet-body">
       <div class="cluster-sheet-grid" id="cluster-sheet-grid"></div>
@@ -2027,7 +2028,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
     <div class="modal-color-bar" id="modal-rule"></div>
     <div class="modal-header">
       <div><div class="modal-title" id="modal-title"></div><div class="modal-subtitle" id="modal-sub"></div></div>
-      <div class="modal-close" onclick="document.getElementById('overlay').classList.remove('open');document.querySelector('.sidebar')?.classList.remove('detail-hidden')">✕</div>
+      <div class="modal-close" onclick="document.getElementById('overlay').classList.remove('open');document.querySelector('.sidebar')?.classList.remove('detail-hidden')">?</div>
     </div>
     <div class="modal-body" id="modal-body"></div>
   </div>
@@ -2039,7 +2040,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
     <div class="form-rule"></div>
     <div class="form-header">
       <div class="form-title" id="form-title">Tambah Instansi</div>
-      <div class="form-close" onclick="closeForm()">✕</div>
+      <div class="form-close" onclick="closeForm()">?</div>
     </div>
     <div class="form-body">
       <input type="hidden" id="f-id">
@@ -2069,14 +2070,14 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
         </div>
         <div class="form-row"><label>Tahun Rekomendasi</label><input type="number" id="f-tahun" placeholder="2025" min="2000" max="2099"></div>
       </div>
-      <div class="form-section">Jenjang — Keterampilan</div>
+      <div class="form-section">Jenjang - Keterampilan</div>
       <div class="form-grid-4">
         <div class="form-row"><label>Terampil</label><input type="number" id="f-terampil" value="0" min="0"></div>
         <div class="form-row"><label>Mahir</label><input type="number" id="f-mahir" value="0" min="0"></div>
         <div class="form-row"><label>Penyelia</label><input type="number" id="f-penyelia" value="0" min="0"></div>
         <div class="form-row"><label>Sub Total</label><input type="number" id="f-ket-sub" value="0" min="0" readonly style="background:var(--bg);color:var(--text-4)"></div>
       </div>
-      <div class="form-section">Jenjang — Keahlian</div>
+      <div class="form-section">Jenjang - Keahlian</div>
       <div class="form-grid-4">
         <div class="form-row"><label>Ahli Pertama</label><input type="number" id="f-ahli_pertama" value="0" min="0"></div>
         <div class="form-row"><label>Ahli Muda</label><input type="number" id="f-ahli_muda" value="0" min="0"></div>
@@ -2108,7 +2109,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
       </div>
       <div class="login-field">
         <label>Password</label>
-        <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+        <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
       </div>
       <div class="login-error" id="login-error">Username atau password salah</div>
       <button class="btn-login-submit" onclick="doLogin()">Masuk</button>
@@ -2121,7 +2122,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 <div class="overlay" id="confirm-overlay" onclick="closeConfirm(event)">
   <div class="confirm-box">
     <div class="confirm-rule"></div>
-    <div class="confirm-icon">🗑</div>
+    <div class="confirm-icon">!</div>
     <div class="confirm-title">Hapus Instansi?</div>
     <div class="confirm-msg" id="confirm-msg"></div>
     <div class="confirm-actions">
@@ -2138,31 +2139,33 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 <script src="./assets/progres_usulan_jfa_2026.js?v=20260709"></script>
 <script src="config.js"></script>
 <script>
-// ── TAB SWITCHING ─────────────────────────────────────────────
-const TAB_SRCS = { siarsiparis:'siarsiparis_v4_fix.html', bkn:'Data_BKN_rekap.html', sertifikasi:'sertifikasi.html', standarKompetensi:'standar_kompetensi_teknis.html' };
-const iframeLoaded = { siarsiparis:false, bkn:false, sertifikasi:false, standarKompetensi:false };
+// -- TAB SWITCHING ---------------------------------------------
+const TAB_SRCS = { siarsiparis:'siarsiparis_v4_fix.html', rekomendasiJfa:'Rekomendasi JFA.html', bkn:'Data_BKN_rekap.html', sertifikasi:'sertifikasi.html', standarKompetensi:'standar_kompetensi_teknis.html' };
+const iframeLoaded = { siarsiparis:false, rekomendasiJfa:false, bkn:false, sertifikasi:false, standarKompetensi:false };
 function switchTab(tabId, el) {
   document.querySelectorAll('.header-tabs a').forEach(a=>a.classList.remove('active'));
   el.classList.add('active');
   el.scrollIntoView({block:'nearest', inline:'center'});
   document.getElementById('panel-rekap').style.display = tabId==='rekap'?'':'none';
   document.getElementById('panel-siarsiparis').style.display = tabId==='siarsiparis'?'':'none';
+  document.getElementById('panel-rekomendasi-jfa').style.display = tabId==='rekomendasi-jfa'?'':'none';
   document.getElementById('panel-bkn').style.display = tabId==='bkn'?'':'none';
   document.getElementById('panel-kegiatan').style.display = tabId==='kegiatan'?'':'none';
   document.getElementById('panel-sertifikasi').style.display = tabId==='sertifikasi'?'':'none';
   document.getElementById('panel-standar-kompetensi').style.display = tabId==='standar-kompetensi'?'':'none';
   if (tabId==='siarsiparis'&&!iframeLoaded.siarsiparis){document.getElementById('iframe-siarsiparis').src=TAB_SRCS.siarsiparis;iframeLoaded.siarsiparis=true;}
+  if (tabId==='rekomendasi-jfa'&&!iframeLoaded.rekomendasiJfa){document.getElementById('iframe-rekomendasi-jfa').src=TAB_SRCS.rekomendasiJfa;iframeLoaded.rekomendasiJfa=true;}
   if (tabId==='bkn'&&!iframeLoaded.bkn){document.getElementById('iframe-bkn').src=TAB_SRCS.bkn;iframeLoaded.bkn=true;}
   if (tabId==='sertifikasi'&&!iframeLoaded.sertifikasi){document.getElementById('iframe-sertifikasi').src=TAB_SRCS.sertifikasi;iframeLoaded.sertifikasi=true;}
   if (tabId==='standar-kompetensi'&&!iframeLoaded.standarKompetensi){document.getElementById('iframe-standar-kompetensi').src=TAB_SRCS.standarKompetensi;iframeLoaded.standarKompetensi=true;}
 }
 
-// ── AUTH ─────────────────────────────────────────────────────
+// -- AUTH -----------------------------------------------------
 let IS_ADMIN = sessionStorage.getItem('arsiparis_admin') === '1';
 const JKEYS = ['terampil','mahir','penyelia','ahli_pertama','ahli_muda','ahli_madya','ahli_utama'];
 const PROVINSI_LIST = ["ACEH","BALI","BANTEN","BENGKULU","DI. YOGYAKARTA","DKI JAKARTA","GORONTALO","JAMBI","JAWA BARAT","JAWA TENGAH","JAWA TIMUR","KALIMANTAN BARAT","KALIMANTAN SELATAN","KALIMANTAN TENGAH","KALIMANTAN TIMUR","KALIMANTAN UTARA","KEPULAUAN RIAU","LAMPUNG","MALUKU","MALUKU UTARA","NUSA TENGGARA BARAT","NUSA TENGGARA TIMUR","PAPUA","PAPUA BARAT","PAPUA BARAT DAYA","PAPUA PEGUNUNGAN","PAPUA SELATAN","PAPUA TENGAH","RIAU","SULAWESI BARAT","SULAWESI SELATAN","SULAWESI TENGAH","SULAWESI TENGGARA","SULAWESI UTARA","SUMATERA BARAT","SUMATERA SELATAN","SUMATERA UTARA"];
 const CAT_COLOR = {'Kementerian':'#d97706','Alat Negara':'#dc2626','Sekretariat Lembaga Negara':'#2563eb','Lembaga Non Struktural':'#7c3aed','Lembaga Pemerintah Lainnya':'#b06030','Lembaga Pemerintah Non Kementerian':'#0d9488','Lembaga Penyiaran Publik':'#7a6020','Provinsi':'#1a4a6b','Kabupaten/Kota':'#3a6b3a'};
-const CAT_ICON = {'Kementerian':'🏛','Alat Negara':'⚔','Sekretariat Lembaga Negara':'🏦','Lembaga Non Struktural':'🔬','Lembaga Pemerintah Lainnya':'🏢','Lembaga Pemerintah Non Kementerian':'🏗','Lembaga Penyiaran Publik':'📡','Provinsi':'🗺','Kabupaten/Kota':'📍'};
+const CAT_ICON = {'Kementerian':'KEM','Alat Negara':'ALN','Sekretariat Lembaga Negara':'SLN','Lembaga Non Struktural':'LNS','Lembaga Pemerintah Lainnya':'LPL','Lembaga Pemerintah Non Kementerian':'LPNK','Lembaga Penyiaran Publik':'LPP','Provinsi':'PROV','Kabupaten/Kota':'K/K'};
 const JENJANG = [{k:'terampil',lbl:'Terampil',c:'#FF9500'},{k:'mahir',lbl:'Mahir',c:'#30B0C7'},{k:'penyelia',lbl:'Penyelia',c:'#007AFF'},{k:'ahli_pertama',lbl:'Ahli Pertama',c:'#FF3B30'},{k:'ahli_muda',lbl:'Ahli Muda',c:'#AF52DE'},{k:'ahli_madya',lbl:'Ahli Madya',c:'#5856D6'},{k:'ahli_utama',lbl:'Ahli Utama',c:'#FF2D55'}];
 const CLUSTERS = [{cat:'Kementerian'},{cat:'Lembaga Pemerintah Non Kementerian'},{cat:'Sekretariat Lembaga Negara'},{cat:'Lembaga Non Struktural'},{cat:'Alat Negara'},{cat:'Lembaga Pemerintah Lainnya'},{cat:'Lembaga Penyiaran Publik'},{cat:'Provinsi'},{cat:'Kabupaten/Kota'}];
 const PUSAT_CATEGORIES = ['Kementerian','Alat Negara','Sekretariat Lembaga Negara','Lembaga Non Struktural','Lembaga Pemerintah Lainnya','Lembaga Pemerintah Non Kementerian','Lembaga Penyiaran Publik'];
@@ -2257,7 +2260,7 @@ async function doLogin() {
       closeLoginModal();
       updateAdminUI();
       render();
-      showToast(`✓ Selamat datang, ${username}!`, 'success');
+      showToast(`? Selamat datang, ${username}!`, 'success');
     } else {
       document.getElementById('login-error').textContent = 'Username atau password salah';
       document.getElementById('login-error').classList.add('show');
@@ -2276,7 +2279,7 @@ async function loadData() {
     console.error(e);
     showToast('Gagal memuat data. Periksa config.js', 'danger');
     document.getElementById('loading-overlay').classList.add('hidden');
-    document.getElementById('home-view').innerHTML = '<div style="text-align:center;padding:80px 20px"><div style="font-size:36px;opacity:.08;margin-bottom:16px">⚠</div><div style="font-size:13px;font-weight:500;color:var(--text-4)">Gagal terhubung ke Supabase.<br>Pastikan config.js sudah diisi dengan benar.</div></div>';
+    document.getElementById('home-view').innerHTML = '<div style="text-align:center;padding:80px 20px"><div style="font-size:36px;opacity:.08;margin-bottom:16px">?</div><div style="font-size:13px;font-weight:500;color:var(--text-4)">Gagal terhubung ke Supabase.<br>Pastikan config.js sudah diisi dengan benar.</div></div>';
   }
 }
 
@@ -2350,10 +2353,10 @@ function render() {
     document.getElementById('filter-view').style.display = 'block';
     document.getElementById('results-bar').style.display = 'flex';
     document.getElementById('res-count').textContent = `${sorted.length} instansi ditemukan`;
-    document.getElementById('res-total').textContent = tf > 0 ? `· ${tf.toLocaleString('id')} total rekomendasi` : '';
+    document.getElementById('res-total').textContent = tf > 0 ? `- ${tf.toLocaleString('id')} total rekomendasi` : '';
     document.getElementById('grid').innerHTML = sorted.length
       ? sorted.map((d,i) => cardHTML(d, i)).join('')
-      : '<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-text">Tidak ada instansi yang cocok</div></div>';
+      : '<div class="empty-state"><div class="empty-text">Tidak ada instansi yang cocok</div></div>';
     if (document.activeElement === document.getElementById('search')) scrollToSearchResults();
   } else {
     document.getElementById('home-view').style.display = 'block';
@@ -2490,7 +2493,7 @@ function renderRekap() {
     <div class="rekap-accent" style="background:var(--blue)"></div>
     <div class="rekap-num">${ALL.length}</div><div class="rekap-lbl">Total Instansi</div>
     <div class="rekap-formasi">${totalFormasi.toLocaleString('id')} rekomendasi</div>
-    <div class="rekap-sub">${totalRek} instansi aktif · ${totalPct}% sudah memiliki rekomendasi</div></div>`;
+    <div class="rekap-sub">${totalRek} instansi aktif - ${totalPct}% sudah memiliki rekomendasi</div></div>`;
   const catCards = CLUSTERS.map(c => {
     const items = ALL.filter(d => d.kategori === c.cat);
     if (!items.length) return '';
@@ -2504,7 +2507,7 @@ function renderRekap() {
       <div class="rekap-accent" style="background:${color}"></div>
       <div class="rekap-num">${items.length}</div><div class="rekap-lbl">${short}</div>
       <div class="rekap-formasi">${formasi.toLocaleString('id')} rekomendasi</div>
-      <div class="rekap-sub">${rek} instansi dengan rekomendasi · ${pct}% coverage</div></div>`;
+      <div class="rekap-sub">${rek} instansi dengan rekomendasi - ${pct}% coverage</div></div>`;
   }).join('');
   document.getElementById('rekap-grid').innerHTML = totalCard + catCards;
 }
@@ -2518,7 +2521,7 @@ function renderClusters() {
     const shown = items.slice(0, 3);
     const formasi = items.reduce((s,d) => s+(d.total||0), 0);
     const rek = items.filter(d=>d.status==='Ada Rekomendasi').length;
-    const icon = CAT_ICON[cl.cat] || '🏛';
+    const icon = CAT_ICON[cl.cat] || 'JFA';
     const color = CAT_COLOR[cl.cat] || '#888';
     const short = CAT_SHORT[cl.cat] || cl.cat;
     const moreCount = Math.max(items.length - shown.length, 0);
@@ -2531,10 +2534,10 @@ function renderClusters() {
         <span class="kluster-icon">${icon}</span>
         <span class="kluster-name">${short}</span>
         <span class="kluster-formasi">${formasi.toLocaleString('id')} rekomendasi</span>
-        <span class="kluster-count">${items.length} instansi · ${rek} sudah rekomendasi</span>
+        <span class="kluster-count">${items.length} instansi - ${rek} sudah rekomendasi</span>
       </div>
       <div class="kluster-grid">${shown.map((d,i) => cardHTML(d, i)).join('')}</div>
-      <div class="cluster-action-row"><button class="btn-cluster-open" onclick="openClusterSheet('${catAttr}')">${moreCount > 0 ? `Buka koleksi lengkap · ${moreCount} lainnya` : 'Buka koleksi'}</button></div>`;
+      <div class="cluster-action-row"><button class="btn-cluster-open" onclick="openClusterSheet('${catAttr}')">${moreCount > 0 ? `Buka koleksi lengkap - ${moreCount} lainnya` : 'Buka koleksi'}</button></div>`;
     wrap.appendChild(block);
   });
 }
@@ -2545,7 +2548,7 @@ function openClusterSheet(cat) {
   const rek = items.filter(d=>d.status==='Ada Rekomendasi').length;
   document.getElementById('cluster-sheet-title').textContent = CAT_SHORT[cat] || cat;
   document.getElementById('cluster-sheet-kicker').textContent = 'Cluster Collection';
-  document.getElementById('cluster-sheet-sub').textContent = `${items.length} instansi · ${formasi.toLocaleString('id')} rekomendasi · ${rek} memiliki rekomendasi`;
+  document.getElementById('cluster-sheet-sub').textContent = `${items.length} instansi - ${formasi.toLocaleString('id')} rekomendasi - ${rek} memiliki rekomendasi`;
   document.getElementById('cluster-sheet-grid').innerHTML = items.map((d,i) => cardHTML(d, i)).join('');
   document.getElementById('cluster-sheet-overlay').classList.add('open');
 }
@@ -2581,7 +2584,7 @@ function gapHTML(d){
     return `<div class="gap-row"><div class="gap-c gap-name">${j.lbl}</div><div class="gap-c">${r.toLocaleString('id')}</div><div class="gap-c">${e.toLocaleString('id')}</div><div class="gap-c gap-d" style="color:${sc}">${sel>0?'+':''}${sel.toLocaleString('id')}</div></div>`;
   }).join('');
   const sumSel=sumE-sumR, ssc=sumSel<0?'var(--red)':(sumSel>0?'var(--green)':'var(--text-4)');
-  const src = (window.BKN_REKAP_2026 && window.BKN_REKAP_2026.updated_at) ? `sumber BKN · ${window.BKN_REKAP_2026.updated_at}` : 'sumber BKN';
+  const src = (window.BKN_REKAP_2026 && window.BKN_REKAP_2026.updated_at) ? `sumber BKN - ${window.BKN_REKAP_2026.updated_at}` : 'sumber BKN';
   return `<div class="gap-wrap">
     <div class="gap-head"><span class="gap-title">Perbandingan Rekomendasi Arsiparis dan Ketersediaan</span><span class="gap-src">${src}</span></div>
     <div class="gap-table">
@@ -2593,16 +2596,16 @@ function gapHTML(d){
   </div>`;
 }
 function cardHTML(d, i) {
-  const icon = CAT_ICON[d.kategori] || '🏛';
+  const icon = CAT_ICON[d.kategori] || 'JFA';
   const color = CAT_COLOR[d.kategori] || '#888';
-  const badgeHtml = d.status === 'Ada Rekomendasi' ? '' : '<span class="badge badge-belum">— Belum</span>';
+  const badgeHtml = d.status === 'Ada Rekomendasi' ? '' : '<span class="badge badge-belum">- Belum</span>';
   const prov = d.provinsi ? `<div class="card-province">${d.provinsi}</div>` : '';
   const tc = d.total === 0 ? 'total-num total-zero' : 'total-num';
   const comp = d.total > 0 ? JENJANG.map(j=>{const v=d[j.k]||0;if(!v)return '';const pct=v/d.total*100;return `<div class="comp-seg" style="width:${pct}%;background:${j.c}" title="${j.lbl}: ${v}"></div>`;}).join('') : '';
   const ranked = JENJANG.map(j=>({lbl:j.lbl,c:j.c,v:d[j.k]||0})).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
   const legendTop = ranked.slice(0,2).map(x=>`<span class="card-leg"><span class="card-leg-dot" style="background:${x.c}"></span>${x.lbl} ${x.v.toLocaleString('id')}</span>`).join('');
   const legendMore = ranked.length>2 ? `<span class="card-leg-more">+${ranked.length-2} jenjang</span>` : '';
-  const ks = d.keterangan ? d.keterangan.replace(/\n/g,' ').slice(0,90)+(d.keterangan.length>90?'…':'') : '—';
+  const ks = d.keterangan ? d.keterangan.replace(/\n/g,' ').slice(0,90)+(d.keterangan.length>90?'...':'') : '-';
   return `<div class="card" style="animation-delay:${Math.min(i,30)*.02}s" onclick="openDetail(${d.id})">
     <div class="card-stripe" style="background:${color}"></div>
     <div class="card-head">
@@ -2612,7 +2615,7 @@ function cardHTML(d, i) {
     </div>
     <div class="card-body">
       <div class="total-row">
-        <div class="${tc}">${d.total>0?d.total.toLocaleString('id'):'—'}</div>
+        <div class="${tc}">${d.total>0?d.total.toLocaleString('id'):'-'}</div>
         <div class="total-meta"><div class="total-lbl">Total Kebutuhan</div>${d.tahun?`<div class="total-year">${d.tahun}</div>`:''}</div>
       </div>
       ${comp?`<div class="comp-bar comp-bar-card">${comp}</div><div class="card-legend">${legendTop}${legendMore}</div>`:''}
@@ -2627,7 +2630,7 @@ function openDetail(id) {
   const color = CAT_COLOR[d.kategori] || '#0071e3';
   document.getElementById('modal-rule').style.background = color;
   document.getElementById('modal-title').textContent = d.nama;
-  document.getElementById('modal-sub').textContent = d.kategori + (d.provinsi ? ` · ${d.provinsi}` : '');
+  document.getElementById('modal-sub').textContent = d.kategori + (d.provinsi ? ` - ${d.provinsi}` : '');
   const sc = d.status === 'Ada Rekomendasi' ? 'var(--green)' : 'var(--red)';
   const kt = (d.terampil||0)+(d.mahir||0)+(d.penyelia||0);
   const ka = (d.ahli_pertama||0)+(d.ahli_muda||0)+(d.ahli_madya||0)+(d.ahli_utama||0);
@@ -2640,17 +2643,17 @@ function openDetail(id) {
   };
   const jHtml = jSection('Keterampilan',kt,JENJANG.slice(0,3)) + jSection('Keahlian',ka,JENJANG.slice(3));
   const compBar = d.total>0 ? `<div class="comp-bar">${JENJANG.map(j=>{const v=d[j.k]||0;if(!v)return '';const pct=v/d.total*100;return `<div class="comp-seg" style="width:${pct}%;background:${j.c}" title="${j.lbl}: ${v}"></div>`;}).join('')}</div>` : '';
-  const adminHtml = IS_ADMIN ? `<div class="modal-admin-actions visible"><button class="btn-modal-edit" onclick="document.getElementById('overlay').classList.remove('open');document.querySelector('.sidebar')?.classList.remove('detail-hidden');openForm(${d.id})">✎ Edit Data Ini</button><button class="btn-modal-del" onclick="confirmDelete(${d.id})">✕ Hapus</button></div>` : '';
+  const adminHtml = IS_ADMIN ? `<div class="modal-admin-actions visible"><button class="btn-modal-edit" onclick="document.getElementById('overlay').classList.remove('open');document.querySelector('.sidebar')?.classList.remove('detail-hidden');openForm(${d.id})">Edit Data Ini</button><button class="btn-modal-del" onclick="confirmDelete(${d.id})">Hapus</button></div>` : '';
   document.getElementById('modal-body').innerHTML = `
-    <div class="big-total"><div class="big-num">${d.total>0?d.total.toLocaleString('id'):'—'}</div><div class="big-lbl">Total Kebutuhan Arsiparis</div>${compBar}</div>
+    <div class="big-total"><div class="big-num">${d.total>0?d.total.toLocaleString('id'):'-'}</div><div class="big-lbl">Total Kebutuhan Arsiparis</div>${compBar}</div>
     ${jHtml}
     ${gapHTML(d)}
     <div class="info-rows">
       <div class="info-row"><span class="ir-lbl">Status Rekomendasi</span><span class="ir-val" style="color:${sc}">${d.status}</span></div>
-      <div class="info-row"><span class="ir-lbl">Tahun Rekomendasi</span><span class="ir-val">${d.tahun||'—'}</span></div>
+      <div class="info-row"><span class="ir-lbl">Tahun Rekomendasi</span><span class="ir-val">${d.tahun||'-'}</span></div>
       <div class="info-row"><span class="ir-lbl">Kategori</span><span class="ir-val" style="color:${color}">${d.kategori}</span></div>
     </div>
-    ${d.keterangan ? `<div class="ket-box">📎 ${d.keterangan.replace(/\n/g,'<br>')}</div>` : ''}
+    ${d.keterangan ? `<div class="ket-box"><strong>Catatan:</strong> ${d.keterangan.replace(/\n/g,'<br>')}</div>` : ''}
     ${adminHtml}`;
   document.getElementById('overlay').classList.add('open');document.querySelector('.sidebar')?.classList.add('detail-hidden');
 }
@@ -2667,7 +2670,7 @@ function openForm(id) {
   if (!IS_ADMIN) { showToast('Akses ditolak. Login sebagai admin terlebih dahulu.', 'danger'); return; }
   document.getElementById('overlay').classList.remove('open');document.querySelector('.sidebar')?.classList.remove('detail-hidden');
   const isNew = id === null;
-  document.getElementById('form-title').textContent = isNew ? '+ Tambah Instansi Baru' : '✎ Edit Data Instansi';
+  document.getElementById('form-title').textContent = isNew ? 'Tambah Instansi Baru' : 'Edit Data Instansi';
   document.getElementById('f-id').value = isNew ? '' : id;
   if (isNew) {
     document.getElementById('f-nama').value = '';
@@ -2702,7 +2705,7 @@ async function saveForm() {
   const nama = document.getElementById('f-nama').value.trim();
   if (!nama) { showToast('Nama instansi tidak boleh kosong', 'danger'); return; }
   const btn = document.getElementById('btn-save');
-  btn.textContent = 'Menyimpan…'; btn.classList.add('loading');
+  btn.textContent = 'Menyimpan...'; btn.classList.add('loading');
   const entry = {
     nama,
     kategori: document.getElementById('f-kategori').value,
@@ -2717,10 +2720,10 @@ async function saveForm() {
   try {
     if (rawId === '') {
       await sbFetch('instansi', { method:'POST', prefer:'return=minimal', body:JSON.stringify(entry) });
-      showToast('✓ Instansi baru ditambahkan', 'success');
+      showToast('? Instansi baru ditambahkan', 'success');
     } else {
       await sbFetch(`instansi?id=eq.${rawId}`, { method:'PATCH', prefer:'return=minimal', body:JSON.stringify(entry) });
-      showToast('✓ Data berhasil diperbarui', 'success');
+      showToast('? Data berhasil diperbarui', 'success');
     }
     await loadData(); closeForm();
   } catch(e) {
@@ -2762,7 +2765,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') ['overlay','form-overlay','confirm-overlay','login-overlay','cluster-sheet-overlay'].forEach(id => document.getElementById(id).classList.remove('open'));
 });
 
-// ── PEMANTAUAN PERMOHONAN REKOMENDASI JFA ─────────────────────
+// -- PEMANTAUAN PERMOHONAN REKOMENDASI JFA ---------------------
 const PROGRESS_STORAGE_KEY = 'arsiparis_progress_updates_v2';
 const PROGRESS_LEGACY_STORAGE_KEY = 'arsiparis_progress_updates_v1';
 function getProgressPayload(){ return window.PROGRES_USULAN_JFA_2026 || { records:[], progress_options:[] }; }
@@ -2991,7 +2994,7 @@ function deleteProgressRow(id){
 function formatMaybe(value){ if (value === '' || value == null) return '<span class="progress-muted">-</span>'; const n = Number(value); return Number.isFinite(n) ? n.toLocaleString('id') : escapeHTML(value); }
 function escapeHTML(value){ return String(value ?? '').replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch])); }
 function escapeAttr(value){ return escapeHTML(value).replace(/`/g,'&#96;'); }
-// ── GRAFIK STATISTIK ─────────────────────────────────────────
+// -- GRAFIK STATISTIK -----------------------------------------
 const CHART_INSTANCES = {};
 const CAT_LABELS = ['Kementerian','Alat Negara','Sekretariat Lembaga Negara','Lembaga Non Struktural',
   'Lembaga Pemerintah Lainnya','Lembaga Pemerintah Non Kementerian','Lembaga Penyiaran Publik','Provinsi','Kabupaten/Kota'];
@@ -3039,7 +3042,7 @@ const CAT_COLORS = {
   'Provinsi':'#5856D6','Kabupaten/Kota':'#34C759'
 };
 
-/* ── Token visual seragam untuk semua chart batang ──
+/* -- Token visual seragam untuk semua chart batang --
    Satu bahasa: isian transparan tipis + garis tepi warna penuh, sudut rounded halus. */
 const CHART_FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
 const TOOLTIP_DEFAULTS = {
@@ -3144,7 +3147,7 @@ function renderCharts() {
   const top15colors = top15src.map(d=>CAT_COLORS[d.kategori]||'#0071e3');
   mkChart('chart-top15', {
     type:'bar',
-    data:{ labels:top15src.map(d=>d.nama.length>35?d.nama.slice(0,35)+'…':d.nama),
+    data:{ labels:top15src.map(d=>d.nama.length>35?d.nama.slice(0,35)+'...':d.nama),
       datasets:[{ label:'Rekomendasi', data:top15src.map(d=>d.total), backgroundColor:top15colors.map(fillSolid), borderColor:top15colors, borderWidth:BAR_BORDER, borderRadius:BAR_RADIUS, borderSkipped:false, barThickness:12 }] },
     options:{
       indexAxis:'y',responsive:true,maintainAspectRatio:false,
@@ -3172,7 +3175,7 @@ function renderCharts() {
     }
   });
 
-  // ── Disparitas Rekomendasi vs Ketersediaan (Nasional) ──
+  // -- Disparitas Rekomendasi vs Ketersediaan (Nasional) --
   if (window.BKN_REKAP_2026 && window.BKN_REKAP_2026.records) {
     const bknCls = n => { const t=(n||'').toLowerCase();
       if(/provinsi|^pemerintah aceh$|daerah istimewa yogyakarta|^pemerintah dki/.test(t)) return 'prov';
@@ -3188,7 +3191,7 @@ function renderCharts() {
       if(c==='kem')eks.kem+=v; else if(c==='lemb')eks.lemb+=v; else if(c==='prov')eks.prov+=v; else eks.kab+=v; });
     const gk=['nas','kem','lemb','prov','kab'];
     const gl=['Nasional','Kementerian','Lembaga','Provinsi','Kabupaten/Kota'];
-    const dsrc=document.getElementById('disp-src'); if(dsrc) dsrc.textContent='sumber BKN · '+(window.BKN_REKAP_2026.updated_at||'');
+    const dsrc=document.getElementById('disp-src'); if(dsrc) dsrc.textContent='sumber BKN - '+(window.BKN_REKAP_2026.updated_at||'');
     const COL=['#636366','#FF9500','#AF52DE','#5856D6','#34C759'];
     const dispLabels={ id:'dispLabels', afterDatasetsDraw(chart){
       const ctx=chart.ctx; ctx.save();
@@ -3216,7 +3219,7 @@ function renderCharts() {
       plugins:[dispLabels]
     });
 
-    // ── Data per cluster per jabatan (untuk tabel rincian) ──
+    // -- Data per cluster per jabatan (untuk tabel rincian) --
     const JCL=['nas','kem','lemb','prov','kab'];
     const JBYC={rek:{},eks:{}};
     JCL.forEach(c=>{ JBYC.rek[c]={}; JBYC.eks[c]={}; JENJANG.forEach(j=>{JBYC.rek[c][j.k]=0;JBYC.eks[c][j.k]=0;}); });
