@@ -1032,6 +1032,17 @@ body::after{
 .activity-card.is-action{cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
 .activity-card.is-action:hover{transform:translateY(-4px);border-color:color-mix(in srgb, var(--activity-accent,var(--blue)) 28%, transparent);box-shadow:0 24px 58px rgba(15,23,42,.13), inset 0 1px 0 rgba(255,255,255,.96)}
 .atn-detail .activity-docs{margin-top:18px;padding:0;border:none;background:transparent;box-shadow:none}
+.bks-detail{background:radial-gradient(circle at 90% 10%,rgba(15,143,95,.16),transparent 30%),linear-gradient(180deg,rgba(255,255,255,.98),rgba(244,251,248,.92))}
+.bks-detail .monev-kicker{color:var(--green)}
+.bks-video-shell{position:relative;width:100%;aspect-ratio:16/9;border-radius:30px;overflow:hidden;background:linear-gradient(145deg,#e7f4ee,#f8fbfa);border:1px solid rgba(15,143,95,.16);box-shadow:0 18px 44px rgba(15,23,42,.1)}
+.bks-video-shell iframe{width:100%;height:100%;border:0;display:block}
+.bks-video-placeholder{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:28px;background:radial-gradient(circle at 50% 38%,rgba(15,143,95,.12),transparent 35%)}
+.bks-video-placeholder-inner{max-width:540px}
+.bks-video-play{width:74px;height:74px;margin:0 auto;border-radius:50%;display:grid;place-items:center;background:var(--green);box-shadow:0 16px 34px rgba(15,143,95,.26)}
+.bks-video-play::before{content:'';width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:17px solid #fff;margin-left:5px}
+.bks-video-title{margin-top:18px;font-size:22px;font-weight:900;letter-spacing:-.035em;color:var(--text)}
+.bks-video-copy{margin-top:8px;font-size:12px;line-height:1.7;color:var(--text-3);font-weight:650}
+.bks-video-status{display:inline-flex;margin-top:14px;padding:7px 10px;border-radius:999px;background:rgba(15,143,95,.1);color:var(--green);font-size:10px;font-weight:850;letter-spacing:.06em;text-transform:uppercase}
 .activity-card.is-action:focus-visible{outline:3px solid rgba(185,106,0,.24);outline-offset:4px}
 .activity-card::before{
   content:'';
@@ -1354,8 +1365,8 @@ body::after{
 .monev-reco-card.is-soft{background:linear-gradient(180deg, rgba(255,250,238,.9), rgba(255,255,255,.86))}
 
 /* -- IFRAME PANELS --------------------------------------------- */
-#panel-siarsiparis,#panel-bkn,#panel-sertifikasi,#panel-standar-kompetensi,#panel-rekomendasi-jfa{width:100%;height:calc(100vh - var(--header-h));}
-#panel-siarsiparis iframe,#panel-bkn iframe,#panel-sertifikasi iframe,#panel-standar-kompetensi iframe,#panel-rekomendasi-jfa iframe{width:100%;height:100%;border:none;}
+#panel-siarsiparis,#panel-bkn,#panel-pengawasan-sdm,#panel-sertifikasi,#panel-standar-kompetensi,#panel-rekomendasi-jfa{width:100%;height:calc(100vh - var(--header-h));}
+#panel-siarsiparis iframe,#panel-bkn iframe,#panel-pengawasan-sdm iframe,#panel-sertifikasi iframe,#panel-standar-kompetensi iframe,#panel-rekomendasi-jfa iframe{width:100%;height:100%;border:none;}
 
 /* -- RESPONSIVE ------------------------------------------------ */
 /* REMIX */
@@ -1514,6 +1525,8 @@ body::after{
     <a href="#" class="active" onclick="switchTab('rekap',this);return false;">Dashboard Rekomendasi JFA</a>
     <a href="#" onclick="switchTab('rekomendasi-jfa',this);return false;">Formulir Penghitungan JFA</a>
     <a href="#" onclick="switchTab('bkn',this);return false;">Data BKN</a>
+    <a href="#" onclick="switchTab('pengawasan-sdm',this);return false;">Pengawasan SDM</a>
+    <a href="#" onclick="switchTab('kegiatan',this);return false;">Kegiatan SDM</a>
     <a href="#" onclick="switchTab('sertifikasi',this);return false;">Jadwal Sertifikasi</a>
     <a href="#" onclick="switchTab('standar-kompetensi',this);return false;">Standar Kompetensi</a>
   </nav>
@@ -1539,6 +1552,9 @@ body::after{
 </div>
 <div id="panel-bkn" style="display:none">
   <iframe id="iframe-bkn" src="" allowfullscreen></iframe>
+</div>
+<div id="panel-pengawasan-sdm" style="display:none">
+  <iframe id="iframe-pengawasan-sdm" src="" title="Pemetaan Aspek Sumber Daya Manusia Kearsipan" allowfullscreen></iframe>
 </div>
 <div id="panel-sertifikasi" style="display:none">
   <iframe id="iframe-sertifikasi" src="" allowfullscreen></iframe>
@@ -1574,16 +1590,16 @@ body::after{
       </div>
     </article>
 
-    <article class="activity-card" style="--activity-accent:#0f8f5f">
+    <article class="activity-card is-action" style="--activity-accent:#0f8f5f" onclick="openBksDetail()" tabindex="0" role="button" aria-controls="bks-detail" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openBksDetail();}">
       <div class="activity-card-head">
-        <span class="activity-tag">Rencana konten</span>
+        <span class="activity-tag">Placeholder tersedia</span>
         <span class="activity-code">BKS</span>
       </div>
       <div class="activity-card-title">Bimbingan dan Konsultasi SDM Kearsipan</div>
       <div class="activity-card-copy">Ruang informasi untuk layanan konsultasi, asistensi kebutuhan arsiparis, pembinaan jabatan fungsional, dan tindak lanjut isu SDM Kearsipan di instansi.</div>
       <div class="activity-meta">
-        <div class="activity-meta-box"><div class="activity-meta-label">Status</div><div class="activity-meta-value">Dalam penyusunan</div></div>
-        <div class="activity-meta-box"><div class="activity-meta-label">Output</div><div class="activity-meta-value">Catatan konsultasi</div></div>
+        <div class="activity-meta-box"><div class="activity-meta-label">Status</div><div class="activity-meta-value">Siap diisi video</div></div>
+        <div class="activity-meta-box"><div class="activity-meta-label">Output</div><div class="activity-meta-value">Video YouTube</div></div>
       </div>
     </article>
 
@@ -1660,6 +1676,29 @@ body::after{
       </section>
     </div>
   </section>
+  <section class="monev-detail bks-detail" id="bks-detail">
+    <div class="monev-head">
+      <div>
+        <div class="monev-kicker">Bimbingan dan Konsultasi SDM Kearsipan</div>
+        <div class="monev-title">Ruang video layanan dan materi konsultasi.</div>
+        <div class="monev-copy">Area ini disiapkan untuk menampilkan video YouTube mengenai layanan konsultasi, asistensi kebutuhan arsiparis, pembinaan jabatan fungsional, atau materi pendukung SDM Kearsipan.</div>
+      </div>
+      <button type="button" class="monev-close" onclick="closeBksDetail()">Tutup</button>
+    </div>
+    <div class="monev-body">
+      <div class="bks-video-shell" id="bks-video-slot">
+        <div class="bks-video-placeholder">
+          <div class="bks-video-placeholder-inner">
+            <div class="bks-video-play" aria-hidden="true"></div>
+            <div class="bks-video-title">Video bimbingan akan ditampilkan di sini</div>
+            <div class="bks-video-copy">Placeholder sudah siap. Tautan YouTube dapat ditambahkan setelah video selesai diunggah.</div>
+            <div class="bks-video-status">Menunggu tautan YouTube</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="monev-detail" id="monev-detail">
     <div class="monev-head">
       <div>
@@ -2140,8 +2179,8 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 <script src="config.js"></script>
 <script>
 // -- TAB SWITCHING ---------------------------------------------
-const TAB_SRCS = { siarsiparis:'siarsiparis_v4_fix.html', rekomendasiJfa:'Rekomendasi JFA.html', bkn:'Data_BKN_rekap.html', sertifikasi:'sertifikasi.html', standarKompetensi:'standar_kompetensi_teknis.html' };
-const iframeLoaded = { siarsiparis:false, rekomendasiJfa:false, bkn:false, sertifikasi:false, standarKompetensi:false };
+const TAB_SRCS = { siarsiparis:'siarsiparis_v4_fix.html', rekomendasiJfa:'Rekomendasi JFA.html', bkn:'Data_BKN_rekap.html', pengawasanSdm:'pengawasan_sdm_kearsipan.html', sertifikasi:'sertifikasi.html', standarKompetensi:'standar_kompetensi_teknis.html' };
+const iframeLoaded = { siarsiparis:false, rekomendasiJfa:false, bkn:false, pengawasanSdm:false, sertifikasi:false, standarKompetensi:false };
 function switchTab(tabId, el) {
   document.querySelectorAll('.header-tabs a').forEach(a=>a.classList.remove('active'));
   el.classList.add('active');
@@ -2150,12 +2189,14 @@ function switchTab(tabId, el) {
   document.getElementById('panel-siarsiparis').style.display = tabId==='siarsiparis'?'':'none';
   document.getElementById('panel-rekomendasi-jfa').style.display = tabId==='rekomendasi-jfa'?'':'none';
   document.getElementById('panel-bkn').style.display = tabId==='bkn'?'':'none';
+  document.getElementById('panel-pengawasan-sdm').style.display = tabId==='pengawasan-sdm'?'':'none';
   document.getElementById('panel-kegiatan').style.display = tabId==='kegiatan'?'':'none';
   document.getElementById('panel-sertifikasi').style.display = tabId==='sertifikasi'?'':'none';
   document.getElementById('panel-standar-kompetensi').style.display = tabId==='standar-kompetensi'?'':'none';
   if (tabId==='siarsiparis'&&!iframeLoaded.siarsiparis){document.getElementById('iframe-siarsiparis').src=TAB_SRCS.siarsiparis;iframeLoaded.siarsiparis=true;}
   if (tabId==='rekomendasi-jfa'&&!iframeLoaded.rekomendasiJfa){document.getElementById('iframe-rekomendasi-jfa').src=TAB_SRCS.rekomendasiJfa;iframeLoaded.rekomendasiJfa=true;}
   if (tabId==='bkn'&&!iframeLoaded.bkn){document.getElementById('iframe-bkn').src=TAB_SRCS.bkn;iframeLoaded.bkn=true;}
+  if (tabId==='pengawasan-sdm'&&!iframeLoaded.pengawasanSdm){document.getElementById('iframe-pengawasan-sdm').src=TAB_SRCS.pengawasanSdm;iframeLoaded.pengawasanSdm=true;}
   if (tabId==='sertifikasi'&&!iframeLoaded.sertifikasi){document.getElementById('iframe-sertifikasi').src=TAB_SRCS.sertifikasi;iframeLoaded.sertifikasi=true;}
   if (tabId==='standar-kompetensi'&&!iframeLoaded.standarKompetensi){document.getElementById('iframe-standar-kompetensi').src=TAB_SRCS.standarKompetensi;iframeLoaded.standarKompetensi=true;}
 }
@@ -3556,8 +3597,56 @@ function setupCustomFilterSelects(){
   window.syncCustomFilterSelects=()=>instances.forEach(instance=>instance.syncLabel());
 }
 
+// Tempel tautan video YouTube di antara tanda petik ketika video sudah tersedia.
+const BKS_YOUTUBE_URL = '';
+
+function getYoutubeEmbedUrl(value){
+  if(!value) return '';
+  try{
+    const url=new URL(value);
+    let id='';
+    if(url.hostname.includes('youtu.be')) id=url.pathname.split('/').filter(Boolean)[0]||'';
+    else if(url.pathname.startsWith('/embed/')) id=url.pathname.split('/')[2]||'';
+    else if(url.pathname.startsWith('/shorts/')) id=url.pathname.split('/')[2]||'';
+    else id=url.searchParams.get('v')||'';
+    return id?`https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}`:'';
+  }catch(error){return '';}
+}
+
+function renderBksVideo(){
+  const slot=document.getElementById('bks-video-slot');
+  if(!slot) return;
+  const embedUrl=getYoutubeEmbedUrl(BKS_YOUTUBE_URL);
+  if(!embedUrl) return;
+  const frame=document.createElement('iframe');
+  frame.src=embedUrl;
+  frame.title='Video Bimbingan dan Konsultasi SDM Kearsipan';
+  frame.loading='lazy';
+  frame.referrerPolicy='strict-origin-when-cross-origin';
+  frame.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+  frame.allowFullscreen=true;
+  slot.replaceChildren(frame);
+}
+
+function openBksDetail(){
+  closeAtnDetail();
+  closeMonevDetail();
+  const detail=document.getElementById('bks-detail');
+  if(!detail) return;
+  renderBksVideo();
+  detail.classList.add('open');
+  detail.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function closeBksDetail(){
+  const detail=document.getElementById('bks-detail');
+  if(!detail) return;
+  detail.classList.remove('open');
+}
+
 function openAtnDetail(){
   closeMonevDetail();
+  closeBksDetail();
   const detail=document.getElementById('atn-detail');
   if(!detail) return;
   detail.classList.add('open');
@@ -3572,6 +3661,7 @@ function closeAtnDetail(){
 
 function openMonevDetail(){
   closeAtnDetail();
+  closeBksDetail();
   const detail=document.getElementById('monev-detail');
   if(!detail) return;
   detail.classList.add('open');

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="./favicon.png?v=2" type="image/png">
+<title>Pengawasan SDM Kearsipan - LAKE 2025</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --bg:#f5f7fa;--surface:#fff;--surface-soft:#f8fafc;--line:#dfe5ec;
+  --text:#152033;--muted:#607087;--blue:#0b63ce;--blue-soft:#eaf3ff;
+  --green:#11845b;--amber:#b96a00;--red:#c43a3a;--gray:#8a96a8;
+  --shadow:0 10px 30px rgba(15,23,42,.07);--radius:20px;
+  --l0:#c43a3a;--l1:#d47c11;--l2:#e1ad2d;--l3:#3d7fcc;--l4:#11845b;--missing:#9aa5b4;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+*{margin:0;padding:0}
+html{background:var(--bg);scroll-behavior:smooth}
+body{font-family:var(--font);background:linear-gradient(180deg,#fff 0,#f6f8fb 280px,#f2f5f8 100%);color:var(--text);min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid rgba(11,99,206,.22);outline-offset:2px}
+.shell{max-width:1500px;margin:0 auto;padding:28px 28px 56px}
+.hero{display:flex;justify-content:space-between;gap:28px;align-items:flex-end;padding:6px 2px 25px;border-bottom:1px solid var(--line)}
+.eyebrow{display:flex;align-items:center;gap:8px;color:var(--blue);font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.eyebrow::before{content:"";width:22px;height:3px;border-radius:99px;background:var(--blue)}
+h1{font-size:clamp(28px,4vw,48px);line-height:1.08;letter-spacing:-.045em;margin-top:10px;max-width:900px}
+.hero-copy{max-width:760px;color:var(--muted);font-size:14px;margin-top:12px}
+.source-card{min-width:225px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;box-shadow:0 5px 16px rgba(15,23,42,.04)}
+.source-label{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:800}
+.source-value{font-size:14px;font-weight:750;margin-top:4px}
+.source-note{font-size:11px;color:var(--muted);margin-top:3px}
+.subnav{display:flex;gap:6px;align-items:center;overflow-x:auto;padding:18px 0 12px;scrollbar-width:none;position:sticky;top:0;z-index:20;background:rgba(247,249,251,.92);backdrop-filter:blur(16px)}
+.subnav::-webkit-scrollbar{display:none}
+.subnav button{white-space:nowrap;border:1px solid transparent;border-radius:999px;padding:9px 14px;background:transparent;color:var(--muted);font-size:12px;font-weight:700;transition:.18s ease}
+.subnav button:hover{background:#fff;border-color:var(--line);color:var(--text)}
+.subnav button.active{background:var(--text);color:#fff;border-color:var(--text)}
+.toolbar{display:grid;grid-template-columns:minmax(260px,1fr) 260px auto;gap:10px;padding:12px;background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:16px;box-shadow:0 6px 20px rgba(15,23,42,.04);margin:2px 0 22px}
+.field{position:relative}
+.field label{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:800;margin:0 0 5px 2px}
+.field input,.field select{width:100%;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--text);padding:10px 12px;font-size:13px;min-height:42px}
+.multi-control{min-height:42px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:5px 8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;transition:border-color .16s ease,box-shadow .16s ease}
+.multi-control:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px rgba(11,99,206,.1)}
+.multi-control input{border:0!important;box-shadow:none!important;outline:0!important;padding:4px 2px!important;min-height:30px!important;flex:1 1 190px;width:auto!important}
+.selected-chips{display:contents}
+.selected-chip{display:inline-flex;align-items:center;gap:5px;max-width:320px;border-radius:999px;background:var(--blue-soft);color:#174f91;border:1px solid rgba(11,99,206,.15);padding:5px 7px 5px 9px;font-size:10.5px;font-weight:750}
+.selected-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.selected-chip button{border:0;background:rgba(11,99,206,.12);color:#174f91;border-radius:50%;width:18px;height:18px;display:grid;place-items:center;font-size:12px;line-height:1;flex:0 0 auto}
+.multi-options{position:absolute;z-index:60;left:0;right:0;top:100%;margin-top:6px;max-height:310px;overflow:auto;border:1px solid var(--line);border-radius:13px;background:#fff;box-shadow:0 18px 44px rgba(15,23,42,.16);padding:6px}
+.multi-options[hidden]{display:none}
+.multi-option{width:100%;border:0;border-radius:9px;background:#fff;color:var(--text);padding:9px 10px;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.multi-option:hover,.multi-option:focus{background:#f1f6fc}
+.multi-option-name{font-size:11.5px;font-weight:700;line-height:1.35}
+.multi-option-group{font-size:9.5px;color:var(--muted);margin-top:2px}
+.multi-option-add{color:var(--blue);font-size:10px;font-weight:850;white-space:nowrap}
+.multi-empty{padding:14px 10px;color:var(--muted);font-size:11px;text-align:center}
+.reset{align-self:end;min-height:42px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--text);font-size:12px;font-weight:750;padding:0 15px}
+.reset:hover{border-color:#b8c4d1;background:#f8fafc}
+.filter-status{grid-column:1/-1;font-size:11px;color:var(--muted);padding:0 3px 1px}
+.search-highlight{margin:0 0 22px}
+.search-highlight:empty{display:none}
+.highlight-shell{border:1px solid rgba(11,99,206,.28);border-radius:20px;background:linear-gradient(145deg,rgba(234,243,255,.92),rgba(255,255,255,.96));padding:18px;box-shadow:0 12px 30px rgba(11,99,206,.08)}
+.highlight-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:12px}
+.highlight-kicker{font-size:9.5px;color:var(--blue);font-weight:850;letter-spacing:.09em;text-transform:uppercase}
+.highlight-title{font-size:18px;font-weight:800;letter-spacing:-.025em;margin-top:3px}
+.highlight-summary{font-size:11px;color:var(--muted)}
+.profile-list{display:grid;gap:10px}
+.profile-card{border:1px solid rgba(255,255,255,.9);border-radius:16px;background:rgba(255,255,255,.9);padding:15px;box-shadow:0 5px 15px rgba(15,23,42,.045)}
+.profile-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.profile-name{font-size:14px;font-weight:800;line-height:1.35}
+.profile-indicators{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.profile-indicator{border:1px solid #e5eaf0;border-radius:13px;background:#fafbfd;padding:11px;min-width:0}
+.profile-indicator-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.profile-indicator-name{font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.045em}
+.profile-level{display:inline-flex;align-items:center;gap:5px;border-radius:999px;background:#fff;border:1px solid var(--line);padding:4px 7px;font-size:10px;font-weight:850;white-space:nowrap}
+.profile-condition{font-size:11px;color:var(--text);line-height:1.45;margin-top:8px}
+.highlight-more{font-size:10.5px;color:var(--muted);padding:9px 2px 0}
+.highlight-empty{font-size:12px;color:var(--muted);padding:8px 0 2px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:24px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:17px 18px;min-height:116px;box-shadow:0 6px 18px rgba(15,23,42,.045)}
+.kpi-label{font-size:10px;color:var(--muted);font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+.kpi-value{font-size:34px;font-weight:780;letter-spacing:-.045em;line-height:1;margin-top:12px}
+.kpi-note{font-size:11px;color:var(--muted);margin-top:8px}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin:28px 2px 13px}
+.section-head h2{font-size:20px;letter-spacing:-.025em}
+.section-head p{font-size:12px;color:var(--muted);max-width:640px}
+.indicator-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.indicator-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);min-width:0}
+.indicator-top{padding:18px 18px 15px;border-bottom:1px solid var(--line)}
+.indicator-code{display:inline-flex;border-radius:999px;padding:4px 8px;background:var(--blue-soft);color:var(--blue);font-size:10px;font-weight:850;letter-spacing:.05em}
+.indicator-title{font-size:18px;font-weight:780;letter-spacing:-.02em;margin-top:10px}
+.indicator-question{font-size:12px;color:var(--muted);margin-top:6px;min-height:54px}
+.indicator-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:14px}
+.fact{background:var(--surface-soft);border-radius:11px;padding:9px}
+.fact strong{display:block;font-size:19px;line-height:1.1}
+.fact span{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:750}
+.distribution{padding:14px 18px 18px}
+.dist-group+.dist-group{margin-top:14px}
+.dist-head{display:flex;justify-content:space-between;gap:12px;font-size:11px;margin-bottom:6px}
+.dist-head strong{font-weight:750}
+.dist-head span{color:var(--muted)}
+.stack{display:flex;height:14px;border-radius:999px;overflow:hidden;background:#edf1f5}
+.segment{height:100%;min-width:0;position:relative;transition:width .25s ease}
+.segment:hover{filter:brightness(.92)}
+.segment.l0{background:var(--l0)}.segment.l1{background:var(--l1)}.segment.l2{background:var(--l2)}.segment.l3{background:var(--l3)}.segment.l4{background:var(--l4)}.segment.missing{background:var(--missing)}
+.dist-counts{display:flex;flex-wrap:wrap;gap:7px 10px;margin-top:7px}
+.dist-count{font-size:9.5px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.dot{width:7px;height:7px;border-radius:2px;display:inline-block}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:14px;padding:12px 15px;margin-top:14px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--muted)}
+.legend-item strong{color:var(--text)}
+.indicator-detail{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.75fr);gap:16px;align-items:start}
+.question-panel,.definition-panel,.level-panel,.table-panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.question-panel{padding:22px}
+.question-number{color:var(--blue);font-size:11px;font-weight:850;text-transform:uppercase;letter-spacing:.08em}
+.question-panel h2{font-size:25px;letter-spacing:-.035em;margin-top:8px}
+.question-text{font-size:15px;color:var(--text);margin-top:12px;max-width:850px}
+.definition-panel{padding:20px}
+.definition-panel h3{font-size:13px;text-transform:uppercase;letter-spacing:.07em}
+.definition-panel p,.definition-panel li{font-size:12px;color:var(--muted)}
+.definition-panel p{margin-top:10px}.definition-panel ul{padding-left:18px;margin-top:8px}
+.level-panel{grid-column:1/-1;padding:20px}
+.level-results{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+.level-results.is-empty{padding:16px;border:1px dashed #cbd5e1;border-radius:13px;background:#f8fafc;color:var(--muted);font-size:12px;text-align:center}
+.level-results-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:12px}
+.level-results-title{font-size:14px;font-weight:800}
+.level-results-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.level-results-close{border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--muted);padding:6px 10px;font-size:10px;font-weight:750}
+.level-results-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.level-institution{display:flex;align-items:flex-start;gap:9px;border:1px solid #e7ebf0;border-radius:12px;background:#fff;padding:10px 11px;min-width:0}
+.level-institution .dot{margin-top:5px;flex:0 0 auto}
+.level-institution-name{font-size:11.5px;font-weight:700;line-height:1.4}
+.level-institution-group{font-size:9.5px;color:var(--muted);margin-top:2px}
+.level-list{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-top:14px}
+.level-card{border:1px solid var(--line);border-radius:14px;padding:13px;background:var(--surface-soft);min-height:145px}
+.level-card.interactive{width:100%;color:inherit;text-align:left;cursor:pointer;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
+.level-card.interactive:hover{transform:translateY(-2px);border-color:rgba(11,99,206,.38);box-shadow:0 9px 22px rgba(15,23,42,.08)}
+.level-card.interactive.selected{border-color:var(--blue);box-shadow:0 0 0 3px rgba(11,99,206,.12);background:#fff}
+.level-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.level-badge{width:31px;height:31px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:850;font-size:13px}
+.choice{font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase}
+.level-card h4{font-size:12px;margin-top:10px;line-height:1.35}
+.level-card p{font-size:10.5px;color:var(--muted);margin-top:6px;line-height:1.45}
+.detail-chart{grid-column:1/-1;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.detail-chart h3{font-size:15px;margin-bottom:16px}
+.table-panel{overflow:hidden}
+.table-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+.table-head h2{font-size:20px}.table-head p{font-size:11px;color:var(--muted);margin-top:3px}
+.table-wrap{overflow:auto;max-height:680px}
+table{width:100%;border-collapse:separate;border-spacing:0;min-width:900px}
+th{position:sticky;top:0;z-index:2;background:#f7f9fb;text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+td{padding:11px 14px;border-bottom:1px solid #edf0f4;font-size:12px;vertical-align:middle}
+tbody tr:hover{background:#f8fbff}
+.group-tag{display:inline-flex;border-radius:999px;background:#edf2f7;color:#536174;font-size:9.5px;font-weight:750;padding:4px 8px;white-space:nowrap}
+.institution{font-weight:650;min-width:280px}
+.level-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:5px 9px;background:#fff;white-space:nowrap;font-size:10.5px;font-weight:750}
+.level-chip .dot{border-radius:50%}
+.empty{padding:48px 20px;text-align:center;color:var(--muted);font-size:13px}
+.footnote{margin-top:18px;padding:14px 16px;border-left:3px solid var(--blue);background:rgba(234,243,255,.72);border-radius:0 12px 12px 0;color:var(--muted);font-size:11px}
+.view{display:none}.view.active{display:block}
+@media(max-width:1050px){.indicator-grid{grid-template-columns:1fr}.indicator-question{min-height:0}.indicator-detail{grid-template-columns:1fr}.level-list{grid-template-columns:repeat(2,1fr)}.definition-panel{grid-column:1}.kpis{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.profile-indicators{grid-template-columns:1fr}.highlight-head,.profile-top{align-items:flex-start;flex-direction:column}.level-results-list{grid-template-columns:1fr}.shell{padding:20px 14px 40px}.hero{display:block}.source-card{margin-top:18px;min-width:0}.toolbar{grid-template-columns:1fr}.reset{width:100%}.kpis{grid-template-columns:1fr 1fr}.kpi{padding:14px;min-height:105px}.kpi-value{font-size:28px}.level-list{grid-template-columns:1fr}.level-card{min-height:0}.section-head{display:block}.section-head p{margin-top:5px}.question-panel h2{font-size:22px}.indicator-facts{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:440px){.kpis{grid-template-columns:1fr}.indicator-facts{grid-template-columns:1fr 1fr}.subnav{margin-inline:-14px;padding-inline:14px}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Hasil Pengawasan Kearsipan</div>
+      <h1>Pemetaan Aspek Sumber Daya Manusia Kearsipan</h1>
+      <p class="hero-copy">Pemetaan level Kementerian dan Lembaga berdasarkan ketersediaan arsiparis, sertifikasi arsiparis, dan capaian arsiparis berprestasi.</p>
+    </div>
+    <div class="source-card">
+      <div class="source-label">Sumber data</div>
+      <div class="source-value">Rekap LAKE 2025 — Bab II</div>
+      <div class="source-note">3 indikator · 91 instansi</div>
+    </div>
+  </header>
+
+  <nav class="subnav" aria-label="Bagian dashboard">
+    <button class="active" data-view="summary">Ringkasan Nasional</button>
+    <button data-view="availability">Ketersediaan Arsiparis</button>
+    <button data-view="certification">Sertifikasi Arsiparis</button>
+    <button data-view="achievement">Arsiparis Berprestasi</button>
+    <button data-view="institutions">Data Instansi</button>
+  </nav>
+
+  <section class="toolbar" aria-label="Filter data">
+    <div class="field multi-field"><label for="search">Bandingkan kementerian/lembaga</label><div class="multi-control" id="multi-control"><div class="selected-chips" id="selected-chips"></div><input id="search" type="search" placeholder="Cari dan pilih beberapa instansi..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="multi-options"></div><div class="multi-options" id="multi-options" role="listbox" aria-label="Pilihan instansi" hidden></div></div>
+    <div class="field"><label for="group-filter">Kelompok instansi</label><select id="group-filter"><option value="all">Semua kelompok</option><option value="Kementerian">Kementerian</option><option value="LPNK">LPNK</option><option value="Lembaga Negara & Lainnya">Lembaga Negara & Lainnya</option></select></div>
+    <button class="reset" id="reset-filter" type="button">Atur ulang</button>
+    <div class="filter-status" id="filter-status" aria-live="polite"></div>
+  </section>
+
+  <section class="search-highlight" id="search-highlight" aria-live="polite"></section>
+
+  <section class="view active" id="view-summary"></section>
+  <section class="view" id="view-availability"></section>
+  <section class="view" id="view-certification"></section>
+  <section class="view" id="view-achievement"></section>
+  <section class="view" id="view-institutions"></section>
+
+  <div class="footnote"><strong>Catatan pembacaan:</strong> Level menunjukkan posisi jawaban pada masing-masing pertanyaan pengawasan, bukan nilai akhir kinerja SDM. Tanda “—” disajikan sebagai data tidak tersedia/tidak dinilai dan tidak digabungkan dengan Level 0.</div>
+</main>
+
+<script src="./assets/pengawasan_sdm_kearsipan_2025.js?v=20260720"></script>
+<script>
+const DATA = Array.isArray(window.PENGAWASAN_SDM_2025) ? window.PENGAWASAN_SDM_2025 : [];
+const GROUPS = ['Kementerian','LPNK','Lembaga Negara & Lainnya'];
+const LEVEL_META = {
+  0:{label:'Level 0',choice:'Pilihan a',color:'var(--l0)'},
+  1:{label:'Level 1',choice:'Pilihan b',color:'var(--l1)'},
+  2:{label:'Level 2',choice:'Pilihan c',color:'var(--l2)'},
+  3:{label:'Level 3',choice:'Pilihan d',color:'var(--l3)'},
+  4:{label:'Level 4',choice:'Pilihan e',color:'var(--l4)'},
+  missing:{label:'Tidak tersedia',choice:'—',color:'var(--missing)'}
+};
+const INDICATORS = {
+  availability:{
+    code:'Pertanyaan 4',title:'Ketersediaan Arsiparis',field:'availability',
+    question:'Ketersediaan arsiparis pada Unit Kearsipan dan Unit Pengolah sesuai dengan analisis kebutuhan yang telah mendapatkan rekomendasi ANRI.',
+    levels:[
+      ['Belum tersedia arsiparis','Belum tersedia arsiparis pada kementerian/lembaga.'],
+      ['Tersedia, analisis sedang disusun','Tersedia arsiparis pada Unit Kearsipan dan/atau Unit Pengolah serta dalam proses penyusunan analisis kebutuhan.'],
+      ['Rekomendasi ANRI sedang diproses','Tersedia arsiparis dan analisis kebutuhan dalam proses mendapatkan rekomendasi ANRI.'],
+      ['Analisis telah direkomendasikan','Tersedia arsiparis pada Unit Kearsipan dan Unit Pengolah serta memiliki analisis kebutuhan yang telah mendapatkan rekomendasi ANRI.'],
+      ['Dalam upaya penambahan','Tersedia arsiparis dan dalam upaya penambahan jumlah sesuai analisis kebutuhan yang telah mendapatkan rekomendasi ANRI.']
+    ],
+    definition:'Arsiparis adalah seseorang yang memiliki kompetensi di bidang kearsipan melalui pendidikan formal dan/atau pendidikan dan pelatihan kearsipan serta mempunyai fungsi, tugas, dan tanggung jawab melaksanakan kegiatan kearsipan.',
+    notes:['Analisis kebutuhan ASN mencakup analisis jabatan, analisis beban kerja, peta jabatan, kebutuhan ASN, dan penyampaian usul kebutuhan ASN.','Rekomendasi diberikan ANRI setelah analisis kebutuhan arsiparis diajukan dan diproses.','Penilaian melihat pemenuhan target tahunan apabila analisis kebutuhan ditetapkan untuk kurun lima tahun.']
+  },
+  certification:{
+    code:'Pertanyaan 7',title:'Sertifikasi Arsiparis',field:'certification',
+    question:'Arsiparis pada kementerian/lembaga telah tersertifikasi.',
+    levels:[
+      ['Belum tersertifikasi','Seluruh arsiparis pada kementerian/lembaga belum tersertifikasi.'],
+      ['Sudah diusulkan','Kementerian/lembaga telah mengusulkan sertifikasi arsiparis.'],
+      ['Lebih dari 0%–50%','Lebih dari 0% sampai dengan 50% arsiparis pada kementerian/lembaga telah tersertifikasi.'],
+      ['Lebih dari 50%–kurang dari 100%','Lebih dari 50% sampai dengan kurang dari 100% arsiparis pada kementerian/lembaga telah tersertifikasi.'],
+      ['Seluruhnya tersertifikasi','Seluruh arsiparis pada kementerian/lembaga telah tersertifikasi.']
+    ],
+    definition:'Tersertifikasi adalah arsiparis yang telah lulus kegiatan sertifikasi kearsipan dan memperoleh sertifikat yang dikeluarkan oleh Direktorat SDM Kearsipan dan Sertifikasi ANRI.',
+    notes:['Penilaian mencakup sertifikasi dalam jabatan dengan kurun waktu yang diperhitungkan empat tahun dalam jabatan.','Sertifikasi teknis tertentu dalam lingkup Pengelolaan Arsip Dinamis (PAD) juga diperhitungkan.','Bukti dukung dapat berupa sertifikat, dokumen rekapitulasi, atau daftar arsiparis tersertifikasi yang disahkan pejabat terkait.']
+  },
+  achievement:{
+    code:'Pertanyaan 8',title:'Arsiparis Berprestasi',field:'achievement',
+    question:'Arsiparis berprestasi pada kementerian/lembaga.',
+    levels:[
+      ['Belum menyelenggarakan','Kementerian/lembaga belum menyelenggarakan kegiatan pemilihan arsiparis berprestasi.'],
+      ['Dalam perencanaan','Kementerian/lembaga merencanakan kegiatan pemilihan arsiparis berprestasi.'],
+      ['Menyelenggarakan pemilihan','Kementerian/lembaga menyelenggarakan kegiatan pemilihan arsiparis berprestasi.'],
+      ['Mengikuti pemilihan nasional','Kementerian/lembaga mengikutsertakan arsiparis sebagai peserta pada pemilihan arsiparis teladan nasional yang diselenggarakan ANRI.'],
+      ['Meraih capaian tertinggi','Terdapat arsiparis yang memperoleh penghargaan atau menjadi finalis pemilihan arsiparis teladan nasional, atau memperoleh penghargaan kearsipan dari organisasi internasional.']
+    ],
+    definition:'Capaian arsiparis berprestasi dibuktikan melalui kegiatan pemilihan arsiparis teladan nasional atau penghargaan kearsipan dari organisasi internasional.',
+    notes:['Bukti internasional dapat berupa sertifikat penghargaan atau bukti lain yang mendukung sebagai pembicara pada forum internasional.','Pemilihan calon peserta arsiparis teladan nasional diselenggarakan oleh ANRI.','Kurun waktu penilaian adalah lima tahun terakhir dari masa audit.']
+  }
+};
+
+let state={view:'summary',searchText:'',selectedInstitutions:[],multiOpen:false,group:'all',levelSelection:{availability:null,certification:null,achievement:null}};
+const escapeHTML=(value)=>String(value??'').replace(/[&<>'"]/g,(char)=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+const levelKey=(value)=>Number.isInteger(value)?String(value):'missing';
+const filteredData=()=>DATA.filter(row=>(state.group==='all'||row.group===state.group)&&(!state.selectedInstitutions.length||state.selectedInstitutions.includes(row.institution)));
+
+function countsFor(rows,field){
+  const out={0:0,1:0,2:0,3:0,4:0,missing:0};
+  rows.forEach(row=>out[levelKey(row[field])]++);
+  return out;
+}
+function formatPct(value,total){return total?`${(value/total*100).toFixed(value/total*100<10?1:0).replace('.',',')}%`:'0%'}
+function distributionHTML(rows,field,includeGroups=true){
+  const groups=includeGroups?GROUPS.filter(group=>state.group==='all'||group===state.group):['Semua instansi'];
+  return groups.map(group=>{
+    const items=group==='Semua instansi'?rows:rows.filter(row=>row.group===group);
+    const counts=countsFor(items,field); const total=items.length;
+    const segments=[0,1,2,3,4,'missing'].map(key=>`<span class="segment ${key==='missing'?'missing':'l'+key}" style="width:${total?counts[key]/total*100:0}%" title="${LEVEL_META[key].label}: ${counts[key]} instansi (${formatPct(counts[key],total)})"></span>`).join('');
+    const labels=[0,1,2,3,4,'missing'].filter(key=>counts[key]>0).map(key=>`<span class="dist-count"><i class="dot" style="background:${LEVEL_META[key].color}"></i>L${key==='missing'?'—':key}: ${counts[key]}</span>`).join('');
+    return `<div class="dist-group"><div class="dist-head"><strong>${escapeHTML(group)}</strong><span>${total} instansi</span></div><div class="stack" role="img" aria-label="Distribusi level ${escapeHTML(group)}">${segments}</div><div class="dist-counts">${labels||'<span class="dist-count">Tidak ada data</span>'}</div></div>`;
+  }).join('');
+}
+function legendHTML(){return `<div class="legend">${[0,1,2,3,4,'missing'].map(key=>`<span class="legend-item"><i class="dot" style="background:${LEVEL_META[key].color}"></i><strong>${key==='missing'?'—':'L'+key}</strong> ${LEVEL_META[key].choice}</span>`).join('')}</div>`}
+
+function profileIndicatorHTML(row,key){
+  const ind=INDICATORS[key],raw=row[ind.field],level=levelKey(raw);
+  const condition=level==='missing'?'Data tidak tersedia/tidak dinilai.':ind.levels[Number(level)][1];
+  const label=level==='missing'?'—':'Level '+level;
+  return `<div class="profile-indicator"><div class="profile-indicator-head"><span class="profile-indicator-name">${ind.title}</span><span class="profile-level"><i class="dot" style="background:${LEVEL_META[level].color}"></i>${label}</span></div><div class="profile-condition">${escapeHTML(condition)}</div></div>`;
+}
+function searchHighlightHTML(rows){
+  if(!state.selectedInstitutions.length)return '';
+  if(!rows.length)return `<div class="highlight-shell"><div class="highlight-kicker">Komparasi instansi</div><div class="highlight-title">Tidak ada instansi terpilih pada kelompok ini</div><div class="highlight-empty">Ubah filter kelompok atau pilih instansi lain.</div></div>`;
+  const cards=rows.map(row=>`<article class="profile-card"><div class="profile-top"><div class="profile-name">${escapeHTML(row.institution)}</div><span class="group-tag">${escapeHTML(row.group)}</span></div><div class="profile-indicators">${profileIndicatorHTML(row,'availability')}${profileIndicatorHTML(row,'certification')}${profileIndicatorHTML(row,'achievement')}</div></article>`).join('');
+  return `<div class="highlight-shell"><div class="highlight-head"><div><div class="highlight-kicker">Komparasi instansi</div><div class="highlight-title">Perbandingan tiga indikator SDM Kearsipan</div></div><div class="highlight-summary">${rows.length} dari ${state.selectedInstitutions.length} instansi terpilih</div></div><div class="profile-list">${cards}</div></div>`;
+}
+
+function summaryHTML(rows){
+  const groupCounts=Object.fromEntries(GROUPS.map(group=>[group,rows.filter(row=>row.group===group).length]));
+  const cards=Object.values(INDICATORS).map(ind=>{
+    const counts=countsFor(rows,ind.field);const valid=rows.length-counts.missing;const high=counts[3]+counts[4];
+    return `<article class="indicator-card"><div class="indicator-top"><span class="indicator-code">${ind.code}</span><div class="indicator-title">${ind.title}</div><p class="indicator-question">${ind.question}</p><div class="indicator-facts"><div class="fact"><strong>${valid}</strong><span>Data valid</span></div><div class="fact"><strong>${high}</strong><span>Level 3–4</span></div><div class="fact"><strong>${counts.missing}</strong><span>Tidak tersedia</span></div></div></div><div class="distribution">${distributionHTML(rows,ind.field,true)}</div></article>`;
+  }).join('');
+  return `<div class="kpis"><div class="kpi"><div class="kpi-label">Instansi ditampilkan</div><div class="kpi-value">${rows.length}</div><div class="kpi-note">dari 91 Kementerian/Lembaga</div></div><div class="kpi"><div class="kpi-label">Kementerian</div><div class="kpi-value">${groupCounts.Kementerian}</div><div class="kpi-note">47 pada data nasional</div></div><div class="kpi"><div class="kpi-label">LPNK</div><div class="kpi-value">${groupCounts.LPNK}</div><div class="kpi-note">20 pada data nasional</div></div><div class="kpi"><div class="kpi-label">Lembaga Negara & Lainnya</div><div class="kpi-value">${groupCounts['Lembaga Negara & Lainnya']}</div><div class="kpi-note">24 pada data nasional</div></div></div><div class="section-head"><div><h2>Distribusi level per indikator</h2><p>Perbandingan menggunakan proporsi per kelompok agar ukuran kelompok yang berbeda tetap dapat dibaca secara adil.</p></div></div><div class="indicator-grid">${cards}</div>${legendHTML()}`;
+}
+
+function levelInstitutionsHTML(rows,key,level){
+  const ind=INDICATORS[key];
+  const matches=rows.filter(row=>row[ind.field]===level).sort((a,b)=>GROUPS.indexOf(a.group)-GROUPS.indexOf(b.group)||a.institution.localeCompare(b.institution,'id'));
+  const levelTitle=ind.levels[level][0];
+  if(!matches.length){return `<div class="level-results" id="level-results-${key}"><div class="level-results-head"><div><div class="level-results-title">Level ${level} · ${levelTitle}</div><div class="level-results-sub">Tidak ada instansi pada level ini sesuai filter aktif.</div></div><button class="level-results-close" type="button" data-clear-level="${key}">Tutup daftar</button></div></div>`;}
+  return `<div class="level-results" id="level-results-${key}"><div class="level-results-head"><div><div class="level-results-title">Level ${level} · ${levelTitle}</div><div class="level-results-sub">${matches.length} instansi sesuai filter aktif</div></div><button class="level-results-close" type="button" data-clear-level="${key}">Tutup daftar</button></div><div class="level-results-list">${matches.map(row=>`<div class="level-institution"><i class="dot" style="background:${LEVEL_META[level].color}"></i><div><div class="level-institution-name">${escapeHTML(row.institution)}</div><div class="level-institution-group">${escapeHTML(row.group)}</div></div></div>`).join('')}</div></div>`;
+}
+
+function indicatorHTML(rows,key){
+  const ind=INDICATORS[key];const counts=countsFor(rows,ind.field);const valid=rows.length-counts.missing;
+  const interactive=['availability','certification','achievement'].includes(key);
+  const selected=interactive?state.levelSelection[key]:null;
+  const levels=ind.levels.map((item,index)=>{
+    const content=`<div class="level-head"><span class="level-badge" style="background:${LEVEL_META[index].color}">${index}</span><span class="choice">${LEVEL_META[index].choice}</span></div><h4>${item[0]}</h4><p>${item[1]}</p>`;
+    if(!interactive)return `<article class="level-card">${content}</article>`;
+    return `<button type="button" class="level-card interactive${selected===index?' selected':''}" data-indicator="${key}" data-level="${index}" aria-pressed="${selected===index}">${content}</button>`;
+  }).join('');
+  const results=interactive?(Number.isInteger(selected)?levelInstitutionsHTML(rows,key,selected):`<div class="level-results is-empty" id="level-results-${key}">Klik salah satu Level 0–4 untuk melihat daftar Kementerian/Lembaga pada level tersebut.</div>`):'';
+  return `<div class="indicator-detail"><article class="question-panel"><div class="question-number">${ind.code}</div><h2>${ind.title}</h2><p class="question-text">${ind.question}</p><div class="indicator-facts"><div class="fact"><strong>${valid}</strong><span>Data valid</span></div><div class="fact"><strong>${counts[4]}</strong><span>Level 4</span></div><div class="fact"><strong>${counts.missing}</strong><span>Tidak tersedia</span></div></div></article><aside class="definition-panel"><h3>Definisi operasional</h3><p>${ind.definition}</p><ul>${ind.notes.map(note=>`<li>${note}</li>`).join('')}</ul></aside><section class="level-panel"><div class="section-head" style="margin:0"><div><h2>Makna setiap level</h2><p>${interactive?'Klik level untuk melihat instansi di dalamnya.':'Level mengikuti urutan pilihan a sampai e pada instrumen pengawasan.'}</p></div></div><div class="level-list">${levels}</div>${results}</section><section class="detail-chart"><h3>Distribusi ${ind.title.toLocaleLowerCase('id')} menurut kelompok instansi</h3>${distributionHTML(rows,ind.field,true)}${legendHTML()}</section></div>`;
+}
+
+function chipHTML(value,indicator){
+  const key=levelKey(value),meta=LEVEL_META[key];
+  const title=key==='missing'?'Data tidak tersedia/tidak dinilai':INDICATORS[indicator].levels[Number(key)][1];
+  return `<span class="level-chip" title="${escapeHTML(title)}"><i class="dot" style="background:${meta.color}"></i>${key==='missing'?'—':'Level '+key}</span>`;
+}
+function tableHTML(rows){
+  const body=rows.length?rows.map(row=>`<tr><td><span class="group-tag">${escapeHTML(row.group)}</span></td><td class="institution">${escapeHTML(row.institution)}</td><td>${chipHTML(row.availability,'availability')}</td><td>${chipHTML(row.certification,'certification')}</td><td>${chipHTML(row.achievement,'achievement')}</td></tr>`).join(''):`<tr><td colspan="5" class="empty">Tidak ada instansi yang cocok dengan filter.</td></tr>`;
+  return `<section class="table-panel"><div class="table-head"><div><h2>Data per Kementerian/Lembaga</h2><p>Level ditampilkan sesuai jawaban pada tiga indikator SDM Kearsipan.</p></div><span class="group-tag">${rows.length} instansi</span></div><div class="table-wrap"><table><thead><tr><th>Kelompok</th><th>Kementerian/Lembaga</th><th>Ketersediaan Arsiparis</th><th>Sertifikasi Arsiparis</th><th>Arsiparis Berprestasi</th></tr></thead><tbody>${body}</tbody></table></div></section>`;
+}
+
+function multiSelectOptions(){
+  const term=state.searchText.toLocaleLowerCase('id');
+  return DATA.filter(row=>(state.group==='all'||row.group===state.group)&&!state.selectedInstitutions.includes(row.institution)&&row.institution.toLocaleLowerCase('id').includes(term)).sort((a,b)=>a.institution.localeCompare(b.institution,'id')).slice(0,15);
+}
+function renderMultiSelect(){
+  const chips=document.getElementById('selected-chips'),input=document.getElementById('search'),options=document.getElementById('multi-options');
+  chips.innerHTML=state.selectedInstitutions.map(name=>`<span class="selected-chip"><span title="${escapeHTML(name)}">${escapeHTML(name)}</span><button type="button" data-remove-institution="${escapeHTML(name)}" aria-label="Hapus ${escapeHTML(name)}">×</button></span>`).join('');
+  input.value=state.searchText;
+  input.setAttribute('aria-expanded',String(state.multiOpen));
+  options.hidden=!state.multiOpen;
+  if(!state.multiOpen)return;
+  const rows=multiSelectOptions();
+  options.innerHTML=rows.length?rows.map(row=>`<button type="button" class="multi-option" data-add-institution="${escapeHTML(row.institution)}" role="option"><span><span class="multi-option-name">${escapeHTML(row.institution)}</span><span class="multi-option-group">${escapeHTML(row.group)}</span></span><span class="multi-option-add">+ Pilih</span></button>`).join(''):`<div class="multi-empty">Tidak ada instansi lain yang cocok.</div>`;
+}
+function addInstitution(name){
+  if(!state.selectedInstitutions.includes(name))state.selectedInstitutions.push(name);
+  state.searchText='';state.multiOpen=true;render();
+  document.getElementById('search').focus();
+}
+function removeInstitution(name){
+  state.selectedInstitutions=state.selectedInstitutions.filter(item=>item!==name);render();
+}
+
+function render(){
+  const rows=filteredData();
+  renderMultiSelect();
+  document.getElementById('search-highlight').innerHTML=searchHighlightHTML(rows);
+  document.getElementById('filter-status').textContent=`Menampilkan ${rows.length} dari ${DATA.length} instansi${state.group!=='all'?' · '+state.group:''}${state.selectedInstitutions.length?' · '+state.selectedInstitutions.length+' instansi dipilih untuk dibandingkan':''}.`;
+  document.getElementById('view-summary').innerHTML=summaryHTML(rows);
+  document.getElementById('view-availability').innerHTML=indicatorHTML(rows,'availability');
+  document.getElementById('view-certification').innerHTML=indicatorHTML(rows,'certification');
+  document.getElementById('view-achievement').innerHTML=indicatorHTML(rows,'achievement');
+  document.getElementById('view-institutions').innerHTML=tableHTML(rows);
+}
+document.querySelectorAll('.subnav button').forEach(button=>button.addEventListener('click',()=>{
+  state.view=button.dataset.view;
+  document.querySelectorAll('.subnav button').forEach(item=>item.classList.toggle('active',item===button));
+  document.querySelectorAll('.view').forEach(view=>view.classList.toggle('active',view.id===`view-${state.view}`));
+}));
+function selectIndicatorLevel(card){
+  const key=card.dataset.indicator,level=Number(card.dataset.level);
+  state.levelSelection[key]=level;
+  render();
+  document.getElementById(`level-results-${key}`)?.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+document.addEventListener('click',(event)=>{
+  const card=event.target.closest('.level-card.interactive');
+  if(card){selectIndicatorLevel(card);return;}
+  const close=event.target.closest('[data-clear-level]');
+  if(close){state.levelSelection[close.dataset.clearLevel]=null;render();}
+});
+document.getElementById('search').addEventListener('focus',()=>{state.multiOpen=true;renderMultiSelect()});
+document.getElementById('search').addEventListener('input',(event)=>{state.searchText=event.target.value;state.multiOpen=true;renderMultiSelect()});
+document.getElementById('search').addEventListener('keydown',(event)=>{
+  if(event.key==='Escape'){state.multiOpen=false;renderMultiSelect();event.target.blur();return;}
+  if(event.key==='Enter'){const first=multiSelectOptions()[0];if(first){event.preventDefault();addInstitution(first.institution);}}
+});
+document.addEventListener('click',(event)=>{
+  const add=event.target.closest('[data-add-institution]');
+  if(add){addInstitution(add.dataset.addInstitution);return;}
+  const remove=event.target.closest('[data-remove-institution]');
+  if(remove){removeInstitution(remove.dataset.removeInstitution);return;}
+  if(!event.target.closest('.multi-field')&&state.multiOpen){state.multiOpen=false;renderMultiSelect();}
+});
+document.getElementById('group-filter').addEventListener('change',(event)=>{state.group=event.target.value;render()});
+document.getElementById('reset-filter').addEventListener('click',()=>{state={...state,searchText:'',selectedInstitutions:[],multiOpen:false,group:'all'};document.getElementById('group-filter').value='all';render()});
+render();
+</script>
+</body>
+</html>
