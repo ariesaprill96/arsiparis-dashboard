@@ -1504,8 +1504,9 @@ body::after{
   .cluster-sheet{max-height:92vh;border-radius:28px;}
 }
 </style>
+  <link rel="stylesheet" href="assets/dashboard-theme.css?v=20260721">
 </head>
-<body>
+<body data-anri-theme="shell">
 
 <div class="loading-overlay" id="loading-overlay">
   <div class="loading-ring"></div>
@@ -1522,12 +1523,13 @@ body::after{
     </div>
   </div>
   <nav class="header-tabs" id="header-tabs">
-    <a href="#" class="active" onclick="switchTab('rekap',this);return false;">Dashboard Rekomendasi JFA</a>
-    <a href="#" onclick="switchTab('rekomendasi-jfa',this);return false;">Formulir Penghitungan JFA</a>
+    <a href="#" class="active" aria-current="page" title="Dashboard Rekomendasi JFA" onclick="switchTab('rekap',this);return false;">Dashboard</a>
+    <!-- Disembunyikan sementara; panel dan seluruh coding Formulir Penghitungan JFA tetap dipertahankan. -->
+    <a href="#" hidden aria-hidden="true" style="display:none" onclick="switchTab('rekomendasi-jfa',this);return false;">Formulir Penghitungan JFA</a>
     <a href="#" onclick="switchTab('bkn',this);return false;">Data BKN</a>
-    <a href="#" onclick="switchTab('pengawasan-sdm',this);return false;">Pengawasan SDM</a>
+    <a href="#" title="Pengawasan Sumber Daya Manusia Kearsipan" onclick="switchTab('pengawasan-sdm',this);return false;">Pengawasan</a>
     <a href="#" onclick="switchTab('kegiatan',this);return false;">Kegiatan SDM</a>
-    <a href="#" onclick="switchTab('sertifikasi',this);return false;">Jadwal Sertifikasi</a>
+    <a href="#" title="Jadwal Sertifikasi SDM Kearsipan" onclick="switchTab('sertifikasi',this);return false;">Sertifikasi</a>
     <a href="#" onclick="switchTab('standar-kompetensi',this);return false;">Standar Kompetensi</a>
   </nav>
   <div class="header-center">
@@ -2182,8 +2184,12 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 const TAB_SRCS = { siarsiparis:'siarsiparis_v4_fix.html', rekomendasiJfa:'Rekomendasi JFA.html', bkn:'Data_BKN_rekap.html', pengawasanSdm:'pengawasan_sdm_kearsipan.html', sertifikasi:'sertifikasi.html', standarKompetensi:'standar_kompetensi_teknis.html' };
 const iframeLoaded = { siarsiparis:false, rekomendasiJfa:false, bkn:false, pengawasanSdm:false, sertifikasi:false, standarKompetensi:false };
 function switchTab(tabId, el) {
-  document.querySelectorAll('.header-tabs a').forEach(a=>a.classList.remove('active'));
+  document.querySelectorAll('.header-tabs a').forEach(a=>{
+    a.classList.remove('active');
+    a.removeAttribute('aria-current');
+  });
   el.classList.add('active');
+  el.setAttribute('aria-current','page');
   el.scrollIntoView({block:'nearest', inline:'center'});
   document.getElementById('panel-rekap').style.display = tabId==='rekap'?'':'none';
   document.getElementById('panel-siarsiparis').style.display = tabId==='siarsiparis'?'':'none';
