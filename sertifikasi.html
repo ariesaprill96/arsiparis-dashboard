@@ -877,6 +877,7 @@
     .cert-db-year{ width:auto; white-space:nowrap; }
     .cert-db-frame{ height:680px; }
   }
+
 </style>
   <link rel="stylesheet" href="assets/dashboard-theme.css?v=20260721">
 </head>
@@ -936,7 +937,7 @@
   <button class="tab-btn" onclick="switchTab('rm', this)">Uji Kompetensi RM</button>
   <button class="tab-btn" onclick="switchTab('metode', this)">Metode & Bobot Nilai</button>
   <button class="tab-btn" onclick="switchTab('tautan', this)">Tautan & Referensi</button>
-  <button class="tab-btn" onclick="switchTab('database', this)">Database Sertifikasi</button>
+  <button class="tab-btn" onclick="switchTab('database', this)">Data Sertifikasi</button>
 </div>
 
 <!-- ===== TAB: RM ===== -->
@@ -2054,7 +2055,6 @@
   <div class="cert-db-layout">
     <aside class="cert-db-sidebar" aria-label="Tahun database sertifikasi">
       <div class="cert-db-title">Tahun Database</div>
-      <button class="cert-db-year" onclick="switchCertYear('2020', this)">2020</button>
       <button class="cert-db-year" onclick="switchCertYear('2021', this)">2021</button>
       <button class="cert-db-year" onclick="switchCertYear('2022', this)">2022</button>
       <button class="cert-db-year" onclick="switchCertYear('2023', this)">2023</button>
@@ -2062,62 +2062,13 @@
       <button class="cert-db-year active" onclick="switchCertYear('2025', this)">2025</button>
       <button class="cert-db-year" onclick="switchCertYear('2026', this)">2026</button>
     </aside>
-
     <section class="cert-db-content">
-      <div class="cert-db-panel active" data-cert-year="2025">
-        <div class="cert-db-card">
-
-          <iframe class="cert-db-frame" src="dashboard_sertifikasi_jfa_2025.html" title="Database Sertifikasi"></iframe>
-        </div>
-      </div>
-      <div class="cert-db-panel" data-cert-year="2020">
-        <div class="cert-db-card cert-db-placeholder">
-          <div>
-            <strong>Database Sertifikasi 2020</strong>
-            <span>Dummy data tahun 2020. Struktur sudah disiapkan untuk pemutakhiran berikutnya.</span>
-          </div>
-        </div>
-      </div>
-      <div class="cert-db-panel" data-cert-year="2021">
-        <div class="cert-db-card cert-db-placeholder">
-          <div>
-            <strong>Database Sertifikasi 2021</strong>
-            <span>Dummy data tahun 2021. Struktur sudah disiapkan untuk pemutakhiran berikutnya.</span>
-          </div>
-        </div>
-      </div>
-      <div class="cert-db-panel" data-cert-year="2022">
-        <div class="cert-db-card cert-db-placeholder">
-          <div>
-            <strong>Database Sertifikasi 2022</strong>
-            <span>Dummy data tahun 2022. Struktur sudah disiapkan untuk pemutakhiran berikutnya.</span>
-          </div>
-        </div>
-      </div>
-      <div class="cert-db-panel" data-cert-year="2023">
-        <div class="cert-db-card cert-db-placeholder">
-          <div>
-            <strong>Database Sertifikasi 2023</strong>
-            <span>Dummy data tahun 2023. Struktur sudah disiapkan untuk pemutakhiran berikutnya.</span>
-          </div>
-        </div>
-      </div>
-      <div class="cert-db-panel" data-cert-year="2024">
-        <div class="cert-db-card cert-db-placeholder">
-          <div>
-            <strong>Database Sertifikasi 2024</strong>
-            <span>Dummy data tahun 2024. Struktur sudah disiapkan untuk pemutakhiran berikutnya.</span>
-          </div>
-        </div>
-      </div>
-      <div class="cert-db-panel" data-cert-year="2026">
-        <div class="cert-db-card cert-db-placeholder">
-          <div>
-            <strong>Database Sertifikasi 2026</strong>
-            <span>Dummy data tahun 2026. Struktur sudah disiapkan untuk pemutakhiran berikutnya.</span>
-          </div>
-        </div>
-      </div>
+      <div class="cert-db-panel" data-cert-year="2021"><div class="cert-db-card"><iframe class="cert-db-frame" src="dashboard_sertifikasi_jfa_2021_2024.html?year=2021" title="Database Sertifikasi 2021"></iframe></div></div>
+      <div class="cert-db-panel" data-cert-year="2022"><div class="cert-db-card"><iframe class="cert-db-frame" src="dashboard_sertifikasi_jfa_2021_2024.html?year=2022" title="Database Sertifikasi 2022"></iframe></div></div>
+      <div class="cert-db-panel" data-cert-year="2023"><div class="cert-db-card"><iframe class="cert-db-frame" src="dashboard_sertifikasi_jfa_2021_2024.html?year=2023" title="Database Sertifikasi 2023"></iframe></div></div>
+      <div class="cert-db-panel" data-cert-year="2024"><div class="cert-db-card"><iframe class="cert-db-frame" src="dashboard_sertifikasi_jfa_2021_2024.html?year=2024" title="Database Sertifikasi 2024"></iframe></div></div>
+      <div class="cert-db-panel active" data-cert-year="2025"><div class="cert-db-card"><iframe class="cert-db-frame" src="dashboard_sertifikasi_jfa_2025.html" title="Database Sertifikasi 2025"></iframe></div></div>
+      <div class="cert-db-panel" data-cert-year="2026"><div class="cert-db-card"><iframe class="cert-db-frame" src="dashboard_sertifikasi_jfa_2026.html" title="Database Sertifikasi 2026"></iframe></div></div>
     </section>
   </div>
 </div><!-- /tab-database -->
@@ -2145,3 +2096,8 @@ function switchCertYear(year, btn) {
 </script>
 </body>
 </html>
+
+
+
+
+

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard Sertifikasi PNBP & APBN 2026</title>
+<style>
+:root{
+  --bg:#f4f6f8;
+  --panel:#fff;
+  --muted:#f0f3f6;
+  --text:#17191c;
+  --text2:#59616b;
+  --text3:#8a929d;
+  --line:#d9e0e7;
+  --blue:#0b7fe8;
+  --green:#1f9d63;
+  --red:#d9484f;
+  --amber:#d98500;
+  --violet:#7657d7;
+  --teal:#168b92;
+  --shadow:0 12px 28px rgba(30,45,62,.07);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+}
+.wrap{max-width:1240px;margin:0 auto;padding:26px 18px 40px}
+.top{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:18px;
+  align-items:end;
+  margin-bottom:14px;
+}
+h1{margin:0 0 6px;font-size:31px;line-height:1.1;letter-spacing:0;font-weight:850}
+.subtitle{max-width:820px;margin:0;color:var(--text2);font-size:14px;line-height:1.45}
+.btn{
+  height:38px;
+  border:1px solid var(--line);
+  background:var(--panel);
+  color:var(--text);
+  border-radius:7px;
+  padding:0 12px;
+  font:inherit;
+  font-weight:750;
+  cursor:pointer;
+}
+.btn:hover{border-color:#aeb8c3}
+.toolbar{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:8px;
+  box-shadow:var(--shadow);
+  padding:14px;
+  margin:16px 0;
+}
+.filters{
+  display:grid;
+  grid-template-columns:1fr 1.1fr 1fr 1.25fr 1.25fr 1.25fr auto;
+  gap:10px;
+  align-items:end;
+}
+.field label{
+  display:block;
+  margin:0 0 6px;
+  color:var(--text3);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  font-weight:850;
+}
+select{
+  width:100%;
+  height:40px;
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--text);
+  border-radius:7px;
+  padding:0 10px;
+  font:inherit;
+}
+.hint{margin-top:10px;color:var(--text3);font-size:12px;line-height:1.4}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:14px}
+.kpi{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:14px;
+  box-shadow:var(--shadow);
+  min-height:102px;
+}
+.kpi-label{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);font-weight:850}
+.kpi-val{font-size:30px;line-height:1;margin:11px 0 7px;font-weight:850}
+.kpi-sub{font-size:12px;color:var(--text2);line-height:1.35}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:16px;
+  box-shadow:var(--shadow);
+}
+.panel.wide{grid-column:1/-1}
+.section-title{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.section-title h2{font-size:16px;margin:0;letter-spacing:0}
+.small{font-size:12px;color:var(--text3);line-height:1.4;text-align:right}
+.bar-list{display:grid;gap:9px}
+.bar-row{display:grid;grid-template-columns:minmax(150px,1fr) minmax(170px,2fr) 58px;gap:12px;align-items:center;min-height:30px}
+.bar-label{font-size:13px;color:var(--text2);line-height:1.25}
+.track{height:11px;background:var(--muted);border-radius:999px;overflow:hidden}
+.fill{height:100%;border-radius:999px;background:var(--blue)}
+.bar-val{text-align:right;font-size:13px;font-weight:850}
+.empty{
+  min-height:110px;
+  display:grid;
+  place-items:center;
+  color:var(--text3);
+  background:#fafbfc;
+  border:1px dashed var(--line);
+  border-radius:8px;
+  font-size:13px;
+  text-align:center;
+  padding:18px;
+}
+.note{
+  border-left:4px solid var(--amber);
+  background:#fff8e9;
+  color:#604304;
+  padding:11px 13px;
+  border-radius:0 7px 7px 0;
+  font-size:12px;
+  line-height:1.45;
+  margin-bottom:14px;
+}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:10px 9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);font-weight:850;background:#fafbfc}
+td.num,th.num{text-align:right}
+.badge{display:inline-flex;align-items:center;min-height:23px;border-radius:999px;padding:3px 9px;font-size:12px;font-weight:850}
+.ok{background:#e8f7ef;color:#0f693f}
+.bad{background:#fdecee;color:#9f2932}
+.pad{background:#eeeafb;color:#4d36a5}
+.tag{background:#eef3f7;color:#51606f}
+.hidden{display:none!important}
+.footer{text-align:center;color:var(--text3);font-size:12px;margin-top:22px}
+@media(max-width:1040px){
+  .top{grid-template-columns:1fr}
+  .filters{grid-template-columns:repeat(2,1fr)}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .grid{grid-template-columns:1fr}
+}
+@media(min-width:1041px) and (max-width:1280px){
+  .filters{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:600px){
+  .wrap{padding:20px 12px 34px}
+  h1{font-size:26px}
+  .filters,.kpis{grid-template-columns:1fr}
+  .bar-row{grid-template-columns:1fr 1fr 48px;gap:8px}
+  th,td{padding:9px 6px}
+  table{font-size:12px}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="top">
+    <div>
+      <h1>Sertifikasi PNBP & APBN 2026</h1>
+      <p class="subtitle">Rekap seluruh angkatan yang sudah ada hasilnya dari dua sumber dana: PNBP (Angkatan I-VI) dan APBN/RM (Ahli Utama I-II & Angkatan I). Pilih sumber dana dan jenis sertifikasi dulu, lalu saring berdasarkan angkatan, instansi, tujuan, atau jabatan.</p>
+    </div>
+    <button class="btn" onclick="downloadCsv()">Unduh CSV</button>
+  </header>
+
+  <section class="toolbar">
+    <div class="filters">
+      <div class="field">
+        <label>Sumber dana</label>
+        <select id="sumberFilter" onchange="onSumberChange()">
+          <option value="all">PNBP + APBN (RM)</option>
+          <option value="PNBP">PNBP</option>
+          <option value="APBN">APBN (RM)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Jenis sertifikasi</label>
+        <select id="typeFilter" onchange="onTypeChange()">
+          <option value="all">Semua jenis</option>
+          <option value="ujikom">Uji Kompetensi JFA</option>
+          <option value="pad">Pengelolaan Arsip Dinamis</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Angkatan</label>
+        <select id="batchFilter" onchange="render()"></select>
+      </div>
+      <div class="field">
+        <label>Nama instansi</label>
+        <select id="instansiFilter" onchange="render()"></select>
+      </div>
+      <div class="field">
+        <label>Tujuan Sertifikasi Ujikom</label>
+        <select id="tujuanFilter" onchange="render()"></select>
+      </div>
+      <div class="field">
+        <label>Jabatan yang Dituju</label>
+        <select id="jabatanFilter" onchange="render()"></select>
+      </div>
+      <button class="btn" onclick="resetFilters()">Reset</button>
+    </div>
+    <div class="hint">Filter instansi, tujuan, dan jabatan memakai data agregat dari laporan. Kalau nanti ada data per peserta, dashboard ini bisa dibuat cross-filter penuh sampai detail orang per orang.</div>
+  </section>
+
+  <section class="kpis">
+    <div class="kpi"><div class="kpi-label">Total peserta</div><div class="kpi-val" id="kpi-total">-</div><div class="kpi-sub" id="kpi-total-sub">-</div></div>
+    <div class="kpi"><div class="kpi-label">Ujikom JFA</div><div class="kpi-val" id="kpi-ujikom">-</div><div class="kpi-sub" id="kpi-ujikom-sub">Peserta uji kompetensi</div></div>
+    <div class="kpi"><div class="kpi-label">Berkompeten</div><div class="kpi-val" id="kpi-bk" style="color:var(--green)">-</div><div class="kpi-sub" id="kpi-bk-sub">-</div></div>
+    <div class="kpi"><div class="kpi-label">Tidak berkompeten</div><div class="kpi-val" id="kpi-tbk" style="color:var(--red)">-</div><div class="kpi-sub" id="kpi-tbk-sub">-</div></div>
+    <div class="kpi"><div class="kpi-label">PAD</div><div class="kpi-val" id="kpi-pad" style="color:var(--violet)">-</div><div class="kpi-sub" id="kpi-pad-sub">Pengelolaan Arsip Dinamis</div></div>
+  </section>
+
+  <div class="note">
+    Semua angka pada dashboard ini dihitung langsung dari database peserta per orang (bukan dari tabel ringkasan laporan), supaya konsisten. Peserta dengan tujuan sertifikasi "PAD ASN"/"PAD Non ASN" dipisah ke panel Pengelolaan Arsip Dinamis (hasil L1/L2/L3/Tidak Tersertifikasi), sisanya dihitung sebagai Ujikom JFA (Berkompeten/Tidak Berkompeten). PNBP mencakup Angkatan I-VI (Angkatan VII-VIII masih proses penyusunan BA). APBN (RM) mencakup Ahli Utama Angkatan I & II serta Angkatan I reguler; belum ada komponen PAD.
+  </div>
+
+  <section class="grid">
+    <div class="panel" id="hasilPanel">
+      <div class="section-title"><h2>Hasil Ujikom</h2><span class="small" id="hasil-caption">-</span></div>
+      <div class="bar-list" id="hasil-bars"></div>
+    </div>
+    <div class="panel">
+      <div class="section-title"><h2>Ringkasan Angkatan</h2><span class="small">Status hasil lengkap</span></div>
+      <table>
+        <thead><tr><th>Angkatan</th><th>Sumber</th><th>Tanggal</th><th class="num">Total</th><th class="num">Ujikom</th><th class="num">PAD</th><th>Status</th></tr></thead>
+        <tbody id="batch-table"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="grid" id="categoryPanels">
+    <div class="panel ujikom-only">
+      <div class="section-title"><h2>Tujuan Sertifikasi Ujikom</h2><span class="small" id="tujuan-caption">-</span></div>
+      <div class="bar-list" id="tujuan-bars"></div>
+    </div>
+    <div class="panel ujikom-only">
+      <div class="section-title"><h2>Jabatan yang Dituju</h2><span class="small" id="jabatan-caption">-</span></div>
+      <div class="bar-list" id="jabatan-bars"></div>
+    </div>
+    <div class="panel wide">
+      <div class="section-title"><h2>Nama Instansi</h2><span class="small" id="instansi-caption">Top instansi sesuai laporan</span></div>
+      <div class="bar-list" id="instansi-bars"></div>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="panel" id="statsPanel">
+      <div class="section-title"><h2>Statistik Nilai Ujikom</h2><span class="small">Nilai peserta ujikom</span></div>
+      <table>
+        <thead><tr><th>Indikator</th><th class="num">Rata-rata</th><th class="num">Tertinggi</th><th class="num">Terendah</th><th class="num">Median</th></tr></thead>
+        <tbody id="stats-table"></tbody>
+      </table>
+    </div>
+    <div class="panel" id="padPanel">
+      <div class="section-title"><h2>Pengelolaan Arsip Dinamis</h2><span class="small">Sertifikasi Teknis PAD</span></div>
+      <table>
+        <thead><tr><th>Angkatan</th><th class="num">Peserta</th><th>Hasil</th><th>Keterangan</th></tr></thead>
+        <tbody id="pad-table"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="footer">Dashboard interaktif &middot; data Sertifikasi SDM Kearsipan PNBP &amp; APBN (RM) 2026</div>
+</main>
+
+<script>
+const BATCHES = [
+  {
+    id:"P1", label:"Angkatan I", sumber:"PNBP", tanggal:"26 - 27 Februari 2026", metode:"Daring", ba:"BA.01.00/13/2026",
+    total:110, ujikom:105, pad:5, bk:86, tbk:19, status:"Selesai",
+    stats:{avg:73.11, high:86.3, low:51.97, median:72.96, avgBk:75.31, avgTbk:63.15},
+    tujuan:[["Perpindahan (Jabatan Lain ke JFA)",52],["Promosi Keahlian",29],["Perpindahan (Alih Kategori)",18],["Promosi Keterampilan",6]],
+    jabatan:[["Arsiparis Ahli Pertama",37],["Arsiparis Ahli Muda",34],["Arsiparis Ahli Madya",14],["Arsiparis Penyelia",11],["Arsiparis Mahir",6],["Arsiparis Terampil",3]],
+    instansi:[["Kementerian Kelautan dan Perikanan Republik Indonesia",47],["Mahkamah Agung Republik Indonesia",6],["Pemerintah Kota Makassar",5],["Badan Riset dan Inovasi Nasional",3],["Kementerian Pendidikan Tinggi, Sains, dan Teknologi",2],["Kementerian Pendidikan Dasar dan Menengah Republik Indonesia",2]],
+    padDetail:[["Kementerian Kelautan dan Perikanan Republik Indonesia",5]],
+    padHasil:{"L2":5}
+  },
+  {
+    id:"P2", label:"Angkatan II", sumber:"PNBP", tanggal:"8 - 10 April 2026", metode:"Luring", ba:"BA.01.00/19/2026",
+    total:85, ujikom:81, pad:4, bk:68, tbk:13, status:"Selesai",
+    stats:{avg:73.19, high:82.4, low:53.3, median:74.24, avgBk:74.99, avgTbk:63.78},
+    tujuan:[["Promosi Keahlian",59],["Perpindahan (Jabatan Lain ke JFA)",12],["Promosi Keterampilan",5],["Perpindahan (Alih Kategori)",5]],
+    jabatan:[["Arsiparis Ahli Madya",39],["Arsiparis Ahli Muda",28],["Arsiparis Ahli Pertama",9],["Arsiparis Penyelia",4],["Arsiparis Mahir",1]],
+    instansi:[["Kementerian Agama",50],["Pemerintah Provinsi Sumatera Selatan",3],["Mahkamah Agung Republik Indonesia",3],["Kementerian Pendidikan Tinggi, Sains, dan Teknologi",3],["Pemerintah Kota Makassar",3],["Badan Riset dan Inovasi Nasional",2]],
+    padDetail:[["Perum Jasa Tirta II",2],["Kementerian Desa dan Pembangunan Daerah Tertinggal",1],["Indonesia Financial Group",1]],
+    padHasil:{"L2":1,"BERKOMPETEN":3}
+  },
+  {
+    id:"P3", label:"Angkatan III", sumber:"PNBP", tanggal:"11 - 13 Mei 2026", metode:"Luring", ba:"BA.01.00/33/2026",
+    total:80, ujikom:74, pad:6, bk:72, tbk:2, status:"Selesai",
+    stats:{avg:73.45, high:82.8, low:52.1, median:72.52, avgBk:73.96, avgTbk:55.25},
+    tujuan:[["Perpindahan (Jabatan Lain ke JFA)",50],["Promosi Keahlian",11],["Promosi Keterampilan",10],["Perpindahan (Alih Kategori)",3]],
+    jabatan:[["Arsiparis Ahli Pertama",26],["Arsiparis Ahli Muda",24],["Arsiparis Mahir",10],["Arsiparis Ahli Madya",9],["Arsiparis Penyelia",5]],
+    instansi:[["Kementerian Pendidikan Tinggi, Sains, dan Teknologi",9],["Badan Pengawasan Keuangan dan Pembangunan",7],["Kementerian Pendidikan Dasar dan Menengah",7],["Kementerian Perhubungan",5],["Kementerian Imigrasi dan Pemasyarakatan",5],["Pemerintah Kota Batu",3]],
+    padDetail:[["University BPJS Kesehatan",4],["Indonesia Financial Group",1],["Pemerintah Kabupaten Kapuas",1]],
+    padHasil:{"L2":6}
+  },
+  {
+    id:"P4", label:"Angkatan IV", sumber:"PNBP", tanggal:"2 s.d. 4 Juni 2026", metode:"Daring", ba:"BA.01.00/36/2026",
+    total:120, ujikom:43, pad:77, bk:42, tbk:1, status:"Selesai",
+    stats:{avg:75.41, high:84.23, low:67.32, median:75.45, avgBk:75.61, avgTbk:67.32},
+    tujuan:[["Perpindahan (Jabatan Lain ke JFA)",23],["Promosi Keahlian",11],["Perpindahan (Alih Kategori)",8],["Promosi Keterampilan",1]],
+    jabatan:[["Arsiparis Ahli Muda",15],["Arsiparis Ahli Pertama",11],["Arsiparis Mahir",6],["Arsiparis Penyelia",5],["Arsiparis Ahli Madya",4],["Arsiparis Terampil",2]],
+    instansi:[["Badan Pengawas Obat dan Makanan",7],["Komisi Pemberantasan Korupsi",6],["Arsip Nasional Republik Indonesia",6],["Lembaga Administrasi Negara",1],["Pemerintah Provinsi Lampung",1],["Ombudsman Republik Indonesia",1]],
+    padDetail:[["Badan Pengawas Obat dan Makanan",47],["PT Pendidikan Maritim dan Logistik Indonesia",30]],
+    padHasil:{"L3":28,"L2":37,"L1":3,"TIDAK TERSERTIFIKASI":9}
+  },
+  {
+    id:"P5", label:"Angkatan V", sumber:"PNBP", tanggal:"23 s.d. 25 Juni 2026", metode:"Daring", ba:"BA.01.00/38/2026",
+    total:125, ujikom:53, pad:72, bk:48, tbk:4, status:"Selesai",
+    stats:{avg:77.04, high:85.96, low:63.42, median:78.27, avgBk:77.89, avgTbk:64.92},
+    tujuan:[["Perpindahan (Jabatan Lain ke JFA)",40],["Promosi Keahlian",9],["Perpindahan (Alih Kategori)",3],["Promosi Keterampilan",1]],
+    jabatan:[["Arsiparis Ahli Pertama",22],["Arsiparis Ahli Muda",19],["Arsiparis Ahli Madya",6],["Arsiparis Terampil",2],["Arsiparis Penyelia",2],["Arsiparis Mahir",2]],
+    instansi:[["Kementerian Kelautan dan Perikanan",8],["Kementerian Energi dan Sumber Daya Mineral",2],["Pemerintah Provinsi Lampung",2],["Pemerintah Kota Makassar",2],["Pemerintah Kabupaten Indramayu",2],["Pemerintah Kota Tangerang",2]],
+    padDetail:[["Kementerian Kelautan dan Perikanan",67],["Pemerintah Provinsi Jawa Tengah",5]],
+    padHasil:{"L1":6,"L2":48,"TIDAK TERSERTIFIKASI":5,"L3":13}
+  },
+  {
+    id:"P6", label:"Angkatan VI", sumber:"PNBP", tanggal:"30 Juni s.d. 2 Juli 2026", metode:"Luring", ba:"BA.01.00/41/2026",
+    total:120, ujikom:102, pad:18, bk:97, tbk:5, status:"Selesai",
+    stats:{avg:77.36, high:88.49, low:50.44, median:77.81, avgBk:78.01, avgTbk:64.56},
+    tujuan:[["Perpindahan (Jabatan Lain ke JFA)",74],["Promosi Keahlian",22],["Promosi Keterampilan",5],["Perpindahan (Alih Kategori)",1]],
+    jabatan:[["Arsiparis Ahli Pertama",53],["Arsiparis Ahli Muda",26],["Arsiparis Ahli Madya",15],["Arsiparis Mahir",4],["Arsiparis Penyelia",3],["Arsiparis Ahli Mahir",1]],
+    instansi:[["Kementerian Agama",48],["Lembaga Administrasi Negara",10],["Kementerian Komunikasi dan Digital",4],["Kementerian Pendidikan Tinggi, Sains, dan Teknologi",3],["Kementerian Imigrasi Dan Pemasyarakatan",3],["Kementerian Ketenagakerjaan",3]],
+    padDetail:[["Kementerian Pendidikan Dasar dan Menengah",9],["Kementerian Ketenagakerjaan",3],["Dewan Nasional Kawasan Ekonomi Khusus",3],["Lembaga Perlindungan Saksidan Korban",2],["PT Asuransi Jasa Indonesia",1]],
+    padHasil:{"L3":10,"L2":7,"L1":1}
+  },
+  {
+    id:"RAU1", label:"Ahli Utama Angkatan I (RM)", sumber:"APBN", tanggal:"14 - 15 April 2026", metode:"Daring", ba:"BA.01.00/23/2026",
+    total:4, ujikom:4, pad:0, bk:2, tbk:2, status:"Selesai",
+    stats:{avg:87.88, high:90.39, low:82.76, median:89.17, avgBk:90.35, avgTbk:85.4},
+    tujuan:[["Perpindahan (Jabatan Lain ke JFA)",3],["Promosi Keahlian",1]],
+    jabatan:[["Arsiparis Ahli Utama",4]],
+    instansi:[["Kementerian Pendidikan Dasar dan Menengah",1],["Pemerintah Provinsi Bengkulu",1],["Pemerintah Provinsi Kalimantan Timur",1],["Pemerintah Provinsi Sulawesi Selatan",1]],
+    padDetail:[],
+    padHasil:{}
+  },
+  {
+    id:"R1", label:"Angkatan I (RM)", sumber:"APBN", tanggal:"5 - 7 Mei 2026", metode:"Daring", ba:"BA.01.00/27/2026",
+    total:132, ujikom:132, pad:0, bk:130, tbk:2, status:"Selesai",
+    stats:{avg:77.63, high:89.94, low:58.7, median:77.24, avgBk:77.91, avgTbk:59.58},
+    tujuan:[["Promosi Keahlian",66],["Promosi Keterampilan",40],["Perpindahan (Alih Kategori)",25],["Perpindahan (Jabatan Lain ke JFA)",1]],
+    jabatan:[["Arsiparis Ahli Muda",45],["Arsiparis Ahli Madya",27],["Arsiparis Mahir",25],["Arsiparis Ahli Pertama",20],["Arsiparis Penyelia",15]],
+    instansi:[["Arsip Nasional Republik Indonesia",22],["Badan Nasional Pencarian dan Pertolongan",8],["Pemerintah Kabupaten Bangli",7],["Kementerian Desa dan Pembangunan Daerah Tertinggal Republik Indonesia",5],["Mahkamah Agung Republik Indonesia",5],["Kementerian Imigrasi dan Pemasyarakatan Republik Indonesia",4]],
+    padDetail:[],
+    padHasil:{}
+  },
+  {
+    id:"RAU2", label:"Ahli Utama Angkatan II (RM)", sumber:"APBN", tanggal:"14 - 15 Juli 2026", metode:"Daring", ba:"BA.00.00/44/2026",
+    total:4, ujikom:4, pad:0, bk:3, tbk:1, status:"Selesai",
+    stats:{avg:90.23, high:91.66, low:88.5, median:90.39, avgBk:90.81, avgTbk:88.5},
+    tujuan:[["Perpindahan (Jabatan Lain ke JFA)",4]],
+    jabatan:[["Arsiparis Ahli Utama",4]],
+    instansi:[["Kementerian Desa dan Pembangunan Daerah Tertinggal Republik Indonesia",1],["Kementerian Pertanian Republik Indonesia",1],["Komisi Nasional Hak Asasi Manusia Republik Indonesia",1],["Pemerintah Provinsi Sumatera Selatan",1]],
+    padDetail:[],
+    padHasil:{}
+  },
+];
+
+const $ = id => document.getElementById(id);
+const fmt = n => Number(n).toLocaleString("id-ID");
+const pct = (a,b) => b ? (a / b * 100).toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1}) + "%" : "-";
+const sum = (rows, key) => rows.reduce((s,r)=>s+r[key],0);
+const uniq = arr => [...new Set(arr)].sort((a,b)=>a.localeCompare(b,"id"));
+function weighted(rows, key){
+  const total = rows.reduce((s,r)=>s+r.ujikom,0);
+  return total ? rows.reduce((s,r)=>s+(r.stats[key]*r.ujikom),0)/total : 0;
+}
+function selectedSumber(){ return $("sumberFilter").value; }
+function rowsForSumber(){
+  const sumber = selectedSumber();
+  return sumber === "all" ? BATCHES : BATCHES.filter(x => x.sumber === sumber);
+}
+function rowsForBatch(){
+  const batch = $("batchFilter").value;
+  const bySumber = rowsForSumber();
+  return batch === "all" ? bySumber : bySumber.filter(x => x.id === batch);
+}
+function selectedType(){ return $("typeFilter").value; }
+function populateBatchFilter(){
+  const rows = rowsForSumber();
+  const current = $("batchFilter").value;
+  $("batchFilter").innerHTML = `<option value="all">Semua angkatan (${rows.length})</option>` +
+    rows.map(r => `<option value="${r.id}">${r.label}</option>`).join("");
+  if (rows.some(r => r.id === current)) $("batchFilter").value = current;
+}
+function onSumberChange(){
+  populateBatchFilter();
+  populateFilters();
+  render();
+}
+function mergePairs(rows, key, selectedValue){
+  const map = new Map();
+  rows.forEach(r => r[key].forEach(([name,val]) => {
+    if (!selectedValue || name === selectedValue) map.set(name, (map.get(name)||0)+val);
+  }));
+  return [...map.entries()].sort((a,b)=>b[1]-a[1]);
+}
+function pairTotal(rows, key, selectedValue){
+  if (!selectedValue) return sum(rows, key === "padDetail" ? "pad" : "ujikom");
+  return rows.reduce((total, row) => {
+    const found = row[key].find(([name]) => name === selectedValue);
+    return total + (found ? found[1] : 0);
+  }, 0);
+}
+function rowPairTotal(row, key, selectedValue){
+  if (!selectedValue) return key === "padDetail" ? row.pad : row.ujikom;
+  const found = row[key].find(([name]) => name === selectedValue);
+  return found ? found[1] : 0;
+}
+function allNames(key){
+  return uniq(rowsForSumber().flatMap(r => r[key].map(x => x[0])));
+}
+function fillSelect(id, values, label){
+  const current = $(id).value;
+  $(id).innerHTML = `<option value="">${label}</option>` + values.map(v => `<option value="${v}">${v}</option>`).join("");
+  if (values.includes(current)) $(id).value = current;
+}
+function populateFilters(){
+  fillSelect("instansiFilter", allNames("instansi").concat(allNames("padDetail")).filter((v,i,a)=>a.indexOf(v)===i).sort((a,b)=>a.localeCompare(b,"id")), "Semua instansi");
+  fillSelect("tujuanFilter", allNames("tujuan"), "Semua tujuan");
+  fillSelect("jabatanFilter", allNames("jabatan"), "Semua jabatan");
+}
+function makeBars(target, items, color, emptyText){
+  const el = $(target);
+  if (!items.length){
+    el.innerHTML = `<div class="empty">${emptyText || "Tidak ada data untuk filter ini."}</div>`;
+    return;
+  }
+  const max = Math.max(...items.map(x=>x[1]));
+  el.innerHTML = items.map(([label,val]) => `
+    <div class="bar-row">
+      <div class="bar-label">${label}</div>
+      <div class="track"><div class="fill" style="width:${max ? val/max*100 : 0}%;background:${color}"></div></div>
+      <div class="bar-val">${fmt(val)}</div>
+    </div>`).join("");
+}
+function resetFilters(){
+  $("sumberFilter").value = "all";
+  $("typeFilter").value = "all";
+  populateBatchFilter();
+  $("batchFilter").value = "all";
+  populateFilters();
+  $("instansiFilter").value = "";
+  $("tujuanFilter").value = "";
+  $("jabatanFilter").value = "";
+  render();
+}
+function onTypeChange(){
+  const type = selectedType();
+  if (type === "pad"){
+    $("tujuanFilter").value = "";
+    $("jabatanFilter").value = "";
+  }
+  render();
+}
+function render(){
+  const rows = rowsForBatch();
+  const type = selectedType();
+  const instansi = $("instansiFilter").value;
+  const tujuan = $("tujuanFilter").value;
+  const jabatan = $("jabatanFilter").value;
+  const showUjikom = type !== "pad";
+  const showPad = type !== "ujikom" && !tujuan && !jabatan;
+  const ujikomFilterKey = instansi ? "instansi" : (tujuan ? "tujuan" : (jabatan ? "jabatan" : ""));
+  const ujikomFilterValue = instansi || tujuan || jabatan;
+  const hasUjikomAggregateFilter = Boolean(ujikomFilterKey && ujikomFilterValue);
+  const ujikom = showUjikom ? pairTotal(rows, ujikomFilterKey || "instansi", ujikomFilterValue) : 0;
+  const pad = showPad ? pairTotal(rows, "padDetail", instansi) : 0;
+  const total = ujikom + pad;
+  const bk = showUjikom && !hasUjikomAggregateFilter ? sum(rows,"bk") : 0;
+  const tbk = showUjikom && !hasUjikomAggregateFilter ? sum(rows,"tbk") : 0;
+
+  $("kpi-total").textContent = fmt(total);
+  $("kpi-total-sub").textContent = instansi || tujuan || jabatan ? "Mengikuti filter agregat" : (rows.length === 1 ? `${rows[0].label} - ${rows[0].metode}` : "Angkatan I s.d VI");
+  $("kpi-ujikom").textContent = fmt(ujikom);
+  $("kpi-ujikom-sub").textContent = showUjikom ? (hasUjikomAggregateFilter ? "Jumlah sesuai filter" : "Peserta uji kompetensi") : "Disembunyikan oleh filter";
+  $("kpi-bk").textContent = showUjikom && !hasUjikomAggregateFilter ? fmt(bk) : "-";
+  $("kpi-bk-sub").textContent = showUjikom ? (hasUjikomAggregateFilter ? "Breakdown filter belum tersedia" : `${pct(bk, ujikom)} dari peserta ujikom`) : "Pilih Uji Kompetensi JFA";
+  $("kpi-tbk").textContent = showUjikom && !hasUjikomAggregateFilter ? fmt(tbk) : "-";
+  $("kpi-tbk-sub").textContent = showUjikom ? (hasUjikomAggregateFilter ? "Breakdown filter belum tersedia" : `${pct(tbk, ujikom)} dari peserta ujikom`) : "Pilih Uji Kompetensi JFA";
+  $("kpi-pad").textContent = fmt(pad);
+  $("kpi-pad-sub").textContent = showPad ? "Seluruh hasil PAD Angkatan I-II: L2" : "Disembunyikan oleh filter";
+
+  $("hasilPanel").classList.toggle("hidden", !showUjikom);
+  $("statsPanel").classList.toggle("hidden", !showUjikom);
+  document.querySelectorAll(".ujikom-only").forEach(el => el.classList.toggle("hidden", !showUjikom));
+  $("padPanel").classList.toggle("hidden", !showPad);
+  $("tujuanFilter").disabled = !showUjikom;
+  $("jabatanFilter").disabled = !showUjikom;
+
+  if (hasUjikomAggregateFilter){
+    $("hasil-bars").innerHTML = `<div class="empty">Jumlah peserta sudah menyesuaikan filter, tapi data lulus/tidak lulus per ${ujikomFilterKey === "instansi" ? "instansi" : ujikomFilterKey} belum ada di laporan Word.</div>`;
+  } else {
+    makeBars("hasil-bars", [["Berkompeten",bk],["Tidak Berkompeten",tbk]], "var(--green)");
+    const resultFills = document.querySelectorAll("#hasil-bars .fill");
+    if (resultFills[1]) resultFills[1].style.background = "var(--red)";
+  }
+  $("hasil-caption").textContent = `${fmt(ujikom)} peserta ujikom`;
+
+  const tujuanItems = mergePairs(rows,"tujuan",tujuan);
+  const jabatanItems = mergePairs(rows,"jabatan",jabatan);
+  const instansiItems = showUjikom ? mergePairs(rows,"instansi",instansi) : mergePairs(rows,"padDetail",instansi);
+  makeBars("tujuan-bars", tujuanItems, "var(--blue)");
+  makeBars("jabatan-bars", jabatanItems, "var(--violet)");
+  makeBars("instansi-bars", instansiItems, showUjikom ? "var(--teal)" : "var(--violet)", "Instansi ini tidak tersedia pada jenis sertifikasi yang dipilih.");
+  $("tujuan-caption").textContent = tujuan ? "Filter aktif" : `${fmt(ujikom)} peserta`;
+  $("jabatan-caption").textContent = jabatan ? "Filter aktif" : `${fmt(ujikom)} peserta`;
+  $("instansi-caption").textContent = instansi ? "Filter aktif" : (showUjikom ? "Top instansi ujikom" : "Instansi PAD");
+
+  $("batch-table").innerHTML = rows.map(r => `
+    <tr><td>${r.label}</td><td><span class="badge tag">${r.sumber}</span></td><td>${r.tanggal}</td><td class="num">${fmt((showUjikom?rowPairTotal(r, ujikomFilterKey || "instansi", ujikomFilterValue):0)+(showPad?rowPairTotal(r, "padDetail", instansi):0))}</td><td class="num">${showUjikom?fmt(rowPairTotal(r, ujikomFilterKey || "instansi", ujikomFilterValue)):"-"}</td><td class="num">${showPad?fmt(rowPairTotal(r, "padDetail", instansi)):"-"}</td><td><span class="badge ok">${r.status}</span></td></tr>
+  `).join("");
+
+  const statsRows = hasUjikomAggregateFilter ? [
+    [`Statistik nilai per ${ujikomFilterKey === "instansi" ? "instansi" : ujikomFilterKey} belum tersedia`, "-", "-", "-", "-"]
+  ] : rows.length === 1 ? [
+    ["Semua Peserta Ujikom", rows[0].stats.avg, rows[0].stats.high, rows[0].stats.low, rows[0].stats.median],
+    ["Rata-rata Berkompeten", rows[0].stats.avgBk, "-", "-", "-"],
+    ["Rata-rata Tidak Berkompeten", rows[0].stats.avgTbk, "-", "-", "-"]
+  ] : [
+    ["Gabungan tertimbang", weighted(rows,"avg"), Math.max(...rows.map(r=>r.stats.high)), Math.min(...rows.map(r=>r.stats.low)), "-"],
+    ["Rata-rata Berkompeten", weighted(rows,"avgBk"), "-", "-", "-"],
+    ["Rata-rata Tidak Berkompeten", weighted(rows,"avgTbk"), "-", "-", "-"]
+  ];
+  $("stats-table").innerHTML = statsRows.map(r => `
+    <tr><td>${r[0]}</td><td class="num">${typeof r[1]==="number"?r[1].toFixed(2):r[1]}</td><td class="num">${typeof r[2]==="number"?r[2].toFixed(2):r[2]}</td><td class="num">${typeof r[3]==="number"?r[3].toFixed(2):r[3]}</td><td class="num">${typeof r[4]==="number"?r[4].toFixed(2):r[4]}</td></tr>
+  `).join("");
+
+  $("pad-table").innerHTML = rows.map(r => r.pad > 0 ? `
+    <tr><td>${r.label}</td><td class="num">${fmt(r.pad)}</td><td>${padHasilBadges(r.padHasil)}</td><td>${r.padDetail.map(x=>`${x[0]} (${x[1]})`).join(", ")}</td></tr>
+  ` : `
+    <tr><td>${r.label}</td><td class="num">0</td><td><span class="badge tag">Tidak ada PAD</span></td><td>-</td></tr>
+  `).join("");
+}
+function padHasilBadges(padHasil){
+  const order = ["L1","L2","L3","BERKOMPETEN","TIDAK TERSERTIFIKASI"];
+  const labelMap = {L1:"L1", L2:"L2", L3:"L3", BERKOMPETEN:"Berkompeten", "TIDAK TERSERTIFIKASI":"Tidak Tersertifikasi"};
+  const cls = k => (k === "TIDAK TERSERTIFIKASI") ? "bad" : "pad";
+  return Object.keys(padHasil)
+    .sort((a,b)=>order.indexOf(a)-order.indexOf(b))
+    .map(k => `<span class="badge ${cls(k)}">${labelMap[k]||k}: ${padHasil[k]}</span>`)
+    .join(" ");
+}
+function downloadCsv(){
+  const rows = rowsForBatch();
+  const type = selectedType();
+  const lines = [["Sumber Dana","Angkatan","Tanggal","Metode","Jenis","Total","Ujikom","PAD","Berkompeten","Tidak Berkompeten","Persen Berkompeten","BA"]];
+  rows.forEach(r => lines.push([r.sumber,r.label,r.tanggal,r.metode,type,r.total,r.ujikom,r.pad,r.bk,r.tbk,pct(r.bk,r.ujikom),r.ba]));
+  const csv = lines.map(r => r.map(v => `"${String(v).replaceAll('"','""')}"`).join(",")).join("\n");
+  const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "rekap_sertifikasi_pnbp_apbn_2026.csv";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+populateBatchFilter();
+populateFilters();
+render();
+</script>
+</body>
+</html>
