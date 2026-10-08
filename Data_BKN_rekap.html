@@ -156,7 +156,12 @@ body{
   box-shadow:0 12px 26px rgba(11,99,206,.12);
 }
 .segmented button:hover,.reset-btn:hover{transform:translateY(-1px)}
-.filter-stats{
+.sort-select{min-width:190px;padding:12px 40px 12px 14px;border-radius:18px;border:1px solid rgba(148,163,184,.24);background:rgba(255,255,255,.78);font:600 13px var(--font);color:var(--text);outline:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.88);cursor:pointer;}
+.sort-select:focus{border-color:rgba(11,99,206,.35);box-shadow:0 0 0 4px rgba(11,99,206,.08);}
+.table-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap;}
+.table-sort-label{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);}
+.table-sort-select{min-width:164px;padding:9px 32px 9px 12px;border-radius:14px;font-size:12px;}
+@media(max-width:620px){.table-actions{justify-content:flex-start;margin-top:10px;}.panel-head:has(.table-actions){align-items:flex-start;flex-direction:column;}.table-sort-label{display:none;}}.filter-stats{
   margin-left:auto;
   display:flex;
   gap:10px;
@@ -570,7 +575,7 @@ body{
 .instansi-table::-webkit-scrollbar-thumb{background:rgba(148,163,184,.45);border-radius:999px}
 .table-row{
   display:grid;
-  grid-template-columns:52px minmax(220px,1.6fr) repeat(7,minmax(68px,.55fr)) minmax(78px,.6fr);
+  grid-template-columns:minmax(220px,1.6fr) repeat(7,minmax(68px,.55fr)) minmax(78px,.6fr);
   gap:8px;
   align-items:center;
   padding:12px 0;
@@ -605,7 +610,12 @@ body{
 }
 @media (max-width:1180px){
   .kpi-grid,.main-grid,.split-grid{grid-template-columns:1fr}
-  .filter-stats{margin-left:0}
+  .sort-select{min-width:190px;padding:12px 40px 12px 14px;border-radius:18px;border:1px solid rgba(148,163,184,.24);background:rgba(255,255,255,.78);font:600 13px var(--font);color:var(--text);outline:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.88);cursor:pointer;}
+.sort-select:focus{border-color:rgba(11,99,206,.35);box-shadow:0 0 0 4px rgba(11,99,206,.08);}
+.table-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap;}
+.table-sort-label{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);}
+.table-sort-select{min-width:164px;padding:9px 32px 9px 12px;border-radius:14px;font-size:12px;}
+@media(max-width:620px){.table-actions{justify-content:flex-start;margin-top:10px;}.panel-head:has(.table-actions){align-items:flex-start;flex-direction:column;}.table-sort-label{display:none;}}.filter-stats{margin-left:0}
 }
 @media (max-width:860px){
   .page{width:calc(100% - 16px)}
@@ -614,7 +624,7 @@ body{
   .chart-row,.stacked-row{grid-template-columns:1fr}
   .compare-detail{grid-template-columns:1fr}
   .chart-value,.compare-value{text-align:left}
-  .table-row{grid-template-columns:44px minmax(180px,1.8fr) repeat(3,minmax(72px,.7fr))}
+  .table-row{grid-template-columns:minmax(180px,1.8fr) repeat(3,minmax(72px,.7fr))}
   .table-row .cell.hide-mobile{display:none}
 }
 </style>
@@ -646,6 +656,7 @@ body{
         <button type="button" data-scope="daerah">Daerah</button>
       </div>
     </div>
+
     <div class="filter-stats">
       <div class="badge" id="result-badge">0 hasil</div>
       <button class="reset-btn" type="button" id="reset-btn">Reset Filter</button>
@@ -676,7 +687,17 @@ body{
             <div class="panel-title">Daftar Instansi</div>
             <div class="panel-sub">Rekap per instansi dengan seluruh jenjang arsiparis dari sumber terbaru.</div>
           </div>
-          <div class="panel-badge" id="table-badge">0 baris</div>
+          <div class="table-actions">
+            <label class="table-sort-label" for="sort-select">Urutkan</label>
+            <select class="sort-select table-sort-select" id="sort-select">
+              <option value="source">Urutan sumber</option>
+              <option value="nama-asc">Nama instansi A–Z</option>
+              <option value="nama-desc">Nama instansi Z–A</option>
+              <option value="total-desc">Total terbesar</option>
+              <option value="total-asc">Total terkecil</option>
+            </select>
+            <div class="panel-badge" id="table-badge">0 baris</div>
+          </div>
         </div>
         <div class="panel-body">
           <div class="instansi-table" id="instansi-table"></div>
@@ -725,7 +746,7 @@ body{
   </section>
 </div>
 
-<script src="./assets/data_bkn_rekap_2026.js?v=20260826"></script>
+<script src="./assets/data_bkn_rekap_2026.js?v=20261008"></script>
 <script>
 const DATA = window.BKN_REKAP_2026 || { records: [], totals: {}, total_instansi: 0, total_arsiparis: 0, title: '' };
 const JENJANG = [
@@ -738,7 +759,7 @@ const JENJANG = [
   { key:'ahli_utama', label:'Ahli Utama', color:'#6b7280' }
 ];
 
-const FILTER = { q:'', scope:'semua' };
+const FILTER = { q:'', scope:'semua', sort:'source' };
 
 function fmt(n){ return (n || 0).toLocaleString('id-ID'); }
 function pct(n,total){ return total ? ((n / total) * 100).toFixed(1) + '%' : '0%'; }
@@ -746,11 +767,19 @@ function isDaerah(name){ return /^Pemerintah\s/i.test(String(name || '')); }
 
 function getFilteredRecords(){
   const q = FILTER.q.trim().toLowerCase();
-  return DATA.records.filter(item => {
+  const records = DATA.records.filter(item => {
     if (FILTER.scope === 'pusat' && isDaerah(item.nama)) return false;
     if (FILTER.scope === 'daerah' && !isDaerah(item.nama)) return false;
     if (q && !String(item.nama).toLowerCase().includes(q)) return false;
     return true;
+  });
+  if (FILTER.sort === 'source') return records;
+  return [...records].sort((a,b) => {
+    if (FILTER.sort === 'nama-asc') return String(a.nama).localeCompare(String(b.nama), 'id');
+    if (FILTER.sort === 'nama-desc') return String(b.nama).localeCompare(String(a.nama), 'id');
+    if (FILTER.sort === 'total-desc') return (b.total || 0) - (a.total || 0) || String(a.nama).localeCompare(String(b.nama), 'id');
+    if (FILTER.sort === 'total-asc') return (a.total || 0) - (b.total || 0) || String(a.nama).localeCompare(String(b.nama), 'id');
+    return 0;
   });
 }
 
@@ -940,7 +969,6 @@ function renderTable(records){
   document.getElementById('table-badge').textContent = `${fmt(records.length)} baris`;
   const rows = records.length ? records.map(item => `
     <div class="table-row">
-      <div class="cell">${item.no}</div>
       <div class="cell name">${item.nama}</div>
       <div class="cell num">${fmt(item.terampil)}</div>
       <div class="cell num">${fmt(item.mahir)}</div>
@@ -954,7 +982,6 @@ function renderTable(records){
   `).join('') : `<div class="empty">Tidak ada data yang cocok dengan filter aktif.</div>`;
   document.getElementById('instansi-table').innerHTML = `
     <div class="table-row head">
-      <div class="cell head">No</div>
       <div class="cell head">Instansi</div>
       <div class="cell head">Terampil</div>
       <div class="cell head">Mahir</div>
@@ -986,6 +1013,10 @@ document.getElementById('search-input').addEventListener('input', e => {
   render();
 });
 
+document.getElementById('sort-select').addEventListener('change', e => {
+  FILTER.sort = e.target.value;
+  render();
+});
 document.querySelectorAll('#scope-switch button').forEach(btn => {
   btn.addEventListener('click', () => {
     FILTER.scope = btn.dataset.scope;
@@ -998,7 +1029,9 @@ document.querySelectorAll('#scope-switch button').forEach(btn => {
 document.getElementById('reset-btn').addEventListener('click', () => {
   FILTER.q = '';
   FILTER.scope = 'semua';
+  FILTER.sort = 'source';
   document.getElementById('search-input').value = '';
+  document.getElementById('sort-select').value = 'source';
   document.querySelectorAll('#scope-switch button').forEach(el => el.classList.toggle('active', el.dataset.scope === 'semua'));
   render();
 });
@@ -1007,3 +1040,8 @@ render();
 </script>
 </body>
 </html>
+
+
+
+
+

@@ -2055,7 +2055,6 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
         <div class="cluster-sheet-title" id="cluster-sheet-title">-</div>
         <div class="cluster-sheet-sub" id="cluster-sheet-sub">-</div>
       </div>
-      <button class="cluster-sheet-close" onclick="document.getElementById('cluster-sheet-overlay').classList.remove('open')">?</button>
     </div>
     <div class="cluster-sheet-body">
       <div class="cluster-sheet-grid" id="cluster-sheet-grid"></div>
@@ -2069,19 +2068,17 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
     <div class="modal-color-bar" id="modal-rule"></div>
     <div class="modal-header">
       <div><div class="modal-title" id="modal-title"></div><div class="modal-subtitle" id="modal-sub"></div></div>
-      <div class="modal-close" onclick="document.getElementById('overlay').classList.remove('open');document.querySelector('.sidebar')?.classList.remove('detail-hidden')">?</div>
     </div>
     <div class="modal-body" id="modal-body"></div>
   </div>
 </div>
 
 <!-- FORM -->
-<div class="form-overlay" id="form-overlay" onclick="closeFormOverlay(event)">
+<div class="form-overlay" id="form-overlay">
   <div class="form-modal">
     <div class="form-rule"></div>
     <div class="form-header">
       <div class="form-title" id="form-title">Tambah Instansi</div>
-      <div class="form-close" onclick="closeForm()">?</div>
     </div>
     <div class="form-body">
       <input type="hidden" id="f-id">
@@ -2176,7 +2173,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 <div class="toast" id="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="./assets/data_bkn_rekap_2026.js?v=20260826"></script>
+<script src="./assets/data_bkn_rekap_2026.js?v=20261008"></script>
 <script src="./assets/progres_usulan_jfa_2026.js?v=20260709"></script>
 <script src="config.js"></script>
 <script>
@@ -2809,7 +2806,7 @@ function showToast(msg, type = 'success') {
 }
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') ['overlay','form-overlay','confirm-overlay','login-overlay','cluster-sheet-overlay'].forEach(id => document.getElementById(id).classList.remove('open'));
+  if (e.key === 'Escape') ['overlay','confirm-overlay','login-overlay','cluster-sheet-overlay'].forEach(id => document.getElementById(id).classList.remove('open'));
 });
 
 // -- PEMANTAUAN PERMOHONAN REKOMENDASI JFA ---------------------
@@ -3686,6 +3683,8 @@ init();
 </script>
 </body>
 </html>
+
+
 
 
 
