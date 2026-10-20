@@ -1,0 +1,65 @@
+/* ==========================================================================
+   ANRI Editorial — tema bersama dashboard Dit. SDM Kearsipan & Sertifikasi
+   Dimuat SETELAH <style> bawaan halaman, sehingga menimpa gaya lama
+   tanpa mengubah logika JavaScript.
+   ========================================================================== */
+
+/* ---------- 1. Token ---------- */
+:root{
+  /* Permukaan & tinta */
+  --ed-bg:#f9f9f7;
+  --ed-surface:#ffffff;
+  --ed-surface-2:#f5f5f2;
+  --ed-ink:#111722;
+  --ed-ink-2:#4b5261;
+  --ed-ink-3:#7d8390;
+  --ed-line:rgba(20,24,31,.09);
+  --ed-line-strong:rgba(20,24,31,.16);
+  --ed-accent:#0b5d96;
+  --ed-accent-soft:#e6f1f9;
+  --ed-gold:#9a7b45;
+  --ed-ok:#1f7a4d;   --ed-ok-soft:#e6f3ec;
+  --ed-warn:#9a6a1c; --ed-warn-soft:#f7efe0;
+  --ed-bad:#b23a2e;  --ed-bad-soft:#f8e9e7;
+
+  /* Jenjang: rumpun Keterampilan (hangat) & Keahlian (biru tinta) */
+  --j-terampil:#e3c99c; --j-mahir:#c39553; --j-penyelia:#8a5f2a;
+  --j-pertama:#9cd8f0;  --j-muda:#3fa7dc;  --j-madya:#0b74b8; --j-utama:#0a3d6b;
+
+  --ed-font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --ed-serif:'Newsreader','Iowan Old Style',Georgia,serif;
+  --ed-radius:14px;
+
+  /* Petakan token lama ke token editorial */
+  --bg:var(--ed-bg); --bg-2:var(--ed-bg);
+  --surface:var(--ed-surface); --surface-solid:var(--ed-surface); --surface-soft:var(--ed-surface);
+  --border:var(--ed-line); --border-med:var(--ed-line-strong);
+  --text:var(--ed-ink); --text-2:#2a303b; --text-3:var(--ed-ink-2); --text-4:var(--ed-ink-3);
+  --blue:var(--ed-accent); --blue-dim:var(--ed-accent-soft); --blue-mid:#cfe4f3;
+  --green:var(--ed-ok); --green-dim:var(--ed-ok-soft);
+  --red:var(--ed-bad); --red-dim:var(--ed-bad-soft);
+  --amber:var(--ed-gold);
+  --glow-blue:transparent; --glow-cyan:transparent;
+  --glass-panel:var(--ed-surface); --glass-panel-stroke:var(--ed-line);
+  --glass-select:var(--ed-surface); --glass-select-hover:var(--ed-surface-2);
+  --radius-xs:6px; --radius-sm:10px; --radius:var(--ed-radius); --radius-lg:var(--ed-radius); --radius-xl:16px;
+  --shadow-xs:none; --shadow-sm:none; --shadow:none; --shadow-lg:0 24px 60px rgba(20,24,31,.14);
+  --blur:none;
+  --font:var(--ed-font);
+}
+
+/* ---------- 2. Dasar ---------- */
+html{background:var(--ed-bg)}
+body{
+  background:var(--ed-bg) !important;
+  font-family:var(--ed-font);
+  color:var(--ed-ink);
+  font-feature-settings:"cv11","ss01";
+}
+body::before,body::after{display:none !important}
+a{color:var(--ed-accent)}
+::selection{background:rgba(11,93,150,.14)}
+:focus-visible{outline:2px solid var(--ed-accent);outline-offset:2px}
+.stat-value,.rekap-num,.total-num,.hstat-val,.bar-val,.fbadge,.cluster-quick-count,.cluster-group-count{
+  font-family:var(--ed-font) !important;font-variant-numeric:tabular-nums lining-nums;
+}

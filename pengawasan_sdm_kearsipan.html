@@ -163,7 +163,47 @@ tbody tr:hover{background:#f8fbff}
 @media(max-width:720px){.profile-indicators{grid-template-columns:1fr}.highlight-head,.profile-top{align-items:flex-start;flex-direction:column}.level-results-list{grid-template-columns:1fr}.shell{padding:20px 14px 40px}.hero{display:block}.source-card{margin-top:18px;min-width:0}.toolbar{grid-template-columns:1fr}.reset{width:100%}.kpis{grid-template-columns:1fr 1fr}.kpi{padding:14px;min-height:105px}.kpi-value{font-size:28px}.level-list{grid-template-columns:1fr}.level-card{min-height:0}.section-head{display:block}.section-head p{margin-top:5px}.question-panel h2{font-size:22px}.indicator-facts{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:440px){.kpis{grid-template-columns:1fr}.indicator-facts{grid-template-columns:1fr 1fr}.subnav{margin-inline:-14px;padding-inline:14px}}
 </style>
-  <link rel="stylesheet" href="assets/dashboard-theme.css?v=20260721">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/anri-editorial.css?v=20261020">
+<style id="anri-editorial-page">
+/* Penyesuaian tema editorial untuk halaman ini */
+:root{
+  --bg:var(--ed-bg);--surface:#fff;--surface-soft:var(--ed-surface-2);--line:var(--ed-line-strong);
+  --text:var(--ed-ink);--muted:var(--ed-ink-2);--blue:var(--ed-accent);--blue-soft:var(--ed-accent-soft);
+  --green:var(--ed-ok);--amber:var(--ed-gold);--red:var(--ed-bad);--gray:var(--ed-ink-3);
+  --shadow:none;--radius:14px;
+  /* Level 0–4: berurutan dari bata (rendah) ke biru tinta (tinggi) */
+  --l0:#b23a2e;--l1:#b5652c;--l2:#8f7032;--l3:#1f86c6;--l4:#0a3d6b;--missing:#b9bec6;
+  --font:var(--ed-font);
+}
+body{background:var(--ed-bg) !important}
+h1{font-family:var(--ed-serif);font-weight:500;letter-spacing:-.02em;font-size:clamp(32px,4vw,52px)}
+.section-head h2,.table-head h2,.question-panel h2{font-family:var(--ed-font);font-weight:600;letter-spacing:-.02em}
+.section-head h2,.table-head h2{font-size:23px}
+.eyebrow{color:var(--ed-gold);font-weight:600;font-size:12px;letter-spacing:.14em}
+.eyebrow::before{background:var(--ed-gold)}
+.source-card,.kpi,.toolbar,.legend,.profile-card,.highlight-shell,.table-panel,.question-panel,.level-card,.indicator-card,.panel{
+  box-shadow:none !important;border-radius:14px !important;border-color:var(--ed-line) !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+.highlight-shell{background:var(--ed-surface-2) !important}
+.subnav{background:rgba(249,249,247,.94) !important}
+.subnav button{font-weight:500}
+.subnav button.active{background:var(--ed-accent);border-color:var(--ed-accent)}
+.selected-chip{color:var(--ed-accent);border-color:rgba(11,93,150,.18)}
+.selected-chip button{background:rgba(11,93,150,.1);color:var(--ed-accent)}
+.multi-control:focus-within{box-shadow:0 0 0 3px rgba(11,93,150,.12)}
+.multi-option:hover,.multi-option:focus{background:var(--ed-accent-soft)}
+.kpi-value{font-weight:600;letter-spacing:-.02em}
+.kpi-label,.question-number,.indicator-code,.highlight-kicker{font-size:12px !important;font-weight:600 !important}
+th{background:var(--ed-surface-2);font-size:12px;font-weight:600;color:var(--ed-ink-2);text-transform:none;letter-spacing:0}
+td{font-size:13.5px;border-bottom-color:var(--ed-line)}
+tbody tr:hover{background:#f7fafc}
+.group-tag{background:var(--ed-surface-2);color:var(--ed-ink-2);font-size:12px}
+.level-chip{font-size:12px}
+.footnote{border-left-color:var(--ed-gold);background:var(--ed-surface);font-size:13px}
+.stack{background:#eeeeea}
+</style>
 </head>
 <body data-anri-theme="pengawasan">
 <main class="shell">

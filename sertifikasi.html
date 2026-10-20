@@ -299,6 +299,37 @@
 
   .card-body { padding: 12px 14px; }
 
+  /* ── STATUS OTOMATIS BERDASARKAN TANGGAL ── */
+  .badge.buka     { background: #e7f6ec; color: #17693a; }
+  .badge.berjalan { background: #e8effa; color: #0b5d96; }
+  .badge.live     { background: #0b5d96; color: #fff; }
+  .jadwal-card.is-current { border-color: #0b5d96 !important; box-shadow: 0 0 0 2px rgba(11,93,150,.18), var(--float, var(--shadow)) !important; }
+  .jadwal-card.is-current .card-head { background: #eef6fb; }
+  .jadwal-card.is-done { opacity: .62; }
+  .jadwal-card.is-done:hover { opacity: 1; }
+  .status-note { margin-top: 10px; padding: 8px 10px; border-radius: 10px; background: #f4f6f9; font-size: 12px; line-height: 1.4; color: #3d4757; }
+  .jadwal-card.is-current .status-note { background: #eef6fb; color: #0b5d96; font-weight: 600; }
+  .live-dot.dark { background: #0b5d96; box-shadow: none; animation: live-pulse-dark 1.8s ease-out infinite; }
+  @keyframes live-pulse-dark { 0% { box-shadow: 0 0 0 0 rgba(11,93,150,.45); } 70% { box-shadow: 0 0 0 7px rgba(11,93,150,0); } 100% { box-shadow: 0 0 0 0 rgba(11,93,150,0); } }
+
+  .now-panel { margin-top: 16px; background: #fff; border: 1px solid rgba(20,24,31,.09); border-radius: 16px; overflow: hidden; }
+  .now-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; padding: 14px 18px; border-bottom: 1px solid rgba(20,24,31,.08); }
+  .now-head h3 { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #9a7b45; }
+  .now-head span { font-size: 13px; color: #4b5261; }
+  .now-list { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .now-item { padding: 14px 18px 16px; display: flex; flex-direction: column; gap: 4px; }
+  .now-item + .now-item { border-left: 1px solid rgba(20,24,31,.08); }
+  .now-item .prog { font-size: 12px; color: #7d8390; }
+  .now-item .ang { font-size: 17px; font-weight: 600; color: #111722; letter-spacing: -.01em; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .now-item .ang .badge { font-size: 11px; }
+  .now-item .det { font-size: 13px; color: #4b5261; line-height: 1.45; }
+  .now-item .det b { color: #111722; }
+  .now-item button { margin-top: 6px; align-self: flex-start; border: 0; background: none; padding: 0; font: inherit; font-size: 13px; font-weight: 500; color: #0b5d96; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(11,93,150,.35); }
+  @media (max-width: 760px) {
+    .now-list { grid-template-columns: 1fr; }
+    .now-item + .now-item { border-left: 0; border-top: 1px solid rgba(20,24,31,.08); }
+  }
+
   .info-row {
     display: flex;
     align-items: flex-start;
@@ -878,7 +909,63 @@
     .cert-db-frame{ height:680px; }
   }
 </style>
-  <link rel="stylesheet" href="assets/dashboard-theme.css?v=20260721">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/anri-editorial.css?v=20261020">
+<style id="anri-editorial-page">
+/* Penyesuaian tema editorial untuk halaman ini */
+:root{
+  --accent:var(--ed-accent);--accent-light:var(--ed-accent-soft);--accent-mid:#3fa7dc;
+  --anri-bright:var(--ed-accent);--anri-deep:var(--ed-accent);--anri-navy:#0a3d6b;--anri-sky:#9cd8f0;
+  --green:var(--ed-ok);--green-bg:var(--ed-ok-soft);--orange:var(--ed-gold);--orange-bg:var(--ed-warn-soft);
+  --purple:#3fa7dc;--purple-bg:var(--ed-accent-soft);--red:var(--ed-bad);--red-bg:var(--ed-bad-soft);--teal:#2a86c2;--teal-bg:var(--ed-accent-soft);
+  --label:var(--ed-ink);--label-2:var(--ed-ink-2);--label-3:var(--ed-ink-3);--fill:var(--ed-bg);--fill-2:#fff;
+  --separator:var(--ed-line);--separator-opaque:var(--ed-line-strong);
+  --glass-fill:#fff;--glass-fill-strong:#fff;--glass-stroke:var(--ed-line);--glass-blur:none;--hl:none;--float:none;
+  --shadow:none;--shadow-sm:none;--radius:14px;
+}
+body{background:var(--ed-bg) !important;font-family:var(--ed-font) !important}
+.page-header{background:#fff !important;border:0 !important;border-bottom:1px solid var(--ed-line) !important;border-radius:0 !important;box-shadow:none !important;backdrop-filter:none !important;margin-top:0 !important}
+.intro-banner{background:transparent !important;border:0 !important;border-bottom:1px solid var(--ed-line-strong) !important;border-radius:0 !important;box-shadow:none !important;color:var(--ed-ink) !important;padding:40px 0 32px !important;margin:0 auto !important;max-width:var(--col,1120px);width:calc(100% - 32px)}
+.intro-banner::before,.intro-banner::after{display:none !important}
+.intro-banner h2{font-family:var(--ed-serif) !important;font-weight:500 !important;letter-spacing:-.02em !important;font-size:clamp(30px,4vw,46px) !important;color:var(--ed-ink)}
+.intro-banner p{color:var(--ed-ink-2);opacity:1}
+.intro-banner .nomor{color:var(--ed-gold) !important;font-family:var(--ed-font) !important;font-weight:600}
+.intro-banner .catatan{background:#fff !important;border:1px solid var(--ed-line) !important;box-shadow:none !important;color:var(--ed-ink-2) !important}
+.intro-banner .catatan .ic{color:var(--ed-gold) !important}
+.btn-download{background:var(--ed-accent) !important;border-radius:9px !important;box-shadow:none !important;font-weight:500 !important;font-size:13px !important}
+.btn-download:hover{background:#094d7d !important;transform:none !important}
+.tab-wrap{background:rgba(249,249,247,.94) !important;border:0 !important;border-bottom:1px solid var(--ed-line) !important;border-radius:0 !important;box-shadow:none !important;width:100% !important;max-width:none !important;margin:0 !important;top:0 !important;padding:0 max(16px,calc(50% - 560px)) !important;justify-content:flex-start !important}
+.tab-btn{border-radius:0 !important;padding:14px 14px !important;font-size:13.5px !important;font-weight:500 !important;color:var(--ed-ink-2) !important;border-bottom:2px solid transparent !important}
+.tab-btn:hover{background:transparent !important;color:var(--ed-ink) !important}
+.tab-btn.active,.tab-btn.active:hover{background:transparent !important;color:var(--ed-ink) !important;box-shadow:none !important;border-bottom:2px solid var(--ed-accent) !important;font-weight:600 !important}
+.stat-card{background:#fff !important;border:1px solid var(--ed-line) !important;border-radius:14px !important;box-shadow:none !important;backdrop-filter:none !important}
+.stat-card::before{display:none !important}
+.stat-card .val{font-weight:600 !important;letter-spacing:-.02em}
+.stat-card .lbl{text-transform:none !important;letter-spacing:0 !important;font-size:12.5px !important;font-weight:500 !important;color:var(--ed-ink-3) !important}
+.jadwal-card,.syarat-wrap,.type-table-wrap,.links-card,.cert-db-sidebar,.cert-db-card{border-radius:14px !important;border:1px solid var(--ed-line) !important;box-shadow:none !important}
+.jadwal-card:hover{transform:none !important;box-shadow:none !important;border-color:var(--ed-line-strong) !important}
+.card-head{background:var(--ed-surface-2) !important}
+.card-head .angkatan{color:var(--ed-gold) !important;font-size:11.5px !important}
+.syarat-head,.type-table-wrap th{background:var(--ed-surface-2) !important;color:var(--ed-ink) !important;border-bottom:1px solid var(--ed-line)}
+.syarat-head{font-weight:600 !important;font-size:15px !important;padding:14px 18px !important}
+.syarat-item .num{background:var(--ed-accent-soft) !important;color:var(--ed-accent) !important}
+.section-label{color:var(--ed-ink-3) !important;font-size:12px !important}
+.badge{box-shadow:none !important;backdrop-filter:none !important}
+.badge.daring{background:var(--ed-accent-soft) !important;color:var(--ed-accent) !important}
+.badge.luring{background:var(--ed-warn-soft) !important;color:#7a5520 !important}
+.badge.rm{background:#eceef1 !important;color:var(--ed-ink-2) !important}
+.badge.lewat{background:#eeeeea !important;color:var(--ed-ink-3) !important}
+.badge.akan{background:#fff !important;color:var(--ed-ink-2) !important;border:1px solid var(--ed-line-strong)}
+.kuota-bar-fill{background:var(--ed-accent) !important}
+.cert-db-year.active{background:var(--ed-accent) !important}
+.cert-db-year:hover{background:var(--ed-accent-soft) !important;color:var(--ed-accent) !important}
+.cert-db-kicker{color:var(--ed-gold) !important}
+.cert-db-heading{font-weight:600 !important;letter-spacing:-.02em}
+.link-item .li-icon{background:var(--ed-accent-soft) !important}
+div[style*="#fef9c3"]{background:var(--ed-warn-soft) !important;border-color:rgba(154,123,69,.35) !important;color:#5e4520 !important}
+</style>
 </head>
 <body data-anri-theme="sertifikasi">
 
@@ -926,6 +1013,7 @@
   <div class="catatan">
     <svg class="ic" aria-hidden="true"><use href="#i-warn"/></svg> <span>Penting:</span> Pendaftaran melalui aplikasi SiARSIPARIS di <strong>siarsiparis.anri.go.id</strong> · Surat usulan via SRIKANDI · Jadwal dapat berubah sewaktu-waktu
   </div>
+  <section class="now-panel" id="now-panel" aria-live="polite" hidden></section>
 </div>
 
 <!-- TABS -->
@@ -1284,16 +1372,16 @@
       </div>
     </div>
 
-    <!-- Angkatan V — AKTIF -->
-    <div class="jadwal-card" style="border-color:var(--luring);box-shadow:0 0 0 2px rgba(5,150,105,0.15),var(--shadow);">
-      <div class="card-head" style="background:#dcfce7;">
+    <!-- Angkatan V -->
+    <div class="jadwal-card">
+      <div class="card-head">
         <div>
-          <div class="angkatan" style="color:var(--luring);">Angkatan V · 2026 <span class="live-dot"></span> Berlangsung</div>
+          <div class="angkatan">Angkatan V · 2026</div>
           <div class="nama">Sertifikasi SDM Kearsipan</div>
         </div>
         <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
           <span class="badge daring"><svg class="ic" aria-hidden="true"><use href="#i-display"/></svg> Daring</span>
-          <span class="badge aktif"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg> Aktif</span>
+          <span class="badge lewat"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> Selesai</span>
         </div>
       </div>
       <div class="card-body">
@@ -1302,7 +1390,7 @@
         <div class="divider-info"></div>
         <div class="kuota-bar-wrap">
           <div class="kuota-lbl"><span>Kuota</span><span>125 peserta</span></div>
-          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:100%;background:var(--luring)"></div></div>
+          <div class="kuota-bar"><div class="kuota-bar-fill" style="width:100%"></div></div>
         </div>
       </div>
     </div>
@@ -2084,6 +2172,136 @@ function switchTab(id, btn) {
   document.getElementById('tab-' + id).classList.add('active');
   if (btn) btn.classList.add('active');
 }
+
+/* ── Status jadwal otomatis: dihitung dari tanggal hari ini (WIB) ──
+   Tambahkan ?tanggal=2026-06-24 pada URL untuk mensimulasikan tanggal lain. */
+(function () {
+  const BULAN = { jan:0, feb:1, mar:2, apr:3, mei:4, jun:5, jul:6, ags:7, agu:7, agt:7, agustus:7, sep:8, okt:9, nov:10, des:11 };
+  const NAMA_BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const DAY = 86400000;
+
+  function todayWIB() {
+    const q = new URLSearchParams(location.search).get('tanggal');
+    const iso = /^\d{4}-\d{2}-\d{2}$/.test(q || '') ? q
+      : new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jakarta' }).format(new Date());
+    const [y, m, d] = iso.split('-').map(Number);
+    return Date.UTC(y, m - 1, d);
+  }
+  // "05 – 07 Mei 2026" atau "29 Sep – 01 Okt 2026"
+  function parseRange(text) {
+    const m = String(text).match(/(\d{1,2})(?:\s+([A-Za-z]+))?\s*[–—-]\s*(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})/);
+    if (!m) return null;
+    const endMonth = BULAN[m[4].toLowerCase()];
+    const startMonth = m[2] ? BULAN[m[2].toLowerCase()] : endMonth;
+    if (endMonth === undefined || startMonth === undefined) return null;
+    const year = +m[5];
+    const startYear = startMonth > endMonth ? year - 1 : year;
+    return { start: Date.UTC(startYear, startMonth, +m[1]), end: Date.UTC(year, endMonth, +m[3]) };
+  }
+  const fmt = t => { const d = new Date(t); return d.getUTCDate() + ' ' + NAMA_BULAN[d.getUTCMonth()] + ' ' + d.getUTCFullYear(); };
+  const fmtShort = t => { const d = new Date(t); return d.getUTCDate() + ' ' + NAMA_BULAN[d.getUTCMonth()].slice(0, 3); };
+  const lagi = n => n === 0 ? 'hari ini' : n === 1 ? 'besok' : n + ' hari lagi';
+
+  function rowRange(card, label) {
+    const row = [...card.querySelectorAll('.info-row')].find(r => (r.querySelector('strong') || {}).textContent === label + ':');
+    return row ? parseRange(row.textContent) : null;
+  }
+
+  function statusOf(pel, reg, today) {
+    if (today > pel.end) return { key: 'selesai', label: 'Selesai', cls: 'lewat', icon: 'i-check', note: '' };
+    if (today >= pel.start) return { key: 'live', label: 'Sedang berlangsung', cls: 'live', icon: 'i-play',
+      note: 'Pelaksanaan berlangsung hingga ' + fmt(pel.end) + '.' };
+    if (reg && today >= reg.start && today <= reg.end) return { key: 'buka', label: 'Pendaftaran dibuka', cls: 'buka', icon: 'i-pencil',
+      note: 'Pendaftaran ditutup ' + lagi(Math.round((reg.end - today) / DAY)) + ' (' + fmtShort(reg.end) + '). Pelaksanaan ' + fmtShort(pel.start) + '.' };
+    if (reg && today > reg.end) return { key: 'berjalan', label: 'Berjalan', cls: 'berjalan', icon: 'i-hourglass',
+      note: 'Pendaftaran sudah ditutup. Pelaksanaan ' + lagi(Math.round((pel.start - today) / DAY)) + ' (' + fmtShort(pel.start) + ').' };
+    return { key: 'mendatang', label: 'Mendatang', cls: 'akan', icon: 'i-hourglass',
+      note: reg ? 'Pendaftaran dibuka ' + lagi(Math.round((reg.start - today) / DAY)) + ' (' + fmtShort(reg.start) + ').' : '' };
+  }
+
+  function run() {
+    const today = todayWIB();
+    const programs = [];
+
+    document.querySelectorAll('.jadwal-grid').forEach(grid => {
+      let label = grid.previousElementSibling;
+      while (label && !label.classList.contains('section-label')) label = label.previousElementSibling;
+      const tab = grid.closest('.tab-section');
+      const prog = { name: label ? label.textContent.trim() : 'Jadwal', tab: tab ? tab.id.replace('tab-', '') : null, items: [] };
+
+      grid.querySelectorAll('.jadwal-card').forEach(card => {
+        const pel = rowRange(card, 'Pelaksanaan');
+        if (!pel) return;
+        const reg = rowRange(card, 'Pendaftaran');
+        const st = statusOf(pel, reg, today);
+        const angEl = card.querySelector('.angkatan');
+        const name = angEl ? angEl.textContent.replace(/\s*·.*$/, '').trim() : '';
+
+        // badge status: ganti badge lama (Selesai/Mendatang/Aktif) yang ditulis manual
+        const old = card.querySelector('.badge.lewat, .badge.akan, .badge.aktif, .badge.buka, .badge.berjalan, .badge.live');
+        const badge = document.createElement('span');
+        badge.className = 'badge ' + st.cls;
+        badge.innerHTML = '<svg class="ic" aria-hidden="true"><use href="#' + st.icon + '"/></svg> ' + st.label;
+        if (old) old.replaceWith(badge); else (card.querySelector('.card-head > div:last-child') || card.querySelector('.card-head')).appendChild(badge);
+
+        const current = st.key === 'live' || st.key === 'buka' || st.key === 'berjalan';
+        card.classList.toggle('is-current', current);
+        card.classList.toggle('is-done', st.key === 'selesai');
+        if (angEl) {
+          angEl.querySelectorAll('.live-dot').forEach(d => d.remove());
+          if (st.key === 'live') angEl.insertAdjacentHTML('beforeend', ' <span class="live-dot dark"></span>');
+        }
+        const fill = card.querySelector('.kuota-bar-fill');
+        if (fill) fill.style.width = st.key === 'selesai' ? '100%' : '0%';
+
+        card.querySelectorAll('.status-note').forEach(n => n.remove());
+        if (st.note) card.querySelector('.card-body').insertAdjacentHTML('beforeend', '<div class="status-note">' + st.note + '</div>');
+
+        prog.items.push({ name, st, pel, reg, card });
+      });
+      if (prog.items.length) programs.push(prog);
+    });
+
+    // Panel "Status hari ini" di bagian atas
+    const panel = document.getElementById('now-panel');
+    if (!panel || !programs.length) return;
+    const order = { live: 0, berjalan: 1, buka: 2 };
+    const items = programs.map(p => {
+      const cur = p.items.filter(i => i.st.key in order).sort((a, b) => order[a.st.key] - order[b.st.key] || a.pel.start - b.pel.start);
+      const next = p.items.filter(i => i.st.key === 'mendatang').sort((a, b) => a.pel.start - b.pel.start)[0];
+      const done = p.items.filter(i => i.st.key === 'selesai').length;
+      let main, det;
+      if (cur.length) {
+        main = cur[0];
+        det = main.st.note;
+        if (cur.length > 1) det += ' Juga berjalan: ' + cur.slice(1).map(i => i.name + ' (' + i.st.label.toLowerCase() + ')').join(', ') + '.';
+      } else if (next) {
+        main = next; det = 'Belum ada angkatan berjalan. ' + next.st.note;
+      } else {
+        main = null; det = 'Seluruh ' + p.items.length + ' angkatan tahun ini telah selesai.';
+      }
+      const doneTxt = done ? ' <span style="color:#7d8390">· ' + done + ' dari ' + p.items.length + ' angkatan selesai</span>' : '';
+      return '<div class="now-item">' +
+        '<div class="prog">' + p.name + '</div>' +
+        '<div class="ang">' + (main ? main.name + ' <span class="badge ' + main.st.cls + '">' + main.st.label + '</span>' : 'Selesai') + '</div>' +
+        '<div class="det">' + det + doneTxt + '</div>' +
+        (p.tab ? '<button type="button" data-tab="' + p.tab + '">Lihat jadwal lengkap</button>' : '') +
+        '</div>';
+    });
+    panel.innerHTML = '<div class="now-head"><h3>Status hari ini</h3><span>' + fmt(today) + ' · diperbarui otomatis sesuai tanggal</span></div>' +
+      '<div class="now-list">' + items.join('') + '</div>';
+    panel.hidden = false;
+    panel.addEventListener('click', e => {
+      const b = e.target.closest('button[data-tab]'); if (!b) return;
+      const tabBtn = [...document.querySelectorAll('.tab-btn')].find(t => (t.getAttribute('onclick') || '').includes("'" + b.dataset.tab + "'"));
+      switchTab(b.dataset.tab, tabBtn);
+      const sec = document.getElementById('tab-' + b.dataset.tab);
+      const cur = sec && (sec.querySelector('.jadwal-card.is-current') || sec);
+      if (cur) cur.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+})();
 
 function switchCertYear(year, btn) {
   document.querySelectorAll('.cert-db-year').forEach(b => b.classList.remove('active'));
