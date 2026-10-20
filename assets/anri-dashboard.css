@@ -24,7 +24,7 @@
 .btn-pill-login{background:var(--ed-surface);border:1px solid var(--ed-line-strong);box-shadow:none;color:var(--ed-ink)}
 .btn-pill-login:hover{background:var(--ed-surface-2);color:var(--ed-ink);border-color:var(--ed-line-strong)}
 .btn-pill-blue{background:var(--ed-accent)}
-.btn-pill-blue:hover{background:#16304f;box-shadow:none}
+.btn-pill-blue:hover{background:#094d7d;box-shadow:none}
 .btn-pill-ghost{background:var(--ed-surface);border-color:var(--ed-line-strong)}
 .admin-pill{background:var(--ed-ok-soft);color:var(--ed-ok);border-color:transparent}
 
@@ -41,7 +41,7 @@
   border-radius:10px !important;background:var(--ed-surface) !important;border:1px solid var(--ed-line-strong) !important;
   box-shadow:none !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;font-weight:400;
 }
-.search-input:focus,.sb-select:focus{border-color:var(--ed-accent) !important;box-shadow:0 0 0 3px rgba(30,58,95,.12) !important}
+.search-input:focus,.sb-select:focus{border-color:var(--ed-accent) !important;box-shadow:0 0 0 3px rgba(11,93,150,.12) !important}
 .filter-btn,.nav-module,.cluster-quick-btn,.cluster-group-toggle{
   border-radius:9px !important;box-shadow:none !important;background:transparent !important;border:0 !important;
 }
@@ -96,11 +96,11 @@
 
 /* ---------- 7. Toolbar & bagian ---------- */
 .directory-toolbar,.results-bar{
-  top:72px;background:rgba(246,245,241,.94);border:0;border-bottom:1px solid var(--ed-line);
+  top:72px;background:rgba(249,249,247,.94);border:0;border-bottom:1px solid var(--ed-line);
   border-radius:0;box-shadow:none;padding:12px 0;
   backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);
 }
-.section-title{font-family:var(--ed-serif);font-weight:500;font-size:30px;letter-spacing:-.015em;color:var(--ed-ink)}
+.section-title{font-family:var(--ed-font);font-weight:600;font-size:26px;letter-spacing:-.02em;color:var(--ed-ink)}
 .section-sub{font-size:14px;color:var(--ed-ink-2);font-weight:400}
 
 /* Ringkasan per kluster */
@@ -121,7 +121,7 @@
 .kluster-block{background:var(--ed-surface) !important;border:1px solid var(--ed-line) !important;border-radius:var(--ed-radius) !important;box-shadow:none !important;padding:24px !important}
 .kluster-stripe{width:4px !important;height:22px !important}
 .kluster-icon{background:var(--ed-surface-2) !important;box-shadow:none !important;border-radius:6px !important;border:1px solid var(--ed-line)}
-.kluster-name{font-family:var(--ed-serif);font-weight:500 !important;font-size:22px !important;letter-spacing:-.01em}
+.kluster-name{font-family:var(--ed-font);font-weight:600 !important;font-size:19px !important;letter-spacing:-.015em}
 .kluster-formasi{color:var(--ed-accent)}
 .kluster-grid{gap:12px !important}
 .card,.kluster-block .card,.instansi-grid .card{
@@ -135,7 +135,7 @@
 .total-num{font-size:34px !important;font-weight:600;letter-spacing:-.02em !important}
 .total-zero{color:#c3c6cc}
 .total-year{color:var(--ed-accent)}
-.bar-track{background:#efede7 !important;height:5px !important}
+.bar-track{background:#eeeeea !important;height:5px !important}
 .bar-fill{opacity:1 !important}
 .badge-ada{background:var(--ed-ok-soft);color:var(--ed-ok)}
 .badge-belum{background:var(--ed-bad-soft);color:var(--ed-bad)}

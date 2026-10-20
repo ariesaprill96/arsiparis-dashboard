@@ -301,30 +301,30 @@
 
   /* ── STATUS OTOMATIS BERDASARKAN TANGGAL ── */
   .badge.buka     { background: #e7f6ec; color: #17693a; }
-  .badge.berjalan { background: #e8effa; color: #1e3a5f; }
-  .badge.live     { background: #1e3a5f; color: #fff; }
-  .jadwal-card.is-current { border-color: #1e3a5f !important; box-shadow: 0 0 0 2px rgba(30,58,95,.18), var(--float, var(--shadow)) !important; }
-  .jadwal-card.is-current .card-head { background: #eef3fa; }
+  .badge.berjalan { background: #e8effa; color: #0b5d96; }
+  .badge.live     { background: #0b5d96; color: #fff; }
+  .jadwal-card.is-current { border-color: #0b5d96 !important; box-shadow: 0 0 0 2px rgba(11,93,150,.18), var(--float, var(--shadow)) !important; }
+  .jadwal-card.is-current .card-head { background: #eef6fb; }
   .jadwal-card.is-done { opacity: .62; }
   .jadwal-card.is-done:hover { opacity: 1; }
   .status-note { margin-top: 10px; padding: 8px 10px; border-radius: 10px; background: #f4f6f9; font-size: 12px; line-height: 1.4; color: #3d4757; }
-  .jadwal-card.is-current .status-note { background: #eef3fa; color: #1e3a5f; font-weight: 600; }
-  .live-dot.dark { background: #1e3a5f; box-shadow: none; animation: live-pulse-dark 1.8s ease-out infinite; }
-  @keyframes live-pulse-dark { 0% { box-shadow: 0 0 0 0 rgba(30,58,95,.45); } 70% { box-shadow: 0 0 0 7px rgba(30,58,95,0); } 100% { box-shadow: 0 0 0 0 rgba(30,58,95,0); } }
+  .jadwal-card.is-current .status-note { background: #eef6fb; color: #0b5d96; font-weight: 600; }
+  .live-dot.dark { background: #0b5d96; box-shadow: none; animation: live-pulse-dark 1.8s ease-out infinite; }
+  @keyframes live-pulse-dark { 0% { box-shadow: 0 0 0 0 rgba(11,93,150,.45); } 70% { box-shadow: 0 0 0 7px rgba(11,93,150,0); } 100% { box-shadow: 0 0 0 0 rgba(11,93,150,0); } }
 
   .now-panel { margin-top: 16px; background: #fff; border: 1px solid rgba(20,24,31,.09); border-radius: 16px; overflow: hidden; }
   .now-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; padding: 14px 18px; border-bottom: 1px solid rgba(20,24,31,.08); }
-  .now-head h3 { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #a8834a; }
-  .now-head span { font-size: 13px; color: #464d5a; }
+  .now-head h3 { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #9a7b45; }
+  .now-head span { font-size: 13px; color: #4b5261; }
   .now-list { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); }
   .now-item { padding: 14px 18px 16px; display: flex; flex-direction: column; gap: 4px; }
   .now-item + .now-item { border-left: 1px solid rgba(20,24,31,.08); }
-  .now-item .prog { font-size: 12px; color: #7a808b; }
-  .now-item .ang { font-size: 17px; font-weight: 600; color: #14181f; letter-spacing: -.01em; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .now-item .prog { font-size: 12px; color: #7d8390; }
+  .now-item .ang { font-size: 17px; font-weight: 600; color: #111722; letter-spacing: -.01em; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .now-item .ang .badge { font-size: 11px; }
-  .now-item .det { font-size: 13px; color: #464d5a; line-height: 1.45; }
-  .now-item .det b { color: #14181f; }
-  .now-item button { margin-top: 6px; align-self: flex-start; border: 0; background: none; padding: 0; font: inherit; font-size: 13px; font-weight: 500; color: #1e3a5f; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(30,58,95,.35); }
+  .now-item .det { font-size: 13px; color: #4b5261; line-height: 1.45; }
+  .now-item .det b { color: #111722; }
+  .now-item button { margin-top: 6px; align-self: flex-start; border: 0; background: none; padding: 0; font: inherit; font-size: 13px; font-weight: 500; color: #0b5d96; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(11,93,150,.35); }
   @media (max-width: 760px) {
     .now-list { grid-template-columns: 1fr; }
     .now-item + .now-item { border-left: 0; border-top: 1px solid rgba(20,24,31,.08); }
@@ -916,10 +916,10 @@
 <style id="anri-editorial-page">
 /* Penyesuaian tema editorial untuk halaman ini */
 :root{
-  --accent:var(--ed-accent);--accent-light:var(--ed-accent-soft);--accent-mid:#5c88ba;
-  --anri-bright:var(--ed-accent);--anri-deep:var(--ed-accent);--anri-navy:#13305a;--anri-sky:#9fbbd9;
+  --accent:var(--ed-accent);--accent-light:var(--ed-accent-soft);--accent-mid:#3fa7dc;
+  --anri-bright:var(--ed-accent);--anri-deep:var(--ed-accent);--anri-navy:#0a3d6b;--anri-sky:#9cd8f0;
   --green:var(--ed-ok);--green-bg:var(--ed-ok-soft);--orange:var(--ed-gold);--orange-bg:var(--ed-warn-soft);
-  --purple:#5c88ba;--purple-bg:var(--ed-accent-soft);--red:var(--ed-bad);--red-bg:var(--ed-bad-soft);--teal:#3e6a99;--teal-bg:var(--ed-accent-soft);
+  --purple:#3fa7dc;--purple-bg:var(--ed-accent-soft);--red:var(--ed-bad);--red-bg:var(--ed-bad-soft);--teal:#2a86c2;--teal-bg:var(--ed-accent-soft);
   --label:var(--ed-ink);--label-2:var(--ed-ink-2);--label-3:var(--ed-ink-3);--fill:var(--ed-bg);--fill-2:#fff;
   --separator:var(--ed-line);--separator-opaque:var(--ed-line-strong);
   --glass-fill:#fff;--glass-fill-strong:#fff;--glass-stroke:var(--ed-line);--glass-blur:none;--hl:none;--float:none;
@@ -935,8 +935,8 @@ body{background:var(--ed-bg) !important;font-family:var(--ed-font) !important}
 .intro-banner .catatan{background:#fff !important;border:1px solid var(--ed-line) !important;box-shadow:none !important;color:var(--ed-ink-2) !important}
 .intro-banner .catatan .ic{color:var(--ed-gold) !important}
 .btn-download{background:var(--ed-accent) !important;border-radius:9px !important;box-shadow:none !important;font-weight:500 !important;font-size:13px !important}
-.btn-download:hover{background:#16304f !important;transform:none !important}
-.tab-wrap{background:rgba(246,245,241,.94) !important;border:0 !important;border-bottom:1px solid var(--ed-line) !important;border-radius:0 !important;box-shadow:none !important;width:100% !important;max-width:none !important;margin:0 !important;top:0 !important;padding:0 max(16px,calc(50% - 560px)) !important;justify-content:flex-start !important}
+.btn-download:hover{background:#094d7d !important;transform:none !important}
+.tab-wrap{background:rgba(249,249,247,.94) !important;border:0 !important;border-bottom:1px solid var(--ed-line) !important;border-radius:0 !important;box-shadow:none !important;width:100% !important;max-width:none !important;margin:0 !important;top:0 !important;padding:0 max(16px,calc(50% - 560px)) !important;justify-content:flex-start !important}
 .tab-btn{border-radius:0 !important;padding:14px 14px !important;font-size:13.5px !important;font-weight:500 !important;color:var(--ed-ink-2) !important;border-bottom:2px solid transparent !important}
 .tab-btn:hover{background:transparent !important;color:var(--ed-ink) !important}
 .tab-btn.active,.tab-btn.active:hover{background:transparent !important;color:var(--ed-ink) !important;box-shadow:none !important;border-bottom:2px solid var(--ed-accent) !important;font-weight:600 !important}
@@ -949,22 +949,22 @@ body{background:var(--ed-bg) !important;font-family:var(--ed-font) !important}
 .card-head{background:var(--ed-surface-2) !important}
 .card-head .angkatan{color:var(--ed-gold) !important;font-size:11.5px !important}
 .syarat-head,.type-table-wrap th{background:var(--ed-surface-2) !important;color:var(--ed-ink) !important;border-bottom:1px solid var(--ed-line)}
-.syarat-head{font-family:var(--ed-serif);font-weight:500 !important;font-size:18px !important;padding:14px 18px !important}
+.syarat-head{font-weight:600 !important;font-size:15px !important;padding:14px 18px !important}
 .syarat-item .num{background:var(--ed-accent-soft) !important;color:var(--ed-accent) !important}
 .section-label{color:var(--ed-ink-3) !important;font-size:12px !important}
 .badge{box-shadow:none !important;backdrop-filter:none !important}
 .badge.daring{background:var(--ed-accent-soft) !important;color:var(--ed-accent) !important}
 .badge.luring{background:var(--ed-warn-soft) !important;color:#7a5520 !important}
 .badge.rm{background:#eceef1 !important;color:var(--ed-ink-2) !important}
-.badge.lewat{background:#efede7 !important;color:var(--ed-ink-3) !important}
+.badge.lewat{background:#eeeeea !important;color:var(--ed-ink-3) !important}
 .badge.akan{background:#fff !important;color:var(--ed-ink-2) !important;border:1px solid var(--ed-line-strong)}
 .kuota-bar-fill{background:var(--ed-accent) !important}
 .cert-db-year.active{background:var(--ed-accent) !important}
 .cert-db-year:hover{background:var(--ed-accent-soft) !important;color:var(--ed-accent) !important}
 .cert-db-kicker{color:var(--ed-gold) !important}
-.cert-db-heading{font-family:var(--ed-serif);font-weight:500 !important}
+.cert-db-heading{font-weight:600 !important;letter-spacing:-.02em}
 .link-item .li-icon{background:var(--ed-accent-soft) !important}
-div[style*="#fef9c3"]{background:var(--ed-warn-soft) !important;border-color:rgba(168,131,74,.35) !important;color:#5e4520 !important}
+div[style*="#fef9c3"]{background:var(--ed-warn-soft) !important;border-color:rgba(154,123,69,.35) !important;color:#5e4520 !important}
 </style>
 </head>
 <body data-anri-theme="sertifikasi">
@@ -2280,7 +2280,7 @@ function switchTab(id, btn) {
       } else {
         main = null; det = 'Seluruh ' + p.items.length + ' angkatan tahun ini telah selesai.';
       }
-      const doneTxt = done ? ' <span style="color:#7a808b">· ' + done + ' dari ' + p.items.length + ' angkatan selesai</span>' : '';
+      const doneTxt = done ? ' <span style="color:#7d8390">· ' + done + ' dari ' + p.items.length + ' angkatan selesai</span>' : '';
       return '<div class="now-item">' +
         '<div class="prog">' + p.name + '</div>' +
         '<div class="ang">' + (main ? main.name + ' <span class="badge ' + main.st.cls + '">' + main.st.label + '</span>' : 'Selesai') + '</div>' +

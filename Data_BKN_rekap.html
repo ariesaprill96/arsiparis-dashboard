@@ -13,29 +13,29 @@
 <style>
 :root{
   /* Permukaan & tinta */
-  --bg:#f6f5f1;
+  --bg:#f9f9f7;
   --surface:#ffffff;
-  --surface-2:#faf9f6;
-  --ink:#14181f;
-  --ink-2:#464d5a;
-  --ink-3:#7a808b;
+  --surface-2:#f5f5f2;
+  --ink:#111722;
+  --ink-2:#4b5261;
+  --ink-3:#7d8390;
   --line:rgba(20,24,31,.09);
   --line-strong:rgba(20,24,31,.16);
-  --accent:#1e3a5f;      /* biru tinta */
-  --accent-soft:#e9eef5;
-  --gold:#a8834a;
+  --accent:#0b5d96;      /* biru tinta */
+  --accent-soft:#e6f1f9;
+  --gold:#9a7b45;
 
   /* Jenjang: rumpun Keterampilan (hangat) & Keahlian (biru tinta) */
-  --j-terampil:#dcbd8b;
-  --j-mahir:#c0904f;
-  --j-penyelia:#8a5a24;
-  --j-pertama:#9fbbd9;
-  --j-muda:#5c88ba;
-  --j-madya:#2d5a8c;
-  --j-utama:#13305a;
+  --j-terampil:#e3c99c;
+  --j-mahir:#c39553;
+  --j-penyelia:#8a5f2a;
+  --j-pertama:#9cd8f0;
+  --j-muda:#3fa7dc;
+  --j-madya:#0b74b8;
+  --j-utama:#0a3d6b;
 
-  --pusat:#1e3a5f;
-  --daerah:#a8834a;
+  --pusat:#0b5d96;
+  --daerah:#c39553;
 
   --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   --serif:'Newsreader','Iowan Old Style','Georgia',serif;
@@ -84,22 +84,22 @@ a{color:inherit}
 .insight{padding:24px 28px 26px 0}
 .insight + .insight{padding-left:28px;border-left:1px solid var(--line)}
 .insight .label{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px}
-.insight p{margin:0;font-family:var(--serif);font-size:19px;line-height:1.35;color:var(--ink)}
-.insight p strong{font-weight:600;color:var(--accent)}
+.insight p{margin:0;font-family:var(--font);font-size:17px;line-height:1.45;color:var(--ink)}
+.insight p strong{font-weight:700;color:var(--accent)}
 
 /* ---------- Filter ---------- */
-.filters{position:sticky;top:0;z-index:20;background:rgba(246,245,241,.92);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--line)}
+.filters{position:sticky;top:0;z-index:20;background:rgba(249,249,247,.92);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--line)}
 .filters .page{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 0}
 .search{position:relative;flex:1 1 280px;max-width:420px}
 .search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--ink-3)}
 .search input{width:100%;height:40px;padding:0 12px 0 36px;border:1px solid var(--line-strong);border-radius:10px;background:var(--surface);font-size:14px;outline:none;transition:border-color .15s,box-shadow .15s}
-.search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(30,58,95,.12)}
+.search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(11,93,150,.12)}
 .segmented{display:inline-flex;padding:3px;border-radius:10px;background:rgba(20,24,31,.06)}
 .segmented button{border:0;background:transparent;padding:7px 14px;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink-2);cursor:pointer}
 .segmented button.active{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(20,24,31,.12)}
 .filter-meta{margin-left:auto;display:flex;align-items:center;gap:12px;font-size:13px;color:var(--ink-3)}
 .filter-meta b{color:var(--ink);font-weight:600}
-.btn-link{border:0;background:none;color:var(--accent);font-size:13px;font-weight:500;cursor:pointer;padding:6px 4px;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(30,58,95,.3)}
+.btn-link{border:0;background:none;color:var(--accent);font-size:13px;font-weight:500;cursor:pointer;padding:6px 4px;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(11,93,150,.3)}
 .btn-link[hidden]{display:none}
 
 /* ---------- KPI ---------- */
@@ -114,7 +114,7 @@ a{color:inherit}
 /* ---------- Section ---------- */
 section.block{margin-top:56px}
 .block-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:20px}
-.block-head h2{font-family:var(--serif);font-weight:500;font-size:30px;letter-spacing:-.015em;line-height:1.1;margin:0}
+.block-head h2{font-family:var(--font);font-weight:600;font-size:26px;letter-spacing:-.02em;line-height:1.15;margin:0}
 .block-head p{margin:6px 0 0;color:var(--ink-2);font-size:14px;max-width:60ch}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
 .grid-2{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:20px}
@@ -172,7 +172,7 @@ thead th .arrow{opacity:.35;font-size:10px}
 thead th[aria-sort] .arrow{opacity:1;color:var(--accent)}
 thead th .grp{display:block;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
 tbody td{padding:12px 14px;border-bottom:1px solid var(--line);color:var(--ink-2)}
-tbody tr:hover td{background:#fbfaf7}
+tbody tr:hover td{background:#f7fafc}
 td.name{color:var(--ink);font-weight:500;min-width:260px}
 td.name small{display:block;color:var(--ink-3);font-size:12px;font-weight:400}
 .mini{display:none;height:6px;gap:1px;margin-top:8px;border-radius:2px;overflow:hidden}
@@ -183,7 +183,7 @@ td.total{color:var(--ink);font-weight:600}
 th.sep,td.sep{border-left:1px solid var(--line)}
 th.sticky,td.sticky{position:sticky;left:0;z-index:1;background:var(--surface)}
 thead th.sticky{z-index:3;background:var(--surface-2)}
-tbody tr:hover td.sticky{background:#fbfaf7}
+tbody tr:hover td.sticky{background:#f7fafc}
 .table-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;font-size:13px;color:var(--ink-3);border-top:1px solid var(--line)}
 .empty{padding:40px 16px;text-align:center;color:var(--ink-3)}
 
@@ -217,7 +217,7 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
   .kpi .value{font-size:26px}
   section.block{margin-top:44px}
   .block-head{flex-direction:column;align-items:flex-start}
-  .block-head h2{font-size:26px}
+  .block-head h2{font-size:23px}
   .composition,.scope{padding:20px}
   .comp-groups{grid-template-columns:1fr;gap:24px}
   .ranking{padding:4px 20px 12px}
