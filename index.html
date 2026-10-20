@@ -1373,8 +1373,8 @@ body::after{
 .monev-reco-card.is-soft{background:linear-gradient(180deg, rgba(255,250,238,.9), rgba(255,255,255,.86))}
 
 /* -- IFRAME PANELS --------------------------------------------- */
-#panel-siarsiparis,#panel-bkn,#panel-pengawasan-sdm,#panel-sertifikasi,#panel-standar-kompetensi,#panel-rekomendasi-jfa{width:100%;height:calc(100vh - var(--header-h));}
-#panel-siarsiparis iframe,#panel-bkn iframe,#panel-pengawasan-sdm iframe,#panel-sertifikasi iframe,#panel-standar-kompetensi iframe,#panel-rekomendasi-jfa iframe{width:100%;height:100%;border:none;}
+#panel-bkn,#panel-pengawasan-sdm,#panel-sertifikasi,#panel-standar-kompetensi,#panel-rekomendasi-jfa{width:100%;height:calc(100vh - var(--header-h));}
+#panel-bkn iframe,#panel-pengawasan-sdm iframe,#panel-sertifikasi iframe,#panel-standar-kompetensi iframe,#panel-rekomendasi-jfa iframe{width:100%;height:100%;border:none;}
 
 /* -- RESPONSIVE ------------------------------------------------ */
 /* REMIX */
@@ -1538,7 +1538,8 @@ body::after{
     <a href="#" title="Pengawasan Sumber Daya Manusia Kearsipan" onclick="switchTab('pengawasan-sdm',this);return false;">Pengawasan</a>
     <a href="#" onclick="switchTab('kegiatan',this);return false;">Kegiatan SDM</a>
     <a href="#" title="Jadwal Sertifikasi SDM Kearsipan" onclick="switchTab('sertifikasi',this);return false;">Sertifikasi</a>
-    <a href="#" onclick="switchTab('standar-kompetensi',this);return false;">Standar Kompetensi</a>
+    <!-- Disembunyikan sementara; panel dan halaman Standar Kompetensi tetap dipertahankan. -->
+    <a href="#" hidden aria-hidden="true" style="display:none" onclick="switchTab('standar-kompetensi',this);return false;">Standar Kompetensi</a>
   </nav>
   <div class="header-center">
     <div class="hstat-chip"><div class="hstat-val" id="st-total">-</div><div class="hstat-lbl">Instansi</div></div>
@@ -1554,9 +1555,6 @@ body::after{
 </header>
 
 <!-- IFRAME PANELS -->
-<div id="panel-siarsiparis" style="display:none">
-  <iframe id="iframe-siarsiparis" src="" allowfullscreen></iframe>
-</div>
 <div id="panel-rekomendasi-jfa" style="display:none">
   <iframe id="iframe-rekomendasi-jfa" src="" allowfullscreen></iframe>
 </div>
@@ -2192,8 +2190,8 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 <script src="config.js"></script>
 <script>
 // -- TAB SWITCHING ---------------------------------------------
-const TAB_SRCS = { siarsiparis:'siarsiparis_v4_fix.html', rekomendasiJfa:'Rekomendasi JFA.html', bkn:'Data_BKN_rekap.html', pengawasanSdm:'pengawasan_sdm_kearsipan.html', sertifikasi:'sertifikasi.html', standarKompetensi:'standar_kompetensi_teknis.html' };
-const iframeLoaded = { siarsiparis:false, rekomendasiJfa:false, bkn:false, pengawasanSdm:false, sertifikasi:false, standarKompetensi:false };
+const TAB_SRCS = { rekomendasiJfa:'Rekomendasi JFA.html', bkn:'Data_BKN_rekap.html', pengawasanSdm:'pengawasan_sdm_kearsipan.html', sertifikasi:'sertifikasi.html', standarKompetensi:'standar_kompetensi_teknis.html' };
+const iframeLoaded = { rekomendasiJfa:false, bkn:false, pengawasanSdm:false, sertifikasi:false, standarKompetensi:false };
 function switchTab(tabId, el) {
   document.querySelectorAll('.header-tabs a').forEach(a=>{
     a.classList.remove('active');
@@ -2203,14 +2201,12 @@ function switchTab(tabId, el) {
   el.setAttribute('aria-current','page');
   el.scrollIntoView({block:'nearest', inline:'center'});
   document.getElementById('panel-rekap').style.display = tabId==='rekap'?'':'none';
-  document.getElementById('panel-siarsiparis').style.display = tabId==='siarsiparis'?'':'none';
   document.getElementById('panel-rekomendasi-jfa').style.display = tabId==='rekomendasi-jfa'?'':'none';
   document.getElementById('panel-bkn').style.display = tabId==='bkn'?'':'none';
   document.getElementById('panel-pengawasan-sdm').style.display = tabId==='pengawasan-sdm'?'':'none';
   document.getElementById('panel-kegiatan').style.display = tabId==='kegiatan'?'':'none';
   document.getElementById('panel-sertifikasi').style.display = tabId==='sertifikasi'?'':'none';
   document.getElementById('panel-standar-kompetensi').style.display = tabId==='standar-kompetensi'?'':'none';
-  if (tabId==='siarsiparis'&&!iframeLoaded.siarsiparis){document.getElementById('iframe-siarsiparis').src=TAB_SRCS.siarsiparis;iframeLoaded.siarsiparis=true;}
   if (tabId==='rekomendasi-jfa'&&!iframeLoaded.rekomendasiJfa){document.getElementById('iframe-rekomendasi-jfa').src=TAB_SRCS.rekomendasiJfa;iframeLoaded.rekomendasiJfa=true;}
   if (tabId==='bkn'&&!iframeLoaded.bkn){document.getElementById('iframe-bkn').src=TAB_SRCS.bkn;iframeLoaded.bkn=true;}
   if (tabId==='pengawasan-sdm'&&!iframeLoaded.pengawasanSdm){document.getElementById('iframe-pengawasan-sdm').src=TAB_SRCS.pengawasanSdm;iframeLoaded.pengawasanSdm=true;}
