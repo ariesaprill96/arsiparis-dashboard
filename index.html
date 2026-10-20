@@ -1036,6 +1036,8 @@ body::after{
 .bks-detail .monev-kicker{color:var(--green)}
 .bks-video-shell{position:relative;width:100%;aspect-ratio:16/9;border-radius:30px;overflow:hidden;background:linear-gradient(145deg,#e7f4ee,#f8fbfa);border:1px solid rgba(15,143,95,.16);box-shadow:0 18px 44px rgba(15,23,42,.1)}
 .bks-video-shell iframe{width:100%;height:100%;border:0;display:block}
+.bks-video-poster{position:relative;display:flex;width:100%;height:100%;align-items:center;justify-content:center;background:#eef7fb;text-decoration:none;overflow:hidden}.bks-video-poster img{height:100%;max-width:100%;object-fit:contain;transition:transform .25s ease}.bks-video-poster:hover img{transform:scale(1.025)}
+.bks-video-poster-cta{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;gap:8px;white-space:nowrap;padding:11px 16px;border-radius:999px;background:rgba(0,0,0,.76);color:#fff;font-size:12px;font-weight:850;box-shadow:0 8px 22px rgba(0,0,0,.22)}.bks-video-poster-cta::before{content:'▶';display:grid;place-items:center;width:21px;height:21px;border-radius:50%;background:#ff0033;font-size:9px}
 .bks-video-placeholder{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:28px;background:radial-gradient(circle at 50% 38%,rgba(15,143,95,.12),transparent 35%)}
 .bks-video-placeholder-inner{max-width:540px}
 .bks-video-play{width:74px;height:74px;margin:0 auto;border-radius:50%;display:grid;place-items:center;background:var(--green);box-shadow:0 16px 34px rgba(15,143,95,.26)}
@@ -1043,6 +1045,12 @@ body::after{
 .bks-video-title{margin-top:18px;font-size:22px;font-weight:900;letter-spacing:-.035em;color:var(--text)}
 .bks-video-copy{margin-top:8px;font-size:12px;line-height:1.7;color:var(--text-3);font-weight:650}
 .bks-video-status{display:inline-flex;margin-top:14px;padding:7px 10px;border-radius:999px;background:rgba(15,143,95,.1);color:var(--green);font-size:10px;font-weight:850;letter-spacing:.06em;text-transform:uppercase}
+.bks-action{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-top:18px;padding:12px 16px;border-radius:12px;background:var(--green);color:#fff;text-decoration:none;font-size:12px;font-weight:850;box-shadow:0 10px 22px rgba(15,143,95,.2)}
+.bks-action:hover{background:#08774d;transform:translateY(-1px)}
+.bks-materials{margin-top:28px}.bks-materials-title{font-size:16px;font-weight:900;letter-spacing:-.02em;color:var(--text)}
+.bks-materials-sub{margin-top:5px;color:var(--text-3);font-size:12px;line-height:1.55}.bks-material-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:15px}
+.bks-material{padding:17px;border:1px solid rgba(15,143,95,.14);border-radius:18px;background:rgba(255,255,255,.76)}.bks-material-num{font-size:10px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;color:var(--green)}
+.bks-material-title{margin-top:8px;font-size:14px;line-height:1.35;font-weight:850;color:var(--text)}.bks-material a{display:inline-flex;margin-top:13px;color:var(--green);font-size:12px;font-weight:850;text-decoration:none}.bks-material a:hover{text-decoration:underline}
 .activity-card.is-action:focus-visible{outline:3px solid rgba(185,106,0,.24);outline-offset:4px}
 .activity-card::before{
   content:'';
@@ -1485,7 +1493,7 @@ body::after{
   .hero-panel{padding:22px 20px;border-radius:24px;}
   .hero-title{font-size:30px;}
   .hero-sub{font-size:13px;}
-  .stat-row,.projection-grid,.projection-scenarios,.rekap-grid,.instansi-grid,.cluster-sheet-grid,.activity-grid{grid-template-columns:repeat(1,minmax(0,1fr));}
+  .stat-row,.projection-grid,.projection-scenarios,.rekap-grid,.instansi-grid,.cluster-sheet-grid,.activity-grid,.bks-material-grid{grid-template-columns:repeat(1,minmax(0,1fr));}
   .projection-chart-head{flex-direction:column;}
   .activity-panel{width:calc(100% - 16px);margin-top:14px;}
   .activity-hero{padding:24px 20px;border-radius:26px;}
@@ -1594,14 +1602,14 @@ body::after{
 
     <article class="activity-card is-action" style="--activity-accent:#0f8f5f" onclick="openBksDetail()" tabindex="0" role="button" aria-controls="bks-detail" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openBksDetail();}">
       <div class="activity-card-head">
-        <span class="activity-tag">Placeholder tersedia</span>
-        <span class="activity-code">BKS</span>
+        <span class="activity-tag">Materi tersedia</span>
+        <span class="activity-code">BIMKOS</span>
       </div>
-      <div class="activity-card-title">Bimbingan dan Konsultasi SDM Kearsipan</div>
-      <div class="activity-card-copy">Ruang informasi untuk layanan konsultasi, asistensi kebutuhan arsiparis, pembinaan jabatan fungsional, dan tindak lanjut isu SDM Kearsipan di instansi.</div>
+      <div class="activity-card-title">Bimkos SDM Kearsipan Angkatan III</div>
+      <div class="activity-card-copy">Strategi Pengembangan dan Kompetensi Penilaian SDM Kearsipan, dilengkapi rekaman dan empat materi pendukung.</div>
       <div class="activity-meta">
-        <div class="activity-meta-box"><div class="activity-meta-label">Status</div><div class="activity-meta-value">Siap diisi video</div></div>
-        <div class="activity-meta-box"><div class="activity-meta-label">Output</div><div class="activity-meta-value">Video YouTube</div></div>
+        <div class="activity-meta-box"><div class="activity-meta-label">Status</div><div class="activity-meta-value">Lihat materi</div></div>
+        <div class="activity-meta-box"><div class="activity-meta-label">Output</div><div class="activity-meta-value">Video & materi</div></div>
       </div>
     </article>
 
@@ -1681,23 +1689,29 @@ body::after{
   <section class="monev-detail bks-detail" id="bks-detail">
     <div class="monev-head">
       <div>
-        <div class="monev-kicker">Bimbingan dan Konsultasi SDM Kearsipan</div>
-        <div class="monev-title">Ruang video layanan dan materi konsultasi.</div>
-        <div class="monev-copy">Area ini disiapkan untuk menampilkan video YouTube mengenai layanan konsultasi, asistensi kebutuhan arsiparis, pembinaan jabatan fungsional, atau materi pendukung SDM Kearsipan.</div>
+        <div class="monev-kicker">Bimkos SDM Kearsipan Angkatan III</div>
+        <div class="monev-title">Strategi Pengembangan dan Kompetensi Penilaian SDM Kearsipan.</div>
+        <div class="monev-copy">Rekaman kegiatan dan materi pendukung Bimkos dapat diakses melalui tautan berikut.</div>
       </div>
       <button type="button" class="monev-close" onclick="closeBksDetail()">Tutup</button>
     </div>
     <div class="monev-body">
       <div class="bks-video-shell" id="bks-video-slot">
-        <div class="bks-video-placeholder">
-          <div class="bks-video-placeholder-inner">
-            <div class="bks-video-play" aria-hidden="true"></div>
-            <div class="bks-video-title">Video bimbingan akan ditampilkan di sini</div>
-            <div class="bks-video-copy">Placeholder sudah siap. Tautan YouTube dapat ditambahkan setelah video selesai diunggah.</div>
-            <div class="bks-video-status">Menunggu tautan YouTube</div>
-          </div>
-        </div>
+        <a class="bks-video-poster" href="https://www.youtube.com/watch?v=rWPqENTsYgw" target="_blank" rel="noopener noreferrer" aria-label="Tonton rekaman Bimkos SDM Kearsipan Angkatan III di YouTube">
+          <img src="assets/bimkos-sdm-angkatan-iii-poster.png" alt="Poster Bimbingan dan Konsultasi SDM Kearsipan Angkatan III">
+          <span class="bks-video-poster-cta">Tonton di YouTube</span>
+        </a>
       </div>
+      <section class="bks-materials" aria-label="Materi Bimkos SDM Kearsipan">
+        <div class="bks-materials-title">Materi Bimkos</div>
+        <div class="bks-materials-sub">Pilih materi untuk membukanya melalui Google Drive.</div>
+        <div class="bks-material-grid">
+          <article class="bks-material"><div class="bks-material-num">Materi 01</div><div class="bks-material-title">Pengembangan Kompetensi Klasikal dan Non Klasikal bagi SDM Kearsipan</div><a href="https://drive.google.com/file/d/1TEsRmDEUQkpkJT65W8acDGOn8YflLt1m/view?usp=sharing" target="_blank" rel="noopener noreferrer">Buka materi →</a></article>
+          <article class="bks-material"><div class="bks-material-num">Materi 02</div><div class="bks-material-title">Penyelenggaraan Penilaian Kompetensi Manajerial, Sosial dan Kultural</div><a href="https://drive.google.com/file/d/1mgqyU_t1E8dL52ZpC9dlmlWVwAPCLDRI/view?usp=sharing" target="_blank" rel="noopener noreferrer">Buka materi →</a></article>
+          <article class="bks-material"><div class="bks-material-num">Materi 03</div><div class="bks-material-title">Dari Pelatihan ke Ekosistem Pembelajaran: Perjalanan Pengembangan Kompetensi melalui ANRI Corporate University 2025–2026</div><a href="https://drive.google.com/file/d/1-zMovJ57UhtBPYOjZeLlCqXgeFTt8qhW/view?usp=sharing" target="_blank" rel="noopener noreferrer">Buka materi →</a></article>
+          <article class="bks-material"><div class="bks-material-num">Materi 04</div><div class="bks-material-title">Standar Kompetensi JFA Arsiparis</div><a href="https://drive.google.com/file/d/1MRrmGuqDNbxxreCRgSpbDCxzIPGkNlEe/view?usp=sharing" target="_blank" rel="noopener noreferrer">Buka materi →</a></article>
+        </div>
+      </section>
     </div>
   </section>
 
@@ -1866,7 +1880,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 
   <!-- CONTENT -->
   <main class="content">
-    <section class="projection-panel" id="projection-panel"></section>
+    <section class="projection-panel" id="projection-panel" hidden aria-hidden="true"></section>
     <section class="hero-panel">
       <div class="hero-content">
         <div>
