@@ -1512,7 +1512,10 @@ body::after{
   .cluster-sheet{max-height:92vh;border-radius:28px;}
 }
 </style>
-  <link rel="stylesheet" href="assets/dashboard-theme.css?v=20260721">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/anri-editorial.css?v=20261020">
 </head>
 <body data-anri-theme="shell">
 
@@ -1883,9 +1886,9 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
     <section class="hero-panel">
       <div class="hero-content">
         <div>
-          <div class="eyebrow">Dashboard Rekomendasi Kebutuhan Jabatan Fungsional Arsiparis</div>
-          <div class="hero-title">Menampilkan daftar Instansi Pemerintahan yang telah mendapatkan rekomendasi kebutuhan Jabatan Fungsional Arsiparis dari ANRI.</div>
-          <div class="hero-sub">Data menampilkan kluster instansi pemerintahan, jumlah rekomendasi arsiparis serta grafik ringkasan tiap kluster.</div>
+          <div class="eyebrow">Rekomendasi Kebutuhan JF Arsiparis</div>
+          <div class="hero-title">Rekomendasi kebutuhan arsiparis, <em>per instansi</em> pemerintah.</div>
+          <div class="hero-sub">Daftar instansi pusat dan daerah yang telah memperoleh rekomendasi kebutuhan Jabatan Fungsional Arsiparis dari ANRI, dikelompokkan per kluster beserta grafik ringkasannya.</div>
           <div class="hero-meta">
             <div class="hero-chip"><span>+</span> Rekomendasi JFA</div>
             <div class="hero-chip"><span>+</span> Jumlah Arsiparis</div>
@@ -1934,11 +1937,11 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 
     <div id="home-view">
       <div class="section-header">
-        <div><div class="section-title">Collection Overview</div><div class="section-sub">Masuk ke setiap kluster lewat kartu besar, lalu buka koleksi lengkapnya dalam sheet terpisah.</div></div>
+        <div><div class="section-title">Ringkasan per kluster</div><div class="section-sub">Pilih kluster untuk menyaring daftar instansi di bawah.</div></div>
       </div>
       <div class="rekap-grid" id="rekap-grid"></div>
       <div class="section-header" style="margin-top:4px">
-        <div><div class="section-title">Cluster Shelves</div><div class="section-sub">Preview singkat untuk tiap kluster, dengan tampilan penuh saat dibuka.</div></div>
+        <div><div class="section-title">Instansi per kluster</div><div class="section-sub">Cuplikan instansi di setiap kluster; buka koleksi lengkap untuk melihat semuanya.</div></div>
       </div>
       <div id="kluster-wrap"></div>
     </div>
@@ -2219,9 +2222,9 @@ function switchTab(tabId, el) {
 let IS_ADMIN = sessionStorage.getItem('arsiparis_admin') === '1';
 const JKEYS = ['terampil','mahir','penyelia','ahli_pertama','ahli_muda','ahli_madya','ahli_utama'];
 const PROVINSI_LIST = ["ACEH","BALI","BANTEN","BENGKULU","DI. YOGYAKARTA","DKI JAKARTA","GORONTALO","JAMBI","JAWA BARAT","JAWA TENGAH","JAWA TIMUR","KALIMANTAN BARAT","KALIMANTAN SELATAN","KALIMANTAN TENGAH","KALIMANTAN TIMUR","KALIMANTAN UTARA","KEPULAUAN RIAU","LAMPUNG","MALUKU","MALUKU UTARA","NUSA TENGGARA BARAT","NUSA TENGGARA TIMUR","PAPUA","PAPUA BARAT","PAPUA BARAT DAYA","PAPUA PEGUNUNGAN","PAPUA SELATAN","PAPUA TENGAH","RIAU","SULAWESI BARAT","SULAWESI SELATAN","SULAWESI TENGAH","SULAWESI TENGGARA","SULAWESI UTARA","SUMATERA BARAT","SUMATERA SELATAN","SUMATERA UTARA"];
-const CAT_COLOR = {'Kementerian':'#d97706','Alat Negara':'#dc2626','Sekretariat Lembaga Negara':'#2563eb','Lembaga Non Struktural':'#7c3aed','Lembaga Pemerintah Lainnya':'#b06030','Lembaga Pemerintah Non Kementerian':'#0d9488','Lembaga Penyiaran Publik':'#7a6020','Provinsi':'#1a4a6b','Kabupaten/Kota':'#3a6b3a'};
+const CAT_COLOR = {'Kementerian':'#1e3a5f','Lembaga Pemerintah Non Kementerian':'#3e6a99','Sekretariat Lembaga Negara':'#6f93bd','Lembaga Non Struktural':'#9fb9d6','Alat Negara':'#4a5563','Lembaga Pemerintah Lainnya':'#8a919c','Lembaga Penyiaran Publik':'#b9bec6','Provinsi':'#8a5a24','Kabupaten/Kota':'#c0904f'};
 const CAT_ICON = {'Kementerian':'KEM','Alat Negara':'ALN','Sekretariat Lembaga Negara':'SLN','Lembaga Non Struktural':'LNS','Lembaga Pemerintah Lainnya':'LPL','Lembaga Pemerintah Non Kementerian':'LPNK','Lembaga Penyiaran Publik':'LPP','Provinsi':'PROV','Kabupaten/Kota':'K/K'};
-const JENJANG = [{k:'terampil',lbl:'Terampil',c:'#FF9500'},{k:'mahir',lbl:'Mahir',c:'#30B0C7'},{k:'penyelia',lbl:'Penyelia',c:'#007AFF'},{k:'ahli_pertama',lbl:'Ahli Pertama',c:'#FF3B30'},{k:'ahli_muda',lbl:'Ahli Muda',c:'#AF52DE'},{k:'ahli_madya',lbl:'Ahli Madya',c:'#5856D6'},{k:'ahli_utama',lbl:'Ahli Utama',c:'#FF2D55'}];
+const JENJANG = [{k:'terampil',lbl:'Terampil',c:'#dcbd8b'},{k:'mahir',lbl:'Mahir',c:'#c0904f'},{k:'penyelia',lbl:'Penyelia',c:'#8a5a24'},{k:'ahli_pertama',lbl:'Ahli Pertama',c:'#9fbbd9'},{k:'ahli_muda',lbl:'Ahli Muda',c:'#5c88ba'},{k:'ahli_madya',lbl:'Ahli Madya',c:'#2d5a8c'},{k:'ahli_utama',lbl:'Ahli Utama',c:'#13305a'}];
 const CLUSTERS = [{cat:'Kementerian'},{cat:'Lembaga Pemerintah Non Kementerian'},{cat:'Sekretariat Lembaga Negara'},{cat:'Lembaga Non Struktural'},{cat:'Alat Negara'},{cat:'Lembaga Pemerintah Lainnya'},{cat:'Lembaga Penyiaran Publik'},{cat:'Provinsi'},{cat:'Kabupaten/Kota'}];
 const PUSAT_CATEGORIES = ['Kementerian','Alat Negara','Sekretariat Lembaga Negara','Lembaga Non Struktural','Lembaga Pemerintah Lainnya','Lembaga Pemerintah Non Kementerian','Lembaga Penyiaran Publik'];
 const DAERAH_CATEGORIES = ['Provinsi','Kabupaten/Kota'];
@@ -2273,6 +2276,7 @@ async function init() {
 }
 
 function updateAdminUI() {
+  document.body.classList.toggle('is-admin', !!IS_ADMIN);
   if (IS_ADMIN) {
     document.getElementById('admin-pill').style.display = 'inline-flex';
     document.getElementById('btn-add').style.display = 'inline-block';
@@ -2468,7 +2472,7 @@ function renderProjectionTrendChart(series) {
       <line x1="${sx(i).toFixed(1)}" y1="${height - bottom}" x2="${sx(i).toFixed(1)}" y2="${height - bottom + 5}" stroke="rgba(100,116,139,.55)" />
       <text x="${sx(i).toFixed(1)}" y="${height - 18}" text-anchor="middle" class="projection-chart-axis">${d.year}</text>`).join('');
   const markers = series.map((d, i) => `
-      <circle cx="${sx(i).toFixed(1)}" cy="${sy(d.estimate).toFixed(1)}" r="4.2" fill="#007AFF" stroke="#fff" stroke-width="2" />
+      <circle cx="${sx(i).toFixed(1)}" cy="${sy(d.estimate).toFixed(1)}" r="4.2" fill="#1e3a5f" stroke="#fff" stroke-width="2" />
       <text x="${sx(i).toFixed(1)}" y="${sy(d.estimate) - 10}" text-anchor="middle" class="projection-chart-label">${fmt(d.estimate)}</text>`).join('');
   return `
     <div class="projection-chart">
@@ -2488,7 +2492,7 @@ function renderProjectionTrendChart(series) {
         <line x1="${left}" y1="${height - bottom}" x2="${width - right}" y2="${height - bottom}" stroke="rgba(100,116,139,.55)" />
         <g>${xTicks}</g>
         <polygon points="${upper} ${lower}" fill="rgba(0,122,255,.16)" stroke="rgba(0,122,255,.18)" stroke-width="1" />
-        <polyline points="${estimate}" fill="none" stroke="#007AFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+        <polyline points="${estimate}" fill="none" stroke="#1e3a5f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
         <g>${markers}</g>
       </svg>
     </div>`;
@@ -3090,20 +3094,15 @@ function mkChart(id, config) {
   return CHART_INSTANCES[id];
 }
 
-const CAT_COLORS = {
-  'Kementerian':'#FF9500','Alat Negara':'#FF3B30','Sekretariat Lembaga Negara':'#007AFF',
-  'Lembaga Non Struktural':'#AF52DE','Lembaga Pemerintah Lainnya':'#A2845E',
-  'Lembaga Pemerintah Non Kementerian':'#30B0C7','Lembaga Penyiaran Publik':'#FF2D55',
-  'Provinsi':'#5856D6','Kabupaten/Kota':'#34C759'
-};
+const CAT_COLORS = CAT_COLOR; // satu sumber warna kategori untuk kartu dan grafik
 
 /* -- Token visual seragam untuk semua chart batang --
    Satu bahasa: isian transparan tipis + garis tepi warna penuh, sudut rounded halus. */
-const CHART_FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+const CHART_FONT = "'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
 const TOOLTIP_DEFAULTS = {
-  backgroundColor:'rgba(255,255,255,.96)',titleColor:'#111827',bodyColor:'#4b5563',
+  backgroundColor:'rgba(255,255,255,.98)',titleColor:'#14181f',bodyColor:'#464d5a',
   borderColor:'rgba(15,23,42,.08)',borderWidth:1,
-  padding:12,cornerRadius:14,displayColors:false,
+  padding:12,cornerRadius:8,displayColors:false,
   titleFont:{family:CHART_FONT,weight:'600',size:12},
   bodyFont:{family:CHART_FONT,size:11}
 };
@@ -3111,14 +3110,14 @@ const BAR_RADIUS  = 6;     // sudut rounded halus, dipakai semua batang
 const BAR_BORDER  = 1.5;   // tebal garis tepi seragam
 const BAR_PCT     = 0.62;  // ketebalan batang seragam
 const CAT_PCT     = 0.72;  // jarak antar grup seragam
-const fillSolid = c => c+'33'; // isian "terisi"  (Rekomendasi / seri tunggal)
-const fillGhost = c => c+'0D'; // isian "kosong"  (Ketersediaan)
+const fillSolid = c => c+'D9'; // isian "terisi"  (Rekomendasi / seri tunggal)
+const fillGhost = c => c+'14'; // isian "kosong"  (Ketersediaan)
 
 function renderCharts() {
   if (!ALL.length) return;
-  Chart.defaults.color = '#344054';
-  Chart.defaults.borderColor = 'rgba(15,23,42,.16)';
-  Chart.defaults.font.family = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+  Chart.defaults.color = '#464d5a';
+  Chart.defaults.borderColor = 'rgba(20,24,31,.10)';
+  Chart.defaults.font.family = "'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
   Chart.defaults.font.size = 12;
   const font = CHART_FONT;
   const tooltipDefaults = TOOLTIP_DEFAULTS;
@@ -3131,7 +3130,7 @@ function renderCharts() {
   document.getElementById('lbl-belum').textContent = `Belum: ${belum.toLocaleString('id')}`;
   mkChart('chart-donut', {
     type:'doughnut',
-    data:{ datasets:[{ data:[ada,belum], backgroundColor:['#34c759','#e5e7eb'], borderWidth:0, hoverOffset:4 }] },
+    data:{ datasets:[{ data:[ada,belum], backgroundColor:['#1e3a5f','#e7e4dc'], borderWidth:0, hoverOffset:4 }] },
     options:{ cutout:'74%', plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>`${ctx.raw.toLocaleString('id')} instansi`},...tooltipDefaults} }, animation:{duration:700} }
   });
 
@@ -3164,8 +3163,8 @@ function renderCharts() {
   mkChart('chart-tahun', {
     type:'bar',
     data:{ labels:tahunKeys, datasets:[
-      { type:'bar', label:'Terbit Tahun Ini', data:tahunKeys.map(t=>byTahun[t]), backgroundColor:fillSolid('#007aff'), borderColor:'#007aff', borderWidth:BAR_BORDER, borderRadius:BAR_RADIUS, borderSkipped:false, yAxisID:'y', barPercentage:BAR_PCT, categoryPercentage:CAT_PCT },
-      { type:'line', label:'Kumulatif', data:cumData, borderColor:'#34c759', backgroundColor:'rgba(52,199,89,.08)', borderWidth:2.5, pointRadius:4, pointBackgroundColor:'#34c759', tension:.35, fill:true, yAxisID:'y1' }
+      { type:'bar', label:'Terbit Tahun Ini', data:tahunKeys.map(t=>byTahun[t]), backgroundColor:fillSolid('#1e3a5f'), borderColor:'#1e3a5f', borderWidth:BAR_BORDER, borderRadius:BAR_RADIUS, borderSkipped:false, yAxisID:'y', barPercentage:BAR_PCT, categoryPercentage:CAT_PCT },
+      { type:'line', label:'Kumulatif', data:cumData, borderColor:'#a8834a', backgroundColor:'rgba(168,131,74,.08)', borderWidth:2.5, pointRadius:4, pointBackgroundColor:'#a8834a', tension:.35, fill:true, yAxisID:'y1' }
     ]},
     options:{
       responsive:true,maintainAspectRatio:false,
@@ -3213,7 +3212,7 @@ function renderCharts() {
     }
   });
 
-  const jenjangColors = ['#FF9500','#30B0C7','#007AFF','#FF3B30','#AF52DE','#5856D6','#FF2D55'];
+  const jenjangColors = JENJANG.map(j => j.c);
   const jenjangDatasets = JENJANG.map((j,i)=>({
     label:j.lbl, data:CAT_LABELS.map(cat=>ALL.filter(d=>d.kategori===cat).reduce((s,d)=>s+(d[j.k]||0),0)),
     backgroundColor:fillSolid(jenjangColors[i]),borderColor:jenjangColors[i],borderWidth:BAR_BORDER,borderSkipped:false,borderRadius:BAR_RADIUS
@@ -3247,7 +3246,7 @@ function renderCharts() {
     const gk=['nas','kem','lemb','prov','kab'];
     const gl=['Nasional','Kementerian','Lembaga','Provinsi','Kabupaten/Kota'];
     const dsrc=document.getElementById('disp-src'); if(dsrc) dsrc.textContent='sumber BKN - '+(window.BKN_REKAP_2026.updated_at||'');
-    const COL=['#636366','#FF9500','#AF52DE','#5856D6','#34C759'];
+    const COL=['#7a808b','#1e3a5f','#5c88ba','#8a5a24','#c0904f'];
     const dispLabels={ id:'dispLabels', afterDatasetsDraw(chart){
       const ctx=chart.ctx; ctx.save();
       ctx.font="600 10px "+font; ctx.textBaseline='middle'; ctx.textAlign='left';
