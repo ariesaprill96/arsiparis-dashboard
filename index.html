@@ -1516,6 +1516,7 @@ body::after{
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/anri-editorial.css?v=20261020">
+<link rel="stylesheet" href="assets/anri-dashboard.css?v=20261020">
 </head>
 <body data-anri-theme="shell">
 
@@ -1828,7 +1829,8 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
       <div class="sidebar-nav-shell">
         <button class="filter-btn nav-module active" id="btn-dashboard" onclick="showDashboard(this)"><span class="dot" style="background:#0b63ce"></span><span class="filter-label">Dashboard Nasional</span></button>
         <button class="filter-btn nav-module" id="btn-grafik" onclick="showGrafik(this)"><span class="dot" style="background:#7c3aed"></span><span class="filter-label">Grafik Statistik</span></button>
-        <button class="filter-btn nav-module" id="btn-progress" onclick="showProgress(this)"><span class="dot" style="background:#0d9488"></span><span class="filter-label">Pemantauan Permohonan Rekomendasi JFA</span></button>
+        <!-- Disembunyikan sementara; panel Pemantauan Permohonan tetap dipertahankan. -->
+        <button class="filter-btn nav-module" id="btn-progress" hidden aria-hidden="true" style="display:none" onclick="showProgress(this)"><span class="dot" style="background:#0d9488"></span><span class="filter-label">Pemantauan Permohonan Rekomendasi JFA</span></button>
       </div>
     </div>
 

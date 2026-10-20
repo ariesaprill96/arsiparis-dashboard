@@ -909,7 +909,63 @@
     .cert-db-frame{ height:680px; }
   }
 </style>
-  <link rel="stylesheet" href="assets/dashboard-theme.css?v=20260721">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/anri-editorial.css?v=20261020">
+<style id="anri-editorial-page">
+/* Penyesuaian tema editorial untuk halaman ini */
+:root{
+  --accent:var(--ed-accent);--accent-light:var(--ed-accent-soft);--accent-mid:#5c88ba;
+  --anri-bright:var(--ed-accent);--anri-deep:var(--ed-accent);--anri-navy:#13305a;--anri-sky:#9fbbd9;
+  --green:var(--ed-ok);--green-bg:var(--ed-ok-soft);--orange:var(--ed-gold);--orange-bg:var(--ed-warn-soft);
+  --purple:#5c88ba;--purple-bg:var(--ed-accent-soft);--red:var(--ed-bad);--red-bg:var(--ed-bad-soft);--teal:#3e6a99;--teal-bg:var(--ed-accent-soft);
+  --label:var(--ed-ink);--label-2:var(--ed-ink-2);--label-3:var(--ed-ink-3);--fill:var(--ed-bg);--fill-2:#fff;
+  --separator:var(--ed-line);--separator-opaque:var(--ed-line-strong);
+  --glass-fill:#fff;--glass-fill-strong:#fff;--glass-stroke:var(--ed-line);--glass-blur:none;--hl:none;--float:none;
+  --shadow:none;--shadow-sm:none;--radius:14px;
+}
+body{background:var(--ed-bg) !important;font-family:var(--ed-font) !important}
+.page-header{background:#fff !important;border:0 !important;border-bottom:1px solid var(--ed-line) !important;border-radius:0 !important;box-shadow:none !important;backdrop-filter:none !important;margin-top:0 !important}
+.intro-banner{background:transparent !important;border:0 !important;border-bottom:1px solid var(--ed-line-strong) !important;border-radius:0 !important;box-shadow:none !important;color:var(--ed-ink) !important;padding:40px 0 32px !important;margin:0 auto !important;max-width:var(--col,1120px);width:calc(100% - 32px)}
+.intro-banner::before,.intro-banner::after{display:none !important}
+.intro-banner h2{font-family:var(--ed-serif) !important;font-weight:500 !important;letter-spacing:-.02em !important;font-size:clamp(30px,4vw,46px) !important;color:var(--ed-ink)}
+.intro-banner p{color:var(--ed-ink-2);opacity:1}
+.intro-banner .nomor{color:var(--ed-gold) !important;font-family:var(--ed-font) !important;font-weight:600}
+.intro-banner .catatan{background:#fff !important;border:1px solid var(--ed-line) !important;box-shadow:none !important;color:var(--ed-ink-2) !important}
+.intro-banner .catatan .ic{color:var(--ed-gold) !important}
+.btn-download{background:var(--ed-accent) !important;border-radius:9px !important;box-shadow:none !important;font-weight:500 !important;font-size:13px !important}
+.btn-download:hover{background:#16304f !important;transform:none !important}
+.tab-wrap{background:rgba(246,245,241,.94) !important;border:0 !important;border-bottom:1px solid var(--ed-line) !important;border-radius:0 !important;box-shadow:none !important;width:100% !important;max-width:none !important;margin:0 !important;top:0 !important;padding:0 max(16px,calc(50% - 560px)) !important;justify-content:flex-start !important}
+.tab-btn{border-radius:0 !important;padding:14px 14px !important;font-size:13.5px !important;font-weight:500 !important;color:var(--ed-ink-2) !important;border-bottom:2px solid transparent !important}
+.tab-btn:hover{background:transparent !important;color:var(--ed-ink) !important}
+.tab-btn.active,.tab-btn.active:hover{background:transparent !important;color:var(--ed-ink) !important;box-shadow:none !important;border-bottom:2px solid var(--ed-accent) !important;font-weight:600 !important}
+.stat-card{background:#fff !important;border:1px solid var(--ed-line) !important;border-radius:14px !important;box-shadow:none !important;backdrop-filter:none !important}
+.stat-card::before{display:none !important}
+.stat-card .val{font-weight:600 !important;letter-spacing:-.02em}
+.stat-card .lbl{text-transform:none !important;letter-spacing:0 !important;font-size:12.5px !important;font-weight:500 !important;color:var(--ed-ink-3) !important}
+.jadwal-card,.syarat-wrap,.type-table-wrap,.links-card,.cert-db-sidebar,.cert-db-card{border-radius:14px !important;border:1px solid var(--ed-line) !important;box-shadow:none !important}
+.jadwal-card:hover{transform:none !important;box-shadow:none !important;border-color:var(--ed-line-strong) !important}
+.card-head{background:var(--ed-surface-2) !important}
+.card-head .angkatan{color:var(--ed-gold) !important;font-size:11.5px !important}
+.syarat-head,.type-table-wrap th{background:var(--ed-surface-2) !important;color:var(--ed-ink) !important;border-bottom:1px solid var(--ed-line)}
+.syarat-head{font-family:var(--ed-serif);font-weight:500 !important;font-size:18px !important;padding:14px 18px !important}
+.syarat-item .num{background:var(--ed-accent-soft) !important;color:var(--ed-accent) !important}
+.section-label{color:var(--ed-ink-3) !important;font-size:12px !important}
+.badge{box-shadow:none !important;backdrop-filter:none !important}
+.badge.daring{background:var(--ed-accent-soft) !important;color:var(--ed-accent) !important}
+.badge.luring{background:var(--ed-warn-soft) !important;color:#7a5520 !important}
+.badge.rm{background:#eceef1 !important;color:var(--ed-ink-2) !important}
+.badge.lewat{background:#efede7 !important;color:var(--ed-ink-3) !important}
+.badge.akan{background:#fff !important;color:var(--ed-ink-2) !important;border:1px solid var(--ed-line-strong)}
+.kuota-bar-fill{background:var(--ed-accent) !important}
+.cert-db-year.active{background:var(--ed-accent) !important}
+.cert-db-year:hover{background:var(--ed-accent-soft) !important;color:var(--ed-accent) !important}
+.cert-db-kicker{color:var(--ed-gold) !important}
+.cert-db-heading{font-family:var(--ed-serif);font-weight:500 !important}
+.link-item .li-icon{background:var(--ed-accent-soft) !important}
+div[style*="#fef9c3"]{background:var(--ed-warn-soft) !important;border-color:rgba(168,131,74,.35) !important;color:#5e4520 !important}
+</style>
 </head>
 <body data-anri-theme="sertifikasi">
 
