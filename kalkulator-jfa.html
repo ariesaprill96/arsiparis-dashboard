@@ -73,6 +73,10 @@ button,input,select,textarea{font:inherit;color:inherit}
 .ctx{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:12px 18px;margin-top:28px}
 .ctx .ct{font-size:14px;color:var(--ink-2)} .ctx .ct b{color:var(--ink);font-weight:600}
 .unithead{padding:16px 20px;margin-bottom:14px}
+.uh-bar{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.uh-bar .uh-top{margin-bottom:0}
+.uh-acts{display:flex;gap:8px;align-items:center;font-size:13px}
+.btn-link.danger{color:var(--bad)}
 .unithead .uh-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-size:13px;color:var(--ink-3)}
 .unithead .row2{align-items:start}
 .unithead #f-unit{font-size:16px;font-weight:500;height:44px}
@@ -313,7 +317,8 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
       <aside class="card units no-print" id="units" aria-label="Daftar unit"></aside>
       <div class="formcol">
         <div class="card unithead" id="unithead">
-          <div class="uh-top" id="uh-top"></div>
+          <div class="uh-bar"><div class="uh-top" id="uh-top"></div>
+            <div class="uh-acts no-print"><button type="button" class="btn-link" id="btn-kosong">Kosongkan isian</button><span class="muted">·</span><button type="button" class="btn-link danger" id="btn-hapus-unit">Hapus unit</button></div></div>
           <div class="row2">
             <div class="field"><label for="f-unit" id="l-unit">Nama unit kerja</label><input id="f-unit" placeholder="mis. Biro Umum"><div class="err" id="e-unit" hidden></div></div>
             <div class="field" id="w-induk"><label for="f-induk">Berada di bawah</label><select id="f-induk"></select><div class="hint" id="h-induk"></div></div>
@@ -362,6 +367,7 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
           <button type="button" class="btn" id="rk-print">Cetak</button>
           <button type="button" class="btn" id="rk-import">Impor file</button>
           <button type="button" class="btn" id="rk-export">Simpan file cadangan</button>
+          <button type="button" class="btn danger" id="rk-reset">Kosongkan rekapitulasi</button>
           <input type="file" id="rk-file" accept=".json,application/json" hidden>
         </div>
       </div>
@@ -1090,6 +1096,34 @@ function simpanUnit(diam){
   return true;
 }
 $('btn-save').addEventListener('click', () => simpanUnit(false));
+/* ---------- Hapus / kosongkan ---------- */
+function hapusUnit(id){
+  const u = DB.units.find(x => x.id === id); if (!u) return;
+  const anak = DB.units.filter(x => x.induk === id).length;
+  if (!confirm(`Hapus "${u.unit || 'unit ini'}" beserta isian dan ketersediaannya?` + (anak ? `\n${anak} unit di bawahnya akan menjadi "belum dikelompokkan".` : ''))) return false;
+  DB.units = DB.units.filter(x => x.id !== id); delete DB.ketersediaan[id];
+  DB.units.forEach(x => { if (x.induk === id) x.induk = ''; });
+  if (CUR && CUR.id === id) bukaPertama();
+  persist(); renderAll(); renderRekap(); toast('Unit dihapus');
+  return true;
+}
+$('btn-kosong').addEventListener('click', () => {
+  if (!CUR || !Object.keys(CUR.isian).length) return toast('Isian unit ini sudah kosong.');
+  if (!confirm(`Kosongkan semua isian (${Object.keys(CUR.isian).length} terisi) pada "${CUR.unit || 'unit ini'}"? Nama dan posisi unit tetap.`)) return;
+  CUR.isian = {}; renderSteps(); renderSections(); compute(); toast('Isian dikosongkan');
+});
+$('btn-hapus-unit').addEventListener('click', () => {
+  if (!CUR) return;
+  if (disimpan()) return hapusUnit(CUR.id);
+  if (terisi() && !confirm('Buang unit baru yang belum disimpan ini?')) return;
+  bukaPertama(); persist(); renderAll(); toast('Unit baru dibuang');
+});
+$('rk-reset').addEventListener('click', () => {
+  if (!DB.units.length) return toast('Rekapitulasi sudah kosong.');
+  if (!confirm(`Hapus SEMUA ${DB.units.length} unit dan isian ketersediaan di rekapitulasi ini?\nData di browser ini tidak bisa dikembalikan. Simpan file cadangan dulu bila perlu.`)) return;
+  DB.units = []; DB.ketersediaan = {}; CUR = null; LAYOUT = []; DB.draft = null; $('f-unit').value = '';
+  persist(); renderAll(); renderRekap(); toast('Rekapitulasi dikosongkan');
+});
 $('units').addEventListener('click', e => {
   const t = e.target.closest('[data-tambah]'); if (t) return tambahUnit(t.dataset.tambah, t.dataset.peran, t.dataset.induk);
   const b = e.target.closest('[data-buka-unit]'); if (b) bukaUnit(b.dataset.bukaUnit);
@@ -1103,7 +1137,7 @@ $('rk-table').addEventListener('input', e => { const id = e.target.dataset.ada; 
 $('rk-table').addEventListener('click', e => {
   const ed = e.target.closest('[data-edit]'), del = e.target.closest('[data-hapus]');
   if (ed) bukaUnit(ed.dataset.edit);
-  if (del){ const u = DB.units.find(x => x.id === del.dataset.hapus); if (confirm(`Hapus "${u.unit}" dari rekapitulasi?` + (DB.units.some(x => x.induk === u.id) ? ' Unit di bawahnya akan menjadi "belum dikelompokkan".' : ''))){ DB.units = DB.units.filter(x => x.id !== u.id); DB.units.forEach(x => { if (x.induk === u.id) x.induk = ''; }); if (CUR && CUR.id === u.id){ bukaPertama(); renderAll(); } delete DB.ketersediaan[u.id]; persist(); renderRekap(); } }
+  if (del) hapusUnit(del.dataset.hapus);
 });
 $('rk-xlsx').addEventListener('click', downloadRekap);
 $('rk-print').addEventListener('click', () => { document.body.classList.add('print-rekap'); window.print(); setTimeout(() => document.body.classList.remove('print-rekap'), 1000); });
