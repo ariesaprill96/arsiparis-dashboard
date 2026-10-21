@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<link rel="icon" type="image/png" href="./favicon.png?v=2">
+<title>Penghitungan Kebutuhan JF Arsiparis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/anri-editorial.css?v=20261021c">
+<style>
+:root{--page:1240px;--radius:14px;--line:var(--ed-line);--line-strong:var(--ed-line-strong);--ink:var(--ed-ink);--ink-2:var(--ed-ink-2);--ink-3:var(--ed-ink-3);
+  --accent:#0b5d96;--accent-soft:#e6f1f9;--gold:#9a7b45;--surface:#fff;--surface-2:#f5f5f2;--bg:#f9f9f7;--ok:#1f7a4d;--bad:#b23a2e}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg)!important;color:var(--ink);font:400 15px/1.55 var(--ed-font)}
+.num{font-variant-numeric:tabular-nums lining-nums}
+button,input,select,textarea{font:inherit;color:inherit}
+.page{width:min(var(--page),calc(100% - 48px));margin:0 auto}
+.topbar{border-bottom:1px solid var(--line);background:#fff}
+.topbar .page{display:flex;align-items:center;justify-content:space-between;height:56px;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px;text-decoration:none;color:var(--ink)}
+.brand img{width:26px;height:26px}
+.brand span{color:var(--ink-3);font-weight:500}
+.embedded .topbar{display:none}
+
+.hero{padding:44px 0 26px;border-bottom:1px solid var(--line-strong);display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
+.kicker{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.hero h1{font-family:var(--ed-serif);font-weight:500;font-size:clamp(30px,4vw,46px);line-height:1.06;letter-spacing:-.02em;margin:0 0 12px}
+.hero h1 em{color:var(--accent)}
+.hero p{margin:0;max-width:62ch;color:var(--ink-2)}
+.materi{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:14px;font-weight:500;color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(11,93,150,.3);padding-bottom:1px}
+.materi:hover{border-bottom-color:var(--accent)}
+.views{display:inline-flex;max-width:100%;overflow-x:auto;padding:3px;border-radius:10px;background:rgba(17,23,34,.06)}
+.views button{border:0;background:transparent;padding:8px 14px;border-radius:8px;font-size:13.5px;font-weight:500;color:var(--ink-2);cursor:pointer;display:inline-flex;gap:8px;align-items:center}
+.views button.active{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(17,23,34,.12)}
+.views button[hidden]{display:none}
+.views .badge{background:var(--accent);color:#fff;border-radius:999px;font-size:11px;padding:1px 7px}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:38px;padding:0 14px;border:1px solid var(--line-strong);border-radius:9px;background:#fff;font-size:13.5px;font-weight:500;cursor:pointer;color:var(--ink);text-decoration:none}
+.btn:hover{background:var(--surface-2)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{background:#094d7d}
+.btn.danger{color:var(--bad)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-link{border:0;background:none;padding:0;color:var(--accent);font-weight:500;cursor:pointer;font-size:13.5px}
+.btn-link:hover{text-decoration:underline;text-underline-offset:3px}
+.muted{color:var(--ink-3)}
+
+/* ---------- Langkah 1: identitas & mode ---------- */
+.setup{display:grid;grid-template-columns:1.2fr 1fr;gap:20px;margin-top:28px}
+.setup .card{padding:22px 24px}
+.setup h2,.block h2{font-size:20px;font-weight:600;letter-spacing:-.01em;margin:0 0 4px}
+.setup .sub,.block .sub{margin:0 0 16px;color:var(--ink-2);font-size:14px}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.seg{display:flex;flex-wrap:wrap;gap:4px;padding:3px;border-radius:10px;background:rgba(17,23,34,.06);margin:0 0 14px}
+.seg button{flex:1 1 auto;border:0;background:transparent;padding:8px 12px;border-radius:8px;font-size:13.5px;font-weight:500;color:var(--ink-2);cursor:pointer;white-space:nowrap}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(17,23,34,.12)}
+.lbl-step{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px}
+.chip.lkd{background:#f3ecdf;color:#7a5b26;border-color:transparent}
+.rekap tr.sub td{background:#fbfaf6;font-weight:600;color:var(--ink-2);border-bottom:1px solid var(--line-strong)}
+.rekap tr.grp td{background:#fff;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);text-align:left;padding-top:14px}
+.rekap td.unit .tree{display:flex;gap:8px;align-items:flex-start}
+.rekap td.unit .tree i{font-style:normal;color:var(--ink-3);flex:0 0 auto}
+.chip.uk1{background:#e6f1f9;color:var(--accent);border-color:transparent}
+.chip.uk2{background:#eef3e8;color:#3d6326;border-color:transparent}
+.ambil .btn{white-space:nowrap;flex:0 0 auto}
+.ambil{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--surface-2);border-radius:10px;padding:8px 12px;margin:0 0 8px;font-size:13px;color:var(--ink-2)}
+.ctx{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:12px 18px;margin-top:28px}
+.ctx .ct{font-size:14px;color:var(--ink-2)} .ctx .ct b{color:var(--ink);font-weight:600}
+.unithead{padding:16px 20px;margin-bottom:14px}
+.unithead .uh-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-size:13px;color:var(--ink-3)}
+.unithead .row2{align-items:start}
+.unithead #f-unit{font-size:16px;font-weight:500;height:44px}
+.err{font-size:12.5px;color:var(--bad);margin-top:4px}
+.field input.bad{border-color:var(--bad);box-shadow:0 0 0 3px rgba(178,58,46,.12)}
+.legend{font-size:12px;color:var(--ink-3);margin:-6px 0 14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.saved{display:flex;gap:8px;align-items:center;justify-content:center;height:38px;border-radius:9px;background:#e6f3ec;color:#14532d;font-size:13px;font-weight:500}
+.riil{font-size:12.5px;color:var(--ink-3);text-align:right;margin-top:2px}
+.steps-m{display:none;width:100%;height:42px;border:1px solid var(--line-strong);border-radius:10px;padding:0 12px;background:#fff;font-size:14px;margin-bottom:12px}
+.mbar{display:none}
+.store-note{font-size:12.5px;color:var(--ink-3);margin:8px 0 0}
+#print-area{display:none}
+.warnbox{margin:0 0 12px;padding:10px 14px;border-radius:10px;background:#fff4d6;color:#6b4a12;font-size:13.5px}
+.mode{all:unset;box-sizing:border-box;cursor:pointer;border:1px solid var(--line-strong);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s,background .15s}
+.mode:hover{background:var(--surface-2)}
+.mode.on{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 1px var(--accent) inset}
+.mode b{font-size:15px}
+.mode span{font-size:13px;color:var(--ink-2);line-height:1.45}
+.mode small{font-size:12px;color:var(--ink-3)}
+.fields{display:grid;gap:12px}
+.field label{display:block;font-size:12.5px;font-weight:600;color:var(--ink-2);margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;height:40px;border:1px solid var(--line-strong);border-radius:10px;background:#fff;padding:0 12px;font-size:14px;outline:none}
+.field textarea{height:auto;padding:10px 12px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(11,93,150,.12)}
+.field .hint{font-size:12px;color:var(--ink-3);margin-top:4px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* ---------- Formulir + hasil ---------- */
+.work{display:grid;grid-template-columns:250px minmax(0,1fr) 320px;gap:22px;margin-top:28px;align-items:start}
+.units{position:sticky;top:12px;padding:16px 12px 12px;max-height:calc(100vh - 24px);overflow:auto}
+.units .uh{display:flex;justify-content:space-between;align-items:baseline;padding:0 6px 10px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.units .uh b{font-size:13px;font-weight:600}
+.units .uh span{font-size:12px;color:var(--ink-3)}
+.ui{display:flex;align-items:center;gap:6px;padding:7px 6px;border-radius:8px;cursor:pointer;font-size:13.5px;line-height:1.3}
+.ui:hover{background:var(--surface-2)}
+.ui.on{background:var(--accent-soft);box-shadow:0 0 0 1px rgba(11,93,150,.25) inset}
+.ui .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ui .tg{font-size:10.5px;font-weight:600;color:var(--ink-3);flex:0 0 auto}
+.ui .tg.uk1{color:var(--accent)} .ui .tg.uk2{color:#3d6326}
+.ui .tt{font-variant-numeric:tabular-nums;font-weight:600;flex:0 0 auto;min-width:22px;text-align:right}
+.ui .wn{color:#b7791f;flex:0 0 auto;font-size:12px}
+.ui.draft .nm{font-style:italic;color:var(--ink-2)}
+.uadd{display:flex;gap:4px;flex-wrap:wrap;margin:0 0 4px}
+.uadd button{border:1px dashed var(--line-strong);background:transparent;border-radius:7px;font-size:11.5px;padding:3px 8px;color:var(--accent);cursor:pointer}
+.uadd button:hover{background:var(--accent-soft);border-style:solid}
+.units .ufoot{border-top:1px solid var(--line);margin-top:8px;padding:10px 4px 0;display:grid;gap:6px}
+.units .ufoot .muted{font-size:11.5px;line-height:1.4}
+.work[hidden],.send[hidden]{display:none}
+.steps{display:flex;gap:4px;flex-wrap:wrap;position:sticky;top:0;z-index:5;background:rgba(249,249,247,.95);backdrop-filter:blur(10px);padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:16px}
+.steps button{border:0;background:transparent;padding:7px 12px;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink-2);cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.steps button.active{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(17,23,34,.12)}
+.steps button i{font-style:normal;width:20px;height:20px;border-radius:50%;background:var(--surface-2);display:inline-grid;place-items:center;font-size:11px;font-weight:600}
+.steps button.active i{background:var(--accent);color:#fff}
+.steps button.done i{background:var(--accent-soft);color:var(--accent)}
+.section{display:none}
+.section.on{display:block}
+.section > h3{font-family:var(--ed-serif);font-weight:500;font-size:26px;letter-spacing:-.01em;margin:4px 0 4px}
+.section > p{margin:0 0 16px;color:var(--ink-2);font-size:14px}
+.group{padding:18px 20px;margin-bottom:12px}
+.group h4{margin:0 0 12px;font-size:15px;font-weight:600;display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.group h4 small{font-size:12px;font-weight:500;color:var(--ink-3)}
+.q{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:6px 16px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:0;padding-top:2px}
+.q .lbl{font-size:14px;line-height:1.4}
+.q .lbl small{display:block;font-size:12px;color:var(--ink-3);margin-top:2px}
+.q .chips{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
+.chip{font-size:11px;padding:2px 8px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line)}
+.chip.j{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.q input,.q select{width:100%;height:40px;border:1px solid var(--line-strong);border-radius:10px;padding:0 12px;font-size:15px;text-align:right;background:#fff;outline:none;font-variant-numeric:tabular-nums}
+.q select{text-align:left}
+.q input:focus,.q select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(11,93,150,.12)}
+.q input.filled{border-color:rgba(11,93,150,.45);background:#fbfdff}
+.q .derived{grid-column:1 / -1;font-size:12.5px;color:var(--accent);background:var(--accent-soft);border-radius:8px;padding:6px 10px}
+.nav-steps{display:flex;justify-content:space-between;margin:18px 0 8px}
+
+
+/* Panel hasil */
+.result{position:sticky;top:12px;padding:20px 20px 16px}
+.result .kick{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.result h3{margin:4px 0 2px;font-size:16px;font-weight:600}
+.result .who{font-size:13px;color:var(--ink-3);margin-bottom:12px;min-height:18px}
+.rj{display:grid;grid-template-columns:1fr auto 52px;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line);cursor:pointer}
+.rj:hover .rl{color:var(--accent)}
+.rj .rl{font-size:14px}
+.rj .rd{font-size:12.5px;color:var(--ink-3);text-align:right}
+.rj .rb{font-size:22px;font-weight:600;text-align:right;letter-spacing:-.02em}
+.rj.zero .rb{color:#9aa0a8}
+.rtot{display:grid;grid-template-columns:1fr auto;align-items:baseline;padding:14px 0 4px;border-top:2px solid var(--ink);margin-top:4px}
+.rtot b{font-size:28px;letter-spacing:-.02em}
+.result .note{font-size:12px;color:var(--ink-3);margin:10px 0 14px;line-height:1.45}
+.result .acts{display:grid;gap:8px}
+
+/* Rincian (drawer) */
+.drawer{position:fixed;inset:0;background:rgba(17,23,34,.35);display:none;z-index:50;justify-content:flex-end}
+.drawer.open{display:flex}
+.drawer .panel{width:min(640px,100%);height:100%;background:#fff;overflow:auto;padding:24px 26px}
+.drawer h3{margin:0;font-family:var(--ed-serif);font-weight:500;font-size:26px}
+.drawer table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:14px}
+.drawer th{text-align:left;font-size:12px;font-weight:600;color:var(--ink-2);padding:8px 6px;border-bottom:1px solid var(--line-strong);background:var(--surface-2)}
+.drawer td{padding:9px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+.drawer td.n,.drawer th.n{text-align:right;white-space:nowrap}
+.drawer .formula{font-size:12.5px;background:var(--surface-2);border-radius:10px;padding:10px 12px;margin-top:12px;color:var(--ink-2)}
+
+/* ---------- Rekapitulasi ---------- */
+.block{margin-top:28px}
+.block-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.table-wrap{overflow-x:auto}
+table.rekap{width:100%;border-collapse:collapse;font-size:13.5px;min-width:980px}
+.rekap th{font-size:12px;font-weight:600;color:var(--ink-2);background:var(--surface-2);padding:9px 6px;border-bottom:1px solid var(--line-strong);text-align:right;white-space:nowrap}
+.rekap th.l,.rekap td.l{text-align:left}
+.rekap thead tr:first-child th{text-align:center;border-bottom:1px solid var(--line)}
+.rekap td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:right}
+.rekap td.unit{min-width:150px}
+.rekap td.unit b{display:block;font-weight:500}
+.rekap td.unit small{color:var(--ink-3)}
+.rekap input{width:42px;height:32px;border:1px solid var(--line-strong);border-radius:7px;text-align:right;padding:0 6px;font-variant-numeric:tabular-nums}
+.rekap .sep{border-left:1px solid var(--line)}
+.rekap tfoot td{font-weight:700;background:var(--surface-2);border-top:2px solid var(--ink)}
+.minus{color:var(--bad);font-weight:600}
+.plus{color:var(--ok);font-weight:600}
+.empty{padding:40px 16px;text-align:center;color:var(--ink-3)}
+.send{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end;padding:18px 20px;margin-top:14px}
+.okbox{margin-top:12px;padding:14px 16px;border-radius:10px;background:#e6f3ec;color:#14532d;font-size:14px}
+.okbox b{font-size:18px;letter-spacing:.06em}
+.errbox{margin-top:12px;padding:12px 14px;border-radius:10px;background:#f8e9e7;color:#7f1d1d;font-size:13.5px}
+
+/* Pengajuan masuk (admin) */
+.inbox td{vertical-align:top}
+.status{font-size:12px;padding:2px 9px;border-radius:999px;background:var(--surface-2)}
+.status.baru{background:#fff4d6;color:#7a5520}
+.status.diproses{background:var(--accent-soft);color:var(--accent)}
+.status.selesai{background:#e6f3ec;color:var(--ok)}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#111722;color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60}
+.toast.on{opacity:1}
+footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-3)}
+
+@media (max-width:1200px){
+  .work{grid-template-columns:minmax(0,1fr) 320px}
+  .units{grid-column:1 / -1;position:static;max-height:none}
+  .units .tree-list{display:flex;flex-wrap:wrap;gap:4px}
+  .units .tree-list .ui{border:1px solid var(--line);padding-left:8px!important;max-width:100%;min-width:0}
+  .units .uadd{display:none}
+}
+@media (max-width:1024px){
+  .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line-strong);padding:10px 16px calc(10px + env(safe-area-inset-bottom));justify-content:space-between;align-items:center;gap:12px;box-shadow:0 -4px 16px rgba(17,23,34,.06)}
+  .mbar small{display:block;font-size:11.5px;color:var(--ink-3);max-width:58vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .mbar .btn{white-space:nowrap;flex:0 0 auto} .mbar b{font-size:22px;letter-spacing:-.02em}
+  body.has-mbar{padding-bottom:76px}
+  .work{grid-template-columns:minmax(0,1fr)}
+  .work > *{min-width:0}
+  .result{position:static}
+  .setup{grid-template-columns:1fr}
+}
+@media (max-width:700px){
+  .page{width:calc(100% - 32px)}
+  .modes,.row2{grid-template-columns:1fr}
+  .q{grid-template-columns:1fr}
+  .send{grid-template-columns:1fr}
+  .steps{display:none}
+  .steps-m{display:block}
+}
+@media print{
+  body.print-unit > *:not(#print-area){display:none!important}
+  body.print-unit #print-area{display:block}
+  body.print-rekap .hero,body.print-rekap footer,body.print-rekap #rk-send,body.print-rekap #s-hasil,body.print-rekap .store-note{display:none!important}
+  body.print-rekap .rekap input{border:0;width:auto}
+  .mbar{display:none!important}
+  .topbar,.views,.steps,.nav-steps,.result .acts,.no-print,#view-isi .section:not(.on){display:none!important}
+  body{background:#fff!important}
+  .work{grid-template-columns:1fr}
+  .section{display:block!important}
+}
+#print-area{font:400 12.5px/1.45 var(--ed-font);color:#111}
+#print-area h1{font-family:var(--ed-serif);font-weight:500;font-size:22px;margin:0 0 4px}
+#print-area table{width:100%;border-collapse:collapse;margin:10px 0 16px}
+#print-area th,#print-area td{border:1px solid #bbb;padding:4px 6px;text-align:left;vertical-align:top}
+#print-area td.n,#print-area th.n{text-align:right}
+#print-area .meta{width:auto} #print-area .meta td{border:0;padding:1px 10px 1px 0}
+#print-area .ttd{display:flex;justify-content:flex-end;margin-top:28px}
+#print-area .ttd div{text-align:center;width:260px}
+</style>
+</head>
+<body>
+<script>if(window.self!==window.top)document.documentElement.classList.add('embedded');</script>
+<header class="topbar">
+  <div class="page">
+    <a class="brand" href="./index.html"><img src="./favicon.png?v=2" alt="">ANRI <span>· Dit. SDM Kearsipan &amp; Sertifikasi</span></a>
+    <a class="btn" href="./index.html">Dashboard</a>
+  </div>
+</header>
+
+<main class="page">
+  <header class="hero">
+    <div>
+      <div class="kicker" id="kicker">Instansi Pusat · Kementerian/Lembaga</div>
+      <h1>Penghitungan <em>kebutuhan</em> Jabatan Fungsional Arsiparis.</h1>
+      <p>Isi volume pekerjaan kearsipan satu tahun di unit kerja atau perangkat daerah Anda. Kebutuhan arsiparis per jenjang dihitung langsung dengan metode beban kerja: waktu penyelesaian × volume ÷ waktu kerja efektif.</p>
+      <a class="materi no-print" href="https://drive.google.com/drive/folders/1L8gPaMj_zkPnDZbff8RNgnuf-e7tniJx" target="_blank" rel="noopener">Materi Penghitungan Kebutuhan JFA <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="views no-print" id="views" role="tablist">
+      <button type="button" data-view="isi" class="active">Hitung kebutuhan</button>
+      <button type="button" data-view="rekap">Rekapitulasi <span class="badge num" id="rekap-count">0</span></button>
+      <button type="button" data-view="inbox" id="tab-inbox" hidden>Pengajuan masuk</button>
+    </div>
+  </header>
+
+  <!-- ===================== HITUNG ===================== -->
+  <section id="view-isi">
+    <div class="setup">
+      <div class="card">
+        <h2>1. Jenis instansi dan unit</h2>
+        <p class="sub">Formulir menyesuaikan jenis instansi dan tugas kearsipan unit Anda.</p>
+        <div class="lbl-step">Jenis instansi</div>
+        <div class="seg" id="jenis" role="radiogroup" aria-label="Jenis instansi">
+          <button type="button" data-jenis="pusat" role="radio">Instansi Pusat</button>
+          <button type="button" data-jenis="provinsi" role="radio">Pemerintah Provinsi</button>
+          <button type="button" data-jenis="kabkota" role="radio">Pemerintah Kabupaten/Kota</button>
+        </div>
+        <div class="lbl-step">Peran unit</div>
+        <div class="modes" id="modes"></div>
+      </div>
+      <div class="card">
+        <h2>2. Identitas instansi</h2>
+        <p class="sub">Berlaku untuk semua unit di rekapitulasi.</p>
+        <div class="fields">
+          <div class="field"><label for="f-instansi" id="l-instansi">Nama instansi (K/L)</label><input id="f-instansi" placeholder="mis. Kementerian ABC" autocomplete="organization" list="dl-pemda"><datalist id="dl-pemda"></datalist><div class="hint" id="h-instansi" hidden></div></div>
+          <div class="field" style="max-width:260px"><label for="f-wke">Waktu kerja efektif</label><input id="f-wke" type="number" min="1" step="1" value="75000" class="num"><div class="hint">menit/tahun · standar 75.000</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card ctx no-print" id="ctx" hidden>
+      <div class="ct" id="ctx-text"></div>
+      <button type="button" class="btn" id="ctx-toggle">Ubah pengaturan</button>
+    </div>
+
+    <div class="work" id="work" hidden>
+      <aside class="card units no-print" id="units" aria-label="Daftar unit"></aside>
+      <div class="formcol">
+        <div class="card unithead" id="unithead">
+          <div class="uh-top" id="uh-top"></div>
+          <div class="row2">
+            <div class="field"><label for="f-unit" id="l-unit">Nama unit kerja</label><input id="f-unit" placeholder="mis. Biro Umum"><div class="err" id="e-unit" hidden></div></div>
+            <div class="field" id="w-induk"><label for="f-induk">Berada di bawah</label><select id="f-induk"></select><div class="hint" id="h-induk"></div></div>
+          </div>
+        </div>
+        <select id="steps-m" class="steps-m" aria-label="Bagian formulir"></select>
+        <nav class="steps" id="steps" aria-label="Bagian formulir"></nav>
+        <div class="legend no-print"><span class="chip j">Penyelia</span> jenjang yang mengerjakan <span class="chip">Unit Pengolah</span> tempat kegiatan · kosongkan bila tidak ada kegiatan</div>
+        <div id="sections"></div>
+        <div class="nav-steps no-print">
+          <button type="button" class="btn" id="prev">← Sebelumnya</button>
+          <button type="button" class="btn primary" id="next">Berikutnya →</button>
+        </div>
+      </div>
+      <aside class="card result" aria-live="polite">
+        <div class="kick">Hasil penghitungan</div>
+        <h3>Kebutuhan arsiparis</h3>
+        <div class="who" id="r-who"></div>
+        <div id="r-list"></div>
+        <div class="rtot"><span>Total kebutuhan</span><b class="num" id="r-total">0</b></div>
+        <div class="riil num" id="r-riil"></div>
+        <p class="note" id="r-note"></p>
+        <div class="acts">
+          <button type="button" class="btn primary" id="btn-save">Simpan ke rekapitulasi</button>
+          <div class="saved" id="saved" hidden>✓ Tersimpan · perubahan disimpan otomatis</div>
+          <div class="row2">
+            <button type="button" class="btn" id="btn-xlsx">Unduh Excel</button>
+            <button type="button" class="btn" id="btn-print">Cetak</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ===================== REKAP ===================== -->
+  <section id="view-rekap" hidden>
+    <div class="block">
+      <div class="block-head">
+        <div>
+          <h2 id="rk-title">Rekapitulasi kebutuhan JF Arsiparis</h2>
+          <p class="sub" style="margin:0">Isi kolom ketersediaan dengan jumlah arsiparis yang ada saat ini. Selisih negatif berarti kekurangan.</p>
+          <p class="store-note">Data tersimpan di browser ini saja. Simpan file cadangan secara berkala, atau kirim ke ANRI bila sudah final.</p>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap" class="no-print">
+          <button type="button" class="btn" id="rk-xlsx">Unduh Excel</button>
+          <button type="button" class="btn" id="rk-print">Cetak</button>
+          <button type="button" class="btn" id="rk-import">Impor file</button>
+          <button type="button" class="btn" id="rk-export">Simpan file cadangan</button>
+          <input type="file" id="rk-file" accept=".json,application/json" hidden>
+        </div>
+      </div>
+      <div class="card table-wrap" id="rk-table"></div>
+      <div class="card send no-print" id="rk-send">
+        <div class="field"><label for="s-nama">Nama pengirim</label><input id="s-nama" placeholder="Nama lengkap"></div>
+        <div class="field"><label for="s-jabatan">Jabatan</label><input id="s-jabatan" placeholder="mis. Kepala Bagian TU"></div>
+        <div class="field"><label for="s-kontak">Email / telepon</label><input id="s-kontak" placeholder="untuk konfirmasi"></div>
+        <button type="button" class="btn primary" id="s-kirim">Kirim ke ANRI</button>
+      </div>
+      <div id="s-hasil"></div>
+    </div>
+  </section>
+
+  <!-- ===================== PENGAJUAN MASUK (admin) ===================== -->
+  <section id="view-inbox" hidden>
+    <div class="block">
+      <div class="block-head">
+        <div><h2>Pengajuan masuk</h2><p class="sub" style="margin:0">Pengajuan kebutuhan JF Arsiparis yang dikirim instansi. Hanya terlihat oleh admin.</p></div>
+        <div style="display:flex;gap:8px;align-items:center"><div class="field"><select id="ib-filter" aria-label="Filter jenis instansi" style="height:38px"><option value="">Semua jenis instansi</option><option value="pusat">Instansi Pusat</option><option value="provinsi">Pemerintah Provinsi</option><option value="kabkota">Pemerintah Kabupaten/Kota</option></select></div>
+        <button type="button" class="btn" id="ib-refresh">Muat ulang</button></div>
+      </div>
+      <div class="card table-wrap" id="ib-table"><div class="empty">Memuat…</div></div>
+    </div>
+  </section>
+
+  <footer>Metode: pengukuran beban kerja per jenjang sesuai Master Penghitungan Kebutuhan JFA (ANRI) untuk instansi pusat dan pemerintah daerah. Waktu kerja efektif standar 75.000 menit/tahun (330 menit/hari efektif). Kebutuhan dibulatkan ke bilangan bulat terdekat. <a href="https://drive.google.com/drive/folders/1L8gPaMj_zkPnDZbff8RNgnuf-e7tniJx" target="_blank" rel="noopener" style="color:inherit">Materi Penghitungan Kebutuhan JFA</a>.</footer>
+</main>
+
+<div class="mbar no-print" id="mbar" hidden><div><small>Total kebutuhan · <span id="mb-unit"></span></small><b class="num" id="mb-total">0</b> <span class="muted num" id="mb-riil" style="font-size:12.5px"></span></div><button type="button" class="btn primary" id="mb-lihat">Lihat hasil</button></div>
+<div id="print-area"></div>
+<div class="drawer" id="drawer" aria-hidden="true"><div class="panel" role="dialog" aria-modal="true" aria-labelledby="dr-title" id="dr-panel"></div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="config.js"></script>
+<script src="./assets/jfa-katalog.js?v=20261021b"></script>
+<script src="./assets/jfa-katalog-daerah.js?v=20261021b"></script>
+<script src="./assets/jfa-engine.js?v=20261021b"></script>
+<script src="./assets/referensi_kluster_instansi.js?v=20261021b"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+const fmt = (n, d = 0) => (Number(n) || 0).toLocaleString('id-ID', { minimumFractionDigits:d, maximumFractionDigits:d });
+const toast = msg => { const t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('on'), 2400); };
+const uid = () => Math.random().toString(36).slice(2, 10);
+const JVIS = JFA.JENJANG.filter(j => !j.tersembunyi);
+const MODE_LABEL = { up:'Unit Pengolah', upuk:'Unit Pengolah + Unit Kearsipan', ukii:'Perangkat Daerah (UP + UK II)', lkd:'Lembaga Kearsipan Daerah (UP + UK I + LKD)' };
+const JENIS = {
+  pusat:   { label:'Instansi Pusat', kicker:'Instansi Pusat · Kementerian/Lembaga', modes:['up', 'upuk'], lInst:'Nama instansi (K/L)', phInst:'mis. Kementerian ABC', lUnit:'Unit kerja', phUnit:'mis. Biro Umum', kolom:'Unit kerja', kode:null },
+  provinsi:{ label:'Pemerintah Provinsi', kicker:'Pemerintah Daerah · Provinsi', modes:['ukii', 'lkd'], lInst:'Pemerintah daerah', phInst:'Ketik lalu pilih, mis. Provinsi Jawa Tengah', lUnit:'Perangkat daerah', phUnit:'mis. Dinas Kesehatan', kolom:'Perangkat daerah', kode:'G' },
+  kabkota: { label:'Pemerintah Kabupaten/Kota', kicker:'Pemerintah Daerah · Kabupaten/Kota', modes:['ukii', 'lkd'], lInst:'Pemerintah daerah', phInst:'Ketik lalu pilih, mis. Kabupaten Belitung Timur', lUnit:'Perangkat daerah', phUnit:'mis. Dinas Kependudukan dan Pencatatan Sipil', kolom:'Perangkat daerah', kode:'H' }
+};
+const KARTU = { pusat:[['upuk', 'uk1'], ['upuk', 'uk2'], ['up', 'up']], daerah:[['lkd', 'uk1'], ['ukii', 'uk2']] };
+const KARTU_INFO = {
+  'upuk:uk1': { b:'Unit Kearsipan I', s:'Unit kearsipan tingkat instansi (mis. Biro Umum): arsip inaktif, pemusnahan, penyerahan, dan pembinaan seluruh instansi.' },
+  'upuk:uk2': { b:'Unit Kearsipan II', s:'Unit kearsipan di eselon I (mis. Setditjen/Settama) yang membina unit pengolah di bawahnya.' },
+  'up:up':    { b:'Unit Pengolah', s:'Direktorat, biro, atau pusat yang menciptakan dan mengelola arsip aktif.' },
+  'lkd:uk1':  { b:'Lembaga Kearsipan Daerah', s:'Dinas Kearsipan / Dinas Perpustakaan dan Kearsipan: Unit Pengolah, Unit Kearsipan I pemda, serta pengelolaan arsip statis.' },
+  'ukii:uk2': { b:'Perangkat Daerah', s:'Dinas, badan, sekretariat, atau kantor yang mengelola arsip aktif sekaligus arsip inaktif (Unit Kearsipan II).' }
+};
+let SETUP_OPEN = false;
+const MODE_INFO = {
+  up:   { b:'Unit Pengolah (UP)', s:'Unit kerja yang menciptakan dan mengelola arsip aktif: biro, pusat, direktorat.' },
+  upuk: { b:'Unit Pengolah + Unit Kearsipan', s:'Unit yang juga menjalankan fungsi unit kearsipan: menyimpan arsip inaktif, pemusnahan, penyerahan, pembinaan.' },
+  ukii: { b:'Perangkat Daerah', s:'Dinas, badan, sekretariat, atau kantor yang mengelola arsip aktif (Unit Pengolah) sekaligus arsip inaktif (Unit Kearsipan II).' },
+  lkd:  { b:'Lembaga Kearsipan Daerah', s:'Dinas Kearsipan / Dinas Perpustakaan dan Kearsipan: Unit Pengolah, Unit Kearsipan I pemda, serta pengelolaan arsip statis.' }
+};
+const LKD_DEFAULT = 'Dinas Perpustakaan dan Kearsipan';
+const PERAN = { uk1:'Unit Kearsipan I', uk2:'Unit Kearsipan II', up:'Unit Pengolah' };
+const PERAN_OPS = { up:['up'], upuk:['uk1', 'uk2'], ukii:['uk2'], lkd:['uk1'] };
+const peranOf = u => (u && PERAN_OPS[u.mode] && PERAN_OPS[u.mode].includes(u.peran)) ? u.peran : (u ? PERAN_OPS[u.mode][0] : 'up');
+const peranChip = u => { const r = peranOf(u); return r === 'uk1' && u.mode === 'lkd' ? '<span class="chip lkd">LKD · UK I</span>' : `<span class="chip ${r}">${r === 'uk1' ? 'UK I' : r === 'uk2' ? 'UK II' : 'UP'}</span>`; };
+// Calon induk: UP -> UK I / UK II; UK II -> UK I. Hanya unit yang sudah tersimpan di rekap.
+function calonInduk(u){
+  const r = peranOf(u), boleh = r === 'up' ? ['uk1', 'uk2'] : r === 'uk2' ? ['uk1'] : [];
+  return DB.units.filter(x => x.id !== u.id && boleh.includes(peranOf(x)));
+}
+function indukOf(u){
+  const c = calonInduk(u);
+  if (u.induk && c.some(x => x.id === u.induk)) return u.induk;
+  if (peranOf(u) === 'uk2' && c.length === 1) return c[0].id;     // satu-satunya UK I
+  return '';
+}
+const jenisOf = mode => (mode === 'ukii' || mode === 'lkd') ? 'daerah' : 'pusat';
+const PEMDA = (() => { const d = (window.KLUSTER_REF && window.KLUSTER_REF.daftar) || []; return { G:d.filter(x => x.k === 'G'), H:d.filter(x => x.k === 'H') }; })();
+function wilayahOf(nama){ const x = [...PEMDA.G, ...PEMDA.H].find(p => p.n.toLowerCase() === String(nama || '').trim().toLowerCase()); return x ? (x.k === 'G' ? x.n.replace(/^Provinsi\s+/i, '') : x.p) : null; }
+const SB_URL = window.SUPABASE_URL || '', SB_KEY = window.SUPABASE_ANON_KEY || '';
+
+/* ---------- Penyimpanan lokal ---------- */
+const STORE = 'jfa_kalkulator_v1';
+function load(){ try { return JSON.parse(localStorage.getItem(STORE)) || null; } catch(e){ return null; } }
+function persist(){ try { localStorage.setItem(STORE, JSON.stringify(DB)); } catch(e){} }
+const DB = load() || { instansi:'', units:[], ketersediaan:{}, draft:null };
+if (!JENIS[DB.jenis]) DB.jenis = 'pusat';
+
+/* ---------- Penataan isian (mengikuti sheet isian Excel) ---------- */
+const GROUP_TITLES = [
+  ['pameran arsip', 'Pameran arsip', ''],
+  ['membuat daftar arsip statis', 'Daftar arsip statis', ''],
+  ['guide', 'Guide arsip', ''],
+  ['inventaris', 'Inventaris arsip', ''],
+  ['naskah sumber', 'Naskah sumber arsip', ''],
+  ['restorasi arsip', 'Preservasi dan reproduksi arsip statis', 'Jumlah arsip (nomor) yang direstorasi, dibersihkan, atau direproduksi dalam satu tahun.'],
+  ['penilaian terhadap arsip yang diperbaiki', 'Penilaian hasil perbaikan arsip', ''],
+  ['penilaian arsip statis yang akan', 'Penilaian arsip statis untuk reproduksi dan autentikasi', ''],
+  ['ditata di ruang', 'Layanan arsip statis', ''],
+  ['sejarah lisan', 'Sejarah lisan', ''],
+  ['mengidentifikasi khazanah', 'Penataan khazanah arsip statis', ''],
+  ['verifikasi arsip statis yang akan diserahkan', 'Verifikasi arsip statis yang akan diserahkan', ''],
+  ['penerimaan arsip', 'Arsip yang diterima dan dibuat', 'Lihat agenda surat masuk dan surat keluar (penomoran surat, nota dinas, surat perintah, dll.) selama satu tahun.'],
+  ['rasio pemberkasan', 'Pemberkasan arsip aktif', ''],
+  ['layanan arsip aktif', 'Layanan arsip aktif', ''],
+  ['pemindahan arsip', 'Pemindahan arsip inaktif', ''],
+  ['sudah ada di uk', 'Penyimpanan arsip inaktif di Unit Kearsipan', ''],
+  ['dilayani di ppid', 'Layanan arsip inaktif', ''],
+  ['pemusnahan arsip', 'Pemusnahan arsip', ''],
+  ['penyerahan arsip statis', 'Penyerahan arsip statis', ''],
+  ['layanan arsip inaktif', 'Layanan arsip inaktif', ''],
+  ['alih media', 'Autentikasi dan alih media', ''],
+  ['arsip terjaga', 'Arsip terjaga', ''],
+  ['arsip vital', 'Arsip vital', ''],
+  ['unit pengolah yang tidak ada ahli pertama', 'Beban limpahan dari Unit Pengolah', 'Pekerjaan penyusutan dari Unit Pengolah binaan yang belum memiliki Ahli Pertama/Ahli Muda dikerjakan oleh unit kearsipan ini.'],
+  ['tidak ada ahli pertama', 'Beban limpahan dari Unit Kearsipan II', 'Pekerjaan penyusutan dari Unit Kearsipan II yang belum memiliki Ahli Pertama/Ahli Muda dikerjakan oleh unit ini.'],
+  ['naskah persetujuan', 'Naskah persetujuan dan pertimbangan pemusnahan', ''],
+  ['sop', 'Penyusunan SOP kearsipan', ''],
+  ['bimbingan teknis', 'Bimtek, penyuluhan, fasilitasi, dan monev', ''],
+  ['bimkos', 'Bimkos dan supervisi', ''],
+  ['rencana audit', 'Audit dan pengawasan kearsipan', ''],
+  ['nspk', 'Penyusunan NSPK', ''],
+  ['pengolahan data arsip', 'Identifikasi dan pengolahan data', ''],
+  ['entry data', 'Entri data arsip (SIKN/JIKN)', '']
+];
+const SECTION_INFO = {
+  'Pengelolaan Arsip Dinamis': { judul:'Pengelolaan arsip dinamis', ket:'Arsip aktif, inaktif, vital, dan terjaga yang dikelola dalam satu tahun.' },
+  'Pembinaan Kearsipan': { judul:'Pembinaan kearsipan', ket:'Kegiatan pembinaan dan pengawasan kearsipan dalam satu tahun.' },
+  'Khusus UK': { judul:'Pembinaan kearsipan', ket:'' },
+  'Khusus LKD DAN UK1': { judul:'Pengawasan dan NSPK', ket:'Khusus Lembaga Kearsipan Daerah sebagai Unit Kearsipan I pemda: audit kearsipan, monev hasil pengawasan, dan penyusunan NSPK daerah.' },
+  'Pengolahan Arsip Statis di LKD': { judul:'Pengolahan arsip statis', ket:'Pengolahan, preservasi, pemanfaatan, dan akuisisi arsip statis di Lembaga Kearsipan Daerah dalam satu tahun.' },
+  'Pengolahan Arsip dan Penyajian Arsip menjadi Informasi (SIKN dan JIKN)': { judul:'Data arsip untuk SIKN dan JIKN', ket:'Identifikasi, pengolahan, dan entri data arsip untuk Sistem/Jaringan Informasi Kearsipan Nasional.' }
+};
+const PERSEN = [0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1];
+const RASIO = [[0,'– pilih –'],[5,'Kecil · 1–5 item per berkas'],[15,'Sedang · 6–15 item per berkas'],[30,'Besar · lebih dari 15 item per berkas']];
+const cleanLabel = s => { s = String(s).replace(/\s+/g, ' ').trim(); if (/^rasio pemberkasan/i.test(s)) return 'Rasio pemberkasan arsip (jumlah item dalam 1 berkas)'; return s.charAt(0).toUpperCase() + s.slice(1); };
+const cleanUraian = s => { s = String(s || '').replace(/\s+/g, ' ').replace(/,?\s*dengan rincian( kegiatan)?\s*:?\s*$/i, '').replace(/[;:]\s*$/, '').trim(); return s.charAt(0).toUpperCase() + s.slice(1); };
+const cleanSatuan = (f) => /^rasio/i.test(f.label) ? '' : String(f.satuan).replace(/\s+/g, ' ').trim();
+
+function buildLayout(mode){
+  const inputs = JFA.SPEC[mode].inputs;
+  const sections = [];
+  let sec = null, grp = null, lastRow = 0;
+  inputs.forEach(f => {
+    const sname = f.section === 'Khusus UK' ? 'Pembinaan Kearsipan' : f.section;
+    if (!sec || sec.name !== sname){ sec = { name:sname, info:SECTION_INFO[sname] || { judul:sname, ket:'' }, groups:[] }; sections.push(sec); grp = null; }
+    const row = Number(f.cell.slice(1));
+    if (!grp || row - lastRow > 1){
+      const lab = f.label.toLowerCase();
+      const t = GROUP_TITLES.find(([k]) => lab.includes(k));
+      grp = { title:t ? t[1] : cleanLabel(f.label), help:t ? t[2] : '', fields:[], khususUK:f.section === 'Khusus UK' };
+      sec.groups.push(grp);
+    }
+    grp.fields.push(f); lastRow = row;
+  });
+  return sections;
+}
+
+/* ---------- Status kerja ---------- */
+let CUR = DB.draft || null;     // { id, mode, instansi, unit, wke, isian:{}, peran, induk }
+let LAYOUT = [], STEP = 0;
+
+function newUnit(mode){
+  let unit = $('f-unit').value.trim();
+  if (mode === 'lkd' && !unit) unit = LKD_DEFAULT;
+  return { id:uid(), mode, peran:PERAN_OPS[mode][0], induk:'', instansi:$('f-instansi').value.trim() || DB.instansi || '', unit, wke:Number($('f-wke').value) || 75000, isian:{} };
+}
+function setMode(mode, peran){
+  if (!CUR) CUR = newUnit(mode);
+  else if (CUR.mode !== mode){
+    const filled = Object.values(CUR.isian).some(v => Number(v));
+    if (filled && !confirm('Ganti peran unit? Isian yang tidak ada di formulir baru akan diabaikan.')) return;
+    if (mode === 'lkd' && !CUR.unit){ CUR.unit = LKD_DEFAULT; $('f-unit').value = LKD_DEFAULT; }
+    CUR.mode = mode;
+    if (!PERAN_OPS[mode].includes(CUR.peran)){ CUR.peran = PERAN_OPS[mode][0]; CUR.induk = ''; }
+  }
+  if (peran && PERAN_OPS[mode].includes(peran) && CUR.peran !== peran){ CUR.peran = peran; if (!calonInduk(CUR).some(x => x.id === CUR.induk)) CUR.induk = ''; }
+  LAYOUT = buildLayout(mode); STEP = 0;
+  renderAll();
+}
+
+function renderJenis(){
+  const J = JENIS[DB.jenis];
+  document.querySelectorAll('#jenis button').forEach(b => { const on = b.dataset.jenis === DB.jenis; b.classList.toggle('on', on); b.setAttribute('aria-checked', on); });
+  $('kicker').textContent = J.kicker;
+  $('l-instansi').textContent = J.lInst; $('f-instansi').placeholder = J.phInst;
+  $('l-unit').textContent = 'Nama ' + J.lUnit.toLowerCase(); $('f-unit').placeholder = J.phUnit;
+  $('dl-pemda').innerHTML = J.kode ? PEMDA[J.kode].map(p => `<option value="${esc(p.n)}">${p.p ? esc('Provinsi ' + p.p) : ''}</option>`).join('') : '';
+  cekPemda();
+}
+function cekPemda(){
+  const J = JENIS[DB.jenis], v = $('f-instansi').value.trim(), h = $('h-instansi');
+  const ok = !J.kode || !v || PEMDA[J.kode].some(p => p.n.toLowerCase() === v.toLowerCase());
+  h.hidden = ok; h.textContent = ok ? '' : `Belum cocok dengan daftar ${J.label.toLowerCase()}. Pilih dari saran agar nama seragam.`;
+}
+function renderStruktur(){
+  if (!CUR) return;
+  const r = peranOf(CUR), c = calonInduk(CUR), ind = indukOf(CUR), k = KARTU_INFO[CUR.mode + ':' + r];
+  $('uh-top').innerHTML = `${peranChip(CUR)}<span>${esc(k ? k.b : MODE_LABEL[CUR.mode])}</span><span>· ${JFA.SPEC[CUR.mode].inputs.length} isian</span>${disimpan() ? '' : '<span class="chip">belum disimpan</span>'}`;
+  $('w-induk').hidden = r === 'uk1';
+  $('f-induk').innerHTML = `<option value="">${c.length ? '– pilih unit kearsipan –' : '– belum ada di rekap –'}</option>` +
+    c.map(x => `<option value="${x.id}"${x.id === ind ? ' selected' : ''}>${esc(x.unit || '(tanpa nama)')} · ${peranOf(x) === 'uk1' ? (x.mode === 'lkd' ? 'LKD' : 'UK I') : 'UK II'}</option>`).join('');
+  $('h-induk').textContent = c.length ? (r === 'up' ? 'Unit kearsipan yang membina unit pengolah ini.' : 'UK I yang membina unit ini.')
+    : `Simpan dulu ${r === 'up' ? 'UK I/UK II' : 'UK I'} ke rekapitulasi agar bisa dipilih.`;
+}
+function renderModes(){
+  const J = JENIS[DB.jenis], ks = KARTU[J.kode ? 'daerah' : 'pusat'];
+  $('modes').innerHTML = ks.map(([m, r]) => { const k = KARTU_INFO[m + ':' + r];
+    return `<button type="button" class="mode${CUR && CUR.mode === m && peranOf(CUR) === r ? ' on' : ''}" data-mode="${m}" data-peran="${r}" aria-pressed="${!!(CUR && CUR.mode === m && peranOf(CUR) === r)}">
+      <b>${k.b}</b><span>${k.s}</span><small>${JFA.SPEC[m].inputs.length} isian · ${JFA.SPEC[m].acts.length} kegiatan</small></button>`; }).join('');
+}
+function setJenis(j){
+  if (j === DB.jenis || !JENIS[j]) return;
+  const beda = jenisOf(JENIS[j].modes[0]) !== jenisOf(JENIS[DB.jenis].modes[0]);
+  const lain = DB.units.length && (beda || DB.instansi);
+  if (lain && !confirm(`Rekapitulasi berisi ${DB.units.length} unit milik ${DB.instansi || 'instansi lain'}. Satu rekapitulasi hanya untuk satu instansi, jadi rekapitulasi akan dikosongkan. Lanjutkan? (Simpan file cadangan dulu bila perlu)`)) return renderJenis();
+  if (lain){ DB.units = []; DB.ketersediaan = {}; }
+  DB.jenis = j; DB.instansi = ''; $('f-instansi').value = '';
+  if (CUR && !JENIS[j].modes.includes(CUR.mode)){ CUR = null; LAYOUT = []; DB.draft = null; $('f-unit').value = ''; }
+  else if (CUR) CUR.instansi = '';
+  persist(); renderJenis(); renderAll(); renderRekap();
+}
+
+function renderStepsM(){
+  $('steps-m').innerHTML = LAYOUT.map((s, i) => `<option value="${i}"${i === STEP ? ' selected' : ''}>Langkah ${i + 1} dari ${LAYOUT.length} · ${esc(s.info.judul)}</option>`).join('');
+}
+function renderSteps(){
+  renderStepsM();
+  $('steps').innerHTML = LAYOUT.map((s, i) => {
+    const n = s.groups.reduce((a, g) => a + g.fields.filter(f => Number(CUR.isian[f.cell])).length, 0) ;
+    return `<button type="button" data-step="${i}" class="${i === STEP ? 'active' : ''}${n ? ' done' : ''}"><i>${i + 1}</i>${esc(s.info.judul)}${n ? ` <span class="muted"><span class="num">${n}</span> terisi</span>` : ''}</button>`;
+  }).join('');
+}
+
+function fieldHTML(f){
+  const val = CUR.isian[f.cell] ?? '';
+  let ctrl;
+  if (f.tipe === 'persen'){
+    ctrl = `<select data-cell="${f.cell}" aria-label="${esc(cleanLabel(f.label))}">${PERSEN.map(p => `<option value="${p}"${Number(val) === p ? ' selected' : ''}>${Math.round(p * 100)}%</option>`).join('')}</select>`;
+  } else if (f.tipe === 'rasio'){
+    ctrl = `<select data-cell="${f.cell}" aria-label="${esc(cleanLabel(f.label))}">${RASIO.map(([v, l]) => `<option value="${v}"${Number(val) === v ? ' selected' : ''}>${l}</option>`).join('')}</select>`;
+  } else {
+    ctrl = `<input type="text" inputmode="numeric" autocomplete="off" data-cell="${f.cell}" data-num="1" value="${Number(val) ? fmt(val) : ''}" placeholder="0" class="${Number(val) ? 'filled' : ''}" aria-label="${esc(cleanLabel(f.label))}">`;
+  }
+  const jen = f.jenjang ? f.jenjang.split(',').map(s => `<span class="chip j">${esc(s.trim())}</span>`).join('') : '';
+  const tmp = (f.tempat || []).map(t => `<span class="chip">${esc(t)}</span>`).join('');
+  const sat = cleanSatuan(f);
+  return `<div class="q">
+    <div class="lbl">${esc(cleanLabel(f.label))}${sat ? `<small>${esc(sat)}</small>` : ''}${jen || tmp ? `<div class="chips">${jen}${tmp}</div>` : ''}</div>
+    <div>${ctrl}</div>
+    ${f.turunan_cell ? `<div class="derived" data-derived="${f.cell}" hidden></div>` : ''}
+  </div>`;
+}
+function labelNext(){ $('next').textContent = STEP === LAYOUT.length - 1 ? (disimpan() ? 'Lihat rekapitulasi →' : 'Simpan ke rekapitulasi') : 'Berikutnya →'; }
+function renderSections(){
+  $('sections').innerHTML = LAYOUT.map((s, i) => `<div class="section${i === STEP ? ' on' : ''}" data-sec="${i}">
+      <h3>${esc(s.info.judul)}</h3>${s.info.ket ? `<p>${esc(s.info.ket)}</p>` : ''}
+      ${s.groups.map(g => `<div class="card group">
+        <h4>${esc(g.title)}${g.khususUK ? ' <small>khusus Unit Kearsipan</small>' : ''}</h4>
+        ${g.help ? `<p class="muted" style="margin:-6px 0 8px;font-size:13px">${esc(g.help)}</p>` : ''}
+        ${g.fields.some(f => /tidak ada ahli pertama/i.test(f.label)) ? `<div class="ambil no-print"><span id="ambil-info">${esc(ambilInfo())}</span><button type="button" class="btn" id="btn-ambil">Ambil dari rekap</button></div>` : ''}
+        ${g.fields.map(fieldHTML).join('')}
+      </div>`).join('')}
+    </div>`).join('');
+  $('prev').disabled = STEP === 0;
+  labelNext();
+}
+
+/* ---------- Panel daftar unit (pemantauan sambil mengisi) ---------- */
+const disimpan = () => !!(CUR && DB.units.some(u => u.id === CUR.id));
+const terisi = () => !!(CUR && (Object.keys(CUR.isian).length || ($('f-unit').value.trim() && $('f-unit').value.trim() !== LKD_DEFAULT)));
+function cekLimpahan(u){
+  if (!['upuk', 'lkd'].includes(u.mode)) return '';
+  const b = binaan(u); if (!b.length) return '';
+  const k = j => b.filter(x => !Number((DB.ketersediaan[x.id] || {})[j])).length;
+  const beda = JFA.SPEC[u.mode].inputs.some(f => /tidak ada ahli pertama/i.test(f.label) ? (Number(u.isian[f.cell]) || 0) !== k('ahli_pertama') : /tidak ada ahli muda/i.test(f.label) ? (Number(u.isian[f.cell]) || 0) !== k('ahli_muda') : false);
+  return beda ? 'Isian limpahan belum sesuai dengan unit binaan di rekap. Buka unit ini lalu klik Ambil dari rekap.' : '';
+}
+function renderUnits(){
+  const box = $('units'); if (!box) return;
+  const J = JENIS[DB.jenis], daerah = !!J.kode;
+  const data = DB.units.map(u => ({ u, t:u.id === (CUR && CUR.id) && RES ? RES.totalBulat : unitResult(u).totalBulat }));
+  const rows = susunRekap(data.map(d => ({ u:d.u, keb:{}, ada:{}, tKeb:d.t, tAda:0 })));
+  const rowDepth = {}; rows.forEach(r => { if (r.kind === 'unit') rowDepth[r.d.u.id] = r.depth; });
+  const tag = u => { const r = peranOf(u); return `<span class="tg ${r}">${r === 'uk1' ? (u.mode === 'lkd' ? 'LKD' : 'UK I') : r === 'uk2' ? 'UK II' : 'UP'}</span>`; };
+  const tombol = u => { const r = peranOf(u), b = [];
+    if (daerah && r === 'uk1') b.push(['ukii', 'uk2', '+ Perangkat daerah']);
+    if (!daerah && r === 'uk1') b.push(['upuk', 'uk2', '+ UK II'], ['up', 'up', '+ UP']);
+    if (!daerah && r === 'uk2') b.push(['up', 'up', '+ UP']);
+    return b.length ? `<div class="uadd" style="padding-left:${(rowDepth[u.id] || 0) * 14 + 28}px">${b.map(([m, pr, l]) => `<button type="button" data-tambah="${m}" data-peran="${pr}" data-induk="${u.id}">${l}</button>`).join('')}</div>` : ''; };
+  const item = (u, depth, t) => { const w = cekLimpahan(u);
+    return `<div class="ui${CUR && CUR.id === u.id ? ' on' : ''}" data-buka-unit="${u.id}" role="button" tabindex="0" style="padding-left:${depth * 14 + 6}px" title="${esc(u.unit)}">
+      ${tag(u)}<span class="nm">${esc(u.unit || '(tanpa nama)')}</span>${w ? `<span class="wn" title="${esc(w)}">⚠</span>` : ''}<span class="tt">${fmt(t)}</span></div>`; };
+  let html = '';
+  if (CUR && !disimpan()) html += `<div class="ui draft on" title="Belum disimpan">${tag(CUR)}<span class="nm">${esc(CUR.unit || 'Unit baru')} · belum disimpan</span><span class="tt">${fmt(RES ? RES.totalBulat : 0)}</span></div>`;
+  rows.forEach(r => {
+    if (r.kind === 'grp') html += `<div class="muted" style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:10px 6px 4px">${esc(r.label)}</div>`;
+    if (r.kind === 'unit') html += item(r.d.u, r.depth, r.d.tKeb) + tombol(r.d.u);
+  });
+  const total = data.reduce((a, d) => a + d.t, 0);
+  box.innerHTML = `<div class="uh"><b>${daerah ? 'Perangkat daerah' : 'Unit kerja'}</b><span><span class="num">${DB.units.length}</span> tersimpan</span></div>
+    <div class="tree-list">${html || '<p class="muted" style="font-size:12.5px;margin:6px">Belum ada unit tersimpan.</p>'}</div>
+    <div class="ufoot">
+      <div style="display:flex;justify-content:space-between;font-size:13px"><span>Total kebutuhan</span><b class="num">${fmt(total)}</b></div>
+      <button type="button" class="btn" data-tambah="" data-peran="" data-induk="">+ ${daerah ? 'Perangkat daerah' : 'Unit kerja'} baru</button>
+      <div class="muted">Unit yang sudah tersimpan diperbarui otomatis saat diubah.</div>
+    </div>`;
+}
+function bolehPindah(){
+  if (!CUR || disimpan() || !terisi()) return true;
+  if (confirm(`"${CUR.unit || 'Unit baru'}" belum disimpan ke rekapitulasi. Simpan sekarang?`)){
+    if (!CUR.unit){ salahNama(); return false; }
+    simpanUnit(true); return true;
+  }
+  return confirm('Abaikan isian unit baru ini?');
+}
+function bukaUnit(id){
+  if (CUR && CUR.id === id) return setView('isi');
+  if (!bolehPindah()) return;
+  const u = DB.units.find(x => x.id === id); if (!u) return;
+  CUR = JSON.parse(JSON.stringify(u)); LAYOUT = buildLayout(CUR.mode); STEP = 0; setView('isi'); renderAll();
+}
+function tambahUnit(mode, peran, induk){
+  if (!bolehPindah()) return;
+  $('f-unit').value = '';
+  CUR = newUnit(mode || (CUR ? CUR.mode : JENIS[DB.jenis].modes[0]));
+  if (peran) CUR.peran = peran; if (induk) CUR.induk = induk;
+  LAYOUT = buildLayout(CUR.mode); STEP = 0; setView('isi'); renderAll();
+  window.scrollTo({ top:$('work').offsetTop - 8, behavior:'smooth' }); setTimeout(() => $('f-unit').focus({ preventScroll:true }), 300);
+}
+function bukaPertama(){
+  CUR = DB.units.length ? JSON.parse(JSON.stringify(DB.units[0])) : null;
+  LAYOUT = CUR ? buildLayout(CUR.mode) : []; STEP = 0; DB.draft = CUR;
+  if (CUR) $('f-unit').value = CUR.unit || '';
+}
+function jejak(u){
+  const names = []; let x = u, guard = 0;
+  while (x && guard++ < 5){ names.unshift(x.unit || '(tanpa nama)'); const id = indukOf(x); x = id ? DB.units.find(y => y.id === id) : null; }
+  return names.join(' › ');
+}
+
+/* Limpahan: hitung unit binaan yang belum punya Ahli Pertama / Ahli Muda dari kolom ketersediaan rekap */
+function binaan(u){
+  if (u.mode === 'lkd') return DB.units.filter(x => x.id !== u.id && peranOf(x) === 'uk2');       // daerah: seluruh UK II (perangkat daerah)
+  return DB.units.filter(x => x.id !== u.id && peranOf(x) === 'up' && indukOf(x) === u.id);       // pusat: UP di bawah unit ini
+}
+function ambilInfo(){
+  if (!CUR) return '';
+  const b = binaan(CUR), jenis = CUR.mode === 'lkd' ? 'UK II' : 'Unit Pengolah binaan';
+  if (!b.length) return `Belum ada ${jenis} di rekapitulasi. Isi manual, atau simpan dulu unit binaannya lalu klik Ambil dari rekap.`;
+  const k = j => b.filter(x => !Number((DB.ketersediaan[x.id] || {})[j])).length;
+  return `Di rekapitulasi: ${b.length} ${jenis}; ${k('ahli_pertama')} tanpa Ahli Pertama, ${k('ahli_muda')} tanpa Ahli Muda (menurut kolom ketersediaan).`;
+}
+function ambilDariRekap(){
+  const b = binaan(CUR); if (!b.length) return toast('Belum ada unit binaan di rekapitulasi.');
+  const k = j => b.filter(x => !Number((DB.ketersediaan[x.id] || {})[j])).length;
+  JFA.SPEC[CUR.mode].inputs.forEach(f => {
+    const n = /tidak ada ahli pertama/i.test(f.label) ? k('ahli_pertama') : /tidak ada ahli muda/i.test(f.label) ? k('ahli_muda') : null;
+    if (n == null) return;
+    if (n) CUR.isian[f.cell] = n; else delete CUR.isian[f.cell];
+    const el = document.querySelector(`[data-cell="${f.cell}"]`); if (el){ el.value = n || ''; el.classList.toggle('filled', !!n); }
+  });
+  compute(); toast('Jumlah unit tanpa Ahli Pertama/Ahli Muda diambil dari rekapitulasi');
+}
+
+let RES = null;
+function compute(){
+  CUR.instansi = $('f-instansi').value.trim(); CUR.unit = $('f-unit').value.trim(); CUR.wke = Number($('f-wke').value) || 75000;
+  DB.instansi = CUR.instansi; DB.draft = CUR;
+  const iu = DB.units.findIndex(u => u.id === CUR.id);
+  if (iu >= 0){ const c = JSON.parse(JSON.stringify(CUR)); c.peran = peranOf(c); c.induk = indukOf(c); DB.units[iu] = c; }   // simpan otomatis
+  persist();
+  RES = JFA.hitung(CUR.mode, CUR.isian, { wke:CUR.wke });
+  // nilai turunan di bawah isian
+  JFA.SPEC[CUR.mode].inputs.forEach(f => {
+    const el = document.querySelector(`[data-derived="${f.cell}"]`); if (!el) return;
+    const v = RES.turunan[f.cell] || 0;
+    el.hidden = !v; el.textContent = `= ${fmt(v, v % 1 ? 1 : 0)} ${String(f.turunan || '').replace(/\s+/g, ' ').trim()}`;
+  });
+  $('r-who').textContent = [jejak(CUR) || JENIS[DB.jenis].lUnit, CUR.instansi].filter(Boolean).join(' · ') + ` · ${CUR.mode === 'lkd' ? 'LKD (UP + UK I)' : CUR.mode === 'ukii' ? 'Perangkat Daerah (UP + UK II)' : PERAN[peranOf(CUR)]}`;
+  $('r-list').innerHTML = JVIS.map(j => { const h = RES.jenjang[j.key];
+    return `<div class="rj${h.bulat ? '' : ' zero'}" data-j="${j.key}" role="button" tabindex="0" title="Lihat rincian ${j.label}">
+      <span class="rl">${j.label}</span><span class="rd num">${fmt(h.kebutuhan, 2)}</span><span class="rb num">${fmt(h.bulat)}</span></div>`; }).join('');
+  $('r-total').textContent = fmt(RES.totalBulat);
+  if ($('ambil-info')) $('ambil-info').textContent = ambilInfo();
+  $('btn-save').hidden = disimpan(); $('saved').hidden = !disimpan();
+  $('r-riil').textContent = `beban riil ${fmt(RES.total, 2)} orang`;
+  $('mb-total').textContent = fmt(RES.totalBulat); $('mb-riil').textContent = `(${fmt(RES.total, 2)})`; $('mb-unit').textContent = CUR.unit || 'unit ini';
+  labelNext();
+  $('rekap-count').textContent = DB.units.length;
+  clearTimeout(compute._u); compute._u = setTimeout(renderUnits, 120);
+  $('r-note').textContent = `Angka kecil = hasil hitung, angka besar = dibulatkan per jenjang; total adalah jumlah angka bulat per jenjang. Total beban kerja ${fmt(RES.totalMenit)} menit; WKE ${fmt(RES.wke)} menit/tahun. Klik jenjang untuk melihat rincian kegiatan.`;
+  renderSteps();
+}
+
+function renderAll(){
+  renderJenis(); renderModes(); renderStruktur();
+  const J = JENIS[DB.jenis], open = !CUR || !DB.instansi || SETUP_OPEN;
+  document.querySelector('.setup').hidden = !open;
+  $('ctx').hidden = !CUR;
+  $('ctx-text').innerHTML = `${esc(J.label)} · <b>${esc(DB.instansi || 'nama instansi belum diisi')}</b> · WKE <span class="num">${fmt(Number($('f-wke').value) || 75000)}</span> menit`;
+  $('ctx-toggle').textContent = open ? 'Tutup pengaturan' : 'Ubah jenis, peran, atau instansi';
+  $('ctx-toggle').disabled = open && !DB.instansi;
+  $('mbar').hidden = !CUR; document.body.classList.toggle('has-mbar', !!CUR);
+  $('work').hidden = !CUR || !LAYOUT.length;
+  if (!CUR || !LAYOUT.length) return;
+  $('f-instansi').value = CUR.instansi || DB.instansi || ''; $('f-unit').value = CUR.unit || ''; $('f-wke').value = CUR.wke || 75000;
+  renderSteps(); renderSections(); compute(); renderUnits();
+}
+
+/* ---------- Rincian per jenjang ---------- */
+function openDrawer(key){
+  const h = RES.jenjang[key];
+  const rows = h.kegiatan.slice().sort((a, b) => b.menit - a.menit);
+  $('dr-panel').innerHTML = `<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+      <div><div class="kicker" style="margin-bottom:6px">Rincian kegiatan</div><h3 id="dr-title">Arsiparis ${esc(h.label)}</h3></div>
+      <button type="button" class="btn" data-close>Tutup</button></div>
+    <p style="margin:10px 0 0;font-size:15px">Kebutuhan <b class="num">${fmt(h.kebutuhan, 2)}</b> orang → dibulatkan <b class="num">${fmt(h.bulat)}</b> orang.</p>
+    <div class="formula">Kebutuhan = Σ (waktu penyelesaian × volume) ÷ WKE = <span class="num">${fmt(h.menit)}</span> menit ÷ <span class="num">${fmt(RES.wke)}</span> menit</div>
+    ${rows.length ? `<table><thead><tr><th>Kegiatan</th><th class="n">Waktu (menit)</th><th class="n">Volume</th><th class="n">Kebutuhan</th></tr></thead><tbody>
+      ${rows.map(k => `<tr><td>${esc(k.induk ? cleanUraian(k.induk) + ' — ' + k.uraian : cleanUraian(k.uraian))}<div class="muted" style="font-size:12px">${esc(k.satuan)}</div></td>
+        <td class="n num">${fmt(k.waktu)}${k.waktu >= 330 ? `<div class="muted" style="font-size:11.5px">≈ ${fmt(k.waktu / 330, 1)} hari</div>` : ''}</td>
+        <td class="n num">${fmt(k.volume, k.volume % 1 ? 2 : 0)}</td><td class="n num">${fmt(k.kebutuhan, 3)}</td></tr>`).join('')}
+      </tbody></table>` : '<p class="muted" style="margin-top:16px">Belum ada kegiatan yang menghasilkan beban kerja untuk jenjang ini.</p>'}`;
+  $('drawer').classList.add('open'); $('drawer').setAttribute('aria-hidden', 'false');
+  $('dr-panel').querySelector('[data-close]').focus();
+}
+function closeDrawer(){ $('drawer').classList.remove('open'); $('drawer').setAttribute('aria-hidden', 'true'); }
+
+/* ---------- Rekapitulasi ---------- */
+function unitResult(u){ return JFA.hitung(u.mode, u.isian, { wke:u.wke }); }
+function rekapData(){
+  return DB.units.map(u => {
+    const r = unitResult(u), k = DB.ketersediaan[u.id] || {};
+    const keb = {}, ada = {};
+    JVIS.forEach(j => { keb[j.key] = r.jenjang[j.key].bulat; ada[j.key] = Number(k[j.key]) || 0; });
+    return { u, keb, ada, tKeb:Object.values(keb).reduce((a, b) => a + b, 0), tAda:Object.values(ada).reduce((a, b) => a + b, 0) };
+  });
+}
+// Susunan bertingkat: UK I → (UP binaan, UK II → UP binaan) ; sisanya "belum dikelompokkan"
+function susunRekap(data){
+  const by = id => data.find(d => d.u.id === id), dipakai = new Set(), rows = [];
+  const anak = (id, peran) => data.filter(d => !dipakai.has(d.u.id) && peranOf(d.u) === peran && indukOf(d.u) === id);
+  const unit = (d, depth) => { dipakai.add(d.u.id); rows.push({ kind:'unit', d, depth }); };
+  const kelompok = (d, depth) => {
+    const start = rows.length; unit(d, depth);
+    anak(d.u.id, 'up').forEach(c => unit(c, depth + 1));
+    const ukii = peranOf(d.u) === 'uk1' ? anak(d.u.id, 'uk2') : [];
+    const members = rows.slice(start).map(r => r.d);
+    if (peranOf(d.u) === 'uk2' && members.length > 1) rows.push({ kind:'sub', label:'Subtotal ' + (d.u.unit || 'UK II'), members });
+    ukii.forEach(c => kelompok(c, depth + 1));
+  };
+  data.filter(d => peranOf(d.u) === 'uk1').forEach(d => kelompok(d, 0));
+  data.filter(d => !dipakai.has(d.u.id) && peranOf(d.u) === 'uk2').forEach(d => kelompok(d, 0));
+  const sisa = data.filter(d => !dipakai.has(d.u.id));
+  if (sisa.length){ if (rows.length) rows.push({ kind:'grp', label:'Belum dikelompokkan' }); sisa.forEach(d => unit(d, 0)); }
+  return rows;
+}
+const jumlah = (members, key, j) => members.reduce((a, d) => a + (j ? d[key][j] : d[key]), 0);
+function renderRekap(){
+  $('rekap-count').textContent = DB.units.length;
+  const J = JENIS[DB.jenis];
+  $('rk-title').textContent = 'Rekapitulasi kebutuhan JF Arsiparis' + (DB.instansi ? ' · ' + DB.instansi : '');
+  const data = rekapData();
+  if (!data.length){ $('rk-table').innerHTML = `<div class="empty">Belum ada ${J.kolom.toLowerCase()}. Hitung satu ${J.kolom.toLowerCase()}, lalu klik <b>Simpan ke rekapitulasi</b>.</div>`; $('rk-send').hidden = true; return; }
+  const nUk1 = DB.units.filter(u => peranOf(u) === 'uk1').length;
+  const warn = nUk1 > 1 ? `<div class="warnbox">${J.kode ? `Ada ${nUk1} Lembaga Kearsipan Daerah di rekapitulasi ini. Satu pemerintah daerah hanya memiliki satu LKD (Unit Kearsipan I); perangkat daerah lain dihitung sebagai Perangkat Daerah (UP + UK II).` : `Ada ${nUk1} Unit Kearsipan I di rekapitulasi ini. Satu instansi umumnya hanya memiliki satu UK I; unit kearsipan di eselon I lain dipilih sebagai Unit Kearsipan II.`}</div>` : '';
+  const rows = susunRekap(data); let no = 0;
+  $('rk-send').hidden = false;
+  const tot = { keb:{}, ada:{} };
+  JVIS.forEach(j => { tot.keb[j.key] = data.reduce((a, d) => a + d.keb[j.key], 0); tot.ada[j.key] = data.reduce((a, d) => a + d.ada[j.key], 0); });
+  const sel = (a, b) => { const s = b - a; return `<span class="${s < 0 ? 'minus' : s > 0 ? 'plus' : ''}">${s > 0 ? '+' : ''}${fmt(s)}</span>`; };
+  $('rk-table').innerHTML = `${warn}<table class="rekap">
+    <thead><tr><th class="l" rowspan="2">No</th><th class="l" rowspan="2">${J.kolom}</th><th colspan="${JVIS.length + 1}">Kebutuhan</th><th colspan="${JVIS.length + 1}" class="sep">Ketersediaan</th><th rowspan="2" class="sep">Selisih</th><th rowspan="2" class="no-print"></th></tr>
+      <tr>${JVIS.map(j => `<th>${j.label}</th>`).join('')}<th>Total</th>${JVIS.map((j, i) => `<th${i ? '' : ' class="sep"'}>${j.label}</th>`).join('')}<th>Total</th></tr></thead>
+    <tbody>${rows.map(row => {
+      if (row.kind === 'grp') return `<tr class="grp"><td></td><td colspan="${2 * JVIS.length + 5}">${esc(row.label)}</td></tr>`;
+      if (row.kind === 'sub'){ const m = row.members, tk = jumlah(m, 'tKeb'), ta = jumlah(m, 'tAda');
+        return `<tr class="sub"><td></td><td class="l">${esc(row.label)}</td>${JVIS.map(j => `<td class="num">${fmt(jumlah(m, 'keb', j.key))}</td>`).join('')}<td class="num">${fmt(tk)}</td>
+          ${JVIS.map((j, k) => `<td class="num${k ? '' : ' sep'}">${fmt(jumlah(m, 'ada', j.key))}</td>`).join('')}<td class="num">${fmt(ta)}</td><td class="sep num">${sel(tk, ta)}</td><td class="no-print"></td></tr>`; }
+      const d = row.d;
+      return `<tr>
+      <td class="l num">${++no}</td>
+      <td class="l unit"><div class="tree" style="padding-left:${row.depth * 18}px">${row.depth ? '<i>└</i>' : ''}<div><b>${esc(d.u.unit || J.kolom)}</b>${peranChip(d.u)}</div></div></td>
+      ${JVIS.map(j => `<td class="num">${fmt(d.keb[j.key])}</td>`).join('')}<td class="num"><b>${fmt(d.tKeb)}</b></td>
+      ${JVIS.map((j, k) => `<td class="${k ? '' : 'sep'}"><input type="number" min="0" class="num" data-ada="${d.u.id}" data-j="${j.key}" value="${d.ada[j.key] || ''}" placeholder="0" aria-label="Ketersediaan ${j.label} ${esc(d.u.unit)}"></td>`).join('')}<td class="num"><b>${fmt(d.tAda)}</b></td>
+      <td class="sep num">${sel(d.tKeb, d.tAda)}</td>
+      <td class="no-print" style="white-space:nowrap"><button type="button" class="btn-link" data-edit="${d.u.id}">Ubah</button> · <button type="button" class="btn-link" style="color:var(--bad)" data-hapus="${d.u.id}">Hapus</button></td>
+    </tr>`; }).join('')}</tbody>
+    <tfoot><tr><td></td><td class="l">Total</td>${JVIS.map(j => `<td class="num">${fmt(tot.keb[j.key])}</td>`).join('')}<td class="num">${fmt(data.reduce((a, d) => a + d.tKeb, 0))}</td>
+      ${JVIS.map((j, k) => `<td class="num${k ? '' : ' sep'}">${fmt(tot.ada[j.key])}</td>`).join('')}<td class="num">${fmt(data.reduce((a, d) => a + d.tAda, 0))}</td>
+      <td class="sep num">${sel(data.reduce((a, d) => a + d.tKeb, 0), data.reduce((a, d) => a + d.tAda, 0))}</td><td class="no-print"></td></tr></tfoot>
+  </table>`;
+}
+
+/* ---------- Laporan cetak satu unit ---------- */
+function cetakUnit(){
+  if (!CUR) return;
+  const r = RES || unitResult(CUR), J = JENIS[DB.jenis], daerah = !!J.kode, spec = JFA.SPEC[CUR.mode];
+  const isi = spec.inputs.filter(f => Number(CUR.isian[f.cell]));
+  const nilai = f => f.tipe === 'persen' ? Math.round(CUR.isian[f.cell] * 100) + '%' : f.tipe === 'rasio' ? (RASIO.find(x => x[0] === Number(CUR.isian[f.cell])) || [0, CUR.isian[f.cell]])[1] : fmt(CUR.isian[f.cell]);
+  const ind = DB.units.find(x => x.id === indukOf(CUR));
+  $('print-area').innerHTML = `<h1>Penghitungan Kebutuhan Jabatan Fungsional Arsiparis</h1>
+    <table class="meta"><tr><td>${daerah ? 'Pemerintah daerah' : 'Instansi'}</td><td>: ${esc(CUR.instansi || DB.instansi || '-')}</td></tr>
+      <tr><td>${daerah ? 'Perangkat daerah' : 'Unit kerja'}</td><td>: ${esc(CUR.unit || '-')}</td></tr>
+      <tr><td>Peran</td><td>: ${esc((KARTU_INFO[CUR.mode + ':' + peranOf(CUR)] || {}).b || MODE_LABEL[CUR.mode])}${ind ? ' · di bawah ' + esc(ind.unit) : ''}</td></tr>
+      <tr><td>Waktu kerja efektif</td><td>: ${fmt(r.wke)} menit/tahun</td></tr></table>
+    <table><thead><tr><th>Jenjang</th><th class="n">Hasil hitung</th><th class="n">Kebutuhan (orang)</th></tr></thead><tbody>
+      ${JVIS.map(j => `<tr><td>Arsiparis ${j.label}</td><td class="n">${fmt(r.jenjang[j.key].kebutuhan, 2)}</td><td class="n">${fmt(r.jenjang[j.key].bulat)}</td></tr>`).join('')}
+      <tr><th>Total</th><th class="n">${fmt(r.total, 2)}</th><th class="n">${fmt(r.totalBulat)}</th></tr></tbody></table>
+    <b>Data isian (${isi.length} terisi dari ${spec.inputs.length})</b>
+    <table><thead><tr><th>No</th><th>Isian</th><th class="n">Nilai</th><th>Satuan</th></tr></thead><tbody>
+      ${isi.map((f, i) => `<tr><td>${i + 1}</td><td>${esc(cleanLabel(f.label))}</td><td class="n">${esc(nilai(f))}</td><td>${esc(cleanSatuan(f))}</td></tr>`).join('') || '<tr><td colspan="4">Belum ada isian.</td></tr>'}</tbody></table>
+    <div class="ttd"><div>.................., ${new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' })}<br>${daerah ? 'Kepala Perangkat Daerah' : 'Pimpinan Unit Kerja'},<br><br><br><br>(..................................)</div></div>`;
+  document.body.classList.add('print-unit'); window.print(); setTimeout(() => document.body.classList.remove('print-unit'), 1000);
+}
+
+/* ---------- Ekspor Excel ---------- */
+function xlsxOK(){ if (window.XLSX) return true; toast('Pustaka Excel tidak dapat dimuat (jaringan memblokir CDN).'); return false; }
+function sheetUnit(u){
+  const r = unitResult(u), spec = JFA.SPEC[u.mode];
+  const J = JENIS[DB.jenis], daerah = jenisOf(u.mode) === 'daerah';
+  const aoa = [['PENGHITUNGAN KEBUTUHAN JABATAN FUNGSIONAL ARSIPARIS'], [], [daerah ? 'Pemerintah daerah' : 'Instansi', u.instansi || ''], [daerah ? 'Perangkat daerah' : 'Unit kerja', u.unit || ''], ['Formulir', MODE_LABEL[u.mode]], ['Peran', u.mode === 'lkd' ? 'Unit Kearsipan I (LKD)' : PERAN[peranOf(u)]], ['Berada di bawah', (DB.units.find(x => x.id === indukOf(u)) || {}).unit || '-'], ['Waktu kerja efektif (menit/tahun)', r.wke], [],
+    ['ISIAN', '', 'Nilai', 'Satuan']];
+  spec.inputs.forEach(f => aoa.push([cleanLabel(f.label), '', f.tipe === 'persen' ? (Number(u.isian[f.cell]) || 0) : (Number(u.isian[f.cell]) || 0), f.tipe === 'persen' ? 'persen (0–1)' : cleanSatuan(f)]));
+  aoa.push([], ['HASIL', 'Kebutuhan (hitung)', 'Kebutuhan (dibulatkan)']);
+  JVIS.forEach(j => aoa.push(['Arsiparis ' + j.label, +r.jenjang[j.key].kebutuhan.toFixed(4), r.jenjang[j.key].bulat]));
+  aoa.push(['Total', +r.total.toFixed(4), r.totalBulat], [], ['RINCIAN KEGIATAN', 'Jenjang', 'Waktu (menit)', 'Volume', 'Beban (menit)', 'Kebutuhan']);
+  JVIS.forEach(j => r.jenjang[j.key].kegiatan.forEach(k => aoa.push([k.induk ? cleanUraian(k.induk) + ' — ' + k.uraian : cleanUraian(k.uraian), j.label, k.waktu, +(+k.volume).toFixed(4), +k.menit.toFixed(2), +k.kebutuhan.toFixed(4)])));
+  const ws = XLSX.utils.aoa_to_sheet(aoa); ws['!cols'] = [{ wch:70 }, { wch:18 }, { wch:16 }, { wch:16 }, { wch:16 }, { wch:12 }];
+  return ws;
+}
+function sheetRekap(){
+  const data = rekapData();
+  const J = JENIS[DB.jenis];
+  const head1 = ['No', 'Nama ' + J.kolom.toLowerCase(), 'Kebutuhan JF Arsiparis', ...Array(JVIS.length).fill(''), 'Ketersediaan JF Arsiparis', ...Array(JVIS.length).fill(''), 'Selisih'];
+  const head2 = ['', '', ...JVIS.map(j => j.label.toUpperCase()), 'TOTAL', ...JVIS.map(j => j.label.toUpperCase()), 'TOTAL', ''];
+  const aoa = [[`REKAPITULASI KEBUTUHAN JABATAN FUNGSIONAL ARSIPARIS DI LINGKUNGAN ${String((J.kode && DB.instansi && !/^pemerintah/i.test(DB.instansi) ? 'Pemerintah ' : '') + (DB.instansi || (J.kode ? 'PEMERINTAH DAERAH' : 'KEMENTERIAN/LEMBAGA'))).toUpperCase()}`], [], head1, head2];
+  let no = 0;
+  const lbl = u => ({ uk1:u.mode === 'lkd' ? 'LKD · UK I' : 'UK I', uk2:'UK II', up:'UP' })[peranOf(u)];
+  susunRekap(data).forEach(row => {
+    if (row.kind === 'grp') return aoa.push(['', row.label.toUpperCase()]);
+    if (row.kind === 'sub'){ const m = row.members, tk = jumlah(m, 'tKeb'), ta = jumlah(m, 'tAda');
+      return aoa.push(['', row.label, ...JVIS.map(j => jumlah(m, 'keb', j.key)), tk, ...JVIS.map(j => jumlah(m, 'ada', j.key)), ta, ta - tk]); }
+    const d = row.d;
+    aoa.push([++no, '    '.repeat(row.depth) + (d.u.unit || '') + ' (' + lbl(d.u) + ')', ...JVIS.map(j => d.keb[j.key]), d.tKeb, ...JVIS.map(j => d.ada[j.key]), d.tAda, d.tAda - d.tKeb]);
+  });
+  const sum = k => data.reduce((a, d) => a + d[k], 0);
+  aoa.push(['', 'TOTAL', ...JVIS.map(j => data.reduce((a, d) => a + d.keb[j.key], 0)), sum('tKeb'), ...JVIS.map(j => data.reduce((a, d) => a + d.ada[j.key], 0)), sum('tAda'), sum('tAda') - sum('tKeb')]);
+  aoa.push([], [], ['', '', '', '', '', '', '', '', '', J.kode ? 'SEKRETARIS DAERAH,' : 'PIMPINAN INSTANSI,'], [], [], [], ['', '', '', '', '', '', '', '', '', '(..................................)']);
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
+  const n = JVIS.length;
+  ws['!merges'] = [{ s:{ r:0, c:0 }, e:{ r:0, c:2 * n + 4 } }, { s:{ r:2, c:2 }, e:{ r:2, c:n + 2 } }, { s:{ r:2, c:n + 3 }, e:{ r:2, c:2 * n + 3 } }, { s:{ r:2, c:0 }, e:{ r:3, c:0 } }, { s:{ r:2, c:1 }, e:{ r:3, c:1 } }, { s:{ r:2, c:2 * n + 4 }, e:{ r:3, c:2 * n + 4 } }];
+  ws['!cols'] = [{ wch:5 }, { wch:42 }, ...Array(2 * n + 3).fill({ wch:12 })];
+  return ws;
+}
+const safe = s => String(s || '').replace(/[\\/:*?"<>|]+/g, ' ').trim().slice(0, 60) || 'Unit';
+function downloadUnit(){
+  if (!xlsxOK()) return;
+  const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, sheetUnit(CUR), 'Hasil');
+  XLSX.writeFile(wb, `Kebutuhan JFA - ${safe(CUR.unit)}.xlsx`);
+}
+function downloadRekap(){
+  if (!DB.units.length) return toast('Rekapitulasi masih kosong.');
+  if (!xlsxOK()) return;
+  const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, sheetRekap(), 'REKAPITULASI');
+  DB.units.forEach((u, i) => XLSX.utils.book_append_sheet(wb, sheetUnit(u), `${i + 1}. ${safe(u.unit)}`.slice(0, 31)));
+  XLSX.writeFile(wb, `Rekapitulasi Kebutuhan JFA - ${safe(DB.instansi || 'Instansi')}.xlsx`);
+}
+
+/* ---------- Kirim ke ANRI (Supabase) ---------- */
+function kodeAcak(){ const c = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', a = new Uint8Array(8); crypto.getRandomValues(a); return Array.from(a, x => c[x % c.length]).join(''); }
+async function kirim(){
+  const box = $('s-hasil'); box.innerHTML = '';
+  if (!SB_URL || !SB_KEY) return box.innerHTML = '<div class="errbox">Koneksi database belum dikonfigurasi.</div>';
+  const J = JENIS[DB.jenis];
+  if (!DB.instansi || DB.instansi.length < 3) return box.innerHTML = `<div class="errbox">Isi ${J.lInst.toLowerCase()} terlebih dahulu (di bagian Identitas).</div>`;
+  if (!$('s-nama').value.trim()) return box.innerHTML = '<div class="errbox">Isi nama pengirim.</div>';
+  const data = rekapData();
+  const tk = data.reduce((a, d) => a + d.tKeb, 0), ta = data.reduce((a, d) => a + d.tAda, 0);
+  if (!confirm(`Kirim rekapitulasi ke ANRI?\n\n${DB.instansi}\n${data.length} unit · kebutuhan ${fmt(tk)} · ketersediaan ${fmt(ta)} · selisih ${ta - tk > 0 ? '+' : ''}${fmt(ta - tk)}\n\nSetelah dikirim, perubahan berikutnya perlu dikirim ulang.`)) return;
+  const kode = kodeAcak();
+  const rekap = { jenjang:JVIS.map(j => j.key), unit:data.map(d => ({ unit:d.u.unit, mode:d.u.mode, peran:peranOf(d.u), induk:(DB.units.find(x => x.id === indukOf(d.u)) || {}).unit || null, kebutuhan:d.keb, ketersediaan:d.ada })),
+    total:{ kebutuhan:data.reduce((a, d) => a + d.tKeb, 0), ketersediaan:data.reduce((a, d) => a + d.tAda, 0) } };
+  const detail = { versi:2, jenis:DB.jenis, units:DB.units.map(u => ({ id:u.id, unit:u.unit, mode:u.mode, peran:peranOf(u), induk:indukOf(u) || null, wke:u.wke, isian:u.isian })) };
+  const body = { kode, instansi:DB.instansi, pengirim_nama:$('s-nama').value.trim().slice(0, 120), pengirim_jabatan:$('s-jabatan').value.trim().slice(0, 120),
+    pengirim_kontak:$('s-kontak').value.trim().slice(0, 120), jumlah_unit:DB.units.length, rekap, detail,
+    jenis_instansi:DB.jenis, wilayah:J.kode ? wilayahOf(DB.instansi) : null };
+  const btn = $('s-kirim'); btn.disabled = true; btn.textContent = 'Mengirim…';
+  try {
+    const res = await fetch(SB_URL + '/rest/v1/jfa_pengajuan', { method:'POST', headers:{ apikey:SB_KEY, 'Content-Type':'application/json', Prefer:'return=minimal' }, body:JSON.stringify(body) });
+    if (!res.ok) throw new Error(res.status + ' ' + (await res.text()).slice(0, 200));
+    DB.terkirim = (DB.terkirim || []).concat({ kode, waktu:new Date().toISOString(), unit:DB.units.length }); persist();
+    box.innerHTML = `<div class="okbox">Pengajuan terkirim. Kode pengajuan: <b class="num">${kode}</b><br>Simpan kode ini untuk konfirmasi dengan ANRI.</div>`;
+  } catch(e){
+    box.innerHTML = `<div class="errbox">Gagal mengirim (${esc(e.message)}). Coba lagi, atau unduh Excel dan kirim lewat surat dinas.</div>`;
+  } finally { btn.disabled = false; btn.textContent = 'Kirim ke ANRI'; }
+}
+
+/* ---------- Pengajuan masuk (admin) ---------- */
+function adminToken(){
+  try { const s = JSON.parse(sessionStorage.getItem('arsiparis_auth') || 'null');
+    if (s && s.user && s.user.app_metadata && s.user.app_metadata.role === 'admin' && Date.now() < s.expires_at) return s.access_token; } catch(e){}
+  return null;
+}
+let INBOX = [];
+async function loadInbox(){
+  const t = adminToken(); if (!t) return;
+  $('ib-table').innerHTML = '<div class="empty">Memuat…</div>';
+  try {
+    const res = await fetch(SB_URL + '/rest/v1/jfa_pengajuan?select=id,kode,created_at,instansi,jenis_instansi,wilayah,pengirim_nama,pengirim_jabatan,pengirim_kontak,jumlah_unit,rekap,detail,status&order=created_at.desc&limit=500',
+      { headers:{ apikey:SB_KEY, Authorization:'Bearer ' + t } });
+    if (!res.ok) throw new Error(res.status);
+    INBOX = await res.json();
+    renderInbox();
+  } catch(e){ $('ib-table').innerHTML = `<div class="empty">Gagal memuat pengajuan (${esc(e.message)}). Login ulang di dashboard bila sesi kedaluwarsa, atau jalankan ulang supabase-jfa-pengajuan.sql bila kolom baru belum ada.</div>`; }
+}
+function renderInbox(){
+  const f = $('ib-filter').value;
+  const rows = INBOX.map((p, i) => [p, i]).filter(([p]) => !f || (p.jenis_instansi || 'pusat') === f);
+  {
+    $('ib-table').innerHTML = rows.length ? `<table class="rekap inbox"><thead><tr><th class="l">Tanggal</th><th class="l">Kode</th><th class="l">Jenis</th><th class="l">Instansi</th><th class="l">Pengirim</th><th>Unit</th><th>Kebutuhan</th><th>Ketersediaan</th><th class="l">Status</th><th></th></tr></thead><tbody>
+      ${rows.map(([p, i]) => `<tr><td class="l num">${new Date(p.created_at).toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' })}</td><td class="l num">${esc(p.kode)}</td>
+        <td class="l">${esc((JENIS[p.jenis_instansi] || JENIS.pusat).label)}</td>
+        <td class="l">${esc(p.instansi)}${p.wilayah && p.jenis_instansi === 'kabkota' ? `<br><small class="muted">Provinsi ${esc(p.wilayah)}</small>` : ''}</td><td class="l">${esc(p.pengirim_nama || '')}<br><small class="muted">${esc([p.pengirim_jabatan, p.pengirim_kontak].filter(Boolean).join(' · '))}</small></td>
+        <td class="num">${fmt(p.jumlah_unit)}</td><td class="num">${fmt(p.rekap && p.rekap.total ? p.rekap.total.kebutuhan : 0)}</td><td class="num">${fmt(p.rekap && p.rekap.total ? p.rekap.total.ketersediaan : 0)}</td>
+        <td class="l"><select data-status="${p.id}">${['baru', 'diproses', 'selesai'].map(s => `<option${s === p.status ? ' selected' : ''}>${s}</option>`).join('')}</select></td>
+        <td style="white-space:nowrap"><button type="button" class="btn-link" data-buka="${i}">Buka di rekap</button></td></tr>`).join('')}</tbody></table>` : `<div class="empty">${INBOX.length ? 'Tidak ada pengajuan untuk filter ini.' : 'Belum ada pengajuan.'}</div>`;
+  }
+}
+async function setStatus(id, status){
+  const t = adminToken(); if (!t) return;
+  const res = await fetch(SB_URL + '/rest/v1/jfa_pengajuan?id=eq.' + encodeURIComponent(id), { method:'PATCH', headers:{ apikey:SB_KEY, Authorization:'Bearer ' + t, 'Content-Type':'application/json', Prefer:'return=minimal' }, body:JSON.stringify({ status }) });
+  toast(res.ok ? 'Status diperbarui' : 'Gagal memperbarui status');
+}
+function bukaPengajuan(p){
+  if (DB.units.length && !confirm('Ganti isi rekapitulasi di browser ini dengan pengajuan ' + p.kode + '? (Simpan file cadangan dulu bila perlu)')) return;
+  DB.instansi = p.instansi; DB.units = []; DB.ketersediaan = {};
+  DB.jenis = JENIS[p.jenis_instansi] ? p.jenis_instansi : (p.detail && JENIS[p.detail.jenis] ? p.detail.jenis : 'pusat');
+  (p.detail && p.detail.units || []).forEach((u, i) => { const id = u.id || uid(); DB.units.push({ id, mode:u.mode, peran:u.peran, induk:u.induk || '', instansi:p.instansi, unit:u.unit, wke:u.wke, isian:u.isian || {} });
+    const r = p.rekap && p.rekap.unit && p.rekap.unit[i]; if (r) DB.ketersediaan[id] = r.ketersediaan || {}; });
+  bukaPertama(); $('f-instansi').value = DB.instansi;
+  persist(); renderJenis(); renderAll(); setView('rekap'); toast('Pengajuan ' + p.kode + ' dibuka');
+}
+
+/* ---------- Tampilan ---------- */
+function setView(v){
+  ['isi', 'rekap', 'inbox'].forEach(x => $('view-' + x).hidden = x !== v);
+  document.querySelectorAll('#views button').forEach(b => b.classList.toggle('active', b.dataset.view === v));
+  if (v === 'rekap') renderRekap();
+  if (v === 'inbox') loadInbox();
+}
+
+/* ---------- Event ---------- */
+$('jenis').addEventListener('click', e => { const b = e.target.closest('[data-jenis]'); if (b) setJenis(b.dataset.jenis); });
+$('f-instansi').addEventListener('input', cekPemda);
+$('f-unit').addEventListener('input', () => { $('f-unit').classList.remove('bad'); $('e-unit').hidden = true; });
+$('ctx-toggle').addEventListener('click', () => { SETUP_OPEN = document.querySelector('.setup').hidden; renderAll(); if (SETUP_OPEN) window.scrollTo({ top:document.querySelector('.setup').offsetTop - 12, behavior:'smooth' }); });
+$('steps-m').addEventListener('change', e => { STEP = +e.target.value; renderSteps(); renderSections(); compute(); });
+$('mb-lihat').addEventListener('click', () => document.querySelector('.result').scrollIntoView({ behavior:'smooth', block:'start' }));
+document.addEventListener('wheel', e => { const t = e.target; if (t && t.matches && t.matches('input[type=number]') && document.activeElement === t) t.blur(); }, { passive:true });
+$('jenis').addEventListener('keydown', e => {
+  if (!['ArrowLeft', 'ArrowRight'].includes(e.key)) return; e.preventDefault();
+  const ks = Object.keys(JENIS), i = ks.indexOf(DB.jenis), n = ks[(i + (e.key === 'ArrowRight' ? 1 : ks.length - 1)) % ks.length];
+  setJenis(n); const b = document.querySelector(`#jenis [data-jenis="${DB.jenis}"]`); if (b) b.focus();
+});
+$('f-induk').addEventListener('change', e => { if (!CUR) return; CUR.induk = e.target.value; compute(); });
+$('modes').addEventListener('click', e => { const b = e.target.closest('.mode'); if (b) setMode(b.dataset.mode, b.dataset.peran); });
+['f-instansi', 'f-unit', 'f-wke'].forEach(id => $(id).addEventListener('input', () => { if (CUR) compute(); else { DB.instansi = $('f-instansi').value.trim(); persist(); } }));
+$('steps').addEventListener('click', e => { const b = e.target.closest('[data-step]'); if (!b) return; STEP = +b.dataset.step; renderSteps(); renderSections(); compute(); window.scrollTo({ top:$('work').offsetTop - 8, behavior:'smooth' }); });
+$('prev').addEventListener('click', () => { if (STEP > 0){ STEP--; renderSteps(); renderSections(); compute(); window.scrollTo({ top:$('work').offsetTop - 8, behavior:'smooth' }); } });
+$('next').addEventListener('click', () => {
+  if (STEP < LAYOUT.length - 1){ STEP++; renderSteps(); renderSections(); compute(); window.scrollTo({ top:$('work').offsetTop - 8, behavior:'smooth' }); }
+  else if (!disimpan()) simpanUnit(false); else setView('rekap');
+});
+$('sections').addEventListener('input', e => {
+  const c = e.target.dataset.cell;
+  if (c){
+    let v;
+    if (e.target.dataset.num){                       // angka bulat dengan pemisah ribuan
+      const el = e.target, dari = el.value.length - (el.selectionEnd ?? el.value.length);
+      const d = el.value.replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 12); v = d ? Number(d) : 0;
+      el.value = d ? fmt(v) : ''; const pos = Math.max(0, el.value.length - dari); try { el.setSelectionRange(pos, pos); } catch(_){}
+    } else v = Number(e.target.value) || 0;
+    if (!v) delete CUR.isian[c]; else CUR.isian[c] = Math.max(0, v);
+    e.target.classList.toggle('filled', !!v); compute(); return; }
+});
+$('sections').addEventListener('change', e => { if (e.target.tagName === 'SELECT') e.target.dispatchEvent(new Event('input', { bubbles:true })); });
+$('sections').addEventListener('click', e => {
+  if (e.target.id === 'btn-ambil') return ambilDariRekap();
+});
+$('r-list').addEventListener('click', e => { const r = e.target.closest('[data-j]'); if (r) openDrawer(r.dataset.j); });
+$('r-list').addEventListener('keydown', e => { const r = e.target.closest('[data-j]'); if (r && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); openDrawer(r.dataset.j); } });
+$('drawer').addEventListener('click', e => { if (e.target.id === 'drawer' || e.target.closest('[data-close]')) closeDrawer(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeDrawer();
+  if (e.key === 'Tab' && $('drawer').classList.contains('open')){   // fokus tetap di dalam panel rincian
+    const f = [...$('dr-panel').querySelectorAll('button,[href],input,select,[tabindex]:not([tabindex="-1"])')]; if (!f.length) return;
+    if (e.shiftKey && document.activeElement === f[0]){ e.preventDefault(); f[f.length - 1].focus(); }
+    else if (!e.shiftKey && document.activeElement === f[f.length - 1]){ e.preventDefault(); f[0].focus(); }
+  }
+});
+function salahNama(){
+  const el = $('f-unit'); el.classList.add('bad'); $('e-unit').hidden = false;
+  $('e-unit').textContent = `Isi nama ${JENIS[DB.jenis].lUnit.toLowerCase()} sebelum menyimpan.`;
+  el.scrollIntoView({ block:'center', behavior:'smooth' }); setTimeout(() => el.focus({ preventScroll:true }), 250);
+}
+function simpanUnit(diam){
+  if (!CUR.unit){ salahNama(); return false; }
+  const i = DB.units.findIndex(u => u.id === CUR.id);
+  const copy = JSON.parse(JSON.stringify(CUR));
+  copy.peran = peranOf(copy); copy.induk = indukOf(copy);
+  if (i >= 0) DB.units[i] = copy; else DB.units.push(copy);
+  persist(); renderRekap(); renderStruktur(); if (!diam) compute(); renderUnits();
+  renderStruktur();
+  if (!diam) toast(i >= 0 ? 'Unit diperbarui di rekapitulasi' : 'Tersimpan ke rekapitulasi');
+  return true;
+}
+$('btn-save').addEventListener('click', () => simpanUnit(false));
+$('units').addEventListener('click', e => {
+  const t = e.target.closest('[data-tambah]'); if (t) return tambahUnit(t.dataset.tambah, t.dataset.peran, t.dataset.induk);
+  const b = e.target.closest('[data-buka-unit]'); if (b) bukaUnit(b.dataset.bukaUnit);
+});
+$('units').addEventListener('keydown', e => { const b = e.target.closest('[data-buka-unit]'); if (b && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); bukaUnit(b.dataset.bukaUnit); } });
+$('btn-xlsx').addEventListener('click', downloadUnit);
+$('btn-print').addEventListener('click', cetakUnit);
+window.addEventListener('afterprint', () => document.body.classList.remove('print-unit', 'print-rekap'));
+$('views').addEventListener('click', e => { const b = e.target.closest('[data-view]'); if (b) setView(b.dataset.view); });
+$('rk-table').addEventListener('input', e => { const id = e.target.dataset.ada; if (!id) return; (DB.ketersediaan[id] = DB.ketersediaan[id] || {})[e.target.dataset.j] = Math.max(0, Number(e.target.value) || 0); persist(); clearTimeout(renderRekap._t); renderRekap._t = setTimeout(() => { const a = document.activeElement, sel = a && a.dataset.ada ? `[data-ada="${a.dataset.ada}"][data-j="${a.dataset.j}"]` : null; renderRekap(); if (sel){ const el = document.querySelector(sel); if (el){ el.focus(); const v = el.value; el.value = ''; el.value = v; } } }, 500); });
+$('rk-table').addEventListener('click', e => {
+  const ed = e.target.closest('[data-edit]'), del = e.target.closest('[data-hapus]');
+  if (ed) bukaUnit(ed.dataset.edit);
+  if (del){ const u = DB.units.find(x => x.id === del.dataset.hapus); if (confirm(`Hapus "${u.unit}" dari rekapitulasi?` + (DB.units.some(x => x.induk === u.id) ? ' Unit di bawahnya akan menjadi "belum dikelompokkan".' : ''))){ DB.units = DB.units.filter(x => x.id !== u.id); DB.units.forEach(x => { if (x.induk === u.id) x.induk = ''; }); if (CUR && CUR.id === u.id){ bukaPertama(); renderAll(); } delete DB.ketersediaan[u.id]; persist(); renderRekap(); } }
+});
+$('rk-xlsx').addEventListener('click', downloadRekap);
+$('rk-print').addEventListener('click', () => { document.body.classList.add('print-rekap'); window.print(); setTimeout(() => document.body.classList.remove('print-rekap'), 1000); });
+$('rk-export').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify({ format:'kalkulator-jfa', versi:1, ...DB, draft:null }, null, 1)], { type:'application/json' });
+  const a = Object.assign(document.createElement('a'), { href:URL.createObjectURL(blob), download:`Cadangan Kebutuhan JFA - ${safe(DB.instansi || 'Instansi')}.json` });
+  document.body.appendChild(a); a.click(); a.remove();
+});
+$('rk-import').addEventListener('click', () => $('rk-file').click());
+$('rk-file').addEventListener('change', async e => {
+  const f = e.target.files[0]; if (!f) return;
+  try { const d = JSON.parse(await f.text()); if (d.format !== 'kalkulator-jfa' || !Array.isArray(d.units)) throw 0;
+    if (DB.units.length && !confirm('Ganti rekapitulasi saat ini dengan isi file?')) return;
+    Object.assign(DB, { instansi:d.instansi || '', units:d.units, ketersediaan:d.ketersediaan || {}, jenis:JENIS[d.jenis] ? d.jenis : (d.units.some(u => jenisOf(u.mode) === 'daerah') ? 'kabkota' : 'pusat') });
+    bukaPertama(); $('f-instansi').value = DB.instansi; persist(); renderAll(); renderRekap(); toast('File cadangan dimuat');
+  } catch(err){ toast('File tidak dikenali'); } finally { e.target.value = ''; }
+});
+$('s-kirim').addEventListener('click', kirim);
+$('ib-refresh').addEventListener('click', loadInbox);
+$('ib-filter').addEventListener('change', renderInbox);
+$('ib-table').addEventListener('change', e => { const id = e.target.dataset.status; if (id) setStatus(id, e.target.value); });
+$('ib-table').addEventListener('click', e => { const b = e.target.closest('[data-buka]'); if (b) bukaPengajuan(INBOX[+b.dataset.buka]); });
+
+/* ---------- Mulai ---------- */
+$('f-instansi').value = DB.instansi || '';
+if (adminToken()) $('tab-inbox').hidden = false;
+if (CUR && !JFA.SPEC[CUR.mode]) CUR = null;
+if (CUR && !JENIS[DB.jenis].modes.includes(CUR.mode)) DB.jenis = jenisOf(CUR.mode) === 'daerah' ? 'kabkota' : 'pusat';
+if (!CUR && DB.units.length) CUR = JSON.parse(JSON.stringify(DB.units[0]));
+if (CUR){ LAYOUT = buildLayout(CUR.mode); renderAll(); } else { renderJenis(); renderModes(); }
+renderRekap();
+</script>
+</body>
+</html>
