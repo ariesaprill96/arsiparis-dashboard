@@ -83,7 +83,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .err{font-size:12.5px;color:var(--bad);margin-top:4px}
 .field input.bad{border-color:var(--bad);box-shadow:0 0 0 3px rgba(178,58,46,.12)}
 .legend{font-size:12px;color:var(--ink-3);margin:-6px 0 14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.saved{display:flex;gap:8px;align-items:center;justify-content:center;height:38px;border-radius:9px;background:#e6f3ec;color:#14532d;font-size:13px;font-weight:500}
+.saved{display:flex;gap:6px;align-items:center;justify-content:center;text-align:center;min-height:38px;padding:6px 10px;border-radius:9px;background:#e6f3ec;color:#14532d;font-size:13px;font-weight:500}
 .riil{font-size:12.5px;color:var(--ink-3);text-align:right;margin-top:2px}
 .steps-m{display:none;width:100%;height:42px;border:1px solid var(--line-strong);border-radius:10px;padding:0 12px;background:#fff;font-size:14px;margin-bottom:12px}
 .mbar{display:none}
@@ -212,6 +212,39 @@ table.rekap{width:100%;border-collapse:collapse;font-size:13.5px;min-width:980px
 
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#111722;color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60}
 .toast.on{opacity:1}
+/* Dialog konfirmasi */
+.dlg{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:20px;background:rgba(17,23,34,.38);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;transition:opacity .18s ease}
+.dlg.on{opacity:1}
+.dlg .box{width:min(480px,100%);background:#fff;border-radius:18px;box-shadow:0 24px 64px rgba(17,23,34,.22),0 2px 6px rgba(17,23,34,.08);padding:26px 26px 20px;transform:translateY(8px) scale(.98);transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+.dlg.on .box{transform:none}
+.dlg .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;margin-bottom:14px;background:var(--accent-soft);color:var(--accent)}
+.dlg .ic.danger{background:#f8e9e7;color:var(--bad)} .dlg .ic.warn{background:#fff4d6;color:#8a5a12} .dlg .ic.ok{background:#e6f3ec;color:var(--ok)}
+.dlg .kick{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.dlg h3{font-family:var(--ed-serif);font-weight:500;font-size:25px;line-height:1.15;letter-spacing:-.01em;margin:0 0 8px}
+.dlg .tx{margin:0;color:var(--ink-2);font-size:14.5px;line-height:1.55}
+.dlg .rc{margin:16px 0 0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.dlg .rc div{display:flex;justify-content:space-between;gap:16px;padding:9px 14px;font-size:13.5px;border-top:1px solid var(--line)}
+.dlg .rc div:first-child{border-top:0}
+.dlg .rc span{color:var(--ink-3)} .dlg .rc b{font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.dlg .nt{margin:12px 0 0;font-size:12.5px;color:var(--ink-3)}
+.dlg .ac{display:flex;justify-content:flex-end;gap:8px;margin-top:22px;flex-wrap:wrap}
+.dlg .ac .btn{height:40px;padding:0 16px}
+.dlg .ac .btn.solid-danger{background:var(--bad);border-color:var(--bad);color:#fff}
+.dlg .ac .btn.solid-danger:hover{background:#962f25}
+.dlg .ac .btn.ghost{border-color:transparent;color:var(--ink-2)}
+@media (max-width:560px){
+  .dlg{place-items:end center;padding:0}
+  .dlg .box{border-radius:18px 18px 0 0;padding:22px 20px calc(18px + env(safe-area-inset-bottom));transform:translateY(24px)}
+  .dlg .ac{flex-direction:column-reverse} .dlg .ac .btn{width:100%}
+}
+/* Notifikasi dengan Urungkan */
+.undo{position:fixed;left:50%;bottom:24px;z-index:70;transform:translate(-50%,16px);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;
+  display:flex;align-items:center;gap:14px;background:#111722;color:#fff;border-radius:12px;padding:10px 10px 10px 16px;font-size:14px;box-shadow:0 12px 32px rgba(17,23,34,.25);overflow:hidden;max-width:calc(100% - 32px)}
+.undo.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.undo button{border:0;background:rgba(255,255,255,.12);color:#fff;font-weight:600;border-radius:8px;padding:7px 12px;cursor:pointer;font-size:13.5px;white-space:nowrap}
+.undo button:hover{background:rgba(255,255,255,.2)}
+.undo i{position:absolute;left:0;bottom:0;height:2px;background:#7fb3dc;width:100%;transform-origin:left}
+body.has-mbar .undo,body.has-mbar .toast{bottom:92px}
 footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-3)}
 
 @media (max-width:1200px){
@@ -274,7 +307,7 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
       <div class="kicker" id="kicker">Instansi Pusat · Kementerian/Lembaga</div>
       <h1>Penghitungan <em>kebutuhan</em> Jabatan Fungsional Arsiparis.</h1>
       <p>Isi volume pekerjaan kearsipan satu tahun di unit kerja atau perangkat daerah Anda. Kebutuhan arsiparis per jenjang dihitung langsung dengan metode beban kerja: waktu penyelesaian × volume ÷ waktu kerja efektif.</p>
-      <a class="materi no-print" href="https://drive.google.com/drive/folders/1L8gPaMj_zkPnDZbff8RNgnuf-e7tniJx" target="_blank" rel="noopener">Materi Penghitungan Kebutuhan JFA <span aria-hidden="true">↗</span></a>
+      <a class="materi no-print" href="https://drive.google.com/file/d/1R9IkxgfPyrfT7wuTSaQMcywZtwTLWdDu/view?usp=sharing" target="_blank" rel="noopener">Materi Penghitungan Kebutuhan JFA <span aria-hidden="true">↗</span></a>
     </div>
     <div class="views no-print" id="views" role="tablist">
       <button type="button" data-view="isi" class="active">Hitung kebutuhan</button>
@@ -394,13 +427,14 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
     </div>
   </section>
 
-  <footer>Metode: pengukuran beban kerja per jenjang sesuai Master Penghitungan Kebutuhan JFA (ANRI) untuk instansi pusat dan pemerintah daerah. Waktu kerja efektif standar 75.000 menit/tahun (330 menit/hari efektif). Kebutuhan dibulatkan ke bilangan bulat terdekat. <a href="https://drive.google.com/drive/folders/1L8gPaMj_zkPnDZbff8RNgnuf-e7tniJx" target="_blank" rel="noopener" style="color:inherit">Materi Penghitungan Kebutuhan JFA</a>.</footer>
+  <footer>Metode: pengukuran beban kerja per jenjang sesuai Master Penghitungan Kebutuhan JFA (ANRI) untuk instansi pusat dan pemerintah daerah. Waktu kerja efektif standar 75.000 menit/tahun (330 menit/hari efektif). Kebutuhan dibulatkan ke bilangan bulat terdekat. <a href="https://drive.google.com/file/d/1R9IkxgfPyrfT7wuTSaQMcywZtwTLWdDu/view?usp=sharing" target="_blank" rel="noopener" style="color:inherit">Materi Penghitungan Kebutuhan JFA</a>.</footer>
 </main>
 
 <div class="mbar no-print" id="mbar" hidden><div><small>Total kebutuhan · <span id="mb-unit"></span></small><b class="num" id="mb-total">0</b> <span class="muted num" id="mb-riil" style="font-size:12.5px"></span></div><button type="button" class="btn primary" id="mb-lihat">Lihat hasil</button></div>
 <div id="print-area"></div>
 <div class="drawer" id="drawer" aria-hidden="true"><div class="panel" role="dialog" aria-modal="true" aria-labelledby="dr-title" id="dr-panel"></div></div>
 <div class="toast" id="toast" role="status"></div>
+<div class="undo" id="undo" role="status" aria-live="polite"><span id="undo-msg"></span><button type="button" id="undo-btn">Urungkan</button><i id="undo-bar"></i></div>
 
 <script src="config.js"></script>
 <script src="./assets/jfa-katalog.js?v=20261021b"></script>
@@ -415,6 +449,56 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&l
 const fmt = (n, d = 0) => (Number(n) || 0).toLocaleString('id-ID', { minimumFractionDigits:d, maximumFractionDigits:d });
 const toast = msg => { const t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('on'), 2400); };
 const uid = () => Math.random().toString(36).slice(2, 10);
+/* Dialog konfirmasi bergaya dashboard. Mengembalikan nilai tombol yang dipilih, atau null bila dibatalkan. */
+const IKON = {
+  hapus:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg>',
+  ganti:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h13l-3-3M20 15H7l3 3"/></svg>',
+  simpan:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/></svg>',
+  kirim:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/></svg>',
+  file:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M12 11v6M9 14l3 3 3-3"/></svg>'
+};
+function tanya(o){
+  return new Promise(resolve => {
+    const prev = document.activeElement, w = document.createElement('div');
+    w.className = 'dlg'; w.setAttribute('role', 'dialog'); w.setAttribute('aria-modal', 'true'); w.setAttribute('aria-labelledby', 'dlg-t');
+    const aksi = o.aksi || [{ label:'Lanjutkan', nilai:true, jenis:'primary' }];
+    w.innerHTML = `<div class="box">
+      <div class="ic ${o.nada || ''}">${IKON[o.ikon] || IKON.ganti}</div>
+      ${o.kicker ? `<div class="kick">${esc(o.kicker)}</div>` : ''}
+      <h3 id="dlg-t">${esc(o.judul)}</h3>
+      ${o.teks ? `<p class="tx">${o.teks}</p>` : ''}
+      ${o.rincian ? `<div class="rc">${o.rincian.map(([k, v]) => `<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>` : ''}
+      ${o.catatan ? `<p class="nt">${o.catatan}</p>` : ''}
+      <div class="ac"><button type="button" class="btn ghost" data-v="__batal">${esc(o.batal || 'Batal')}</button>
+        ${aksi.map((a, i) => `<button type="button" class="btn ${a.jenis === 'danger' ? 'solid-danger' : a.jenis === 'primary' ? 'primary' : ''}" data-i="${i}">${esc(a.label)}</button>`).join('')}</div></div>`;
+    document.body.appendChild(w); requestAnimationFrame(() => w.classList.add('on'));
+    const tombol = [...w.querySelectorAll('button')], utama = w.querySelector('.ac button:last-child');
+    setTimeout(() => utama.focus(), 30);
+    const tutup = v => { w.classList.remove('on'); document.removeEventListener('keydown', kb, true); setTimeout(() => w.remove(), 180); if (prev && prev.focus) prev.focus({ preventScroll:true }); resolve(v); };
+    const kb = e => {
+      if (e.key === 'Escape'){ e.preventDefault(); e.stopPropagation(); tutup(null); }
+      if (e.key === 'Tab'){ const i = tombol.indexOf(document.activeElement); if (e.shiftKey && i <= 0){ e.preventDefault(); tombol[tombol.length - 1].focus(); } else if (!e.shiftKey && i === tombol.length - 1){ e.preventDefault(); tombol[0].focus(); } }
+    };
+    document.addEventListener('keydown', kb, true);
+    w.addEventListener('click', e => { if (e.target === w) return tutup(null); const b = e.target.closest('button'); if (!b) return; tutup(b.dataset.v === '__batal' ? null : aksi[+b.dataset.i].nilai); });
+  });
+}
+/* Notifikasi dengan tombol Urungkan (aksi langsung dijalankan, bisa dibatalkan beberapa detik). */
+function urungkan(pesan, kembalikan, ms = 7000){
+  const u = $('undo'), bar = $('undo-bar');
+  $('undo-msg').textContent = pesan; u.classList.add('on');
+  bar.style.transition = 'none'; bar.style.transform = 'scaleX(1)';
+  requestAnimationFrame(() => { bar.style.transition = `transform ${ms}ms linear`; bar.style.transform = 'scaleX(0)'; });
+  clearTimeout(urungkan._t); urungkan._t = setTimeout(() => u.classList.remove('on'), ms);
+  $('undo-btn').onclick = () => { clearTimeout(urungkan._t); u.classList.remove('on'); kembalikan(); };
+}
+function potret(){ return JSON.stringify({ units:DB.units, ketersediaan:DB.ketersediaan, cur:CUR, step:STEP }); }
+function pulihkan(snap, pesan){
+  const d = JSON.parse(snap); DB.units = d.units; DB.ketersediaan = d.ketersediaan; CUR = d.cur;
+  LAYOUT = CUR ? buildLayout(CUR.mode) : []; STEP = CUR ? Math.min(d.step || 0, LAYOUT.length - 1) : 0; DB.draft = CUR;
+  if (CUR) $('f-unit').value = CUR.unit || '';
+  persist(); renderAll(); renderRekap(); toast(pesan || 'Dikembalikan');
+}
 const JVIS = JFA.JENJANG.filter(j => !j.tersembunyi);
 const MODE_LABEL = { up:'Unit Pengolah', upuk:'Unit Pengolah + Unit Kearsipan', ukii:'Perangkat Daerah (UP + UK II)', lkd:'Lembaga Kearsipan Daerah (UP + UK I + LKD)' };
 const JENIS = {
@@ -544,11 +628,13 @@ function newUnit(mode){
   if (mode === 'lkd' && !unit) unit = LKD_DEFAULT;
   return { id:uid(), mode, peran:PERAN_OPS[mode][0], induk:'', instansi:$('f-instansi').value.trim() || DB.instansi || '', unit, wke:Number($('f-wke').value) || 75000, isian:{} };
 }
-function setMode(mode, peran){
+async function setMode(mode, peran){
   if (!CUR) CUR = newUnit(mode);
   else if (CUR.mode !== mode){
-    const filled = Object.values(CUR.isian).some(v => Number(v));
-    if (filled && !confirm('Ganti peran unit? Isian yang tidak ada di formulir baru akan diabaikan.')) return;
+    const filled = Object.values(CUR.isian).filter(v => Number(v)).length;
+    if (filled && !await tanya({ ikon:'ganti', nada:'warn', kicker:'Ganti formulir', judul:`Pindahkan "${CUR.unit || 'unit ini'}" ke formulir ${(KARTU_INFO[mode + ':' + (peran || PERAN_OPS[mode][0])] || {}).b || MODE_LABEL[mode]}?`,
+      teks:'Formulirnya berbeda. Isian yang tidak ada di formulir baru tidak ikut dihitung.', rincian:[['Isian terisi saat ini', fmt(filled)], ['Formulir baru', `${JFA.SPEC[mode].inputs.length} isian`]],
+      aksi:[{ label:'Ganti formulir', nilai:true, jenis:'primary' }] })) return;
     if (mode === 'lkd' && !CUR.unit){ CUR.unit = LKD_DEFAULT; $('f-unit').value = LKD_DEFAULT; }
     CUR.mode = mode;
     if (!PERAN_OPS[mode].includes(CUR.peran)){ CUR.peran = PERAN_OPS[mode][0]; CUR.induk = ''; }
@@ -588,16 +674,24 @@ function renderModes(){
     return `<button type="button" class="mode${CUR && CUR.mode === m && peranOf(CUR) === r ? ' on' : ''}" data-mode="${m}" data-peran="${r}" aria-pressed="${!!(CUR && CUR.mode === m && peranOf(CUR) === r)}">
       <b>${k.b}</b><span>${k.s}</span><small>${JFA.SPEC[m].inputs.length} isian · ${JFA.SPEC[m].acts.length} kegiatan</small></button>`; }).join('');
 }
-function setJenis(j){
+async function setJenis(j){
   if (j === DB.jenis || !JENIS[j]) return;
   const beda = jenisOf(JENIS[j].modes[0]) !== jenisOf(JENIS[DB.jenis].modes[0]);
   const lain = DB.units.length && (beda || DB.instansi);
-  if (lain && !confirm(`Rekapitulasi berisi ${DB.units.length} unit milik ${DB.instansi || 'instansi lain'}. Satu rekapitulasi hanya untuk satu instansi, jadi rekapitulasi akan dikosongkan. Lanjutkan? (Simpan file cadangan dulu bila perlu)`)) return renderJenis();
-  if (lain){ DB.units = []; DB.ketersediaan = {}; }
+  let snap = null;
+  if (lain){
+    if (!await tanya({ ikon:'ganti', nada:'warn', kicker:'Ganti jenis instansi', judul:`Beralih ke ${JENIS[j].label}?`,
+      teks:'Satu rekapitulasi hanya untuk satu instansi, jadi rekapitulasi saat ini akan dikosongkan. Anda masih bisa mengurungkannya sesaat setelah ini.',
+      rincian:[['Rekapitulasi saat ini', DB.instansi || 'tanpa nama'], ['Jumlah unit', fmt(DB.units.length)]], catatan:'Simpan file cadangan dulu bila ingin menyimpan rekapitulasi ini.',
+      aksi:[{ label:'Kosongkan & beralih', nilai:true, jenis:'danger' }] })) return renderJenis();
+    snap = JSON.stringify({ d:potret(), jenis:DB.jenis, instansi:DB.instansi });
+    DB.units = []; DB.ketersediaan = {};
+  }
   DB.jenis = j; DB.instansi = ''; $('f-instansi').value = '';
   if (CUR && !JENIS[j].modes.includes(CUR.mode)){ CUR = null; LAYOUT = []; DB.draft = null; $('f-unit').value = ''; }
   else if (CUR) CUR.instansi = '';
   persist(); renderJenis(); renderAll(); renderRekap();
+  if (snap) urungkan(`Beralih ke ${JENIS[j].label}`, () => { const x = JSON.parse(snap); DB.jenis = x.jenis; DB.instansi = x.instansi; $('f-instansi').value = x.instansi; pulihkan(x.d, 'Rekapitulasi dikembalikan'); });
 }
 
 function renderStepsM(){
@@ -685,22 +779,23 @@ function renderUnits(){
       <div class="muted">Unit yang sudah tersimpan diperbarui otomatis saat diubah.</div>
     </div>`;
 }
-function bolehPindah(){
+async function bolehPindah(){
   if (!CUR || disimpan() || !terisi()) return true;
-  if (confirm(`"${CUR.unit || 'Unit baru'}" belum disimpan ke rekapitulasi. Simpan sekarang?`)){
-    if (!CUR.unit){ salahNama(); return false; }
-    simpanUnit(true); return true;
-  }
-  return confirm('Abaikan isian unit baru ini?');
+  const n = Object.keys(CUR.isian).length;
+  const v = await tanya({ ikon:'simpan', kicker:'Belum disimpan', judul:`Simpan "${CUR.unit || 'unit baru'}" dulu?`,
+    teks:'Unit ini belum masuk rekapitulasi. Simpan agar isiannya tidak hilang saat berpindah.', rincian:[['Isian terisi', fmt(n)], ['Kebutuhan', `${fmt(RES ? RES.totalBulat : 0)} orang`]],
+    aksi:[{ label:'Buang', nilai:'buang' }, { label:'Simpan & lanjut', nilai:'simpan', jenis:'primary' }] });
+  if (v === 'simpan'){ if (!CUR.unit){ salahNama(); return false; } simpanUnit(true); return true; }
+  return v === 'buang';
 }
-function bukaUnit(id){
+async function bukaUnit(id){
   if (CUR && CUR.id === id) return setView('isi');
-  if (!bolehPindah()) return;
+  if (!await bolehPindah()) return;
   const u = DB.units.find(x => x.id === id); if (!u) return;
   CUR = JSON.parse(JSON.stringify(u)); LAYOUT = buildLayout(CUR.mode); STEP = 0; setView('isi'); renderAll();
 }
-function tambahUnit(mode, peran, induk){
-  if (!bolehPindah()) return;
+async function tambahUnit(mode, peran, induk){
+  if (!await bolehPindah()) return;
   $('f-unit').value = '';
   CUR = newUnit(mode || (CUR ? CUR.mode : JENIS[DB.jenis].modes[0]));
   if (peran) CUR.peran = peran; if (induk) CUR.induk = induk;
@@ -957,7 +1052,9 @@ async function kirim(){
   if (!$('s-nama').value.trim()) return box.innerHTML = '<div class="errbox">Isi nama pengirim.</div>';
   const data = rekapData();
   const tk = data.reduce((a, d) => a + d.tKeb, 0), ta = data.reduce((a, d) => a + d.tAda, 0);
-  if (!confirm(`Kirim rekapitulasi ke ANRI?\n\n${DB.instansi}\n${data.length} unit · kebutuhan ${fmt(tk)} · ketersediaan ${fmt(ta)} · selisih ${ta - tk > 0 ? '+' : ''}${fmt(ta - tk)}\n\nSetelah dikirim, perubahan berikutnya perlu dikirim ulang.`)) return;
+  if (!await tanya({ ikon:'kirim', kicker:'Kirim ke ANRI', judul:'Kirim rekapitulasi ini?', teks:`Pengajuan atas nama <b>${esc(DB.instansi)}</b> akan diterima Dit. SDM Kearsipan dan Sertifikasi ANRI.`,
+    rincian:[['Jumlah unit', fmt(data.length)], ['Kebutuhan', `${fmt(tk)} orang`], ['Ketersediaan', `${fmt(ta)} orang`], ['Selisih', `${ta - tk > 0 ? '+' : ''}${fmt(ta - tk)} orang`], ['Pengirim', $('s-nama').value.trim()]],
+    catatan:'Perubahan setelah pengiriman perlu dikirim ulang sebagai pengajuan baru.', batal:'Periksa lagi', aksi:[{ label:'Kirim sekarang', nilai:true, jenis:'primary' }] })) return;
   const kode = kodeAcak();
   const rekap = { jenjang:JVIS.map(j => j.key), unit:data.map(d => ({ unit:d.u.unit, mode:d.u.mode, peran:peranOf(d.u), induk:(DB.units.find(x => x.id === indukOf(d.u)) || {}).unit || null, kebutuhan:d.keb, ketersediaan:d.ada })),
     total:{ kebutuhan:data.reduce((a, d) => a + d.tKeb, 0), ketersediaan:data.reduce((a, d) => a + d.tAda, 0) } };
@@ -1012,8 +1109,10 @@ async function setStatus(id, status){
   const res = await fetch(SB_URL + '/rest/v1/jfa_pengajuan?id=eq.' + encodeURIComponent(id), { method:'PATCH', headers:{ apikey:SB_KEY, Authorization:'Bearer ' + t, 'Content-Type':'application/json', Prefer:'return=minimal' }, body:JSON.stringify({ status }) });
   toast(res.ok ? 'Status diperbarui' : 'Gagal memperbarui status');
 }
-function bukaPengajuan(p){
-  if (DB.units.length && !confirm('Ganti isi rekapitulasi di browser ini dengan pengajuan ' + p.kode + '? (Simpan file cadangan dulu bila perlu)')) return;
+async function bukaPengajuan(p){
+  if (DB.units.length && !await tanya({ ikon:'file', nada:'warn', kicker:'Buka pengajuan', judul:`Buka pengajuan ${p.kode}?`, teks:'Rekapitulasi di browser ini akan diganti dengan isi pengajuan.',
+    rincian:[['Pengajuan', p.instansi], ['Unit di pengajuan', fmt(p.jumlah_unit)], ['Rekapitulasi saat ini', `${fmt(DB.units.length)} unit · ${DB.instansi || 'tanpa nama'}`]],
+    catatan:'Simpan file cadangan dulu bila rekapitulasi saat ini masih diperlukan.', aksi:[{ label:'Ganti dengan pengajuan', nilai:true, jenis:'primary' }] })) return;
   DB.instansi = p.instansi; DB.units = []; DB.ketersediaan = {};
   DB.jenis = JENIS[p.jenis_instansi] ? p.jenis_instansi : (p.detail && JENIS[p.detail.jenis] ? p.detail.jenis : 'pusat');
   (p.detail && p.detail.units || []).forEach((u, i) => { const id = u.id || uid(); DB.units.push({ id, mode:u.mode, peran:u.peran, induk:u.induk || '', instansi:p.instansi, unit:u.unit, wke:u.wke, isian:u.isian || {} });
@@ -1099,30 +1198,37 @@ $('btn-save').addEventListener('click', () => simpanUnit(false));
 /* ---------- Hapus / kosongkan ---------- */
 function hapusUnit(id){
   const u = DB.units.find(x => x.id === id); if (!u) return;
-  const anak = DB.units.filter(x => x.induk === id).length;
-  if (!confirm(`Hapus "${u.unit || 'unit ini'}" beserta isian dan ketersediaannya?` + (anak ? `\n${anak} unit di bawahnya akan menjadi "belum dikelompokkan".` : ''))) return false;
+  const snap = potret();
   DB.units = DB.units.filter(x => x.id !== id); delete DB.ketersediaan[id];
   DB.units.forEach(x => { if (x.induk === id) x.induk = ''; });
   if (CUR && CUR.id === id) bukaPertama();
-  persist(); renderAll(); renderRekap(); toast('Unit dihapus');
+  persist(); renderAll(); renderRekap();
+  urungkan(`"${u.unit || 'Unit'}" dihapus`, () => pulihkan(snap, 'Unit dikembalikan'));
   return true;
 }
 $('btn-kosong').addEventListener('click', () => {
   if (!CUR || !Object.keys(CUR.isian).length) return toast('Isian unit ini sudah kosong.');
-  if (!confirm(`Kosongkan semua isian (${Object.keys(CUR.isian).length} terisi) pada "${CUR.unit || 'unit ini'}"? Nama dan posisi unit tetap.`)) return;
-  CUR.isian = {}; renderSteps(); renderSections(); compute(); toast('Isian dikosongkan');
+  const snap = potret(), n = Object.keys(CUR.isian).length;
+  CUR.isian = {}; renderSteps(); renderSections(); compute();
+  urungkan(`${fmt(n)} isian dikosongkan`, () => pulihkan(snap, 'Isian dikembalikan'));
 });
 $('btn-hapus-unit').addEventListener('click', () => {
   if (!CUR) return;
   if (disimpan()) return hapusUnit(CUR.id);
-  if (terisi() && !confirm('Buang unit baru yang belum disimpan ini?')) return;
-  bukaPertama(); persist(); renderAll(); toast('Unit baru dibuang');
+  const snap = potret(), nama = CUR.unit || 'Unit baru';
+  bukaPertama(); persist(); renderAll();
+  urungkan(`"${nama}" dibuang`, () => pulihkan(snap, 'Unit baru dikembalikan'));
 });
-$('rk-reset').addEventListener('click', () => {
+$('rk-reset').addEventListener('click', async () => {
   if (!DB.units.length) return toast('Rekapitulasi sudah kosong.');
-  if (!confirm(`Hapus SEMUA ${DB.units.length} unit dan isian ketersediaan di rekapitulasi ini?\nData di browser ini tidak bisa dikembalikan. Simpan file cadangan dulu bila perlu.`)) return;
+  const tk = rekapData().reduce((a, d) => a + d.tKeb, 0);
+  if (!await tanya({ ikon:'hapus', nada:'danger', kicker:'Kosongkan rekapitulasi', judul:'Hapus semua unit di rekapitulasi?', teks:'Semua unit beserta isian dan ketersediaannya akan dihapus dari browser ini.',
+    rincian:[['Instansi', DB.instansi || 'tanpa nama'], ['Jumlah unit', fmt(DB.units.length)], ['Total kebutuhan', `${fmt(tk)} orang`]],
+    catatan:'Anda masih bisa mengurungkannya sesaat setelah ini. Untuk jangka panjang, simpan file cadangan.', aksi:[{ label:'Hapus semua', nilai:true, jenis:'danger' }] })) return;
+  const snap = potret();
   DB.units = []; DB.ketersediaan = {}; CUR = null; LAYOUT = []; DB.draft = null; $('f-unit').value = '';
-  persist(); renderAll(); renderRekap(); toast('Rekapitulasi dikosongkan');
+  persist(); renderAll(); renderRekap();
+  urungkan('Rekapitulasi dikosongkan', () => pulihkan(snap, 'Rekapitulasi dikembalikan'), 10000);
 });
 $('units').addEventListener('click', e => {
   const t = e.target.closest('[data-tambah]'); if (t) return tambahUnit(t.dataset.tambah, t.dataset.peran, t.dataset.induk);
@@ -1150,9 +1256,13 @@ $('rk-import').addEventListener('click', () => $('rk-file').click());
 $('rk-file').addEventListener('change', async e => {
   const f = e.target.files[0]; if (!f) return;
   try { const d = JSON.parse(await f.text()); if (d.format !== 'kalkulator-jfa' || !Array.isArray(d.units)) throw 0;
-    if (DB.units.length && !confirm('Ganti rekapitulasi saat ini dengan isi file?')) return;
+    if (DB.units.length && !await tanya({ ikon:'file', nada:'warn', kicker:'Impor file cadangan', judul:'Ganti rekapitulasi dengan isi file?',
+      rincian:[['File', f.name], ['Isi file', `${fmt(d.units.length)} unit · ${d.instansi || 'tanpa nama'}`], ['Rekapitulasi saat ini', `${fmt(DB.units.length)} unit · ${DB.instansi || 'tanpa nama'}`]],
+      aksi:[{ label:'Ganti dengan file', nilai:true, jenis:'primary' }] })) return;
+    const snapImp = potret();
     Object.assign(DB, { instansi:d.instansi || '', units:d.units, ketersediaan:d.ketersediaan || {}, jenis:JENIS[d.jenis] ? d.jenis : (d.units.some(u => jenisOf(u.mode) === 'daerah') ? 'kabkota' : 'pusat') });
-    bukaPertama(); $('f-instansi').value = DB.instansi; persist(); renderAll(); renderRekap(); toast('File cadangan dimuat');
+    bukaPertama(); $('f-instansi').value = DB.instansi; persist(); renderAll(); renderRekap();
+    if (snapImp && JSON.parse(snapImp).units.length) urungkan('File cadangan dimuat', () => pulihkan(snapImp, 'Rekapitulasi sebelumnya dikembalikan')); else toast('File cadangan dimuat');
   } catch(err){ toast('File tidak dikenali'); } finally { e.target.value = ''; }
 });
 $('s-kirim').addEventListener('click', kirim);
