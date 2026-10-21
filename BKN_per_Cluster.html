@@ -65,7 +65,7 @@ tr.sum td{font-weight:700;color:var(--text);background:var(--bg);border-top:1px 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/anri-editorial.css?v=20261020">
+<link rel="stylesheet" href="assets/anri-editorial.css?v=20261020b">
 <style id="anri-editorial-page">
 /* Penyesuaian tema editorial untuk halaman ini */
 :root{
@@ -90,7 +90,7 @@ tbody tr:hover{background:#f7fafc !important}
   <section class="hero">
     <div class="kicker">Data BKN · Pengelompokan</div>
     <div class="h-title" id="h-title">JF Arsiparis per Cluster Instansi</div>
-    <div class="h-sub">Pengelompokan jumlah arsiparis berdasarkan jenis instansi (Kementerian, Lembaga/Badan, Provinsi, Kabupaten, Kota), lengkap dengan rincian per jenjang. Klik kartu cluster untuk melihat detail jenjang dan instansi teratasnya.</div>
+    <div class="h-sub">Pengelompokan jumlah arsiparis berdasarkan jenis instansi (Kementerian, Lembaga, Provinsi, Kabupaten, Kota), lengkap dengan rincian per jenjang. Klik kartu cluster untuk melihat detail jenjang dan instansi teratasnya.</div>
     <div class="kpi-row">
       <div class="kpi"><div class="kpi-v" id="kpi-inst">—</div><div class="kpi-l">Total Instansi</div></div>
       <div class="kpi"><div class="kpi-v" id="kpi-ars">—</div><div class="kpi-l">Total Arsiparis</div></div>
@@ -118,17 +118,27 @@ tbody tr:hover{background:#f7fafc !important}
 </div>
 
 <script src="./assets/data_bkn_rekap_2026.js?v=20260602"></script>
+<script src="./assets/referensi_kluster_instansi.js?v=20261021"></script>
 <script>
 const B=window.BKN_REKAP_2026||{records:[],updated_at:''};
 const J=[['terampil','Terampil','#e3c99c'],['mahir','Mahir','#c39553'],['penyelia','Penyelia','#8a5f2a'],['ahli_pertama','Ahli Pertama','#9cd8f0'],['ahli_muda','Ahli Muda','#3fa7dc'],['ahli_madya','Ahli Madya','#0b74b8'],['ahli_utama','Ahli Utama','#0a3d6b']];
-const ORDER=['Kementerian','Lembaga/Badan','Provinsi','Kabupaten','Kota'];
-const CCOL={'Kementerian':'#0b5d96','Lembaga/Badan':'#3fa7dc','Provinsi':'#8a5f2a','Kabupaten':'#c39553','Kota':'#e3c99c'};
-function cls(n){const t=n.toLowerCase();
-  if(/provinsi|^pemerintah aceh$|daerah istimewa yogyakarta|^pemerintah dki/.test(t))return 'Provinsi';
-  if(/kabupaten|^pemerintah kab\b/.test(t))return 'Kabupaten';
-  if(/kota /.test(t)||/^pemerintah kota/.test(t))return 'Kota';
+const ORDER=['Kementerian','Lembaga','Provinsi','Kabupaten','Kota'];
+const CCOL={'Kementerian':'#0b5d96','Lembaga':'#3fa7dc','Provinsi':'#8a5f2a','Kabupaten':'#c39553','Kota':'#e3c99c'};
+// Kluster mengikuti Daftar Tujuan Surat (assets/referensi_kluster_instansi.js)
+const KREF=window.KLUSTER_REF||{daftar:[],padanan_bkn:{},luar_daftar:{}};
+const KREF_BY=Object.fromEntries(KREF.daftar.map(d=>[d.n,d]));
+function cls(n){
+  const d=KREF_BY[KREF.padanan_bkn[n]]; const k=d?d.k:(KREF.luar_daftar[n]||{}).k;
+  if(k==='A')return 'Kementerian';
+  if(k==='G')return 'Provinsi';
+  if(k==='H')return d&&d.t==='Kota'?'Kota':'Kabupaten';
+  if(k)return 'Lembaga';
+  const t=n.toLowerCase(); // cadangan untuk nama yang belum dipadankan
+  if(/^pemerintah (provinsi|aceh|daerah)/.test(t))return 'Provinsi';
+  if(/^pemerintah kab/.test(t))return 'Kabupaten';
+  if(/^pemerintah kota/.test(t))return 'Kota';
   if(/^kementerian/.test(t))return 'Kementerian';
-  return 'Lembaga/Badan';}
+  return 'Lembaga';}
 const fmt=x=>(x||0).toLocaleString('id');
 
 const G={};ORDER.forEach(c=>{G[c]={n:0,total:0,items:[]};J.forEach(([k])=>G[c][k]=0);});
@@ -147,7 +157,7 @@ document.getElementById('cards').innerHTML=ORDER.map(c=>{
   return `<div class="cc" data-c="${c}" onclick="sel('${c}')">
     <div class="cc-top"><span class="cc-dot" style="background:${CCOL[c]}"></span><span class="cc-name">${c}</span></div>
     <div class="cc-v">${fmt(g.total)}</div>
-    <div class="cc-meta">${fmt(g.n)} instansi · arsiparis</div>
+    <div class="cc-meta">arsiparis di ${fmt(g.n)} instansi · rata-rata ${fmt(Math.round(g.total/(g.n||1)))}</div>
     <div class="cc-bar">${segs}</div>
     <div class="cc-pct">${pct.toFixed(1)}% dari nasional</div>
   </div>`;}).join('');

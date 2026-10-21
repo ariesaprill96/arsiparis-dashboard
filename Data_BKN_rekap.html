@@ -36,6 +36,8 @@
 
   --pusat:#0b5d96;
   --daerah:#c39553;
+  /* Kluster instansi */
+  --k-kem:#0b5d96; --k-lem:#74c2e8; --k-prov:#8a5f2a; --k-kab:#c39553;
 
   --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   --serif:'Newsreader','Iowan Old Style','Georgia',serif;
@@ -143,6 +145,91 @@ section.block{margin-top:56px}
 .split-legend .r{text-align:right}
 .scope-note{margin:0;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-2)}
 
+/* Kluster: KPI dapat diklik */
+button.kpi{all:unset;box-sizing:border-box;cursor:pointer;padding:22px 24px;display:block;position:relative}
+button.kpi:hover{background:var(--surface-2)}
+button.kpi:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+button.kpi.on{background:var(--accent-soft)}
+button.kpi.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent)}
+.sub-select{height:40px;border:1px solid var(--line-strong);border-radius:10px;background:var(--surface);padding:0 34px 0 12px;font-size:14px;color:var(--ink);max-width:260px}
+.sub-select[hidden]{display:none}
+
+/* Rincian per kelompok */
+.grp-title{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0 0 4px}
+.grp-title h3{margin:0;font-size:15px;font-weight:600}
+.grp-title span{font-size:13px;color:var(--ink-3)}
+.grp-hint{margin:0 0 6px;font-size:12.5px;color:var(--ink-3)}
+.grp-back{border:0;background:none;padding:0;font:inherit;font-size:13px;font-weight:500;color:var(--accent);cursor:pointer}
+.grp-back:hover{text-decoration:underline;text-underline-offset:3px}
+.grp-row{all:unset;box-sizing:border-box;width:100%;display:grid;grid-template-columns:minmax(0,1fr) 64px 48px;gap:4px 12px;align-items:center;padding:10px 10px;margin:0 -10px;width:calc(100% + 20px);border-bottom:1px solid var(--line);border-radius:8px;font-size:14px;cursor:pointer;transition:background .15s}
+.grp-row:last-child{border-bottom:0}
+.grp-row:hover{background:var(--surface-2)}
+.grp-row:hover .grp-name{color:var(--accent)}
+.grp-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.grp-row.on{background:var(--accent-soft);border-bottom-color:transparent}
+.grp-row.on .grp-name{color:var(--accent);font-weight:600}
+.grp-list.has-active .grp-row:not(.on) .grp-bar i{opacity:.35}
+.grp-row .grp-bar{grid-column:1 / -1;height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden}
+.grp-row .grp-bar i{display:block;height:100%}
+.grp-row .v{text-align:right;font-weight:600}
+.grp-name{min-width:0}
+.grp-row .p{text-align:right;color:var(--ink-3);font-size:13px}
+.grp-row small{display:block;color:var(--ink-3);font-size:12px}
+.grp-more{font-size:13px;color:var(--ink-3);padding-top:10px}
+
+/* ---------- Peta sebaran ---------- */
+.map-card{display:grid;grid-template-columns:minmax(0,1fr) 320px;overflow:hidden}
+.map-main{position:relative;padding:18px 20px 14px;border-right:1px solid var(--line);min-width:0}
+.map-tools{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.map-crumb{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-3);min-height:32px}
+.map-crumb button{border:0;background:none;padding:4px 0;font:inherit;color:var(--accent);font-weight:500;cursor:pointer}
+.map-crumb button:hover{text-decoration:underline;text-underline-offset:3px}
+.map-crumb b{color:var(--ink);font-weight:600}
+.map-metric{display:inline-flex;padding:3px;border-radius:9px;background:rgba(17,23,34,.06)}
+.map-metric button{border:0;background:transparent;padding:6px 11px;border-radius:7px;font-size:12.5px;font-weight:500;color:var(--ink-2);cursor:pointer}
+.map-metric button.active{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(17,23,34,.12)}
+.map-svg{display:block;width:100%;height:auto;touch-action:none;cursor:grab}
+.map-svg:active{cursor:grabbing}
+.map-svg path.prov,.map-svg path.kab{stroke:#fff;stroke-linejoin:round;cursor:pointer;transition:fill .25s}
+.map-svg path.prov:hover,.map-svg path.kab:hover{stroke:var(--ink);stroke-width:1.2px}
+.map-svg path.kab.dim{opacity:.18;pointer-events:none}
+.map-svg path.sel{stroke:var(--ink);stroke-width:1.6px}
+.map-legend{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin-top:6px}
+.map-legend .scale{display:flex;align-items:center;gap:0}
+.map-legend .scale span{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:52px}
+.map-legend .scale i{display:block;width:100%;height:10px}
+.map-legend .nodata{display:inline-flex;align-items:center;gap:6px}
+.map-legend .nodata i{width:14px;height:10px;display:inline-block;border:1px solid var(--line-strong)}
+.map-note{font-size:11.5px;color:var(--ink-3);margin-top:8px}
+.map-tip{position:absolute;pointer-events:none;background:#111722;color:#fff;font-size:12.5px;line-height:1.4;padding:8px 10px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.18);opacity:0;transition:opacity .12s;z-index:5;max-width:240px}
+.map-tip b{display:block;font-weight:600;margin-bottom:2px}
+.map-side{padding:20px 22px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.map-side h3{margin:0;font-size:18px;font-weight:600;letter-spacing:-.01em}
+.map-side .kick{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.map-side .big{font-size:34px;font-weight:600;letter-spacing:-.02em;line-height:1}
+.map-side .big small{display:block;font-size:13px;font-weight:400;color:var(--ink-3);letter-spacing:0;margin-top:6px}
+.map-stats{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.map-stats div{padding:10px 12px}
+.map-stats div + div{border-left:1px solid var(--line)}
+.map-stats b{display:block;font-size:17px;font-weight:600}
+.map-stats span{font-size:12px;color:var(--ink-3)}
+.map-jbar{display:flex;height:10px;border-radius:5px;overflow:hidden;gap:1px;background:var(--surface-2)}
+.map-list{margin:0;padding:0;list-style:none}
+.map-list li{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.map-list li:last-child{border-bottom:0}
+.map-list button{all:unset;cursor:pointer;color:var(--ink);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.map-list button:hover{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.map-list .num{font-weight:600;flex-shrink:0}
+.map-side .sec{font-size:12px;font-weight:600;color:var(--ink-3);margin:2px 0 -6px}
+.map-jrows{display:grid;grid-template-columns:10px 1fr auto;gap:6px 8px;align-items:center;font-size:13px}
+.map-jrows i{width:10px;height:10px;border-radius:2px}
+.map-jrows .num{text-align:right;font-weight:600}
+.map-fallback{padding:40px 20px;text-align:center;color:var(--ink-3)}
+.wil-chip{display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:500;border-radius:999px;padding:4px 6px 4px 12px}
+.wil-chip button{border:0;background:rgba(11,93,150,.12);color:var(--accent);width:20px;height:20px;border-radius:50%;cursor:pointer;font-size:13px;line-height:1}
+.wil-chip[hidden]{display:none}
+
+
 /* Instansi terbesar */
 .ranking{padding:8px 28px 20px}
 .legend{display:flex;flex-wrap:wrap;gap:6px 18px;padding:18px 0 10px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink-2)}
@@ -191,6 +278,8 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
 
 /* ---------- Responsif ---------- */
 @media (max-width:1024px){
+  .map-card{grid-template-columns:1fr}
+  .map-main{border-right:0;border-bottom:1px solid var(--line)}
   .hero{grid-template-columns:1fr;gap:28px}
   .hero-figure{text-align:left}
   .grid-2{grid-template-columns:1fr}
@@ -212,6 +301,11 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
   .insight,.insight + .insight{padding:18px 0;border-left:0}
   .insight + .insight{border-top:1px solid var(--line)}
   .filter-meta{margin-left:0;width:100%;justify-content:space-between}
+  .segmented{max-width:100%;overflow-x:auto;scrollbar-width:none}
+  .segmented::-webkit-scrollbar{display:none}
+  .segmented button{flex:0 0 auto;padding:7px 11px}
+  .sub-select{max-width:none;width:100%}
+
   .search{max-width:none}
   .kpi{padding:18px}
   .kpi .value{font-size:26px}
@@ -219,6 +313,9 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
   .block-head{flex-direction:column;align-items:flex-start}
   .block-head h2{font-size:23px}
   .composition,.scope{padding:20px}
+  .map-main{padding:14px 12px 12px}
+  .map-side{padding:18px 16px}
+  .map-legend .scale span{min-width:44px}
   .comp-groups{grid-template-columns:1fr;gap:24px}
   .ranking{padding:4px 20px 12px}
   .rank-row{grid-template-columns:22px minmax(0,1fr) 60px;gap:4px 12px}
@@ -270,11 +367,15 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         <input id="search-input" type="search" placeholder="Cari instansi, mis. Kementerian Agama" aria-label="Cari instansi" autocomplete="off">
       </label>
-      <div class="segmented" id="scope-switch" role="group" aria-label="Kelompok instansi">
+      <div class="segmented" id="scope-switch" role="group" aria-label="Kluster instansi">
         <button type="button" data-scope="semua" class="active" aria-pressed="true">Semua</button>
-        <button type="button" data-scope="pusat" aria-pressed="false">Pusat</button>
-        <button type="button" data-scope="daerah" aria-pressed="false">Daerah</button>
+        <button type="button" data-scope="kementerian" aria-pressed="false">Kementerian</button>
+        <button type="button" data-scope="lembaga" aria-pressed="false">Lembaga</button>
+        <button type="button" data-scope="provinsi" aria-pressed="false">Provinsi</button>
+        <button type="button" data-scope="kabkota" aria-pressed="false">Kab/Kota</button>
       </div>
+      <select class="sub-select" id="sub-select" aria-label="Subkelompok" hidden></select>
+      <span class="wil-chip" id="wil-chip" hidden><span id="wil-chip-text"></span><button type="button" id="wil-clear" aria-label="Hapus filter wilayah">×</button></span>
       <div class="filter-meta">
         <span id="result-meta"></span>
         <button class="btn-link" type="button" id="reset-btn" hidden>Reset filter</button>
@@ -283,7 +384,32 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
   </div>
 
   <div class="page">
-    <section class="kpis" id="kpis" aria-label="Ringkasan"></section>
+    <section class="kpis" id="kpis" aria-label="Ringkasan per kluster"></section>
+
+    <section class="block" aria-labelledby="h-peta">
+      <div class="block-head">
+        <div>
+          <h2 id="h-peta">Peta sebaran instansi daerah</h2>
+          <p>Klik provinsi untuk melihat kabupaten/kota di dalamnya; klik kabupaten/kota untuk rinciannya. Pilihan di peta ikut menyaring seluruh halaman.</p>
+        </div>
+      </div>
+      <div class="card map-card">
+        <div class="map-main">
+          <div class="map-tools">
+            <div class="map-crumb" id="map-crumb"></div>
+            <div class="map-metric" id="map-metric" role="group" aria-label="Ukuran di peta">
+              <button type="button" data-m="total" class="active">Jumlah arsiparis</button>
+              <button type="button" data-m="avg">Rata-rata per instansi</button>
+            </div>
+          </div>
+          <svg class="map-svg" id="map-svg" viewBox="0 0 1000 400" role="img" aria-label="Peta sebaran arsiparis instansi daerah"></svg>
+          <div class="map-tip" id="map-tip" role="status"></div>
+          <div class="map-legend" id="map-legend"></div>
+          <div class="map-note">Batas wilayah: geoBoundaries (BPS, CC BY 3.0 IGO), disederhanakan dan bersifat ilustratif. Kota administrasi DKI Jakarta bukan daerah otonom.</div>
+        </div>
+        <aside class="map-side" id="map-side" aria-live="polite"></aside>
+      </div>
+    </section>
 
     <section class="block" aria-labelledby="h-komposisi">
       <div class="block-head">
@@ -344,12 +470,16 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
 
     <footer>
       <span id="source-note">Sumber: BKN</span>
-      <span>Kelompok Pusat/Daerah ditentukan dari nama instansi (awalan “Pemerintah …” = Daerah).</span>
+      <span>Kluster mengikuti Daftar Tujuan Surat: Kementerian (A), Lembaga (B–F), Provinsi (G), Kabupaten/Kota (H).</span>
     </footer>
   </div>
 </main>
 
 <script src="./assets/data_bkn_rekap_2026.js?v=20261008"></script>
+<script src="./assets/referensi_kluster_instansi.js?v=20261021"></script>
+<script src="./assets/peta_indonesia.js?v=20261021"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
 <script>
 const DATA = window.BKN_REKAP_2026 || { records: [], totals: {}, title: '' };
 const JENJANG = [
@@ -363,7 +493,7 @@ const JENJANG = [
 ];
 const GROUPS = { k:'Keterampilan', a:'Keahlian' };
 const PAGE_SIZE = 50;
-const STATE = { q:'', scope:'semua', sortKey:null, sortDir:'desc', showAll:false };
+const STATE = { q:'', scope:'semua', sub:'', wil:'', kab:'', sortKey:null, sortDir:'desc', showAll:false };
 
 const $ = id => document.getElementById(id);
 const fmt = n => (n || 0).toLocaleString('id-ID');
@@ -372,11 +502,51 @@ const pct = (n, t, d = 1) => pctNum(n, t).toLocaleString('id-ID', { minimumFract
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
 const isDaerah = name => /^Pemerintah\s/i.test(String(name || ''));
 
+/* ---------- Kluster berdasarkan Daftar Tujuan Surat ---------- */
+const REF = window.KLUSTER_REF || { kode:{}, daftar:[], padanan_bkn:{}, luar_daftar:{} };
+const KLUSTERS = [
+  { id:'kementerian', label:'Kementerian',    short:'Kementerian', color:'var(--k-kem)',  kode:['A'] },
+  { id:'lembaga',     label:'Lembaga',        short:'Lembaga',     color:'var(--k-lem)',  kode:['B','C','D','E','F'] },
+  { id:'provinsi',    label:'Provinsi',       short:'Provinsi',    color:'var(--k-prov)', kode:['G'] },
+  { id:'kabkota',     label:'Kabupaten/Kota', short:'Kab/Kota',    color:'var(--k-kab)',  kode:['H'] }
+];
+const KL_BY_ID = Object.fromEntries(KLUSTERS.map(k => [k.id, k]));
+const KL_BY_KODE = Object.fromEntries(KLUSTERS.flatMap(k => k.kode.map(c => [c, k])));
+const SUB_LABEL = { A:'Kementerian', B:'Alat Negara', C:'LPNK/Badan', D:'Setjen Lembaga Negara', E:'Lembaga Penyiaran', F:'Lembaga Non Struktural', G:'Provinsi', H:'Kabupaten/Kota' };
+const REF_BY_NAME = Object.fromEntries(REF.daftar.map(d => [d.n, d]));
+const provOf = d => d.k === 'G' ? d.n.replace(/^Provinsi\s+/, '') : (d.p || '');
+
+function classify(r){
+  const refName = REF.padanan_bkn[r.nama];
+  const d = refName && REF_BY_NAME[refName];
+  if (d) return { kode:d.k, ref:d.n, prov:provOf(d), luar:'' };
+  const l = REF.luar_daftar[r.nama];
+  if (l) return { kode:l.k, ref:'', prov:'', luar:l.catatan };
+  // Cadangan untuk nama baru yang belum dipadankan
+  const n = String(r.nama);
+  const kode = /^Pemerintah (Kab|Kota)/i.test(n) ? 'H' : /^Pemerintah (Provinsi|Aceh|Daerah)/i.test(n) ? 'G' : /^Kementerian/i.test(n) ? 'A' : 'C';
+  return { kode, ref:'', prov:'', luar:'Belum dipadankan dengan daftar tujuan surat' };
+}
+DATA.records.forEach(r => {
+  const c = classify(r);
+  r._kode = c.kode; r._kl = KL_BY_KODE[c.kode].id; r._sub = SUB_LABEL[c.kode]; r._prov = c.prov; r._ref = c.ref; r._luar = c.luar;
+});
+const PROVINSI = REF.daftar.filter(d => d.k === 'G').map(provOf);
+
+const subOptions = scope => scope === 'lembaga'
+  ? [['', 'Semua lembaga'], ...['B','C','D','E','F'].map(c => [c, SUB_LABEL[c]])]
+  : (scope === 'kabkota' || scope === 'provinsi') ? [['', 'Semua provinsi'], ...PROVINSI.map(p => [p, p])] : [];
+const inWil = r => (!STATE.wil || r._prov === STATE.wil) && (!STATE.kab || r._ref === STATE.kab);
+const inScope = r => (STATE.scope === 'semua' || r._kl === STATE.scope)
+  && (!STATE.sub || (STATE.scope === 'lembaga' ? r._kode === STATE.sub : r._prov === STATE.sub))
+  && inWil(r);
+
+const matchQ = r => { const q = STATE.q.trim().toLowerCase(); return !q || String(r.nama).toLowerCase().includes(q); };
+
 function filtered(){
   const q = STATE.q.trim().toLowerCase();
   let rows = DATA.records.filter(r => {
-    if (STATE.scope === 'pusat' && isDaerah(r.nama)) return false;
-    if (STATE.scope === 'daerah' && !isDaerah(r.nama)) return false;
+    if (!inScope(r)) return false;
     return !q || String(r.nama).toLowerCase().includes(q);
   });
   if (STATE.sortKey){
@@ -394,7 +564,7 @@ function summarize(rows){
   rows.forEach(r => {
     const t = r.total || 0;
     s.total += t;
-    if (isDaerah(r.nama)) { s.daerahN++; s.daerahT += t; } else { s.pusatN++; s.pusatT += t; }
+    if (r._kl === 'provinsi' || r._kl === 'kabkota') { s.daerahN++; s.daerahT += t; } else { s.pusatN++; s.pusatT += t; }
     JENJANG.forEach(j => s.j[j.key] += r[j.key] || 0);
   });
   s.k = JENJANG.filter(j => j.group === 'k').reduce((a, j) => a + s.j[j.key], 0);
@@ -402,7 +572,7 @@ function summarize(rows){
   return s;
 }
 
-const isFiltered = () => STATE.q.trim() !== '' || STATE.scope !== 'semua';
+const isFiltered = () => STATE.q.trim() !== '' || STATE.scope !== 'semua' || STATE.sub !== '' || STATE.wil !== '' || STATE.kab !== '';
 
 function renderHero(s){
   $('kicker').textContent = `Data BKN · ${DATA.updated_at || 'Rekap terbaru'}`;
@@ -432,19 +602,19 @@ function renderInsights(s, rows){
   $('insights').innerHTML = items.map(i => `<div class="insight"><div class="label">${i.label}</div><p>${i.html}</p></div>`).join('');
 }
 
-function renderKpis(s){
-  const items = [
-    { label:'Instansi', value:fmt(s.n), sub:isFiltered() ? 'sesuai filter' : 'instansi pembina JF' },
-    { label:'Arsiparis', value:fmt(s.total), sub:`${pct(s.a, s.total, 0)} rumpun keahlian` },
-    { label:'Instansi Pusat', dot:'var(--pusat)', value:fmt(s.pusatN), sub:`${fmt(s.pusatT)} arsiparis` },
-    { label:'Instansi Daerah', dot:'var(--daerah)', value:fmt(s.daerahN), sub:`${fmt(s.daerahT)} arsiparis` }
-  ];
-  $('kpis').innerHTML = items.map(i => `
-    <div class="kpi">
-      <div class="label">${i.dot ? `<i style="background:${i.dot}"></i>` : ''}${i.label}</div>
-      <div class="value num">${i.value}</div>
-      <div class="sub">${i.sub}</div>
-    </div>`).join('');
+function klusterStats(){
+  return KLUSTERS.map(k => {
+    const rows = DATA.records.filter(r => r._kl === k.id);
+    return { k, n:rows.length, total:rows.reduce((a, r) => a + (r.total || 0), 0) };
+  });
+}
+function renderKpis(){
+  $('kpis').innerHTML = klusterStats().map(x => `
+    <button type="button" class="kpi${STATE.scope === x.k.id ? ' on' : ''}" data-scope="${x.k.id}" aria-pressed="${STATE.scope === x.k.id}">
+      <div class="label"><i style="background:${x.k.color}"></i>${x.k.label}</div>
+      <div class="value num">${fmt(x.total)}</div>
+      <div class="sub"><span class="num">${fmt(x.n)}</span> instansi · rata-rata <span class="num">${fmt(Math.round(x.total / (x.n || 1)))}</span></div>
+    </button>`).join('');
 }
 
 function renderComposition(s){
@@ -467,28 +637,46 @@ function renderComposition(s){
   }).join('');
 }
 
-function splitMetric(title, a, b, unit){
-  const t = a + b || 1;
-  return `<div class="scope-metric">
-    <div class="top"><h3>${title}</h3><span class="num">Total ${fmt(a + b)}</span></div>
-    <div class="split-bar" role="img" aria-label="${title}: Pusat ${fmt(a)}, Daerah ${fmt(b)}">
-      ${a ? `<div style="flex:${a} 0 0;background:var(--pusat)"></div>` : ''}
-      ${b ? `<div style="flex:${b} 0 0;background:var(--daerah)"></div>` : ''}
-    </div>
-    <div class="split-legend">
-      <div><b class="num">${fmt(a)}</b>Pusat · ${pct(a, t, 0)}</div>
-      <div class="r"><b class="num">${fmt(b)}</b>Daerah · ${pct(b, t, 0)}</div>
-    </div>
-  </div>`;
+function groupRows(rows, keyFn, labelFn, colorFn){
+  const m = new Map();
+  rows.forEach(r => { const k = keyFn(r); if (!k) return; const g = m.get(k) || { key:k, n:0, total:0 }; g.n++; g.total += r.total || 0; m.set(k, g); });
+  return [...m.values()].sort((a, b) => b.total - a.total).map(g => ({ ...g, label:labelFn(g.key), color:colorFn(g.key) }));
 }
-
-function renderScope(s){
-  const avgP = s.pusatN ? Math.round(s.pusatT / s.pusatN) : 0;
-  const avgD = s.daerahN ? Math.round(s.daerahT / s.daerahN) : 0;
+function renderScope(){
+  // Panel dihitung tanpa subfilter aktif, supaya pilihan lain tetap terlihat dan bisa diklik.
+  const base = DATA.records.filter(r => matchQ(r) && (STATE.scope === 'semua' || r._kl === STATE.scope));
+  let title, groups, act, active;
+  if (STATE.scope === 'lembaga'){
+    title = 'Lembaga per subkelompok'; act = 'sub'; active = STATE.sub;
+    groups = groupRows(base, r => r._kode, c => SUB_LABEL[c], () => 'var(--k-lem)');
+  } else if (STATE.scope === 'kabkota' || STATE.scope === 'provinsi'){
+    title = STATE.scope === 'provinsi' ? 'Pemerintah provinsi' : 'Kabupaten/Kota per provinsi'; act = 'sub'; active = STATE.sub;
+    groups = groupRows(base, r => r._prov, p => p, () => STATE.scope === 'provinsi' ? 'var(--k-prov)' : 'var(--k-kab)');
+  } else {
+    title = 'Arsiparis per kluster'; act = 'scope'; active = STATE.scope === 'semua' ? '' : STATE.scope;
+    groups = groupRows(DATA.records.filter(matchQ), r => r._kl, id => KL_BY_ID[id].label, id => KL_BY_ID[id].color);
+  }
+  const t = groups.reduce((a, g) => a + g.total, 0) || 1, LIMIT = 10, max = groups[0] ? groups[0].total : 1;
+  let shown = groups.slice(0, LIMIT);
+  const ai = groups.findIndex(g => g.key === active);
+  if (ai >= LIMIT) shown = [...shown.slice(0, LIMIT - 1), groups[ai]];
+  const back = STATE.scope !== 'semua'
+    ? `<button type="button" class="grp-back" data-act="back">${STATE.sub ? '← Semua ' + (STATE.scope === 'lembaga' ? 'lembaga' : 'provinsi') : '← Semua kluster'}</button>` : '';
   $('scope').innerHTML = `
-    ${splitMetric('Jumlah instansi', s.pusatN, s.daerahN)}
-    ${splitMetric('Jumlah arsiparis', s.pusatT, s.daerahT)}
-    <p class="scope-note">Rata-rata per instansi: <b class="num">${fmt(avgP)}</b> arsiparis di pusat, <b class="num">${fmt(avgD)}</b> di daerah.</p>`;
+    <div>
+      <div class="grp-title"><h3>${title}</h3>${back || `<span>${fmt(groups.length)} kelompok</span>`}</div>
+      <p class="grp-hint">Klik baris untuk menyaring seluruh halaman${active ? '; klik lagi untuk membatalkan' : ''}.</p>
+      <div class="grp-list${active ? ' has-active' : ''}" role="list">
+      ${shown.map(g => `
+        <button type="button" role="listitem" class="grp-row${g.key === active ? ' on' : ''}" data-act="${act}" data-key="${esc(g.key)}" aria-pressed="${g.key === active}">
+          <span class="grp-name">${esc(g.label)}<small><span class="num">${fmt(g.n)}</span> instansi · rata-rata <span class="num">${fmt(Math.round(g.total / g.n))}</span></small></span>
+          <span class="v num">${fmt(g.total)}</span>
+          <span class="p num">${pct(g.total, t, 0)}</span>
+          <span class="grp-bar"><i style="width:${(g.total / max) * 100}%;background:${g.color}"></i></span>
+        </button>`).join('') || '<div class="empty">Tidak ada data.</div>'}
+      </div>
+      ${groups.length > shown.length ? `<div class="grp-more">dan ${fmt(groups.length - shown.length)} lainnya; pilih lewat menu di atas atau lihat tabel.</div>` : ''}
+    </div>`;
 }
 
 function renderRanking(rows){
@@ -509,6 +697,7 @@ function renderRanking(rows){
     </div>`).join('');
 }
 
+const klLabel = r => r._kl === 'kabkota' ? `Kab/Kota · ${r._prov || '-'}` : r._kl === 'lembaga' ? `Lembaga · ${r._sub}` : KL_BY_ID[r._kl].label;
 const COLS = [
   { key:'nama', label:'Instansi', cls:'sticky' },
   ...JENJANG.map((j, i) => ({ key:j.key, label:j.short, grp:i === 0 ? 'Keterampilan' : i === 3 ? 'Keahlian' : '', cls:'n' + (i === 0 || i === 3 ? ' sep' : '') })),
@@ -528,7 +717,7 @@ function renderTable(rows){
   const shown = STATE.showAll ? rows : rows.slice(0, PAGE_SIZE);
   $('tbody').innerHTML = shown.length ? shown.map(r => `
     <tr>
-      <td class="name sticky">${esc(r.nama)}<small>${isDaerah(r.nama) ? 'Daerah' : 'Pusat'}</small>
+      <td class="name sticky">${esc(r.nama)}<small>${esc(klLabel(r))}</small>
         <span class="mini" aria-hidden="true">${JENJANG.filter(j => r[j.key] > 0).map(j => `<i style="flex:${r[j.key]} 0 0;background:${j.color}"></i>`).join('')}</span></td>
       ${JENJANG.map((j, i) => `<td class="n${(r[j.key] || 0) === 0 ? ' zero' : ''}${i === 0 || i === 3 ? ' sep' : ''}">${fmt(r[j.key])}</td>`).join('')}
       <td class="n total sep">${fmt(r.total)}</td>
@@ -547,12 +736,187 @@ function render(){
   const s = summarize(rows);
   renderHero(s);
   renderInsights(s, rows);
-  renderKpis(s);
+  renderKpis();
+  renderSub();
   renderComposition(s);
-  renderScope(s);
+  renderScope();
+  renderWilChip();
+  MAP.update && MAP.update();
   renderRanking(rows);
   renderTable(rows);
 }
+
+/* ---------- Peta sebaran ---------- */
+const REC_BY_REF = Object.fromEntries(DATA.records.filter(r => r._ref).map(r => [r._ref, r]));
+const KAB_REF = REF.daftar.filter(d => d.k === 'H');
+const shortKab = n => n.replace(/^Kabupaten /, 'Kab. ');
+function renderWilChip(){
+  const on = !!STATE.wil;
+  $('wil-chip').hidden = !on;
+  if (on) $('wil-chip-text').textContent = STATE.kab ? `${STATE.wil} › ${shortKab(STATE.kab)}` : `Wilayah: ${STATE.wil}`;
+}
+const MAP = (function(){
+  const svgEl = $('map-svg');
+  if (!window.d3 || !window.topojson || !window.PETA_INDONESIA){
+    svgEl.outerHTML = '<div class="map-fallback">Peta tidak dapat dimuat (pustaka peta diblokir jaringan). Data lain di halaman ini tetap dapat digunakan.</div>';
+    $('map-side').innerHTML = ''; return {};
+  }
+  const topo = window.PETA_INDONESIA;
+  const provF = topojson.feature(topo, topo.objects.prov).features;
+  const kabF  = topojson.feature(topo, topo.objects.kab).features;
+  const W = 1000, H = 400;
+  const proj = d3.geoMercator().fitExtent([[8, 8], [W - 8, H - 8]], { type:'FeatureCollection', features:provF });
+  const path = d3.geoPath(proj);
+  const svg = d3.select(svgEl);
+  const defs = svg.append('defs');
+  defs.append('pattern').attr('id', 'hatch').attr('patternUnits', 'userSpaceOnUse').attr('width', 5).attr('height', 5).attr('patternTransform', 'rotate(45)')
+    .call(p => { p.append('rect').attr('width', 5).attr('height', 5).attr('fill', '#eeeeea'); p.append('line').attr('x1', 0).attr('y1', 0).attr('x2', 0).attr('y2', 5).attr('stroke', '#c9c9c3').attr('stroke-width', 2); });
+  const g = svg.append('g');
+  const gKab = g.append('g'), gProv = g.append('g');
+  const tip = $('map-tip');
+  const COLORS = ['#d6ebf7', '#9cd0ec', '#4fa6d6', '#1677b8', '#0a3d6b'];
+  let metric = 'total', k = 1;
+
+  // Nilai per wilayah, mengikuti filter kluster (bukan filter wilayah)
+  const useRec = r => (r._kl === 'provinsi' || r._kl === 'kabkota') && matchQ(r)
+    && (STATE.scope === 'semua' || STATE.scope === 'kementerian' || STATE.scope === 'lembaga' || r._kl === STATE.scope);
+  function provStats(){
+    const m = new Map(provF.map(f => [f.properties.prov, { prov:f.properties.prov, total:0, n:0, pemprov:null, kabAda:0, kabAll:0, j:{} }]));
+    KAB_REF.forEach(d => { const x = m.get(d.p); if (x) x.kabAll++; });
+    DATA.records.forEach(r => {
+      if (!useRec(r)) return; const x = m.get(r._prov); if (!x) return;
+      x.total += r.total || 0; x.n++;
+      JENJANG.forEach(j => x.j[j.key] = (x.j[j.key] || 0) + (r[j.key] || 0));
+      if (r._kl === 'provinsi') x.pemprov = r; else x.kabAda++;
+    });
+    m.forEach(x => x.avg = x.n ? x.total / x.n : 0);
+    return m;
+  }
+  const kabRec = id => { const r = REC_BY_REF[id]; return r && useRec(r) ? r : null; };
+  const val = (x, isKab) => isKab ? (x ? (metric === 'avg' ? x.total : x.total) : null) : (x && x.n ? x[metric] : null);
+  function scaleFor(values){
+    const v = values.filter(x => x != null && x > 0).sort(d3.ascending);
+    if (!v.length) return { color:() => 'url(#hatch)', breaks:[] };
+    const q = d3.scaleQuantile().domain(v).range(COLORS);
+    return { color:x => (x == null || x <= 0) ? 'url(#hatch)' : q(x), breaks:[v[0], ...q.quantiles(), v[v.length - 1]] };
+  }
+  const fmt0 = n => fmt(Math.round(n));
+  function legend(sc, label){
+    $('map-legend').innerHTML = (sc.breaks.length ? `<span>${label}</span><span class="scale">${COLORS.map((c, i) =>
+      `<span><i style="background:${c}"></i><span class="num">${i === 0 ? fmt0(sc.breaks[0]) : fmt0(sc.breaks[i])}</span></span>`).join('')}<span><i style="background:transparent"></i><span class="num">${fmt0(sc.breaks[sc.breaks.length - 1])}</span></span></span>` : '')
+      + `<span class="nodata"><i style="background:url(#hatch);background:repeating-linear-gradient(45deg,#eeeeea 0 3px,#c9c9c3 3px 5px)"></i>Belum ada arsiparis tercatat</span>`;
+  }
+  function showTip(ev, html){
+    const box = svgEl.parentNode.getBoundingClientRect();
+    tip.innerHTML = html; tip.style.opacity = 1;
+    const x = ev.clientX - box.left + 14, y = ev.clientY - box.top + 14;
+    tip.style.left = Math.min(x, box.width - tip.offsetWidth - 8) + 'px'; tip.style.top = y + 'px';
+  }
+  const hideTip = () => tip.style.opacity = 0;
+
+  // Gambar provinsi & kab/kota
+  const provSel = gProv.selectAll('path').data(provF).join('path').attr('class', 'prov').attr('d', path)
+    .on('mousemove', (ev, f) => { const x = STATS.get(f.properties.prov); showTip(ev, `<b>${esc(f.properties.prov)}</b>${x && x.n ? `${fmt(x.total)} arsiparis · ${fmt(x.n)} instansi daerah` : 'Belum ada arsiparis tercatat'}`); })
+    .on('mouseleave', hideTip)
+    .on('click', (ev, f) => { hideTip(); selectProv(f.properties.prov); });
+  const kabSel = gKab.selectAll('path').data(kabF).join('path').attr('class', 'kab').attr('d', path).style('display', 'none')
+    .on('mousemove', (ev, f) => { const r = kabRec(f.properties.id); showTip(ev, `<b>${esc(shortKab(f.properties.id))}</b>${r ? `${fmt(r.total)} arsiparis` : 'Belum ada arsiparis tercatat'}`); })
+    .on('mouseleave', hideTip)
+    .on('click', (ev, f) => { hideTip(); selectKab(f.properties.id); });
+
+  const zoom = d3.zoom().scaleExtent([1, 40]).translateExtent([[0, 0], [W, H]]).on('zoom', ev => {
+    k = ev.transform.k; g.attr('transform', ev.transform);
+    gProv.selectAll('path').attr('stroke-width', 0.8 / k); gKab.selectAll('path').attr('stroke-width', 0.6 / k);
+  });
+  svg.call(zoom).on('dblclick.zoom', null);
+  function zoomTo(features){
+    if (!features){ svg.transition().duration(650).call(zoom.transform, d3.zoomIdentity); return; }
+    const [[x0, y0], [x1, y1]] = path.bounds({ type:'FeatureCollection', features });
+    const s = Math.min(40, 0.88 / Math.max((x1 - x0) / W, (y1 - y0) / H));
+    svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity.translate(W / 2, H / 2).scale(s).translate(-(x0 + x1) / 2, -(y0 + y1) / 2));
+  }
+
+  function selectProv(p){
+    const same = STATE.wil === p && !STATE.kab;
+    STATE.wil = same ? '' : p; STATE.kab = ''; STATE.showAll = false;
+    render(); zoomTo(same ? null : provF.filter(f => f.properties.prov === p));
+  }
+  function selectKab(id){
+    const d = KAB_REF.find(x => x.n === id); if (!d) return;
+    STATE.wil = d.p; STATE.kab = STATE.kab === id ? '' : id; STATE.showAll = false; render();
+  }
+
+  let STATS = new Map();
+  function update(){
+    STATS = provStats();
+    const inProv = !!STATE.wil;
+    let sc;
+    if (!inProv){
+      sc = scaleFor([...STATS.values()].map(x => val(x)));
+      provSel.style('display', null).attr('fill', f => sc.color(val(STATS.get(f.properties.prov)))).classed('sel', false);
+      kabSel.style('display', 'none');
+      legend(sc, metric === 'avg' ? 'Rata-rata per instansi' : 'Arsiparis per provinsi');
+    } else {
+      const ids = kabF.filter(f => f.properties.prov === STATE.wil);
+      sc = scaleFor(ids.map(f => { const r = kabRec(f.properties.id); return r ? r.total : null; }));
+      provSel.style('display', f => f.properties.prov === STATE.wil ? 'none' : null).attr('fill', '#ececE8');
+      kabSel.style('display', f => f.properties.prov === STATE.wil ? null : 'none')
+        .attr('fill', f => { const r = kabRec(f.properties.id); return sc.color(r ? r.total : null); })
+        .classed('sel', f => f.properties.id === STATE.kab);
+      legend(sc, 'Arsiparis per kab/kota');
+    }
+    // remah roti
+    $('map-crumb').innerHTML = !inProv ? '<b>Indonesia</b>'
+      : `<button type="button" data-crumb="id">Indonesia</button><span>›</span>${STATE.kab ? `<button type="button" data-crumb="prov">${esc(STATE.wil)}</button><span>›</span><b>${esc(shortKab(STATE.kab))}</b>` : `<b>${esc(STATE.wil)}</b>`}`;
+    $('map-metric').style.visibility = inProv ? 'hidden' : 'visible';
+    side();
+  }
+  const jbar = j => { const t = JENJANG.reduce((a, x) => a + (j[x.key] || 0), 0) || 1;
+    return `<div class="map-jbar">${JENJANG.filter(x => j[x.key]).map(x => `<div style="flex:${j[x.key]} 0 0;background:${x.color}" title="${x.label}: ${fmt(j[x.key])}"></div>`).join('')}</div>`; };
+  function side(){
+    const el = $('map-side');
+    const centralNote = (STATE.scope === 'kementerian' || STATE.scope === 'lembaga') ? `<p class="map-note" style="margin:0">Kementerian dan lembaga berkedudukan di pusat; peta menampilkan instansi daerah.</p>` : '';
+    if (!STATE.wil){
+      const xs = [...STATS.values()];
+      const tot = xs.reduce((a, x) => a + x.total, 0), pem = xs.filter(x => x.pemprov).length, kab = xs.reduce((a, x) => a + x.kabAda, 0), kabAll = xs.reduce((a, x) => a + x.kabAll, 0);
+      const top = xs.filter(x => x.n).sort((a, b) => b[metric] - a[metric]).slice(0, 8);
+      el.innerHTML = `<div class="kick">Indonesia · instansi daerah</div>
+        <div class="big num">${fmt(tot)}<small>arsiparis di pemerintah provinsi dan kabupaten/kota</small></div>
+        <div class="map-stats"><div><b class="num">${fmt(pem)}<span> / 38</span></b><span>pemprov berarsiparis</span></div><div><b class="num">${fmt(kab)}<span> / ${fmt(kabAll)}</span></b><span>kab/kota berarsiparis</span></div></div>
+        ${centralNote}
+        <div class="sec">${metric === 'avg' ? 'Rata-rata tertinggi' : 'Provinsi teratas'}</div>
+        <ul class="map-list">${top.map(x => `<li><button type="button" data-prov="${esc(x.prov)}">${esc(x.prov)}</button><span class="num">${fmt0(x[metric])}</span></li>`).join('')}</ul>`;
+      return;
+    }
+    if (STATE.kab){
+      const r = kabRec(STATE.kab);
+      el.innerHTML = `<div class="kick">${esc(STATE.wil)}</div><h3>${esc(STATE.kab)}</h3>
+        ${r ? `<div class="big num">${fmt(r.total)}<small>arsiparis</small></div>${jbar(r)}
+        <div class="map-jrows">${JENJANG.map(j => `<i style="background:${j.color}"></i><span>${j.label}</span><span class="num">${fmt(r[j.key])}</span>`).join('')}</div>`
+        : '<p class="map-note" style="margin:0;font-size:13.5px">Belum ada arsiparis tercatat di data BKN.</p>'}`;
+      return;
+    }
+    const x = STATS.get(STATE.wil);
+    const kabs = KAB_REF.filter(d => d.p === STATE.wil).map(d => ({ d, r:kabRec(d.n) })).sort((a, b) => (b.r ? b.r.total : -1) - (a.r ? a.r.total : -1));
+    el.innerHTML = `<div class="kick">Provinsi</div><h3>${esc(STATE.wil)}</h3>
+      <div class="big num">${fmt(x ? x.total : 0)}<small>arsiparis di pemprov dan kab/kota</small></div>
+      ${x && x.total ? jbar(x.j) : ''}
+      <div class="map-stats"><div><b class="num">${x && x.pemprov ? fmt(x.pemprov.total) : '–'}</b><span>pemerintah provinsi</span></div><div><b class="num">${fmt(x ? x.kabAda : 0)}<span> / ${fmt(x ? x.kabAll : 0)}</span></b><span>kab/kota berarsiparis</span></div></div>
+      <div class="sec">Kabupaten/kota</div>
+      <ul class="map-list" style="max-height:260px;overflow:auto">${kabs.map(({ d, r }) => `<li><button type="button" data-kab="${esc(d.n)}">${esc(shortKab(d.n))}</button><span class="num"${r ? '' : ' style="color:var(--ink-3);font-weight:400"'}>${r ? fmt(r.total) : '–'}</span></li>`).join('')}</ul>`;
+  }
+
+  $('map-metric').addEventListener('click', e => { const b = e.target.closest('button[data-m]'); if (!b) return; metric = b.dataset.m;
+    document.querySelectorAll('#map-metric button').forEach(x => x.classList.toggle('active', x === b)); update(); });
+  $('map-side').addEventListener('click', e => {
+    const p = e.target.closest('[data-prov]'), kb = e.target.closest('[data-kab]');
+    if (p) selectProv(p.dataset.prov); else if (kb) selectKab(kb.dataset.kab);
+  });
+  $('map-crumb').addEventListener('click', e => { const b = e.target.closest('[data-crumb]'); if (!b) return;
+    if (b.dataset.crumb === 'id'){ STATE.wil = ''; STATE.kab = ''; render(); zoomTo(null); } else { STATE.kab = ''; render(); } });
+  $('wil-clear').addEventListener('click', () => { STATE.wil = ''; STATE.kab = ''; render(); zoomTo(null); });
+  return { update, reset:() => zoomTo(null) };
+})();
 
 /* ---------- Interaksi ---------- */
 let debounce;
@@ -560,13 +924,27 @@ $('search-input').addEventListener('input', e => {
   clearTimeout(debounce);
   debounce = setTimeout(() => { STATE.q = e.target.value; STATE.showAll = false; render(); }, 120);
 });
-document.querySelectorAll('#scope-switch button').forEach(btn => btn.addEventListener('click', () => {
-  STATE.scope = btn.dataset.scope; STATE.showAll = false;
+function renderSub(){
+  const opts = subOptions(STATE.scope), el = $('sub-select');
+  el.hidden = !opts.length;
+  const sig = STATE.scope;
+  if (el.dataset.sig !== sig){ el.innerHTML = opts.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join(''); el.dataset.sig = sig; }
+  el.value = STATE.sub;
   document.querySelectorAll('#scope-switch button').forEach(b => {
-    b.classList.toggle('active', b === btn); b.setAttribute('aria-pressed', b === btn);
+    const on = b.dataset.scope === STATE.scope; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on);
   });
-  render();
-}));
+}
+function setScope(scope, sub = ''){ STATE.scope = scope; STATE.sub = sub; STATE.showAll = false; render(); }
+document.querySelectorAll('#scope-switch button').forEach(btn => btn.addEventListener('click', () => setScope(btn.dataset.scope)));
+$('kpis').addEventListener('click', e => { const b = e.target.closest('button[data-scope]'); if (b) setScope(STATE.scope === b.dataset.scope ? 'semua' : b.dataset.scope); });
+$('sub-select').addEventListener('change', e => { STATE.sub = e.target.value; STATE.showAll = false; render(); });
+$('scope').addEventListener('click', e => {
+  const row = e.target.closest('.grp-row, .grp-back'); if (!row) return;
+  const { act, key } = row.dataset;
+  if (act === 'back') setScope(STATE.sub ? STATE.scope : 'semua');
+  else if (act === 'scope') setScope(STATE.scope === key ? 'semua' : key);
+  else if (act === 'sub') setScope(STATE.scope, STATE.sub === key ? '' : key);
+});
 $('thead').addEventListener('click', e => {
   const btn = e.target.closest('button[data-key]'); if (!btn) return;
   const k = btn.dataset.key;
@@ -576,7 +954,8 @@ $('thead').addEventListener('click', e => {
 });
 $('more-btn').addEventListener('click', () => { STATE.showAll = !STATE.showAll; render(); });
 $('reset-btn').addEventListener('click', () => {
-  Object.assign(STATE, { q:'', scope:'semua', sortKey:null, sortDir:'desc', showAll:false });
+  Object.assign(STATE, { q:'', scope:'semua', sub:'', wil:'', kab:'', sortKey:null, sortDir:'desc', showAll:false });
+  MAP.reset && MAP.reset();
   $('search-input').value = '';
   document.querySelectorAll('#scope-switch button').forEach(b => {
     const on = b.dataset.scope === 'semua'; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on);
@@ -585,9 +964,9 @@ $('reset-btn').addEventListener('click', () => {
 });
 $('export-btn').addEventListener('click', () => {
   const rows = filtered();
-  const head = ['No', 'Instansi', 'Kelompok', ...JENJANG.map(j => j.label), 'Total'];
+  const head = ['No', 'Instansi (BKN)', 'Kluster', 'Subkelompok', 'Provinsi', 'Nama di Daftar Tujuan Surat', ...JENJANG.map(j => j.label), 'Total', 'Catatan'];
   const q = v => /[";\n]/.test(String(v)) ? `"${String(v).replace(/"/g, '""')}"` : v;
-  const lines = [head, ...rows.map((r, i) => [i + 1, r.nama, isDaerah(r.nama) ? 'Daerah' : 'Pusat', ...JENJANG.map(j => r[j.key] || 0), r.total || 0])]
+  const lines = [head, ...rows.map((r, i) => [i + 1, r.nama, KL_BY_ID[r._kl].label, r._sub, r._prov, r._ref, ...JENJANG.map(j => r[j.key] || 0), r.total || 0, r._luar])]
     .map(l => l.map(q).join(';'));
   const blob = new Blob(['﻿' + lines.join('\r\n')], { type:'text/csv;charset=utf-8' });
   const a = Object.assign(document.createElement('a'), {
