@@ -69,11 +69,8 @@ alter table public.admin_users enable row level security;
 create policy "admin_login_check" on public.admin_users
   for select using (true);
 
--- Insert default admin (password: 12345, hash SHA-256)
--- GANTI PASSWORD SETELAH SETUP!
-insert into public.admin_users (username, pass_hash)
-values ('admin', '5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5')
-on conflict (username) do nothing;
+-- CATATAN: login admin kini memakai Supabase Auth (lihat supabase-auth-migration.sql).
+-- Tabel admin_users di atas hanya untuk riwayat dan tidak dipakai aplikasi lagi.
 
 -- 5. SEED DATA — 725 instansi dari BASE_DATA
 -- ============================================================

@@ -2197,7 +2197,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 <script>
 // -- TAB SWITCHING ---------------------------------------------
 // Naikkan ASSET_VER setiap kali halaman di dalam tab diperbarui, agar browser tidak memakai versi lama dari cache.
-const ASSET_VER = '20261021c';
+const ASSET_VER = '20261021d';
 const TAB_SRCS = { rekomendasiJfa:'Rekomendasi JFA.html?v='+ASSET_VER, bkn:'Data_BKN_rekap.html?v='+ASSET_VER, pengawasanSdm:'pengawasan_sdm_kearsipan.html?v='+ASSET_VER, sertifikasi:'sertifikasi.html?v='+ASSET_VER, standarKompetensi:'standar_kompetensi_teknis.html?v='+ASSET_VER };
 const iframeLoaded = { rekomendasiJfa:false, bkn:false, pengawasanSdm:false, sertifikasi:false, standarKompetensi:false };
 function switchTab(tabId, el) {
@@ -2223,7 +2223,8 @@ function switchTab(tabId, el) {
 }
 
 // -- AUTH -----------------------------------------------------
-let IS_ADMIN = sessionStorage.getItem('arsiparis_admin') === '1';
+// Login admin memakai Supabase Auth. Hak tulis ditentukan di database (RLS: app_metadata.role = 'admin').
+let IS_ADMIN = false;
 const JKEYS = ['terampil','mahir','penyelia','ahli_pertama','ahli_muda','ahli_madya','ahli_utama'];
 const PROVINSI_LIST = ["ACEH","BALI","BANTEN","BENGKULU","DI. YOGYAKARTA","DKI JAKARTA","GORONTALO","JAMBI","JAWA BARAT","JAWA TENGAH","JAWA TIMUR","KALIMANTAN BARAT","KALIMANTAN SELATAN","KALIMANTAN TENGAH","KALIMANTAN TIMUR","KALIMANTAN UTARA","KEPULAUAN RIAU","LAMPUNG","MALUKU","MALUKU UTARA","NUSA TENGGARA BARAT","NUSA TENGGARA TIMUR","PAPUA","PAPUA BARAT","PAPUA BARAT DAYA","PAPUA PEGUNUNGAN","PAPUA SELATAN","PAPUA TENGAH","RIAU","SULAWESI BARAT","SULAWESI SELATAN","SULAWESI TENGAH","SULAWESI TENGGARA","SULAWESI UTARA","SUMATERA BARAT","SUMATERA SELATAN","SUMATERA UTARA"];
 const CAT_COLOR = {'Kementerian':'#0b5d96','Lembaga Pemerintah Non Kementerian':'#2a86c2','Sekretariat Lembaga Negara':'#74c2e8','Lembaga Non Struktural':'#b5e0f3','Alat Negara':'#4a5563','Lembaga Pemerintah Lainnya':'#8a919c','Lembaga Penyiaran Publik':'#b9bec6','Provinsi':'#8a5f2a','Kabupaten/Kota':'#c39553'};
@@ -2257,11 +2258,52 @@ const NATIONAL_PROJECTION_2031 = {
 const SB_URL = window.SUPABASE_URL || '';
 const SB_KEY = window.SUPABASE_ANON_KEY || '';
 
-async function sbFetch(path, opts = {}) {
+// Domain yang ditambahkan bila admin login dengan username (tanpa '@'). Bisa diubah di config.js.
+const ADMIN_LOGIN_DOMAIN = window.ADMIN_LOGIN_DOMAIN || 'arsiparis.local';
+const AUTH_KEY = 'arsiparis_auth';
+
+const Auth = {
+  get(){ try { return JSON.parse(sessionStorage.getItem(AUTH_KEY) || 'null'); } catch(e){ return null; } },
+  set(s){ try { s ? sessionStorage.setItem(AUTH_KEY, JSON.stringify(s)) : sessionStorage.removeItem(AUTH_KEY); } catch(e){} },
+  isAdmin(s){ return !!(s && s.user && s.user.app_metadata && s.user.app_metadata.role === 'admin'); },
+  async request(grant, body){
+    const res = await fetch(`${SB_URL}/auth/v1/token?grant_type=${grant}`, {
+      method:'POST', headers:{ 'apikey':SB_KEY, 'Content-Type':'application/json' }, body:JSON.stringify(body)
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) { const err = new Error(data.error_description || data.msg || data.error || ('Auth ' + res.status)); err.status = res.status; throw err; }
+    const sess = { access_token:data.access_token, refresh_token:data.refresh_token,
+      expires_at:Date.now() + (data.expires_in || 3600) * 1000, user:data.user };
+    Auth.set(sess); return sess;
+  },
+  login(email, password){ return Auth.request('password', { email, password }); },
+  async refresh(){
+    const s = Auth.get(); if (!s || !s.refresh_token) return null;
+    try { return await Auth.request('refresh_token', { refresh_token:s.refresh_token }); }
+    catch(e){ Auth.set(null); return null; }
+  },
+  async token(){
+    let s = Auth.get(); if (!s) return null;
+    if (Date.now() > s.expires_at - 60000) s = await Auth.refresh();
+    return s ? s.access_token : null;
+  },
+  async logout(){
+    const s = Auth.get(); Auth.set(null);
+    if (s) fetch(`${SB_URL}/auth/v1/logout`, { method:'POST', headers:{ 'apikey':SB_KEY, 'Authorization':'Bearer ' + s.access_token } }).catch(() => {});
+  }
+};
+
+async function sbFetch(path, opts = {}, retried = false) {
+  const token = IS_ADMIN ? await Auth.token() : null;
   const res = await fetch(SB_URL + '/rest/v1/' + path, {
-    ...opts, headers: {'apikey':SB_KEY,'Content-Type':'application/json','Prefer':opts.prefer||'',...(opts.headers||{})}
+    ...opts, headers: {'apikey':SB_KEY,'Content-Type':'application/json','Prefer':opts.prefer||'',
+      ...(token ? {'Authorization':'Bearer ' + token} : {}), ...(opts.headers||{})}
   });
-  if (!res.ok) throw new Error(`Supabase error ${res.status}: ${await res.text()}`);
+  if (res.status === 401 && token && !retried) { await Auth.refresh(); return sbFetch(path, opts, true); }
+  if (!res.ok) {
+    if (IS_ADMIN && (res.status === 401 || res.status === 403)) { IS_ADMIN = false; Auth.set(null); updateAdminUI(); }
+    throw new Error(`Supabase error ${res.status}: ${await res.text()}`);
+  }
   if (res.status === 204) return null;
   return res.json();
 }
@@ -2274,6 +2316,9 @@ async function init() {
     const o = document.createElement('option'); o.value = p; o.textContent = p;
     document.getElementById('prov-select').appendChild(o);
   });
+  // Pulihkan sesi admin (bila masih berlaku) sebelum memuat data
+  const sess = Auth.get();
+  if (sess) { const fresh = Date.now() > sess.expires_at - 60000 ? await Auth.refresh() : sess; IS_ADMIN = Auth.isAdmin(fresh); if (!IS_ADMIN) Auth.set(null); }
   updateAdminUI();
   await loadData();
   document.getElementById('loading-overlay').classList.add('hidden');
@@ -2304,33 +2349,27 @@ function openLoginModal() {
 function closeLoginModal() { document.getElementById('login-overlay').classList.remove('open'); }
 function closeLoginOnBg(e) { if (e.target === document.getElementById('login-overlay')) closeLoginModal(); }
 
+function loginError(msg){ const el = document.getElementById('login-error'); el.textContent = msg; el.classList.add('show'); }
 async function doLogin() {
   const username = document.getElementById('login-username').value.trim();
   const password = document.getElementById('login-password').value;
-  if (!username || !password) {
-    document.getElementById('login-error').textContent = 'Username dan password wajib diisi';
-    document.getElementById('login-error').classList.add('show');
-    return;
-  }
-  const hashBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(password));
-  const hashHex = Array.from(new Uint8Array(hashBuffer)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  if (!username || !password) return loginError('Username dan password wajib diisi');
+  const email = username.includes('@') ? username : `${username}@${ADMIN_LOGIN_DOMAIN}`;
+  const btn = document.querySelector('#login-overlay .btn-login, #login-overlay button[onclick*="doLogin"]');
+  if (btn) btn.disabled = true;
   try {
-    const result = await sbFetch(`admin_users?username=eq.${encodeURIComponent(username)}&pass_hash=eq.${hashHex}&select=username`);
-    if (result && result.length > 0) {
-      sessionStorage.setItem('arsiparis_admin', '1');
-      sessionStorage.setItem('arsiparis_admin_user', username);
-      IS_ADMIN = true;
-      closeLoginModal();
-      updateAdminUI();
-      render();
-      showToast(`? Selamat datang, ${username}!`, 'success');
-    } else {
-      document.getElementById('login-error').textContent = 'Username atau password salah';
-      document.getElementById('login-error').classList.add('show');
-    }
+    const sess = await Auth.login(email, password);
+    if (!Auth.isAdmin(sess)) { await Auth.logout(); return loginError('Akun ini belum diberi hak admin'); }
+    IS_ADMIN = true;
+    document.getElementById('login-password').value = '';
+    closeLoginModal();
+    updateAdminUI();
+    render();
+    showToast(`Selamat datang, ${username}!`, 'success');
   } catch(e) {
-    document.getElementById('login-error').textContent = 'Gagal terhubung ke server';
-    document.getElementById('login-error').classList.add('show');
+    loginError(e.status === 400 || e.status === 401 ? 'Username atau password salah' : e.status === 429 ? 'Terlalu banyak percobaan, coba lagi sebentar' : 'Gagal terhubung ke server');
+  } finally {
+    if (btn) btn.disabled = false;
   }
 }
 
@@ -2347,8 +2386,7 @@ async function loadData() {
 }
 
 function doLogout() {
-  sessionStorage.removeItem('arsiparis_admin');
-  sessionStorage.removeItem('arsiparis_admin_user');
+  Auth.logout();
   IS_ADMIN = false;
   updateAdminUI();
   render();
