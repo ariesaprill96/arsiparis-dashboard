@@ -1,6 +1,7 @@
 -- ============================================================
 -- TABEL PENGAJUAN KEBUTUHAN JF ARSIPARIS (kalkulator-jfa.html)
--- Jalankan sekali di Supabase -> SQL Editor.
+-- Jalankan di Supabase -> SQL Editor. Aman dijalankan ulang (menambah kolom baru
+-- bila tabel sudah ada dari versi sebelumnya).
 --
 -- Aturan akses:
 --  * Siapa pun (instansi, tanpa login) boleh MENGIRIM pengajuan baru.
@@ -37,4 +38,12 @@ create policy "jfa_admin_kelola" on public.jfa_pengajuan
   using ((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin')
   with check ((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin');
 
+-- Jenis instansi (instansi pusat / pemerintah provinsi / pemerintah kab/kota) dan wilayah (nama provinsi)
+alter table public.jfa_pengajuan add column if not exists jenis_instansi text not null default 'pusat';
+alter table public.jfa_pengajuan add column if not exists wilayah text;
+alter table public.jfa_pengajuan drop constraint if exists jfa_pengajuan_jenis_check;
+alter table public.jfa_pengajuan add constraint jfa_pengajuan_jenis_check
+  check (jenis_instansi in ('pusat','provinsi','kabkota') and (wilayah is null or char_length(wilayah) <= 80));
+
+create index if not exists jfa_pengajuan_jenis_idx on public.jfa_pengajuan (jenis_instansi, created_at desc);
 create index if not exists jfa_pengajuan_created_idx on public.jfa_pengajuan (created_at desc);

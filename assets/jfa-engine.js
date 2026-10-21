@@ -21,8 +21,12 @@
   const PERBAIKAN = {
     // Usul serah dihitung dari Unit Pengolah tanpa Ahli Pertama (Excel: tanpa Ahli Muda),
     // karena yang menggarap daftar & penyerahan arsip adalah Ahli Pertama.
-    nodes: { 'IA!G51': "v('IA!G27')+(v('IA!D48')*v('IA!D51'))",
-             'IN!G51': "v('IN!G27')+(v('IN!D48')*v('IN!D51'))" },   // nilai turunan yang ditampilkan di isian UP+UK
+    // Kunci = mode formulir; IN!G.. = nilai turunan yang ditampilkan di bawah isian.
+    nodes: {
+      upuk: { 'IA!G51': "v('IA!G27')+(v('IA!D48')*v('IA!D51'))", 'IN!G51': "v('IN!G27')+(v('IN!D48')*v('IN!D51'))" },
+      ukii: { 'IA!G51': "v('IA!G27')+(v('IA!D48')*v('IA!D51'))" },
+      lkd:  { 'IA!G51': "v('IA!G27')+(v('IA!D48')*v('IA!D51'))", 'IN!G49': "v('IN!G27')+(v('IN!D46')*v('IN!D49'))" }
+    },
     // Layanan arsip terjaga: 1.650 menit per laporan (Excel: 10 menit, diduga salah ketik).
     waktu: { 'Memberikan layanan arsip terjaga.': 1650 }
   };
@@ -41,7 +45,7 @@
     if (!spec) throw new Error('Mode tidak dikenal: ' + mode);
     const wke = Number(opsi.wke) > 0 ? Number(opsi.wke) : WKE_DEFAULT;
     const pakaiPerbaikan = opsi.perbaikan !== false;
-    const nodes = Object.assign({}, spec.nodes, pakaiPerbaikan ? PERBAIKAN.nodes : {});
+    const nodes = Object.assign({}, spec.nodes, pakaiPerbaikan ? (PERBAIKAN.nodes[mode] || {}) : {});
     const memo = {};
     function v(ref) {
       if (ref in memo) return memo[ref];

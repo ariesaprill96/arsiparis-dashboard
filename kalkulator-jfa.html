@@ -54,6 +54,12 @@ button,input,select,textarea{font:inherit;color:inherit}
 .setup h2,.block h2{font-size:20px;font-weight:600;letter-spacing:-.01em;margin:0 0 4px}
 .setup .sub,.block .sub{margin:0 0 16px;color:var(--ink-2);font-size:14px}
 .modes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.seg{display:flex;flex-wrap:wrap;gap:4px;padding:3px;border-radius:10px;background:rgba(17,23,34,.06);margin:0 0 14px}
+.seg button{flex:1 1 auto;border:0;background:transparent;padding:8px 12px;border-radius:8px;font-size:13.5px;font-weight:500;color:var(--ink-2);cursor:pointer;white-space:nowrap}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(17,23,34,.12)}
+.lbl-step{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px}
+.chip.lkd{background:#f3ecdf;color:#7a5b26;border-color:transparent}
+.warnbox{margin:0 0 12px;padding:10px 14px;border-radius:10px;background:#fff4d6;color:#6b4a12;font-size:13.5px}
 .mode{all:unset;box-sizing:border-box;cursor:pointer;border:1px solid var(--line-strong);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s,background .15s}
 .mode:hover{background:var(--surface-2)}
 .mode.on{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 1px var(--accent) inset}
@@ -202,12 +208,12 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
 <main class="page">
   <header class="hero">
     <div>
-      <div class="kicker">Instansi Pusat · Kementerian/Lembaga</div>
+      <div class="kicker" id="kicker">Instansi Pusat · Kementerian/Lembaga</div>
       <h1>Penghitungan <em>kebutuhan</em> Jabatan Fungsional Arsiparis.</h1>
-      <p>Isi volume pekerjaan kearsipan satu tahun di unit kerja Anda. Kebutuhan arsiparis per jenjang dihitung langsung dengan metode beban kerja: waktu penyelesaian × volume ÷ waktu kerja efektif.</p>
+      <p>Isi volume pekerjaan kearsipan satu tahun di unit kerja atau perangkat daerah Anda. Kebutuhan arsiparis per jenjang dihitung langsung dengan metode beban kerja: waktu penyelesaian × volume ÷ waktu kerja efektif.</p>
     </div>
     <div class="views no-print" id="views" role="tablist">
-      <button type="button" data-view="isi" class="active">Hitung unit kerja</button>
+      <button type="button" data-view="isi" class="active">Hitung kebutuhan</button>
       <button type="button" data-view="rekap">Rekapitulasi <span class="badge num" id="rekap-count">0</span></button>
       <button type="button" data-view="inbox" id="tab-inbox" hidden>Pengajuan masuk</button>
     </div>
@@ -217,28 +223,24 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
   <section id="view-isi">
     <div class="setup">
       <div class="card">
-        <h2>1. Pilih jenis unit kerja</h2>
-        <p class="sub">Formulir menyesuaikan tugas kearsipan unit Anda.</p>
-        <div class="modes" id="modes">
-          <button type="button" class="mode" data-mode="up">
-            <b>Unit Pengolah (UP)</b>
-            <span>Unit kerja yang menciptakan dan mengelola arsip aktif: biro, pusat, direktorat.</span>
-            <small id="mode-up-n"></small>
-          </button>
-          <button type="button" class="mode" data-mode="upuk">
-            <b>Unit Pengolah + Unit Kearsipan</b>
-            <span>Unit yang juga menjalankan fungsi unit kearsipan: menyimpan arsip inaktif, pemusnahan, penyerahan, pembinaan.</span>
-            <small id="mode-upuk-n"></small>
-          </button>
+        <h2>1. Jenis instansi dan unit</h2>
+        <p class="sub">Formulir menyesuaikan jenis instansi dan tugas kearsipan unit Anda.</p>
+        <div class="lbl-step">Jenis instansi</div>
+        <div class="seg" id="jenis" role="radiogroup" aria-label="Jenis instansi">
+          <button type="button" data-jenis="pusat" role="radio">Instansi Pusat</button>
+          <button type="button" data-jenis="provinsi" role="radio">Pemerintah Provinsi</button>
+          <button type="button" data-jenis="kabkota" role="radio">Pemerintah Kabupaten/Kota</button>
         </div>
+        <div class="lbl-step">Peran unit</div>
+        <div class="modes" id="modes"></div>
       </div>
       <div class="card">
         <h2>2. Identitas</h2>
         <p class="sub">Dipakai pada hasil dan rekapitulasi.</p>
         <div class="fields">
-          <div class="field"><label for="f-instansi">Nama instansi (K/L)</label><input id="f-instansi" placeholder="mis. Kementerian ABC" autocomplete="organization"></div>
+          <div class="field"><label for="f-instansi" id="l-instansi">Nama instansi (K/L)</label><input id="f-instansi" placeholder="mis. Kementerian ABC" autocomplete="organization" list="dl-pemda"><datalist id="dl-pemda"></datalist><div class="hint" id="h-instansi" hidden></div></div>
           <div class="row2">
-            <div class="field"><label for="f-unit">Unit kerja</label><input id="f-unit" placeholder="mis. Biro Umum"></div>
+            <div class="field"><label for="f-unit" id="l-unit">Unit kerja</label><input id="f-unit" placeholder="mis. Biro Umum"></div>
             <div class="field"><label for="f-wke">Waktu kerja efektif</label><input id="f-wke" type="number" min="1" step="1" value="75000" class="num"><div class="hint">menit/tahun · standar 75.000</div></div>
           </div>
         </div>
@@ -305,21 +307,24 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
     <div class="block">
       <div class="block-head">
         <div><h2>Pengajuan masuk</h2><p class="sub" style="margin:0">Pengajuan kebutuhan JF Arsiparis yang dikirim instansi. Hanya terlihat oleh admin.</p></div>
-        <button type="button" class="btn" id="ib-refresh">Muat ulang</button>
+        <div style="display:flex;gap:8px;align-items:center"><div class="field"><select id="ib-filter" aria-label="Filter jenis instansi" style="height:38px"><option value="">Semua jenis instansi</option><option value="pusat">Instansi Pusat</option><option value="provinsi">Pemerintah Provinsi</option><option value="kabkota">Pemerintah Kabupaten/Kota</option></select></div>
+        <button type="button" class="btn" id="ib-refresh">Muat ulang</button></div>
       </div>
       <div class="card table-wrap" id="ib-table"><div class="empty">Memuat…</div></div>
     </div>
   </section>
 
-  <footer>Metode: pengukuran beban kerja per jenjang sesuai Master Penghitungan Kebutuhan JFA (ANRI). Waktu kerja efektif standar 75.000 menit/tahun (330 menit/hari efektif). Kebutuhan dibulatkan ke bilangan bulat terdekat.</footer>
+  <footer>Metode: pengukuran beban kerja per jenjang sesuai Master Penghitungan Kebutuhan JFA (ANRI) untuk instansi pusat dan pemerintah daerah. Waktu kerja efektif standar 75.000 menit/tahun (330 menit/hari efektif). Kebutuhan dibulatkan ke bilangan bulat terdekat.</footer>
 </main>
 
 <div class="drawer" id="drawer" aria-hidden="true"><div class="panel" role="dialog" aria-modal="true" aria-labelledby="dr-title" id="dr-panel"></div></div>
 <div class="toast" id="toast" role="status"></div>
 
 <script src="config.js"></script>
-<script src="./assets/jfa-katalog.js?v=20261021"></script>
-<script src="./assets/jfa-engine.js?v=20261021"></script>
+<script src="./assets/jfa-katalog.js?v=20261021b"></script>
+<script src="./assets/jfa-katalog-daerah.js?v=20261021b"></script>
+<script src="./assets/jfa-engine.js?v=20261021b"></script>
+<script src="./assets/referensi_kluster_instansi.js?v=20261021b"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 'use strict';
@@ -329,7 +334,22 @@ const fmt = (n, d = 0) => (Number(n) || 0).toLocaleString('id-ID', { minimumFrac
 const toast = msg => { const t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('on'), 2400); };
 const uid = () => Math.random().toString(36).slice(2, 10);
 const JVIS = JFA.JENJANG.filter(j => !j.tersembunyi);
-const MODE_LABEL = { up:'Unit Pengolah', upuk:'Unit Pengolah + Unit Kearsipan' };
+const MODE_LABEL = { up:'Unit Pengolah', upuk:'Unit Pengolah + Unit Kearsipan', ukii:'Perangkat Daerah (UP + UK II)', lkd:'Lembaga Kearsipan Daerah (UP + UK I + LKD)' };
+const JENIS = {
+  pusat:   { label:'Instansi Pusat', kicker:'Instansi Pusat · Kementerian/Lembaga', modes:['up', 'upuk'], lInst:'Nama instansi (K/L)', phInst:'mis. Kementerian ABC', lUnit:'Unit kerja', phUnit:'mis. Biro Umum', kolom:'Unit kerja', kode:null },
+  provinsi:{ label:'Pemerintah Provinsi', kicker:'Pemerintah Daerah · Provinsi', modes:['ukii', 'lkd'], lInst:'Pemerintah daerah', phInst:'Ketik lalu pilih, mis. Provinsi Jawa Tengah', lUnit:'Perangkat daerah', phUnit:'mis. Dinas Kesehatan', kolom:'Perangkat daerah', kode:'G' },
+  kabkota: { label:'Pemerintah Kabupaten/Kota', kicker:'Pemerintah Daerah · Kabupaten/Kota', modes:['ukii', 'lkd'], lInst:'Pemerintah daerah', phInst:'Ketik lalu pilih, mis. Kabupaten Belitung Timur', lUnit:'Perangkat daerah', phUnit:'mis. Dinas Kependudukan dan Pencatatan Sipil', kolom:'Perangkat daerah', kode:'H' }
+};
+const MODE_INFO = {
+  up:   { b:'Unit Pengolah (UP)', s:'Unit kerja yang menciptakan dan mengelola arsip aktif: biro, pusat, direktorat.' },
+  upuk: { b:'Unit Pengolah + Unit Kearsipan', s:'Unit yang juga menjalankan fungsi unit kearsipan: menyimpan arsip inaktif, pemusnahan, penyerahan, pembinaan.' },
+  ukii: { b:'Perangkat Daerah', s:'Dinas, badan, sekretariat, atau kantor yang mengelola arsip aktif (Unit Pengolah) sekaligus arsip inaktif (Unit Kearsipan II).' },
+  lkd:  { b:'Lembaga Kearsipan Daerah', s:'Dinas Kearsipan / Dinas Perpustakaan dan Kearsipan: Unit Pengolah, Unit Kearsipan I pemda, serta pengelolaan arsip statis.' }
+};
+const LKD_DEFAULT = 'Dinas Perpustakaan dan Kearsipan';
+const jenisOf = mode => (mode === 'ukii' || mode === 'lkd') ? 'daerah' : 'pusat';
+const PEMDA = (() => { const d = (window.KLUSTER_REF && window.KLUSTER_REF.daftar) || []; return { G:d.filter(x => x.k === 'G'), H:d.filter(x => x.k === 'H') }; })();
+function wilayahOf(nama){ const x = [...PEMDA.G, ...PEMDA.H].find(p => p.n.toLowerCase() === String(nama || '').trim().toLowerCase()); return x ? (x.k === 'G' ? x.n.replace(/^Provinsi\s+/i, '') : x.p) : null; }
 const SB_URL = window.SUPABASE_URL || '', SB_KEY = window.SUPABASE_ANON_KEY || '';
 
 /* ---------- Penyimpanan lokal ---------- */
@@ -337,9 +357,22 @@ const STORE = 'jfa_kalkulator_v1';
 function load(){ try { return JSON.parse(localStorage.getItem(STORE)) || null; } catch(e){ return null; } }
 function persist(){ try { localStorage.setItem(STORE, JSON.stringify(DB)); } catch(e){} }
 const DB = load() || { instansi:'', units:[], ketersediaan:{}, draft:null };
+if (!JENIS[DB.jenis]) DB.jenis = 'pusat';
 
 /* ---------- Penataan isian (mengikuti sheet isian Excel) ---------- */
 const GROUP_TITLES = [
+  ['pameran arsip', 'Pameran arsip', ''],
+  ['membuat daftar arsip statis', 'Daftar arsip statis', ''],
+  ['guide', 'Guide arsip', ''],
+  ['inventaris', 'Inventaris arsip', ''],
+  ['naskah sumber', 'Naskah sumber arsip', ''],
+  ['restorasi arsip', 'Preservasi dan reproduksi arsip statis', 'Jumlah arsip (nomor) yang direstorasi, dibersihkan, atau direproduksi dalam satu tahun.'],
+  ['penilaian terhadap arsip yang diperbaiki', 'Penilaian hasil perbaikan arsip', ''],
+  ['penilaian arsip statis yang akan', 'Penilaian arsip statis untuk reproduksi dan autentikasi', ''],
+  ['ditata di ruang', 'Layanan arsip statis', ''],
+  ['sejarah lisan', 'Sejarah lisan', ''],
+  ['mengidentifikasi khazanah', 'Penataan khazanah arsip statis', ''],
+  ['verifikasi arsip statis yang akan diserahkan', 'Verifikasi arsip statis yang akan diserahkan', ''],
   ['penerimaan arsip', 'Arsip yang diterima dan dibuat', 'Lihat agenda surat masuk dan surat keluar (penomoran surat, nota dinas, surat perintah, dll.) selama satu tahun.'],
   ['rasio pemberkasan', 'Pemberkasan arsip aktif', ''],
   ['layanan arsip aktif', 'Layanan arsip aktif', ''],
@@ -352,7 +385,7 @@ const GROUP_TITLES = [
   ['alih media', 'Autentikasi dan alih media', ''],
   ['arsip terjaga', 'Arsip terjaga', ''],
   ['arsip vital', 'Arsip vital', ''],
-  ['tidak ada ahli pertama', 'Beban limpahan dari Unit Pengolah lain', 'Pekerjaan penyusutan dari Unit Pengolah yang belum memiliki Ahli Pertama/Ahli Muda dikerjakan oleh unit ini.'],
+  ['tidak ada ahli pertama', 'Beban limpahan dari Unit Kearsipan II', 'Pekerjaan penyusutan dari Unit Kearsipan II yang belum memiliki Ahli Pertama/Ahli Muda dikerjakan oleh unit ini.'],
   ['naskah persetujuan', 'Naskah persetujuan dan pertimbangan pemusnahan', ''],
   ['sop', 'Penyusunan SOP kearsipan', ''],
   ['bimbingan teknis', 'Bimtek, penyuluhan, fasilitasi, dan monev', ''],
@@ -366,6 +399,8 @@ const SECTION_INFO = {
   'Pengelolaan Arsip Dinamis': { judul:'Pengelolaan arsip dinamis', ket:'Arsip aktif, inaktif, vital, dan terjaga yang dikelola dalam satu tahun.' },
   'Pembinaan Kearsipan': { judul:'Pembinaan kearsipan', ket:'Kegiatan pembinaan dan pengawasan kearsipan dalam satu tahun.' },
   'Khusus UK': { judul:'Pembinaan kearsipan', ket:'' },
+  'Khusus LKD DAN UK1': { judul:'Pengawasan dan NSPK', ket:'Khusus Lembaga Kearsipan Daerah sebagai Unit Kearsipan I pemda: audit kearsipan, monev hasil pengawasan, dan penyusunan NSPK daerah.' },
+  'Pengolahan Arsip Statis di LKD': { judul:'Pengolahan arsip statis', ket:'Pengolahan, preservasi, pemanfaatan, dan akuisisi arsip statis di Lembaga Kearsipan Daerah dalam satu tahun.' },
   'Pengolahan Arsip dan Penyajian Arsip menjadi Informasi (SIKN dan JIKN)': { judul:'Data arsip untuk SIKN dan JIKN', ket:'Identifikasi, pengolahan, dan entri data arsip untuk Sistem/Jaringan Informasi Kearsipan Nasional.' }
 };
 const PERSEN = [0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1];
@@ -399,23 +434,52 @@ let CUR = DB.draft || null;     // { id, mode, instansi, unit, wke, isian:{}, tu
 let LAYOUT = [], STEP = 0;
 
 function newUnit(mode){
-  return { id:uid(), mode, instansi:$('f-instansi').value.trim() || DB.instansi || '', unit:$('f-unit').value.trim(), wke:Number($('f-wke').value) || 75000, isian:{}, tugasLain:[] };
+  let unit = $('f-unit').value.trim();
+  if (mode === 'lkd' && !unit) unit = LKD_DEFAULT;
+  return { id:uid(), mode, instansi:$('f-instansi').value.trim() || DB.instansi || '', unit, wke:Number($('f-wke').value) || 75000, isian:{}, tugasLain:[] };
 }
 function setMode(mode){
   if (!CUR) CUR = newUnit(mode);
   else if (CUR.mode !== mode){
     const filled = Object.values(CUR.isian).some(v => Number(v));
-    if (filled && !confirm('Ganti jenis unit kerja? Isian yang tidak ada di formulir baru akan diabaikan.')) return;
+    if (filled && !confirm('Ganti peran unit? Isian yang tidak ada di formulir baru akan diabaikan.')) return;
+    if (mode === 'lkd' && !CUR.unit){ CUR.unit = LKD_DEFAULT; $('f-unit').value = LKD_DEFAULT; }
     CUR.mode = mode;
   }
   LAYOUT = buildLayout(mode); STEP = 0;
   renderAll();
 }
 
+function renderJenis(){
+  const J = JENIS[DB.jenis];
+  document.querySelectorAll('#jenis button').forEach(b => { const on = b.dataset.jenis === DB.jenis; b.classList.toggle('on', on); b.setAttribute('aria-checked', on); });
+  $('kicker').textContent = J.kicker;
+  $('l-instansi').textContent = J.lInst; $('f-instansi').placeholder = J.phInst;
+  $('l-unit').textContent = J.lUnit; $('f-unit').placeholder = J.phUnit;
+  $('btn-new').textContent = `Mulai ${J.lUnit.toLowerCase()} baru`;
+  $('dl-pemda').innerHTML = J.kode ? PEMDA[J.kode].map(p => `<option value="${esc(p.n)}">${p.p ? esc('Provinsi ' + p.p) : ''}</option>`).join('') : '';
+  cekPemda();
+}
+function cekPemda(){
+  const J = JENIS[DB.jenis], v = $('f-instansi').value.trim(), h = $('h-instansi');
+  const ok = !J.kode || !v || PEMDA[J.kode].some(p => p.n.toLowerCase() === v.toLowerCase());
+  h.hidden = ok; h.textContent = ok ? '' : `Belum cocok dengan daftar ${J.label.toLowerCase()}. Pilih dari saran agar nama seragam.`;
+}
 function renderModes(){
-  document.querySelectorAll('#modes .mode').forEach(b => b.classList.toggle('on', CUR && CUR.mode === b.dataset.mode));
-  $('mode-up-n').textContent = `${JFA.SPEC.up.inputs.length} isian`;
-  $('mode-upuk-n').textContent = `${JFA.SPEC.upuk.inputs.length} isian`;
+  const J = JENIS[DB.jenis];
+  $('modes').innerHTML = J.modes.map(m => `<button type="button" class="mode${CUR && CUR.mode === m ? ' on' : ''}" data-mode="${m}">
+      <b>${MODE_INFO[m].b}</b><span>${MODE_INFO[m].s}</span><small>${JFA.SPEC[m].inputs.length} isian · ${JFA.SPEC[m].acts.length} kegiatan</small></button>`).join('');
+}
+function setJenis(j){
+  if (j === DB.jenis || !JENIS[j]) return;
+  const beda = jenisOf(JENIS[j].modes[0]) !== jenisOf(JENIS[DB.jenis].modes[0]);
+  const lain = DB.units.length && (beda || DB.instansi);
+  if (lain && !confirm(`Rekapitulasi berisi ${DB.units.length} unit milik ${DB.instansi || 'instansi lain'}. Satu rekapitulasi hanya untuk satu instansi, jadi rekapitulasi akan dikosongkan. Lanjutkan? (Simpan file cadangan dulu bila perlu)`)) return renderJenis();
+  if (lain){ DB.units = []; DB.ketersediaan = {}; }
+  DB.jenis = j; DB.instansi = ''; $('f-instansi').value = '';
+  if (CUR && !JENIS[j].modes.includes(CUR.mode)){ CUR = null; LAYOUT = []; DB.draft = null; $('f-unit').value = ''; }
+  else if (CUR) CUR.instansi = '';
+  persist(); renderJenis(); renderAll(); renderRekap();
 }
 
 function renderSteps(){
@@ -484,7 +548,7 @@ function compute(){
     const v = RES.turunan[f.cell] || 0;
     el.hidden = !v; el.textContent = `= ${fmt(v, v % 1 ? 1 : 0)} ${String(f.turunan || '').replace(/\s+/g, ' ').trim()}`;
   });
-  $('r-who').textContent = [CUR.unit || 'Unit kerja', CUR.instansi].filter(Boolean).join(' · ') + ` · ${MODE_LABEL[CUR.mode]}`;
+  $('r-who').textContent = [CUR.unit || JENIS[DB.jenis].lUnit, CUR.instansi].filter(Boolean).join(' · ') + ` · ${MODE_LABEL[CUR.mode]}`;
   $('r-list').innerHTML = JVIS.map(j => { const h = RES.jenjang[j.key];
     return `<div class="rj${h.bulat ? '' : ' zero'}" data-j="${j.key}" role="button" tabindex="0" title="Lihat rincian ${j.label}">
       <span class="rl">${j.label}</span><span class="rd num">${fmt(h.kebutuhan, 2)}</span><span class="rb num">${fmt(h.bulat)}</span></div>`; }).join('');
@@ -494,7 +558,7 @@ function compute(){
 }
 
 function renderAll(){
-  renderModes();
+  renderJenis(); renderModes();
   $('work').hidden = !CUR || !LAYOUT.length;
   if (!CUR || !LAYOUT.length) return;
   $('f-instansi').value = CUR.instansi || DB.instansi || ''; $('f-unit').value = CUR.unit || ''; $('f-wke').value = CUR.wke || 75000;
@@ -532,19 +596,22 @@ function rekapData(){
 }
 function renderRekap(){
   $('rekap-count').textContent = DB.units.length;
+  const J = JENIS[DB.jenis];
   $('rk-title').textContent = 'Rekapitulasi kebutuhan JF Arsiparis' + (DB.instansi ? ' · ' + DB.instansi : '');
   const data = rekapData();
-  if (!data.length){ $('rk-table').innerHTML = '<div class="empty">Belum ada unit kerja. Hitung satu unit kerja, lalu klik <b>Simpan ke rekapitulasi</b>.</div>'; $('rk-send').hidden = true; return; }
+  if (!data.length){ $('rk-table').innerHTML = `<div class="empty">Belum ada ${J.kolom.toLowerCase()}. Hitung satu ${J.kolom.toLowerCase()}, lalu klik <b>Simpan ke rekapitulasi</b>.</div>`; $('rk-send').hidden = true; return; }
+  const nLkd = DB.units.filter(u => u.mode === 'lkd').length;
+  const warn = nLkd > 1 ? `<div class="warnbox">Ada ${nLkd} Lembaga Kearsipan Daerah di rekapitulasi ini. Satu pemerintah daerah hanya memiliki satu LKD (Unit Kearsipan I); perangkat daerah lain dihitung sebagai Perangkat Daerah (UP + UK II).</div>` : '';
   $('rk-send').hidden = false;
   const tot = { keb:{}, ada:{} };
   JVIS.forEach(j => { tot.keb[j.key] = data.reduce((a, d) => a + d.keb[j.key], 0); tot.ada[j.key] = data.reduce((a, d) => a + d.ada[j.key], 0); });
   const sel = (a, b) => { const s = b - a; return `<span class="${s < 0 ? 'minus' : s > 0 ? 'plus' : ''}">${s > 0 ? '+' : ''}${fmt(s)}</span>`; };
-  $('rk-table').innerHTML = `<table class="rekap">
-    <thead><tr><th class="l" rowspan="2">No</th><th class="l" rowspan="2">Unit kerja</th><th colspan="${JVIS.length + 1}">Kebutuhan</th><th colspan="${JVIS.length + 1}" class="sep">Ketersediaan</th><th rowspan="2" class="sep">Selisih</th><th rowspan="2" class="no-print"></th></tr>
+  $('rk-table').innerHTML = `${warn}<table class="rekap">
+    <thead><tr><th class="l" rowspan="2">No</th><th class="l" rowspan="2">${J.kolom}</th><th colspan="${JVIS.length + 1}">Kebutuhan</th><th colspan="${JVIS.length + 1}" class="sep">Ketersediaan</th><th rowspan="2" class="sep">Selisih</th><th rowspan="2" class="no-print"></th></tr>
       <tr>${JVIS.map(j => `<th>${j.label}</th>`).join('')}<th>Total</th>${JVIS.map((j, i) => `<th${i ? '' : ' class="sep"'}>${j.label}</th>`).join('')}<th>Total</th></tr></thead>
     <tbody>${data.map((d, i) => `<tr>
       <td class="l num">${i + 1}</td>
-      <td class="l unit"><b>${esc(d.u.unit || 'Unit kerja')}</b><small>${MODE_LABEL[d.u.mode]}</small></td>
+      <td class="l unit"><b>${esc(d.u.unit || J.kolom)}</b>${d.u.mode === 'lkd' ? '<span class="chip lkd">LKD · Unit Kearsipan I</span>' : `<small>${MODE_LABEL[d.u.mode]}</small>`}</td>
       ${JVIS.map(j => `<td class="num">${fmt(d.keb[j.key])}</td>`).join('')}<td class="num"><b>${fmt(d.tKeb)}</b></td>
       ${JVIS.map((j, k) => `<td class="${k ? '' : 'sep'}"><input type="number" min="0" class="num" data-ada="${d.u.id}" data-j="${j.key}" value="${d.ada[j.key] || ''}" placeholder="0" aria-label="Ketersediaan ${j.label} ${esc(d.u.unit)}"></td>`).join('')}<td class="num"><b>${fmt(d.tAda)}</b></td>
       <td class="sep num">${sel(d.tKeb, d.tAda)}</td>
@@ -560,7 +627,8 @@ function renderRekap(){
 function xlsxOK(){ if (window.XLSX) return true; toast('Pustaka Excel tidak dapat dimuat (jaringan memblokir CDN).'); return false; }
 function sheetUnit(u){
   const r = unitResult(u), spec = JFA.SPEC[u.mode];
-  const aoa = [['PENGHITUNGAN KEBUTUHAN JABATAN FUNGSIONAL ARSIPARIS'], [], ['Instansi', u.instansi || ''], ['Unit kerja', u.unit || ''], ['Jenis unit', MODE_LABEL[u.mode]], ['Waktu kerja efektif (menit/tahun)', r.wke], [],
+  const J = JENIS[DB.jenis], daerah = jenisOf(u.mode) === 'daerah';
+  const aoa = [['PENGHITUNGAN KEBUTUHAN JABATAN FUNGSIONAL ARSIPARIS'], [], [daerah ? 'Pemerintah daerah' : 'Instansi', u.instansi || ''], [daerah ? 'Perangkat daerah' : 'Unit kerja', u.unit || ''], ['Peran unit', MODE_LABEL[u.mode]], ['Waktu kerja efektif (menit/tahun)', r.wke], [],
     ['ISIAN', '', 'Nilai', 'Satuan']];
   spec.inputs.forEach(f => aoa.push([cleanLabel(f.label), '', f.tipe === 'persen' ? (Number(u.isian[f.cell]) || 0) : (Number(u.isian[f.cell]) || 0), f.tipe === 'persen' ? 'persen (0–1)' : cleanSatuan(f)]));
   (u.tugasLain || []).forEach(t => aoa.push(['Tugas lain: ' + (t.uraian || ''), '', Number(t.volume) || 0, `${t.satuan || ''} · ${t.waktu} menit · ${(JFA.JENJANG.find(j => j.key === t.jenjang) || {}).label || ''}`]));
@@ -573,13 +641,14 @@ function sheetUnit(u){
 }
 function sheetRekap(){
   const data = rekapData();
-  const head1 = ['No', 'Nama unit kerja', 'Kebutuhan JF Arsiparis', ...Array(JVIS.length).fill(''), 'Ketersediaan JF Arsiparis', ...Array(JVIS.length).fill(''), 'Selisih'];
+  const J = JENIS[DB.jenis];
+  const head1 = ['No', 'Nama ' + J.kolom.toLowerCase(), 'Kebutuhan JF Arsiparis', ...Array(JVIS.length).fill(''), 'Ketersediaan JF Arsiparis', ...Array(JVIS.length).fill(''), 'Selisih'];
   const head2 = ['', '', ...JVIS.map(j => j.label.toUpperCase()), 'TOTAL', ...JVIS.map(j => j.label.toUpperCase()), 'TOTAL', ''];
-  const aoa = [[`REKAPITULASI KEBUTUHAN JABATAN FUNGSIONAL ARSIPARIS DI LINGKUNGAN ${String(DB.instansi || 'KEMENTERIAN/LEMBAGA').toUpperCase()}`], [], head1, head2];
-  data.forEach((d, i) => aoa.push([i + 1, d.u.unit || '', ...JVIS.map(j => d.keb[j.key]), d.tKeb, ...JVIS.map(j => d.ada[j.key]), d.tAda, d.tAda - d.tKeb]));
+  const aoa = [[`REKAPITULASI KEBUTUHAN JABATAN FUNGSIONAL ARSIPARIS DI LINGKUNGAN ${String((J.kode && DB.instansi && !/^pemerintah/i.test(DB.instansi) ? 'Pemerintah ' : '') + (DB.instansi || (J.kode ? 'PEMERINTAH DAERAH' : 'KEMENTERIAN/LEMBAGA'))).toUpperCase()}`], [], head1, head2];
+  data.forEach((d, i) => aoa.push([i + 1, (d.u.unit || '') + (d.u.mode === 'lkd' ? ' (LKD)' : ''), ...JVIS.map(j => d.keb[j.key]), d.tKeb, ...JVIS.map(j => d.ada[j.key]), d.tAda, d.tAda - d.tKeb]));
   const sum = k => data.reduce((a, d) => a + d[k], 0);
   aoa.push(['', 'TOTAL', ...JVIS.map(j => data.reduce((a, d) => a + d.keb[j.key], 0)), sum('tKeb'), ...JVIS.map(j => data.reduce((a, d) => a + d.ada[j.key], 0)), sum('tAda'), sum('tAda') - sum('tKeb')]);
-  aoa.push([], [], ['', '', '', '', '', '', '', '', '', 'PIMPINAN INSTANSI,'], [], [], [], ['', '', '', '', '', '', '', '', '', '(..................................)']);
+  aoa.push([], [], ['', '', '', '', '', '', '', '', '', J.kode ? 'SEKRETARIS DAERAH,' : 'PIMPINAN INSTANSI,'], [], [], [], ['', '', '', '', '', '', '', '', '', '(..................................)']);
   const ws = XLSX.utils.aoa_to_sheet(aoa);
   const n = JVIS.length;
   ws['!merges'] = [{ s:{ r:0, c:0 }, e:{ r:0, c:2 * n + 4 } }, { s:{ r:2, c:2 }, e:{ r:2, c:n + 2 } }, { s:{ r:2, c:n + 3 }, e:{ r:2, c:2 * n + 3 } }, { s:{ r:2, c:0 }, e:{ r:3, c:0 } }, { s:{ r:2, c:1 }, e:{ r:3, c:1 } }, { s:{ r:2, c:2 * n + 4 }, e:{ r:3, c:2 * n + 4 } }];
@@ -605,15 +674,17 @@ function kodeAcak(){ const c = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', a = new Uint8
 async function kirim(){
   const box = $('s-hasil'); box.innerHTML = '';
   if (!SB_URL || !SB_KEY) return box.innerHTML = '<div class="errbox">Koneksi database belum dikonfigurasi.</div>';
-  if (!DB.instansi || DB.instansi.length < 3) return box.innerHTML = '<div class="errbox">Isi nama instansi terlebih dahulu (di bagian Identitas).</div>';
+  const J = JENIS[DB.jenis];
+  if (!DB.instansi || DB.instansi.length < 3) return box.innerHTML = `<div class="errbox">Isi ${J.lInst.toLowerCase()} terlebih dahulu (di bagian Identitas).</div>`;
   if (!$('s-nama').value.trim()) return box.innerHTML = '<div class="errbox">Isi nama pengirim.</div>';
   const data = rekapData();
   const kode = kodeAcak();
   const rekap = { jenjang:JVIS.map(j => j.key), unit:data.map(d => ({ unit:d.u.unit, mode:d.u.mode, kebutuhan:d.keb, ketersediaan:d.ada })),
     total:{ kebutuhan:data.reduce((a, d) => a + d.tKeb, 0), ketersediaan:data.reduce((a, d) => a + d.tAda, 0) } };
-  const detail = { versi:1, units:DB.units.map(u => ({ unit:u.unit, mode:u.mode, wke:u.wke, isian:u.isian, tugasLain:u.tugasLain })) };
+  const detail = { versi:2, jenis:DB.jenis, units:DB.units.map(u => ({ unit:u.unit, mode:u.mode, wke:u.wke, isian:u.isian, tugasLain:u.tugasLain })) };
   const body = { kode, instansi:DB.instansi, pengirim_nama:$('s-nama').value.trim().slice(0, 120), pengirim_jabatan:$('s-jabatan').value.trim().slice(0, 120),
-    pengirim_kontak:$('s-kontak').value.trim().slice(0, 120), jumlah_unit:DB.units.length, rekap, detail };
+    pengirim_kontak:$('s-kontak').value.trim().slice(0, 120), jumlah_unit:DB.units.length, rekap, detail,
+    jenis_instansi:DB.jenis, wilayah:J.kode ? wilayahOf(DB.instansi) : null };
   const btn = $('s-kirim'); btn.disabled = true; btn.textContent = 'Mengirim…';
   try {
     const res = await fetch(SB_URL + '/rest/v1/jfa_pengajuan', { method:'POST', headers:{ apikey:SB_KEY, 'Content-Type':'application/json', Prefer:'return=minimal' }, body:JSON.stringify(body) });
@@ -636,17 +707,25 @@ async function loadInbox(){
   const t = adminToken(); if (!t) return;
   $('ib-table').innerHTML = '<div class="empty">Memuat…</div>';
   try {
-    const res = await fetch(SB_URL + '/rest/v1/jfa_pengajuan?select=id,kode,created_at,instansi,pengirim_nama,pengirim_jabatan,pengirim_kontak,jumlah_unit,rekap,detail,status&order=created_at.desc&limit=500',
+    const res = await fetch(SB_URL + '/rest/v1/jfa_pengajuan?select=id,kode,created_at,instansi,jenis_instansi,wilayah,pengirim_nama,pengirim_jabatan,pengirim_kontak,jumlah_unit,rekap,detail,status&order=created_at.desc&limit=500',
       { headers:{ apikey:SB_KEY, Authorization:'Bearer ' + t } });
     if (!res.ok) throw new Error(res.status);
     INBOX = await res.json();
-    $('ib-table').innerHTML = INBOX.length ? `<table class="rekap inbox"><thead><tr><th class="l">Tanggal</th><th class="l">Kode</th><th class="l">Instansi</th><th class="l">Pengirim</th><th>Unit</th><th>Kebutuhan</th><th>Ketersediaan</th><th class="l">Status</th><th></th></tr></thead><tbody>
-      ${INBOX.map((p, i) => `<tr><td class="l num">${new Date(p.created_at).toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' })}</td><td class="l num">${esc(p.kode)}</td>
-        <td class="l">${esc(p.instansi)}</td><td class="l">${esc(p.pengirim_nama || '')}<br><small class="muted">${esc([p.pengirim_jabatan, p.pengirim_kontak].filter(Boolean).join(' · '))}</small></td>
+    renderInbox();
+  } catch(e){ $('ib-table').innerHTML = `<div class="empty">Gagal memuat pengajuan (${esc(e.message)}). Login ulang di dashboard bila sesi kedaluwarsa, atau jalankan ulang supabase-jfa-pengajuan.sql bila kolom baru belum ada.</div>`; }
+}
+function renderInbox(){
+  const f = $('ib-filter').value;
+  const rows = INBOX.map((p, i) => [p, i]).filter(([p]) => !f || (p.jenis_instansi || 'pusat') === f);
+  {
+    $('ib-table').innerHTML = rows.length ? `<table class="rekap inbox"><thead><tr><th class="l">Tanggal</th><th class="l">Kode</th><th class="l">Jenis</th><th class="l">Instansi</th><th class="l">Pengirim</th><th>Unit</th><th>Kebutuhan</th><th>Ketersediaan</th><th class="l">Status</th><th></th></tr></thead><tbody>
+      ${rows.map(([p, i]) => `<tr><td class="l num">${new Date(p.created_at).toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' })}</td><td class="l num">${esc(p.kode)}</td>
+        <td class="l">${esc((JENIS[p.jenis_instansi] || JENIS.pusat).label)}</td>
+        <td class="l">${esc(p.instansi)}${p.wilayah && p.jenis_instansi === 'kabkota' ? `<br><small class="muted">Provinsi ${esc(p.wilayah)}</small>` : ''}</td><td class="l">${esc(p.pengirim_nama || '')}<br><small class="muted">${esc([p.pengirim_jabatan, p.pengirim_kontak].filter(Boolean).join(' · '))}</small></td>
         <td class="num">${fmt(p.jumlah_unit)}</td><td class="num">${fmt(p.rekap && p.rekap.total ? p.rekap.total.kebutuhan : 0)}</td><td class="num">${fmt(p.rekap && p.rekap.total ? p.rekap.total.ketersediaan : 0)}</td>
         <td class="l"><select data-status="${p.id}">${['baru', 'diproses', 'selesai'].map(s => `<option${s === p.status ? ' selected' : ''}>${s}</option>`).join('')}</select></td>
-        <td style="white-space:nowrap"><button type="button" class="btn-link" data-buka="${i}">Buka di rekap</button></td></tr>`).join('')}</tbody></table>` : '<div class="empty">Belum ada pengajuan.</div>';
-  } catch(e){ $('ib-table').innerHTML = `<div class="empty">Gagal memuat pengajuan (${esc(e.message)}). Login ulang di dashboard bila sesi kedaluwarsa.</div>`; }
+        <td style="white-space:nowrap"><button type="button" class="btn-link" data-buka="${i}">Buka di rekap</button></td></tr>`).join('')}</tbody></table>` : `<div class="empty">${INBOX.length ? 'Tidak ada pengajuan untuk filter ini.' : 'Belum ada pengajuan.'}</div>`;
+  }
 }
 async function setStatus(id, status){
   const t = adminToken(); if (!t) return;
@@ -656,9 +735,11 @@ async function setStatus(id, status){
 function bukaPengajuan(p){
   if (DB.units.length && !confirm('Ganti isi rekapitulasi di browser ini dengan pengajuan ' + p.kode + '? (Simpan file cadangan dulu bila perlu)')) return;
   DB.instansi = p.instansi; DB.units = []; DB.ketersediaan = {};
+  DB.jenis = JENIS[p.jenis_instansi] ? p.jenis_instansi : (p.detail && JENIS[p.detail.jenis] ? p.detail.jenis : 'pusat');
   (p.detail && p.detail.units || []).forEach((u, i) => { const id = uid(); DB.units.push({ id, mode:u.mode, instansi:p.instansi, unit:u.unit, wke:u.wke, isian:u.isian || {}, tugasLain:u.tugasLain || [] });
     const r = p.rekap && p.rekap.unit && p.rekap.unit[i]; if (r) DB.ketersediaan[id] = r.ketersediaan || {}; });
-  persist(); setView('rekap'); toast('Pengajuan ' + p.kode + ' dibuka');
+  CUR = null; LAYOUT = []; DB.draft = null; $('f-instansi').value = DB.instansi;
+  persist(); renderJenis(); renderAll(); setView('rekap'); toast('Pengajuan ' + p.kode + ' dibuka');
 }
 
 /* ---------- Tampilan ---------- */
@@ -670,6 +751,8 @@ function setView(v){
 }
 
 /* ---------- Event ---------- */
+$('jenis').addEventListener('click', e => { const b = e.target.closest('[data-jenis]'); if (b) setJenis(b.dataset.jenis); });
+$('f-instansi').addEventListener('input', cekPemda);
 $('modes').addEventListener('click', e => { const b = e.target.closest('.mode'); if (b) setMode(b.dataset.mode); });
 ['f-instansi', 'f-unit', 'f-wke'].forEach(id => $(id).addEventListener('input', () => { if (CUR) compute(); else { DB.instansi = $('f-instansi').value.trim(); persist(); } }));
 $('steps').addEventListener('click', e => { const b = e.target.closest('[data-step]'); if (!b) return; STEP = +b.dataset.step; renderSteps(); renderSections(); compute(); window.scrollTo({ top:$('work').offsetTop - 8, behavior:'smooth' }); });
@@ -694,20 +777,20 @@ $('r-list').addEventListener('keydown', e => { const r = e.target.closest('[data
 $('drawer').addEventListener('click', e => { if (e.target.id === 'drawer' || e.target.closest('[data-close]')) closeDrawer(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
 $('btn-save').addEventListener('click', () => {
-  if (!CUR.unit){ $('f-unit').focus(); return toast('Isi nama unit kerja terlebih dahulu.'); }
+  if (!CUR.unit){ $('f-unit').focus(); return toast(`Isi nama ${JENIS[DB.jenis].lUnit.toLowerCase()} terlebih dahulu.`); }
   const i = DB.units.findIndex(u => u.id === CUR.id);
   const copy = JSON.parse(JSON.stringify(CUR));
   if (i >= 0) DB.units[i] = copy; else DB.units.push(copy);
   persist(); renderRekap(); toast(i >= 0 ? 'Unit kerja diperbarui di rekapitulasi' : 'Tersimpan ke rekapitulasi');
 });
-$('btn-new').addEventListener('click', () => { $('f-unit').value = ''; CUR = newUnit(CUR ? CUR.mode : 'up'); LAYOUT = buildLayout(CUR.mode); STEP = 0; renderAll(); $('f-unit').focus(); });
+$('btn-new').addEventListener('click', () => { $('f-unit').value = ''; CUR = newUnit(CUR ? CUR.mode : JENIS[DB.jenis].modes[0]); LAYOUT = buildLayout(CUR.mode); STEP = 0; renderAll(); $('f-unit').focus(); });
 $('btn-xlsx').addEventListener('click', downloadUnit);
 $('btn-print').addEventListener('click', () => window.print());
 $('views').addEventListener('click', e => { const b = e.target.closest('[data-view]'); if (b) setView(b.dataset.view); });
 $('rk-table').addEventListener('input', e => { const id = e.target.dataset.ada; if (!id) return; (DB.ketersediaan[id] = DB.ketersediaan[id] || {})[e.target.dataset.j] = Math.max(0, Number(e.target.value) || 0); persist(); clearTimeout(renderRekap._t); renderRekap._t = setTimeout(() => { const a = document.activeElement, sel = a && a.dataset.ada ? `[data-ada="${a.dataset.ada}"][data-j="${a.dataset.j}"]` : null; renderRekap(); if (sel){ const el = document.querySelector(sel); if (el){ el.focus(); const v = el.value; el.value = ''; el.value = v; } } }, 500); });
 $('rk-table').addEventListener('click', e => {
   const ed = e.target.closest('[data-edit]'), del = e.target.closest('[data-hapus]');
-  if (ed){ const u = DB.units.find(x => x.id === ed.dataset.edit); CUR = JSON.parse(JSON.stringify(u)); LAYOUT = buildLayout(CUR.mode); STEP = 0; setView('isi'); renderAll(); }
+  if (ed){ const u = DB.units.find(x => x.id === ed.dataset.edit); CUR = JSON.parse(JSON.stringify(u)); $('f-unit').value = CUR.unit || ''; LAYOUT = buildLayout(CUR.mode); STEP = 0; setView('isi'); renderAll(); }
   if (del){ const u = DB.units.find(x => x.id === del.dataset.hapus); if (confirm(`Hapus "${u.unit}" dari rekapitulasi?`)){ DB.units = DB.units.filter(x => x.id !== u.id); delete DB.ketersediaan[u.id]; persist(); renderRekap(); } }
 });
 $('rk-xlsx').addEventListener('click', downloadRekap);
@@ -722,18 +805,22 @@ $('rk-file').addEventListener('change', async e => {
   const f = e.target.files[0]; if (!f) return;
   try { const d = JSON.parse(await f.text()); if (d.format !== 'kalkulator-jfa' || !Array.isArray(d.units)) throw 0;
     if (DB.units.length && !confirm('Ganti rekapitulasi saat ini dengan isi file?')) return;
-    Object.assign(DB, { instansi:d.instansi || '', units:d.units, ketersediaan:d.ketersediaan || {} }); persist(); renderRekap(); toast('File cadangan dimuat');
+    Object.assign(DB, { instansi:d.instansi || '', units:d.units, ketersediaan:d.ketersediaan || {}, jenis:JENIS[d.jenis] ? d.jenis : (d.units.some(u => jenisOf(u.mode) === 'daerah') ? 'kabkota' : 'pusat') });
+    CUR = null; LAYOUT = []; DB.draft = null; $('f-instansi').value = DB.instansi; persist(); renderAll(); renderRekap(); toast('File cadangan dimuat');
   } catch(err){ toast('File tidak dikenali'); } finally { e.target.value = ''; }
 });
 $('s-kirim').addEventListener('click', kirim);
 $('ib-refresh').addEventListener('click', loadInbox);
+$('ib-filter').addEventListener('change', renderInbox);
 $('ib-table').addEventListener('change', e => { const id = e.target.dataset.status; if (id) setStatus(id, e.target.value); });
 $('ib-table').addEventListener('click', e => { const b = e.target.closest('[data-buka]'); if (b) bukaPengajuan(INBOX[+b.dataset.buka]); });
 
 /* ---------- Mulai ---------- */
 $('f-instansi').value = DB.instansi || '';
 if (adminToken()) $('tab-inbox').hidden = false;
-if (CUR){ LAYOUT = buildLayout(CUR.mode); renderAll(); } else renderModes();
+if (CUR && !JFA.SPEC[CUR.mode]) CUR = null;
+if (CUR && !JENIS[DB.jenis].modes.includes(CUR.mode)) DB.jenis = jenisOf(CUR.mode) === 'daerah' ? 'kabkota' : 'pusat';
+if (CUR){ LAYOUT = buildLayout(CUR.mode); renderAll(); } else { renderJenis(); renderModes(); }
 renderRekap();
 </script>
 </body>
