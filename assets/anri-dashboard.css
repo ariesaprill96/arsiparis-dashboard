@@ -34,7 +34,14 @@
   top:88px;height:calc(100vh - 104px);width:280px;padding:20px 16px;
   background:var(--ed-surface);border:1px solid var(--ed-line);border-radius:var(--ed-radius);
   box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;
+  z-index:400; /* di bawah semua jendela pop-up (login, formulir, koleksi: z-index 500–700) */
 }
+.sidebar.dropdown-open{z-index:450}
+/* Saat jendela pop-up terbuka, sidebar ikut tertutup latar buram dan tidak bisa diklik */
+body:has(.login-overlay.open) .sidebar,
+body:has(.form-overlay.open) .sidebar,
+body:has(.overlay.open) .sidebar,
+body:has(.cluster-sheet-overlay.open) .sidebar{pointer-events:none}
 .sb-label,.sb-select-lbl{font-size:11px;font-weight:600;letter-spacing:.12em;color:var(--ed-ink-3)}
 .sb-sep{background:var(--ed-line)}
 .search-input,.sb-select,.custom-select-trigger,select{
