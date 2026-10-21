@@ -83,7 +83,25 @@ button,input,select,textarea{font:inherit;color:inherit}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
 /* ---------- Formulir + hasil ---------- */
-.work{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;margin-top:28px;align-items:start}
+.work{display:grid;grid-template-columns:250px minmax(0,1fr) 320px;gap:22px;margin-top:28px;align-items:start}
+.units{position:sticky;top:12px;padding:16px 12px 12px;max-height:calc(100vh - 24px);overflow:auto}
+.units .uh{display:flex;justify-content:space-between;align-items:baseline;padding:0 6px 10px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.units .uh b{font-size:13px;font-weight:600}
+.units .uh span{font-size:12px;color:var(--ink-3)}
+.ui{display:flex;align-items:center;gap:6px;padding:7px 6px;border-radius:8px;cursor:pointer;font-size:13.5px;line-height:1.3}
+.ui:hover{background:var(--surface-2)}
+.ui.on{background:var(--accent-soft);box-shadow:0 0 0 1px rgba(11,93,150,.25) inset}
+.ui .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ui .tg{font-size:10.5px;font-weight:600;color:var(--ink-3);flex:0 0 auto}
+.ui .tg.uk1{color:var(--accent)} .ui .tg.uk2{color:#3d6326}
+.ui .tt{font-variant-numeric:tabular-nums;font-weight:600;flex:0 0 auto;min-width:22px;text-align:right}
+.ui .wn{color:#b7791f;flex:0 0 auto;font-size:12px}
+.ui.draft .nm{font-style:italic;color:var(--ink-2)}
+.uadd{display:flex;gap:4px;flex-wrap:wrap;margin:0 0 4px}
+.uadd button{border:1px dashed var(--line-strong);background:transparent;border-radius:7px;font-size:11.5px;padding:3px 8px;color:var(--accent);cursor:pointer}
+.uadd button:hover{background:var(--accent-soft);border-style:solid}
+.units .ufoot{border-top:1px solid var(--line);margin-top:8px;padding:10px 4px 0;display:grid;gap:6px}
+.units .ufoot .muted{font-size:11.5px;line-height:1.4}
 .work[hidden],.send[hidden]{display:none}
 .steps{display:flex;gap:4px;flex-wrap:wrap;position:sticky;top:0;z-index:5;background:rgba(249,249,247,.95);backdrop-filter:blur(10px);padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:16px}
 .steps button{border:0;background:transparent;padding:7px 12px;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink-2);cursor:pointer;display:inline-flex;gap:6px;align-items:center}
@@ -112,12 +130,6 @@ button,input,select,textarea{font:inherit;color:inherit}
 .q .derived{grid-column:1 / -1;font-size:12.5px;color:var(--accent);background:var(--accent-soft);border-radius:8px;padding:6px 10px}
 .nav-steps{display:flex;justify-content:space-between;margin:18px 0 8px}
 
-/* Tugas lain */
-.tl-row{display:grid;grid-template-columns:minmax(0,2.2fr) 1fr 110px 110px 150px 36px;gap:8px;align-items:end;padding:10px 0;border-top:1px solid var(--line)}
-.tl-row:first-of-type{border-top:0}
-.tl-row label{font-size:11.5px;color:var(--ink-3);display:block;margin-bottom:3px}
-.tl-row input,.tl-row select{width:100%;height:38px;border:1px solid var(--line-strong);border-radius:9px;padding:0 10px;font-size:14px;background:#fff}
-.tl-del{height:38px;border:1px solid var(--line-strong);background:#fff;border-radius:9px;cursor:pointer;color:var(--bad)}
 
 /* Panel hasil */
 .result{position:sticky;top:12px;padding:20px 20px 16px}
@@ -180,6 +192,13 @@ table.rekap{width:100%;border-collapse:collapse;font-size:13.5px;min-width:980px
 .toast.on{opacity:1}
 footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-3)}
 
+@media (max-width:1200px){
+  .work{grid-template-columns:minmax(0,1fr) 320px}
+  .units{grid-column:1 / -1;position:static;max-height:none}
+  .units .tree-list{display:flex;flex-wrap:wrap;gap:4px}
+  .units .tree-list .ui{border:1px solid var(--line);padding-left:8px!important}
+  .units .uadd{display:none}
+}
 @media (max-width:1024px){
   .work{grid-template-columns:minmax(0,1fr)}
   .work > *{min-width:0}
@@ -190,8 +209,6 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
   .page{width:calc(100% - 32px)}
   .modes,.row2{grid-template-columns:1fr}
   .q{grid-template-columns:1fr}
-  .tl-row{grid-template-columns:1fr 1fr}
-  .tl-row > div:first-child{grid-column:1 / -1}
   .send{grid-template-columns:1fr}
   .steps{overflow-x:auto;flex-wrap:nowrap}
   .steps button{flex:0 0 auto}
@@ -260,7 +277,8 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
     </div>
 
     <div class="work" id="work" hidden>
-      <div>
+      <aside class="card units no-print" id="units" aria-label="Daftar unit"></aside>
+      <div class="formcol">
         <nav class="steps" id="steps" aria-label="Bagian formulir"></nav>
         <div id="sections"></div>
         <div class="nav-steps no-print">
@@ -453,18 +471,17 @@ function buildLayout(mode){
     }
     grp.fields.push(f); lastRow = row;
   });
-  sections.push({ name:'Tugas lain', info:{ judul:'Tugas kearsipan lainnya', ket:'Tambahkan tugas kearsipan yang belum ada di formulir (opsional). Tentukan jenjang yang mengerjakannya.' }, groups:[], tugasLain:true });
   return sections;
 }
 
 /* ---------- Status kerja ---------- */
-let CUR = DB.draft || null;     // { id, mode, instansi, unit, wke, isian:{}, tugasLain:[] }
+let CUR = DB.draft || null;     // { id, mode, instansi, unit, wke, isian:{}, peran, induk }
 let LAYOUT = [], STEP = 0;
 
 function newUnit(mode){
   let unit = $('f-unit').value.trim();
   if (mode === 'lkd' && !unit) unit = LKD_DEFAULT;
-  return { id:uid(), mode, peran:PERAN_OPS[mode][0], induk:'', instansi:$('f-instansi').value.trim() || DB.instansi || '', unit, wke:Number($('f-wke').value) || 75000, isian:{}, tugasLain:[] };
+  return { id:uid(), mode, peran:PERAN_OPS[mode][0], induk:'', instansi:$('f-instansi').value.trim() || DB.instansi || '', unit, wke:Number($('f-wke').value) || 75000, isian:{} };
 }
 function setMode(mode){
   if (!CUR) CUR = newUnit(mode);
@@ -485,7 +502,7 @@ function renderJenis(){
   $('kicker').textContent = J.kicker;
   $('l-instansi').textContent = J.lInst; $('f-instansi').placeholder = J.phInst;
   $('l-unit').textContent = J.lUnit; $('f-unit').placeholder = J.phUnit;
-  $('btn-new').textContent = `Mulai ${J.lUnit.toLowerCase()} baru`;
+  $('btn-new').textContent = CUR && peranOf(CUR) === 'up' && indukOf(CUR) ? 'Tambah UP lain di bawah induk yang sama' : `Mulai ${J.lUnit.toLowerCase()} baru`;
   $('dl-pemda').innerHTML = J.kode ? PEMDA[J.kode].map(p => `<option value="${esc(p.n)}">${p.p ? esc('Provinsi ' + p.p) : ''}</option>`).join('') : '';
   cekPemda();
 }
@@ -525,7 +542,7 @@ function setJenis(j){
 
 function renderSteps(){
   $('steps').innerHTML = LAYOUT.map((s, i) => {
-    const n = s.groups.reduce((a, g) => a + g.fields.filter(f => Number(CUR.isian[f.cell])).length, 0) + (s.tugasLain ? CUR.tugasLain.length : 0);
+    const n = s.groups.reduce((a, g) => a + g.fields.filter(f => Number(CUR.isian[f.cell])).length, 0) ;
     return `<button type="button" data-step="${i}" class="${i === STEP ? 'active' : ''}${n ? ' done' : ''}"><i>${i + 1}</i>${esc(s.info.judul)}${n ? ` <span class="muted"><span class="num">${n}</span> terisi</span>` : ''}</button>`;
   }).join('');
 }
@@ -549,26 +566,10 @@ function fieldHTML(f){
     ${f.turunan_cell ? `<div class="derived" data-derived="${f.cell}" hidden></div>` : ''}
   </div>`;
 }
-const JOPT = JVIS.map(j => `<option value="${j.key}">${j.label}</option>`).join('');
-function tugasLainHTML(){
-  const rows = CUR.tugasLain.map((t, i) => `<div class="tl-row" data-i="${i}">
-      <div><label>Uraian tugas</label><input data-tl="uraian" value="${esc(t.uraian)}" placeholder="mis. Verifikasi daftar arsip usul pindah"></div>
-      <div><label>Satuan hasil</label><input data-tl="satuan" value="${esc(t.satuan)}" placeholder="Laporan"></div>
-      <div><label>Waktu (menit)</label><input data-tl="waktu" type="number" min="0" value="${esc(t.waktu)}" class="num"></div>
-      <div><label>Volume/tahun</label><input data-tl="volume" type="number" min="0" value="${esc(t.volume)}" class="num"></div>
-      <div><label>Jenjang</label><select data-tl="jenjang">${JOPT.replace(`value="${t.jenjang}"`, `value="${t.jenjang}" selected`)}</select></div>
-      <button type="button" class="tl-del" data-del="${i}" aria-label="Hapus baris">×</button>
-    </div>`).join('');
-  return `<div class="card group">
-      <h4>Daftar tugas lain <small>Waktu dalam menit untuk menyelesaikan 1 satuan hasil · 1 hari kerja = 330 menit</small></h4>
-      ${rows || '<p class="muted" style="margin:0 0 6px">Belum ada tugas lain.</p>'}
-      <button type="button" class="btn" id="tl-add" style="margin-top:10px">+ Tambah tugas</button>
-    </div>`;
-}
 function renderSections(){
   $('sections').innerHTML = LAYOUT.map((s, i) => `<div class="section${i === STEP ? ' on' : ''}" data-sec="${i}">
       <h3>${esc(s.info.judul)}</h3>${s.info.ket ? `<p>${esc(s.info.ket)}</p>` : ''}
-      ${s.tugasLain ? tugasLainHTML() : s.groups.map(g => `<div class="card group">
+      ${s.groups.map(g => `<div class="card group">
         <h4>${esc(g.title)}${g.khususUK ? ' <small>khusus Unit Kearsipan</small>' : ''}</h4>
         ${g.help ? `<p class="muted" style="margin:-6px 0 8px;font-size:13px">${esc(g.help)}</p>` : ''}
         ${g.fields.some(f => /tidak ada ahli pertama/i.test(f.label)) ? `<div class="ambil no-print"><span id="ambil-info">${esc(ambilInfo())}</span><button type="button" class="btn" id="btn-ambil">Ambil dari rekap</button></div>` : ''}
@@ -577,6 +578,79 @@ function renderSections(){
     </div>`).join('');
   $('prev').disabled = STEP === 0;
   $('next').textContent = STEP === LAYOUT.length - 1 ? 'Lihat rincian hasil' : 'Berikutnya →';
+}
+
+/* ---------- Panel daftar unit (pemantauan sambil mengisi) ---------- */
+const disimpan = () => !!(CUR && DB.units.some(u => u.id === CUR.id));
+const terisi = () => !!(CUR && (Object.keys(CUR.isian).length || ($('f-unit').value.trim() && $('f-unit').value.trim() !== LKD_DEFAULT)));
+function cekLimpahan(u){
+  if (!['upuk', 'lkd'].includes(u.mode)) return '';
+  const b = binaan(u); if (!b.length) return '';
+  const k = j => b.filter(x => !Number((DB.ketersediaan[x.id] || {})[j])).length;
+  const beda = JFA.SPEC[u.mode].inputs.some(f => /tidak ada ahli pertama/i.test(f.label) ? (Number(u.isian[f.cell]) || 0) !== k('ahli_pertama') : /tidak ada ahli muda/i.test(f.label) ? (Number(u.isian[f.cell]) || 0) !== k('ahli_muda') : false);
+  return beda ? 'Isian limpahan belum sesuai dengan unit binaan di rekap. Buka unit ini lalu klik Ambil dari rekap.' : '';
+}
+function renderUnits(){
+  const box = $('units'); if (!box) return;
+  const J = JENIS[DB.jenis], daerah = !!J.kode;
+  const data = DB.units.map(u => ({ u, t:u.id === (CUR && CUR.id) && RES ? RES.totalBulat : unitResult(u).totalBulat }));
+  const rows = susunRekap(data.map(d => ({ u:d.u, keb:{}, ada:{}, tKeb:d.t, tAda:0 })));
+  const rowDepth = {}; rows.forEach(r => { if (r.kind === 'unit') rowDepth[r.d.u.id] = r.depth; });
+  const tag = u => { const r = peranOf(u); return `<span class="tg ${r}">${r === 'uk1' ? (u.mode === 'lkd' ? 'LKD' : 'UK I') : r === 'uk2' ? 'UK II' : 'UP'}</span>`; };
+  const tombol = u => { const r = peranOf(u), b = [];
+    if (daerah && r === 'uk1') b.push(['ukii', 'uk2', '+ Perangkat daerah']);
+    if (!daerah && r === 'uk1') b.push(['upuk', 'uk2', '+ UK II'], ['up', 'up', '+ UP']);
+    if (!daerah && r === 'uk2') b.push(['up', 'up', '+ UP']);
+    return b.length ? `<div class="uadd" style="padding-left:${(rowDepth[u.id] || 0) * 14 + 28}px">${b.map(([m, pr, l]) => `<button type="button" data-tambah="${m}" data-peran="${pr}" data-induk="${u.id}">${l}</button>`).join('')}</div>` : ''; };
+  const item = (u, depth, t) => { const w = cekLimpahan(u);
+    return `<div class="ui${CUR && CUR.id === u.id ? ' on' : ''}" data-buka-unit="${u.id}" role="button" tabindex="0" style="padding-left:${depth * 14 + 6}px" title="${esc(u.unit)}">
+      ${tag(u)}<span class="nm">${esc(u.unit || '(tanpa nama)')}</span>${w ? `<span class="wn" title="${esc(w)}">⚠</span>` : ''}<span class="tt">${fmt(t)}</span></div>`; };
+  let html = '';
+  if (CUR && !disimpan()) html += `<div class="ui draft on" title="Belum disimpan">${tag(CUR)}<span class="nm">${esc(CUR.unit || 'Unit baru')} · belum disimpan</span><span class="tt">${fmt(RES ? RES.totalBulat : 0)}</span></div>`;
+  rows.forEach(r => {
+    if (r.kind === 'grp') html += `<div class="muted" style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:10px 6px 4px">${esc(r.label)}</div>`;
+    if (r.kind === 'unit') html += item(r.d.u, r.depth, r.d.tKeb) + tombol(r.d.u);
+  });
+  const total = data.reduce((a, d) => a + d.t, 0);
+  box.innerHTML = `<div class="uh"><b>${daerah ? 'Perangkat daerah' : 'Unit kerja'}</b><span><span class="num">${DB.units.length}</span> tersimpan</span></div>
+    <div class="tree-list">${html || '<p class="muted" style="font-size:12.5px;margin:6px">Belum ada unit tersimpan.</p>'}</div>
+    <div class="ufoot">
+      <div style="display:flex;justify-content:space-between;font-size:13px"><span>Total kebutuhan</span><b class="num">${fmt(total)}</b></div>
+      <button type="button" class="btn" data-tambah="" data-peran="" data-induk="">+ ${daerah ? 'Perangkat daerah' : 'Unit kerja'} baru</button>
+      <div class="muted">Unit yang sudah tersimpan diperbarui otomatis saat diubah.</div>
+    </div>`;
+}
+function bolehPindah(){
+  if (!CUR || disimpan() || !terisi()) return true;
+  if (confirm(`"${CUR.unit || 'Unit baru'}" belum disimpan ke rekapitulasi. Simpan sekarang?`)){
+    if (!CUR.unit){ $('f-unit').focus(); toast(`Isi nama ${JENIS[DB.jenis].lUnit.toLowerCase()} terlebih dahulu.`); return false; }
+    simpanUnit(true); return true;
+  }
+  return confirm('Abaikan isian unit baru ini?');
+}
+function bukaUnit(id){
+  if (CUR && CUR.id === id) return setView('isi');
+  if (!bolehPindah()) return;
+  const u = DB.units.find(x => x.id === id); if (!u) return;
+  CUR = JSON.parse(JSON.stringify(u)); LAYOUT = buildLayout(CUR.mode); STEP = 0; setView('isi'); renderAll();
+}
+function tambahUnit(mode, peran, induk){
+  if (!bolehPindah()) return;
+  $('f-unit').value = '';
+  CUR = newUnit(mode || (CUR ? CUR.mode : JENIS[DB.jenis].modes[0]));
+  if (peran) CUR.peran = peran; if (induk) CUR.induk = induk;
+  LAYOUT = buildLayout(CUR.mode); STEP = 0; setView('isi'); renderAll();
+  window.scrollTo({ top:$('work').offsetTop - 8, behavior:'smooth' }); setTimeout(() => $('f-unit').focus({ preventScroll:true }), 300);
+}
+function bukaPertama(){
+  CUR = DB.units.length ? JSON.parse(JSON.stringify(DB.units[0])) : null;
+  LAYOUT = CUR ? buildLayout(CUR.mode) : []; STEP = 0; DB.draft = CUR;
+  if (CUR) $('f-unit').value = CUR.unit || '';
+}
+function jejak(u){
+  const names = []; let x = u, guard = 0;
+  while (x && guard++ < 5){ names.unshift(x.unit || '(tanpa nama)'); const id = indukOf(x); x = id ? DB.units.find(y => y.id === id) : null; }
+  return names.join(' › ');
 }
 
 /* Limpahan: hitung unit binaan yang belum punya Ahli Pertama / Ahli Muda dari kolom ketersediaan rekap */
@@ -606,20 +680,27 @@ function ambilDariRekap(){
 let RES = null;
 function compute(){
   CUR.instansi = $('f-instansi').value.trim(); CUR.unit = $('f-unit').value.trim(); CUR.wke = Number($('f-wke').value) || 75000;
-  DB.instansi = CUR.instansi; DB.draft = CUR; persist();
-  RES = JFA.hitung(CUR.mode, CUR.isian, { wke:CUR.wke, tugasLain:CUR.tugasLain });
+  DB.instansi = CUR.instansi; DB.draft = CUR;
+  const iu = DB.units.findIndex(u => u.id === CUR.id);
+  if (iu >= 0){ const c = JSON.parse(JSON.stringify(CUR)); c.peran = peranOf(c); c.induk = indukOf(c); DB.units[iu] = c; }   // simpan otomatis
+  persist();
+  RES = JFA.hitung(CUR.mode, CUR.isian, { wke:CUR.wke });
   // nilai turunan di bawah isian
   JFA.SPEC[CUR.mode].inputs.forEach(f => {
     const el = document.querySelector(`[data-derived="${f.cell}"]`); if (!el) return;
     const v = RES.turunan[f.cell] || 0;
     el.hidden = !v; el.textContent = `= ${fmt(v, v % 1 ? 1 : 0)} ${String(f.turunan || '').replace(/\s+/g, ' ').trim()}`;
   });
-  $('r-who').textContent = [CUR.unit || JENIS[DB.jenis].lUnit, CUR.instansi].filter(Boolean).join(' · ') + ` · ${CUR.mode === 'lkd' ? 'LKD (UP + UK I)' : CUR.mode === 'ukii' ? 'Perangkat Daerah (UP + UK II)' : PERAN[peranOf(CUR)]}`;
+  $('r-who').textContent = [jejak(CUR) || JENIS[DB.jenis].lUnit, CUR.instansi].filter(Boolean).join(' · ') + ` · ${CUR.mode === 'lkd' ? 'LKD (UP + UK I)' : CUR.mode === 'ukii' ? 'Perangkat Daerah (UP + UK II)' : PERAN[peranOf(CUR)]}`;
   $('r-list').innerHTML = JVIS.map(j => { const h = RES.jenjang[j.key];
     return `<div class="rj${h.bulat ? '' : ' zero'}" data-j="${j.key}" role="button" tabindex="0" title="Lihat rincian ${j.label}">
       <span class="rl">${j.label}</span><span class="rd num">${fmt(h.kebutuhan, 2)}</span><span class="rb num">${fmt(h.bulat)}</span></div>`; }).join('');
   $('r-total').textContent = fmt(RES.totalBulat);
   if ($('ambil-info')) $('ambil-info').textContent = ambilInfo();
+  $('btn-save').textContent = disimpan() ? 'Tersimpan · diperbarui otomatis' : 'Simpan ke rekapitulasi';
+  $('btn-save').classList.toggle('primary', !disimpan());
+  $('rekap-count').textContent = DB.units.length;
+  clearTimeout(compute._u); compute._u = setTimeout(renderUnits, 120);
   $('r-note').textContent = `Angka kecil = hasil hitung (${fmt(RES.total, 2)} orang), angka besar = dibulatkan. Total beban kerja ${fmt(RES.totalMenit)} menit; WKE ${fmt(RES.wke)} menit/tahun. Klik jenjang untuk melihat rincian kegiatan.`;
   renderSteps();
 }
@@ -629,7 +710,7 @@ function renderAll(){
   $('work').hidden = !CUR || !LAYOUT.length;
   if (!CUR || !LAYOUT.length) return;
   $('f-instansi').value = CUR.instansi || DB.instansi || ''; $('f-unit').value = CUR.unit || ''; $('f-wke').value = CUR.wke || 75000;
-  renderSteps(); renderSections(); compute();
+  renderSteps(); renderSections(); compute(); renderUnits();
 }
 
 /* ---------- Rincian per jenjang ---------- */
@@ -642,7 +723,7 @@ function openDrawer(key){
     <p style="margin:10px 0 0;font-size:15px">Kebutuhan <b class="num">${fmt(h.kebutuhan, 2)}</b> orang → dibulatkan <b class="num">${fmt(h.bulat)}</b> orang.</p>
     <div class="formula">Kebutuhan = Σ (waktu penyelesaian × volume) ÷ WKE = <span class="num">${fmt(h.menit)}</span> menit ÷ <span class="num">${fmt(RES.wke)}</span> menit</div>
     ${rows.length ? `<table><thead><tr><th>Kegiatan</th><th class="n">Waktu (menit)</th><th class="n">Volume</th><th class="n">Kebutuhan</th></tr></thead><tbody>
-      ${rows.map(k => `<tr><td>${esc(k.induk ? cleanUraian(k.induk) + ' — ' + k.uraian : cleanUraian(k.uraian))}${k.tugasLain ? ' <span class="chip">tugas lain</span>' : ''}<div class="muted" style="font-size:12px">${esc(k.satuan)}</div></td>
+      ${rows.map(k => `<tr><td>${esc(k.induk ? cleanUraian(k.induk) + ' — ' + k.uraian : cleanUraian(k.uraian))}<div class="muted" style="font-size:12px">${esc(k.satuan)}</div></td>
         <td class="n num">${fmt(k.waktu)}${k.waktu >= 330 ? `<div class="muted" style="font-size:11.5px">≈ ${fmt(k.waktu / 330, 1)} hari</div>` : ''}</td>
         <td class="n num">${fmt(k.volume, k.volume % 1 ? 2 : 0)}</td><td class="n num">${fmt(k.kebutuhan, 3)}</td></tr>`).join('')}
       </tbody></table>` : '<p class="muted" style="margin-top:16px">Belum ada kegiatan yang menghasilkan beban kerja untuk jenjang ini.</p>'}`;
@@ -652,7 +733,7 @@ function openDrawer(key){
 function closeDrawer(){ $('drawer').classList.remove('open'); $('drawer').setAttribute('aria-hidden', 'true'); }
 
 /* ---------- Rekapitulasi ---------- */
-function unitResult(u){ return JFA.hitung(u.mode, u.isian, { wke:u.wke, tugasLain:u.tugasLain }); }
+function unitResult(u){ return JFA.hitung(u.mode, u.isian, { wke:u.wke }); }
 function rekapData(){
   return DB.units.map(u => {
     const r = unitResult(u), k = DB.ketersediaan[u.id] || {};
@@ -725,7 +806,6 @@ function sheetUnit(u){
   const aoa = [['PENGHITUNGAN KEBUTUHAN JABATAN FUNGSIONAL ARSIPARIS'], [], [daerah ? 'Pemerintah daerah' : 'Instansi', u.instansi || ''], [daerah ? 'Perangkat daerah' : 'Unit kerja', u.unit || ''], ['Formulir', MODE_LABEL[u.mode]], ['Peran', u.mode === 'lkd' ? 'Unit Kearsipan I (LKD)' : PERAN[peranOf(u)]], ['Berada di bawah', (DB.units.find(x => x.id === indukOf(u)) || {}).unit || '-'], ['Waktu kerja efektif (menit/tahun)', r.wke], [],
     ['ISIAN', '', 'Nilai', 'Satuan']];
   spec.inputs.forEach(f => aoa.push([cleanLabel(f.label), '', f.tipe === 'persen' ? (Number(u.isian[f.cell]) || 0) : (Number(u.isian[f.cell]) || 0), f.tipe === 'persen' ? 'persen (0–1)' : cleanSatuan(f)]));
-  (u.tugasLain || []).forEach(t => aoa.push(['Tugas lain: ' + (t.uraian || ''), '', Number(t.volume) || 0, `${t.satuan || ''} · ${t.waktu} menit · ${(JFA.JENJANG.find(j => j.key === t.jenjang) || {}).label || ''}`]));
   aoa.push([], ['HASIL', 'Kebutuhan (hitung)', 'Kebutuhan (dibulatkan)']);
   JVIS.forEach(j => aoa.push(['Arsiparis ' + j.label, +r.jenjang[j.key].kebutuhan.toFixed(4), r.jenjang[j.key].bulat]));
   aoa.push(['Total', +r.total.toFixed(4), r.totalBulat], [], ['RINCIAN KEGIATAN', 'Jenjang', 'Waktu (menit)', 'Volume', 'Beban (menit)', 'Kebutuhan']);
@@ -783,7 +863,7 @@ async function kirim(){
   const kode = kodeAcak();
   const rekap = { jenjang:JVIS.map(j => j.key), unit:data.map(d => ({ unit:d.u.unit, mode:d.u.mode, peran:peranOf(d.u), induk:(DB.units.find(x => x.id === indukOf(d.u)) || {}).unit || null, kebutuhan:d.keb, ketersediaan:d.ada })),
     total:{ kebutuhan:data.reduce((a, d) => a + d.tKeb, 0), ketersediaan:data.reduce((a, d) => a + d.tAda, 0) } };
-  const detail = { versi:2, jenis:DB.jenis, units:DB.units.map(u => ({ id:u.id, unit:u.unit, mode:u.mode, peran:peranOf(u), induk:indukOf(u) || null, wke:u.wke, isian:u.isian, tugasLain:u.tugasLain })) };
+  const detail = { versi:2, jenis:DB.jenis, units:DB.units.map(u => ({ id:u.id, unit:u.unit, mode:u.mode, peran:peranOf(u), induk:indukOf(u) || null, wke:u.wke, isian:u.isian })) };
   const body = { kode, instansi:DB.instansi, pengirim_nama:$('s-nama').value.trim().slice(0, 120), pengirim_jabatan:$('s-jabatan').value.trim().slice(0, 120),
     pengirim_kontak:$('s-kontak').value.trim().slice(0, 120), jumlah_unit:DB.units.length, rekap, detail,
     jenis_instansi:DB.jenis, wilayah:J.kode ? wilayahOf(DB.instansi) : null };
@@ -838,9 +918,9 @@ function bukaPengajuan(p){
   if (DB.units.length && !confirm('Ganti isi rekapitulasi di browser ini dengan pengajuan ' + p.kode + '? (Simpan file cadangan dulu bila perlu)')) return;
   DB.instansi = p.instansi; DB.units = []; DB.ketersediaan = {};
   DB.jenis = JENIS[p.jenis_instansi] ? p.jenis_instansi : (p.detail && JENIS[p.detail.jenis] ? p.detail.jenis : 'pusat');
-  (p.detail && p.detail.units || []).forEach((u, i) => { const id = u.id || uid(); DB.units.push({ id, mode:u.mode, peran:u.peran, induk:u.induk || '', instansi:p.instansi, unit:u.unit, wke:u.wke, isian:u.isian || {}, tugasLain:u.tugasLain || [] });
+  (p.detail && p.detail.units || []).forEach((u, i) => { const id = u.id || uid(); DB.units.push({ id, mode:u.mode, peran:u.peran, induk:u.induk || '', instansi:p.instansi, unit:u.unit, wke:u.wke, isian:u.isian || {} });
     const r = p.rekap && p.rekap.unit && p.rekap.unit[i]; if (r) DB.ketersediaan[id] = r.ketersediaan || {}; });
-  CUR = null; LAYOUT = []; DB.draft = null; $('f-instansi').value = DB.instansi;
+  bukaPertama(); $('f-instansi').value = DB.instansi;
   persist(); renderJenis(); renderAll(); setView('rekap'); toast('Pengajuan ' + p.kode + ' dibuka');
 }
 
@@ -868,36 +948,39 @@ $('next').addEventListener('click', () => {
 $('sections').addEventListener('input', e => {
   const c = e.target.dataset.cell;
   if (c){ const v = e.target.value; if (v === '' || Number(v) === 0) delete CUR.isian[c]; else CUR.isian[c] = Math.max(0, Number(v)); e.target.classList.toggle('filled', !!Number(v)); compute(); return; }
-  const tl = e.target.dataset.tl;
-  if (tl){ const i = +e.target.closest('.tl-row').dataset.i; CUR.tugasLain[i][tl] = (tl === 'waktu' || tl === 'volume') ? Math.max(0, Number(e.target.value) || 0) : e.target.value; compute(); }
 });
 $('sections').addEventListener('change', e => { if (e.target.tagName === 'SELECT') e.target.dispatchEvent(new Event('input', { bubbles:true })); });
 $('sections').addEventListener('click', e => {
   if (e.target.id === 'btn-ambil') return ambilDariRekap();
-  if (e.target.id === 'tl-add'){ CUR.tugasLain.push({ uraian:'', satuan:'', waktu:'', volume:'', jenjang:'terampil' }); renderSections(); compute(); return; }
-  const d = e.target.closest('[data-del]'); if (d){ CUR.tugasLain.splice(+d.dataset.del, 1); renderSections(); compute(); }
 });
 $('r-list').addEventListener('click', e => { const r = e.target.closest('[data-j]'); if (r) openDrawer(r.dataset.j); });
 $('r-list').addEventListener('keydown', e => { const r = e.target.closest('[data-j]'); if (r && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); openDrawer(r.dataset.j); } });
 $('drawer').addEventListener('click', e => { if (e.target.id === 'drawer' || e.target.closest('[data-close]')) closeDrawer(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
-$('btn-save').addEventListener('click', () => {
+function simpanUnit(diam){
   if (!CUR.unit){ $('f-unit').focus(); return toast(`Isi nama ${JENIS[DB.jenis].lUnit.toLowerCase()} terlebih dahulu.`); }
   const i = DB.units.findIndex(u => u.id === CUR.id);
   const copy = JSON.parse(JSON.stringify(CUR));
   copy.peran = peranOf(copy); copy.induk = indukOf(copy);
   if (i >= 0) DB.units[i] = copy; else DB.units.push(copy);
-  persist(); renderRekap(); renderStruktur(); toast(i >= 0 ? 'Unit kerja diperbarui di rekapitulasi' : 'Tersimpan ke rekapitulasi');
+  persist(); renderRekap(); renderStruktur(); if (!diam) compute(); renderUnits();
+  if (!diam) toast(i >= 0 ? 'Unit diperbarui di rekapitulasi' : 'Tersimpan ke rekapitulasi');
+}
+$('btn-save').addEventListener('click', () => simpanUnit(false));
+$('units').addEventListener('click', e => {
+  const t = e.target.closest('[data-tambah]'); if (t) return tambahUnit(t.dataset.tambah, t.dataset.peran, t.dataset.induk);
+  const b = e.target.closest('[data-buka-unit]'); if (b) bukaUnit(b.dataset.bukaUnit);
 });
-$('btn-new').addEventListener('click', () => { $('f-unit').value = ''; CUR = newUnit(CUR ? CUR.mode : JENIS[DB.jenis].modes[0]); LAYOUT = buildLayout(CUR.mode); STEP = 0; renderAll(); $('f-unit').focus(); });
+$('units').addEventListener('keydown', e => { const b = e.target.closest('[data-buka-unit]'); if (b && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); bukaUnit(b.dataset.bukaUnit); } });
+$('btn-new').addEventListener('click', () => { const up = CUR && peranOf(CUR) === 'up'; tambahUnit(up ? 'up' : null, up ? 'up' : null, up ? indukOf(CUR) : null); });
 $('btn-xlsx').addEventListener('click', downloadUnit);
 $('btn-print').addEventListener('click', () => window.print());
 $('views').addEventListener('click', e => { const b = e.target.closest('[data-view]'); if (b) setView(b.dataset.view); });
 $('rk-table').addEventListener('input', e => { const id = e.target.dataset.ada; if (!id) return; (DB.ketersediaan[id] = DB.ketersediaan[id] || {})[e.target.dataset.j] = Math.max(0, Number(e.target.value) || 0); persist(); clearTimeout(renderRekap._t); renderRekap._t = setTimeout(() => { const a = document.activeElement, sel = a && a.dataset.ada ? `[data-ada="${a.dataset.ada}"][data-j="${a.dataset.j}"]` : null; renderRekap(); if (sel){ const el = document.querySelector(sel); if (el){ el.focus(); const v = el.value; el.value = ''; el.value = v; } } }, 500); });
 $('rk-table').addEventListener('click', e => {
   const ed = e.target.closest('[data-edit]'), del = e.target.closest('[data-hapus]');
-  if (ed){ const u = DB.units.find(x => x.id === ed.dataset.edit); CUR = JSON.parse(JSON.stringify(u)); $('f-unit').value = CUR.unit || ''; LAYOUT = buildLayout(CUR.mode); STEP = 0; setView('isi'); renderAll(); }
-  if (del){ const u = DB.units.find(x => x.id === del.dataset.hapus); if (confirm(`Hapus "${u.unit}" dari rekapitulasi?` + (DB.units.some(x => x.induk === u.id) ? ' Unit di bawahnya akan menjadi "belum dikelompokkan".' : ''))){ DB.units = DB.units.filter(x => x.id !== u.id); DB.units.forEach(x => { if (x.induk === u.id) x.induk = ''; }); delete DB.ketersediaan[u.id]; persist(); renderRekap(); } }
+  if (ed) bukaUnit(ed.dataset.edit);
+  if (del){ const u = DB.units.find(x => x.id === del.dataset.hapus); if (confirm(`Hapus "${u.unit}" dari rekapitulasi?` + (DB.units.some(x => x.induk === u.id) ? ' Unit di bawahnya akan menjadi "belum dikelompokkan".' : ''))){ DB.units = DB.units.filter(x => x.id !== u.id); DB.units.forEach(x => { if (x.induk === u.id) x.induk = ''; }); if (CUR && CUR.id === u.id){ bukaPertama(); renderAll(); } delete DB.ketersediaan[u.id]; persist(); renderRekap(); } }
 });
 $('rk-xlsx').addEventListener('click', downloadRekap);
 $('rk-print').addEventListener('click', () => window.print());
@@ -912,7 +995,7 @@ $('rk-file').addEventListener('change', async e => {
   try { const d = JSON.parse(await f.text()); if (d.format !== 'kalkulator-jfa' || !Array.isArray(d.units)) throw 0;
     if (DB.units.length && !confirm('Ganti rekapitulasi saat ini dengan isi file?')) return;
     Object.assign(DB, { instansi:d.instansi || '', units:d.units, ketersediaan:d.ketersediaan || {}, jenis:JENIS[d.jenis] ? d.jenis : (d.units.some(u => jenisOf(u.mode) === 'daerah') ? 'kabkota' : 'pusat') });
-    CUR = null; LAYOUT = []; DB.draft = null; $('f-instansi').value = DB.instansi; persist(); renderAll(); renderRekap(); toast('File cadangan dimuat');
+    bukaPertama(); $('f-instansi').value = DB.instansi; persist(); renderAll(); renderRekap(); toast('File cadangan dimuat');
   } catch(err){ toast('File tidak dikenali'); } finally { e.target.value = ''; }
 });
 $('s-kirim').addEventListener('click', kirim);
@@ -926,6 +1009,7 @@ $('f-instansi').value = DB.instansi || '';
 if (adminToken()) $('tab-inbox').hidden = false;
 if (CUR && !JFA.SPEC[CUR.mode]) CUR = null;
 if (CUR && !JENIS[DB.jenis].modes.includes(CUR.mode)) DB.jenis = jenisOf(CUR.mode) === 'daerah' ? 'kabkota' : 'pusat';
+if (!CUR && DB.units.length) CUR = JSON.parse(JSON.stringify(DB.units[0]));
 if (CUR){ LAYOUT = buildLayout(CUR.mode); renderAll(); } else { renderJenis(); renderModes(); }
 renderRekap();
 </script>
