@@ -36,6 +36,8 @@
 
   --pusat:#0b5d96;
   --daerah:#c39553;
+  /* Kluster instansi */
+  --k-kem:#0b5d96; --k-lem:#74c2e8; --k-prov:#8a5f2a; --k-kab:#c39553;
 
   --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   --serif:'Newsreader','Iowan Old Style','Georgia',serif;
@@ -143,6 +145,49 @@ section.block{margin-top:56px}
 .split-legend .r{text-align:right}
 .scope-note{margin:0;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-2)}
 
+/* Kluster: KPI dapat diklik */
+button.kpi{all:unset;box-sizing:border-box;cursor:pointer;padding:22px 24px;display:block;position:relative}
+button.kpi:hover{background:var(--surface-2)}
+button.kpi:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+button.kpi.on{background:var(--accent-soft)}
+button.kpi.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent)}
+.kpi .cover{margin-top:10px;height:4px;border-radius:2px;background:var(--surface-2);overflow:hidden}
+.kpi .cover i{display:block;height:100%;background:currentColor;opacity:.9}
+.sub-select{height:40px;border:1px solid var(--line-strong);border-radius:10px;background:var(--surface);padding:0 34px 0 12px;font-size:14px;color:var(--ink);max-width:260px}
+.sub-select[hidden]{display:none}
+
+/* Rincian per kelompok */
+.grp-title{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0 0 4px}
+.grp-title h3{margin:0;font-size:15px;font-weight:600}
+.grp-title span{font-size:13px;color:var(--ink-3)}
+.grp-row{display:grid;grid-template-columns:minmax(0,1fr) 64px 48px;gap:4px 12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;cursor:pointer}
+.grp-row:last-child{border-bottom:0}
+.grp-row:hover .grp-name{color:var(--accent)}
+.grp-row .grp-bar{grid-column:1 / -1;height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden}
+.grp-row .grp-bar i{display:block;height:100%}
+.grp-row .v{text-align:right;font-weight:600}
+.grp-row .p{text-align:right;color:var(--ink-3);font-size:13px}
+.grp-row small{display:block;color:var(--ink-3);font-size:12px}
+.grp-more{font-size:13px;color:var(--ink-3);padding-top:10px}
+
+/* Cakupan daftar tujuan surat */
+.coverage{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.cov{padding:20px 22px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cov h3{margin:0 0 6px;font-size:13px;font-weight:500;color:var(--ink-3);display:flex;align-items:center;gap:8px}
+.cov h3 i{width:8px;height:8px;border-radius:2px;display:inline-block}
+.cov .big{font-size:28px;font-weight:600;letter-spacing:-.02em}
+.cov .big small{font-size:15px;font-weight:500;color:var(--ink-3)}
+.cov .bar{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden;margin:10px 0 8px}
+.cov .bar i{display:block;height:100%}
+.cov p{margin:0;font-size:13px;color:var(--ink-2)}
+.cov details{margin-top:10px;font-size:13px}
+.cov summary{cursor:pointer;color:var(--accent);font-weight:500}
+.cov ul{margin:8px 0 0;padding-left:18px;color:var(--ink-2);max-height:220px;overflow:auto}
+.cov li{margin:2px 0}
+.cov li small{color:var(--ink-3)}
+.note-luar{margin-top:12px;font-size:13px;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 14px}
+.note-luar b{color:var(--ink)}
+
 /* Instansi terbesar */
 .ranking{padding:8px 28px 20px}
 .legend{display:flex;flex-wrap:wrap;gap:6px 18px;padding:18px 0 10px;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink-2)}
@@ -212,6 +257,11 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
   .insight,.insight + .insight{padding:18px 0;border-left:0}
   .insight + .insight{border-top:1px solid var(--line)}
   .filter-meta{margin-left:0;width:100%;justify-content:space-between}
+  .segmented{max-width:100%;overflow-x:auto;scrollbar-width:none}
+  .segmented::-webkit-scrollbar{display:none}
+  .segmented button{flex:0 0 auto;padding:7px 11px}
+  .sub-select{max-width:none;width:100%}
+  .coverage{grid-template-columns:1fr}
   .search{max-width:none}
   .kpi{padding:18px}
   .kpi .value{font-size:26px}
@@ -270,11 +320,14 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         <input id="search-input" type="search" placeholder="Cari instansi, mis. Kementerian Agama" aria-label="Cari instansi" autocomplete="off">
       </label>
-      <div class="segmented" id="scope-switch" role="group" aria-label="Kelompok instansi">
+      <div class="segmented" id="scope-switch" role="group" aria-label="Kluster instansi">
         <button type="button" data-scope="semua" class="active" aria-pressed="true">Semua</button>
-        <button type="button" data-scope="pusat" aria-pressed="false">Pusat</button>
-        <button type="button" data-scope="daerah" aria-pressed="false">Daerah</button>
+        <button type="button" data-scope="kementerian" aria-pressed="false">Kementerian</button>
+        <button type="button" data-scope="lembaga" aria-pressed="false">Lembaga</button>
+        <button type="button" data-scope="provinsi" aria-pressed="false">Provinsi</button>
+        <button type="button" data-scope="kabkota" aria-pressed="false">Kab/Kota</button>
       </div>
+      <select class="sub-select" id="sub-select" aria-label="Subkelompok" hidden></select>
       <div class="filter-meta">
         <span id="result-meta"></span>
         <button class="btn-link" type="button" id="reset-btn" hidden>Reset filter</button>
@@ -283,7 +336,7 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
   </div>
 
   <div class="page">
-    <section class="kpis" id="kpis" aria-label="Ringkasan"></section>
+    <section class="kpis" id="kpis" aria-label="Ringkasan per kluster"></section>
 
     <section class="block" aria-labelledby="h-komposisi">
       <div class="block-head">
@@ -299,6 +352,17 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
         </div>
         <div class="card scope" id="scope"></div>
       </div>
+    </section>
+
+    <section class="block" aria-labelledby="h-cakupan">
+      <div class="block-head">
+        <div>
+          <h2 id="h-cakupan">Cakupan daftar tujuan surat</h2>
+          <p id="cakupan-sub">Berapa instansi dalam daftar tujuan surat yang sudah memiliki arsiparis tercatat di BKN.</p>
+        </div>
+      </div>
+      <div class="coverage" id="coverage"></div>
+      <div id="note-luar"></div>
     </section>
 
     <section class="block" aria-labelledby="h-ranking">
@@ -344,12 +408,13 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
 
     <footer>
       <span id="source-note">Sumber: BKN</span>
-      <span>Kelompok Pusat/Daerah ditentukan dari nama instansi (awalan “Pemerintah …” = Daerah).</span>
+      <span>Kluster mengikuti Daftar Tujuan Surat: Kementerian (A), Lembaga (B–F), Provinsi (G), Kabupaten/Kota (H).</span>
     </footer>
   </div>
 </main>
 
 <script src="./assets/data_bkn_rekap_2026.js?v=20261008"></script>
+<script src="./assets/referensi_kluster_instansi.js?v=20261021"></script>
 <script>
 const DATA = window.BKN_REKAP_2026 || { records: [], totals: {}, title: '' };
 const JENJANG = [
@@ -363,7 +428,7 @@ const JENJANG = [
 ];
 const GROUPS = { k:'Keterampilan', a:'Keahlian' };
 const PAGE_SIZE = 50;
-const STATE = { q:'', scope:'semua', sortKey:null, sortDir:'desc', showAll:false };
+const STATE = { q:'', scope:'semua', sub:'', sortKey:null, sortDir:'desc', showAll:false };
 
 const $ = id => document.getElementById(id);
 const fmt = n => (n || 0).toLocaleString('id-ID');
@@ -372,11 +437,48 @@ const pct = (n, t, d = 1) => pctNum(n, t).toLocaleString('id-ID', { minimumFract
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
 const isDaerah = name => /^Pemerintah\s/i.test(String(name || ''));
 
+/* ---------- Kluster berdasarkan Daftar Tujuan Surat ---------- */
+const REF = window.KLUSTER_REF || { kode:{}, daftar:[], padanan_bkn:{}, luar_daftar:{} };
+const KLUSTERS = [
+  { id:'kementerian', label:'Kementerian',    short:'Kementerian', color:'var(--k-kem)',  kode:['A'] },
+  { id:'lembaga',     label:'Lembaga',        short:'Lembaga',     color:'var(--k-lem)',  kode:['B','C','D','E','F'] },
+  { id:'provinsi',    label:'Provinsi',       short:'Provinsi',    color:'var(--k-prov)', kode:['G'] },
+  { id:'kabkota',     label:'Kabupaten/Kota', short:'Kab/Kota',    color:'var(--k-kab)',  kode:['H'] }
+];
+const KL_BY_ID = Object.fromEntries(KLUSTERS.map(k => [k.id, k]));
+const KL_BY_KODE = Object.fromEntries(KLUSTERS.flatMap(k => k.kode.map(c => [c, k])));
+const SUB_LABEL = { A:'Kementerian', B:'Alat Negara', C:'LPNK/Badan', D:'Setjen Lembaga Negara', E:'Lembaga Penyiaran', F:'Lembaga Non Struktural', G:'Provinsi', H:'Kabupaten/Kota' };
+const REF_BY_NAME = Object.fromEntries(REF.daftar.map(d => [d.n, d]));
+const provOf = d => d.k === 'G' ? d.n.replace(/^Provinsi\s+/, '') : (d.p || '');
+
+function classify(r){
+  const refName = REF.padanan_bkn[r.nama];
+  const d = refName && REF_BY_NAME[refName];
+  if (d) return { kode:d.k, ref:d.n, prov:provOf(d), luar:'' };
+  const l = REF.luar_daftar[r.nama];
+  if (l) return { kode:l.k, ref:'', prov:'', luar:l.catatan };
+  // Cadangan untuk nama baru yang belum dipadankan
+  const n = String(r.nama);
+  const kode = /^Pemerintah (Kab|Kota)/i.test(n) ? 'H' : /^Pemerintah (Provinsi|Aceh|Daerah)/i.test(n) ? 'G' : /^Kementerian/i.test(n) ? 'A' : 'C';
+  return { kode, ref:'', prov:'', luar:'Belum dipadankan dengan daftar tujuan surat' };
+}
+DATA.records.forEach(r => {
+  const c = classify(r);
+  r._kode = c.kode; r._kl = KL_BY_KODE[c.kode].id; r._sub = SUB_LABEL[c.kode]; r._prov = c.prov; r._ref = c.ref; r._luar = c.luar;
+});
+const MATCHED = new Set(DATA.records.map(r => r._ref).filter(Boolean));
+const PROVINSI = REF.daftar.filter(d => d.k === 'G').map(provOf);
+
+const subOptions = scope => scope === 'lembaga'
+  ? [['', 'Semua lembaga'], ...['B','C','D','E','F'].map(c => [c, SUB_LABEL[c]])]
+  : scope === 'kabkota' ? [['', 'Semua provinsi'], ...PROVINSI.map(p => [p, p])] : [];
+const inScope = r => (STATE.scope === 'semua' || r._kl === STATE.scope)
+  && (!STATE.sub || (STATE.scope === 'lembaga' ? r._kode === STATE.sub : r._prov === STATE.sub));
+
 function filtered(){
   const q = STATE.q.trim().toLowerCase();
   let rows = DATA.records.filter(r => {
-    if (STATE.scope === 'pusat' && isDaerah(r.nama)) return false;
-    if (STATE.scope === 'daerah' && !isDaerah(r.nama)) return false;
+    if (!inScope(r)) return false;
     return !q || String(r.nama).toLowerCase().includes(q);
   });
   if (STATE.sortKey){
@@ -394,7 +496,7 @@ function summarize(rows){
   rows.forEach(r => {
     const t = r.total || 0;
     s.total += t;
-    if (isDaerah(r.nama)) { s.daerahN++; s.daerahT += t; } else { s.pusatN++; s.pusatT += t; }
+    if (r._kl === 'provinsi' || r._kl === 'kabkota') { s.daerahN++; s.daerahT += t; } else { s.pusatN++; s.pusatT += t; }
     JENJANG.forEach(j => s.j[j.key] += r[j.key] || 0);
   });
   s.k = JENJANG.filter(j => j.group === 'k').reduce((a, j) => a + s.j[j.key], 0);
@@ -402,7 +504,7 @@ function summarize(rows){
   return s;
 }
 
-const isFiltered = () => STATE.q.trim() !== '' || STATE.scope !== 'semua';
+const isFiltered = () => STATE.q.trim() !== '' || STATE.scope !== 'semua' || STATE.sub !== '';
 
 function renderHero(s){
   $('kicker').textContent = `Data BKN · ${DATA.updated_at || 'Rekap terbaru'}`;
@@ -432,19 +534,22 @@ function renderInsights(s, rows){
   $('insights').innerHTML = items.map(i => `<div class="insight"><div class="label">${i.label}</div><p>${i.html}</p></div>`).join('');
 }
 
-function renderKpis(s){
-  const items = [
-    { label:'Instansi', value:fmt(s.n), sub:isFiltered() ? 'sesuai filter' : 'instansi pembina JF' },
-    { label:'Arsiparis', value:fmt(s.total), sub:`${pct(s.a, s.total, 0)} rumpun keahlian` },
-    { label:'Instansi Pusat', dot:'var(--pusat)', value:fmt(s.pusatN), sub:`${fmt(s.pusatT)} arsiparis` },
-    { label:'Instansi Daerah', dot:'var(--daerah)', value:fmt(s.daerahN), sub:`${fmt(s.daerahT)} arsiparis` }
-  ];
-  $('kpis').innerHTML = items.map(i => `
-    <div class="kpi">
-      <div class="label">${i.dot ? `<i style="background:${i.dot}"></i>` : ''}${i.label}</div>
-      <div class="value num">${i.value}</div>
-      <div class="sub">${i.sub}</div>
-    </div>`).join('');
+function klusterStats(){
+  return KLUSTERS.map(k => {
+    const rows = DATA.records.filter(r => r._kl === k.id);
+    const daftar = REF.daftar.filter(d => k.kode.includes(d.k));
+    const ada = daftar.filter(d => MATCHED.has(d.n)).length;
+    return { k, n:rows.length, total:rows.reduce((a, r) => a + (r.total || 0), 0), daftar:daftar.length, ada };
+  });
+}
+function renderKpis(){
+  $('kpis').innerHTML = klusterStats().map(x => `
+    <button type="button" class="kpi${STATE.scope === x.k.id ? ' on' : ''}" data-scope="${x.k.id}" aria-pressed="${STATE.scope === x.k.id}">
+      <div class="label"><i style="background:${x.k.color}"></i>${x.k.label}</div>
+      <div class="value num">${fmt(x.total)}</div>
+      <div class="sub"><span class="num">${fmt(x.n)}</span> instansi · <span class="num">${fmt(x.ada)}</span> dari <span class="num">${fmt(x.daftar)}</span> dalam daftar</div>
+      <div class="cover" style="color:${x.k.color}" title="Cakupan daftar ${pct(x.ada, x.daftar, 0)}"><i style="width:${pctNum(x.ada, x.daftar)}%"></i></div>
+    </button>`).join('');
 }
 
 function renderComposition(s){
@@ -467,28 +572,60 @@ function renderComposition(s){
   }).join('');
 }
 
-function splitMetric(title, a, b, unit){
-  const t = a + b || 1;
-  return `<div class="scope-metric">
-    <div class="top"><h3>${title}</h3><span class="num">Total ${fmt(a + b)}</span></div>
-    <div class="split-bar" role="img" aria-label="${title}: Pusat ${fmt(a)}, Daerah ${fmt(b)}">
-      ${a ? `<div style="flex:${a} 0 0;background:var(--pusat)"></div>` : ''}
-      ${b ? `<div style="flex:${b} 0 0;background:var(--daerah)"></div>` : ''}
-    </div>
-    <div class="split-legend">
-      <div><b class="num">${fmt(a)}</b>Pusat · ${pct(a, t, 0)}</div>
-      <div class="r"><b class="num">${fmt(b)}</b>Daerah · ${pct(b, t, 0)}</div>
-    </div>
-  </div>`;
+function groupRows(rows, keyFn, labelFn, colorFn){
+  const m = new Map();
+  rows.forEach(r => { const k = keyFn(r); if (!k) return; const g = m.get(k) || { key:k, n:0, total:0 }; g.n++; g.total += r.total || 0; m.set(k, g); });
+  return [...m.values()].sort((a, b) => b.total - a.total).map(g => ({ ...g, label:labelFn(g.key), color:colorFn(g.key) }));
+}
+function renderScope(s, rows){
+  let title, groups, act;
+  if (STATE.scope === 'lembaga' && !STATE.sub){
+    title = 'Lembaga per subkelompok';
+    groups = groupRows(rows, r => r._kode, c => SUB_LABEL[c], () => 'var(--k-lem)'); act = 'sub';
+  } else if ((STATE.scope === 'kabkota' && !STATE.sub) || STATE.scope === 'provinsi'){
+    title = STATE.scope === 'provinsi' ? 'Arsiparis pemerintah provinsi' : 'Kabupaten/Kota per provinsi';
+    groups = groupRows(rows, r => r._prov, p => p, () => STATE.scope === 'provinsi' ? 'var(--k-prov)' : 'var(--k-kab)');
+    act = STATE.scope === 'kabkota' ? 'sub' : 'q';
+  } else {
+    title = 'Arsiparis per kluster';
+    groups = groupRows(rows, r => r._kl, id => KL_BY_ID[id].label, id => KL_BY_ID[id].color); act = 'scope';
+  }
+  const t = s.total || 1, LIMIT = 10, max = groups[0] ? groups[0].total : 1;
+  $('scope').innerHTML = `
+    <div>
+      <div class="grp-title"><h3>${title}</h3><span class="num">${fmt(groups.length)} kelompok</span></div>
+      ${groups.slice(0, LIMIT).map(g => `
+        <div class="grp-row" data-act="${act}" data-key="${esc(g.key)}" title="Klik untuk menyaring">
+          <span class="grp-name">${esc(g.label)}<small><span class="num">${fmt(g.n)}</span> instansi · rata-rata <span class="num">${fmt(Math.round(g.total / g.n))}</span></small></span>
+          <span class="v num">${fmt(g.total)}</span>
+          <span class="p num">${pct(g.total, t, 0)}</span>
+          <span class="grp-bar"><i style="width:${(g.total / max) * 100}%;background:${g.color}"></i></span>
+        </div>`).join('') || '<div class="empty">Tidak ada data.</div>'}
+      ${groups.length > LIMIT ? `<div class="grp-more">dan ${fmt(groups.length - LIMIT)} kelompok lainnya; lihat tabel di bawah.</div>` : ''}
+    </div>`;
 }
 
-function renderScope(s){
-  const avgP = s.pusatN ? Math.round(s.pusatT / s.pusatN) : 0;
-  const avgD = s.daerahN ? Math.round(s.daerahT / s.daerahN) : 0;
-  $('scope').innerHTML = `
-    ${splitMetric('Jumlah instansi', s.pusatN, s.daerahN)}
-    ${splitMetric('Jumlah arsiparis', s.pusatT, s.daerahT)}
-    <p class="scope-note">Rata-rata per instansi: <b class="num">${fmt(avgP)}</b> arsiparis di pusat, <b class="num">${fmt(avgD)}</b> di daerah.</p>`;
+function renderCoverage(){
+  const ks = STATE.scope === 'semua' ? KLUSTERS : [KL_BY_ID[STATE.scope]];
+  const cards = ks.map(k => {
+    let daftar = REF.daftar.filter(d => k.kode.includes(d.k));
+    if (STATE.sub) daftar = daftar.filter(d => STATE.scope === 'lembaga' ? d.k === STATE.sub : provOf(d) === STATE.sub);
+    const belum = daftar.filter(d => !MATCHED.has(d.n));
+    const ada = daftar.length - belum.length;
+    const nm = d => d.n.replace(/\s*\(([^)]*)\)/, ' ($1)');
+    const label = STATE.sub ? `${k.label} · ${STATE.scope === 'lembaga' ? SUB_LABEL[STATE.sub] : STATE.sub}` : k.label;
+    return `<div class="cov">
+      <h3><i style="background:${k.color}"></i>${esc(label)}</h3>
+      <div class="big num">${fmt(ada)} <small>dari ${fmt(daftar.length)} instansi</small></div>
+      <div class="bar"><i style="width:${pctNum(ada, daftar.length)}%;background:${k.color}"></i></div>
+      <p>${belum.length ? `<b class="num">${fmt(belum.length)}</b> instansi dalam daftar belum memiliki arsiparis tercatat di BKN.` : 'Semua instansi dalam daftar sudah memiliki arsiparis tercatat.'}</p>
+      ${belum.length ? `<details><summary>Lihat ${fmt(belum.length)} instansi</summary><ul>${belum.map(d =>
+        `<li>${esc(nm(d))}${d.k !== k.kode[0] || k.id === 'kabkota' ? ` <small>· ${esc(k.id === 'kabkota' ? d.p : SUB_LABEL[d.k])}</small>` : ''}</li>`).join('')}</ul></details>` : ''}
+    </div>`;
+  });
+  $('coverage').innerHTML = cards.join('');
+  const luar = DATA.records.filter(r => r._luar && inScope(r));
+  $('note-luar').innerHTML = luar.length ? `<div class="note-luar"><b>${fmt(luar.length)} instansi di data BKN tidak ada di daftar tujuan surat</b> dan dikelompokkan berdasarkan jenisnya: ${luar.map(r => `${esc(r.nama)} (${esc(r._sub)}${/lama/.test(r._luar) ? ', nomenklatur lama' : ''})`).join('; ')}.</div>` : '';
 }
 
 function renderRanking(rows){
@@ -509,6 +646,7 @@ function renderRanking(rows){
     </div>`).join('');
 }
 
+const klLabel = r => r._kl === 'kabkota' ? `Kab/Kota · ${r._prov || '-'}` : r._kl === 'lembaga' ? `Lembaga · ${r._sub}` : KL_BY_ID[r._kl].label + (r._luar ? ' · di luar daftar' : '');
 const COLS = [
   { key:'nama', label:'Instansi', cls:'sticky' },
   ...JENJANG.map((j, i) => ({ key:j.key, label:j.short, grp:i === 0 ? 'Keterampilan' : i === 3 ? 'Keahlian' : '', cls:'n' + (i === 0 || i === 3 ? ' sep' : '') })),
@@ -528,7 +666,7 @@ function renderTable(rows){
   const shown = STATE.showAll ? rows : rows.slice(0, PAGE_SIZE);
   $('tbody').innerHTML = shown.length ? shown.map(r => `
     <tr>
-      <td class="name sticky">${esc(r.nama)}<small>${isDaerah(r.nama) ? 'Daerah' : 'Pusat'}</small>
+      <td class="name sticky">${esc(r.nama)}<small>${esc(klLabel(r))}</small>
         <span class="mini" aria-hidden="true">${JENJANG.filter(j => r[j.key] > 0).map(j => `<i style="flex:${r[j.key]} 0 0;background:${j.color}"></i>`).join('')}</span></td>
       ${JENJANG.map((j, i) => `<td class="n${(r[j.key] || 0) === 0 ? ' zero' : ''}${i === 0 || i === 3 ? ' sep' : ''}">${fmt(r[j.key])}</td>`).join('')}
       <td class="n total sep">${fmt(r.total)}</td>
@@ -547,9 +685,11 @@ function render(){
   const s = summarize(rows);
   renderHero(s);
   renderInsights(s, rows);
-  renderKpis(s);
+  renderKpis();
+  renderSub();
   renderComposition(s);
-  renderScope(s);
+  renderScope(s, rows);
+  renderCoverage();
   renderRanking(rows);
   renderTable(rows);
 }
@@ -560,13 +700,27 @@ $('search-input').addEventListener('input', e => {
   clearTimeout(debounce);
   debounce = setTimeout(() => { STATE.q = e.target.value; STATE.showAll = false; render(); }, 120);
 });
-document.querySelectorAll('#scope-switch button').forEach(btn => btn.addEventListener('click', () => {
-  STATE.scope = btn.dataset.scope; STATE.showAll = false;
+function renderSub(){
+  const opts = subOptions(STATE.scope), el = $('sub-select');
+  el.hidden = !opts.length;
+  const sig = STATE.scope;
+  if (el.dataset.sig !== sig){ el.innerHTML = opts.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join(''); el.dataset.sig = sig; }
+  el.value = STATE.sub;
   document.querySelectorAll('#scope-switch button').forEach(b => {
-    b.classList.toggle('active', b === btn); b.setAttribute('aria-pressed', b === btn);
+    const on = b.dataset.scope === STATE.scope; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on);
   });
-  render();
-}));
+}
+function setScope(scope, sub = ''){ STATE.scope = scope; STATE.sub = sub; STATE.showAll = false; render(); }
+document.querySelectorAll('#scope-switch button').forEach(btn => btn.addEventListener('click', () => setScope(btn.dataset.scope)));
+$('kpis').addEventListener('click', e => { const b = e.target.closest('button[data-scope]'); if (b) setScope(STATE.scope === b.dataset.scope ? 'semua' : b.dataset.scope); });
+$('sub-select').addEventListener('change', e => { STATE.sub = e.target.value; STATE.showAll = false; render(); });
+$('scope').addEventListener('click', e => {
+  const row = e.target.closest('.grp-row'); if (!row) return;
+  const { act, key } = row.dataset;
+  if (act === 'scope') setScope(key);
+  else if (act === 'sub') setScope(STATE.scope, key);
+  else { $('search-input').value = key; STATE.q = key; render(); }
+});
 $('thead').addEventListener('click', e => {
   const btn = e.target.closest('button[data-key]'); if (!btn) return;
   const k = btn.dataset.key;
@@ -576,7 +730,7 @@ $('thead').addEventListener('click', e => {
 });
 $('more-btn').addEventListener('click', () => { STATE.showAll = !STATE.showAll; render(); });
 $('reset-btn').addEventListener('click', () => {
-  Object.assign(STATE, { q:'', scope:'semua', sortKey:null, sortDir:'desc', showAll:false });
+  Object.assign(STATE, { q:'', scope:'semua', sub:'', sortKey:null, sortDir:'desc', showAll:false });
   $('search-input').value = '';
   document.querySelectorAll('#scope-switch button').forEach(b => {
     const on = b.dataset.scope === 'semua'; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on);
@@ -585,9 +739,9 @@ $('reset-btn').addEventListener('click', () => {
 });
 $('export-btn').addEventListener('click', () => {
   const rows = filtered();
-  const head = ['No', 'Instansi', 'Kelompok', ...JENJANG.map(j => j.label), 'Total'];
+  const head = ['No', 'Instansi (BKN)', 'Kluster', 'Subkelompok', 'Provinsi', 'Nama di Daftar Tujuan Surat', ...JENJANG.map(j => j.label), 'Total', 'Catatan'];
   const q = v => /[";\n]/.test(String(v)) ? `"${String(v).replace(/"/g, '""')}"` : v;
-  const lines = [head, ...rows.map((r, i) => [i + 1, r.nama, isDaerah(r.nama) ? 'Daerah' : 'Pusat', ...JENJANG.map(j => r[j.key] || 0), r.total || 0])]
+  const lines = [head, ...rows.map((r, i) => [i + 1, r.nama, KL_BY_ID[r._kl].label, r._sub, r._prov, r._ref, ...JENJANG.map(j => r[j.key] || 0), r.total || 0, r._luar])]
     .map(l => l.map(q).join(';'));
   const blob = new Blob(['﻿' + lines.join('\r\n')], { type:'text/csv;charset=utf-8' });
   const a = Object.assign(document.createElement('a'), {
