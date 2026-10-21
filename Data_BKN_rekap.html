@@ -177,6 +177,58 @@ button.kpi.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height
 .grp-row small{display:block;color:var(--ink-3);font-size:12px}
 .grp-more{font-size:13px;color:var(--ink-3);padding-top:10px}
 
+/* ---------- Peta sebaran ---------- */
+.map-card{display:grid;grid-template-columns:minmax(0,1fr) 320px;overflow:hidden}
+.map-main{position:relative;padding:18px 20px 14px;border-right:1px solid var(--line);min-width:0}
+.map-tools{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.map-crumb{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-3);min-height:32px}
+.map-crumb button{border:0;background:none;padding:4px 0;font:inherit;color:var(--accent);font-weight:500;cursor:pointer}
+.map-crumb button:hover{text-decoration:underline;text-underline-offset:3px}
+.map-crumb b{color:var(--ink);font-weight:600}
+.map-metric{display:inline-flex;padding:3px;border-radius:9px;background:rgba(17,23,34,.06)}
+.map-metric button{border:0;background:transparent;padding:6px 11px;border-radius:7px;font-size:12.5px;font-weight:500;color:var(--ink-2);cursor:pointer}
+.map-metric button.active{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(17,23,34,.12)}
+.map-svg{display:block;width:100%;height:auto;touch-action:none;cursor:grab}
+.map-svg:active{cursor:grabbing}
+.map-svg path.prov,.map-svg path.kab{stroke:#fff;stroke-linejoin:round;cursor:pointer;transition:fill .25s}
+.map-svg path.prov:hover,.map-svg path.kab:hover{stroke:var(--ink);stroke-width:1.2px}
+.map-svg path.kab.dim{opacity:.18;pointer-events:none}
+.map-svg path.sel{stroke:var(--ink);stroke-width:1.6px}
+.map-legend{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin-top:6px}
+.map-legend .scale{display:flex;align-items:center;gap:0}
+.map-legend .scale span{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:52px}
+.map-legend .scale i{display:block;width:100%;height:10px}
+.map-legend .nodata{display:inline-flex;align-items:center;gap:6px}
+.map-legend .nodata i{width:14px;height:10px;display:inline-block;border:1px solid var(--line-strong)}
+.map-note{font-size:11.5px;color:var(--ink-3);margin-top:8px}
+.map-tip{position:absolute;pointer-events:none;background:#111722;color:#fff;font-size:12.5px;line-height:1.4;padding:8px 10px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.18);opacity:0;transition:opacity .12s;z-index:5;max-width:240px}
+.map-tip b{display:block;font-weight:600;margin-bottom:2px}
+.map-side{padding:20px 22px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.map-side h3{margin:0;font-size:18px;font-weight:600;letter-spacing:-.01em}
+.map-side .kick{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.map-side .big{font-size:34px;font-weight:600;letter-spacing:-.02em;line-height:1}
+.map-side .big small{display:block;font-size:13px;font-weight:400;color:var(--ink-3);letter-spacing:0;margin-top:6px}
+.map-stats{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.map-stats div{padding:10px 12px}
+.map-stats div + div{border-left:1px solid var(--line)}
+.map-stats b{display:block;font-size:17px;font-weight:600}
+.map-stats span{font-size:12px;color:var(--ink-3)}
+.map-jbar{display:flex;height:10px;border-radius:5px;overflow:hidden;gap:1px;background:var(--surface-2)}
+.map-list{margin:0;padding:0;list-style:none}
+.map-list li{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.map-list li:last-child{border-bottom:0}
+.map-list button{all:unset;cursor:pointer;color:var(--ink);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.map-list button:hover{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.map-list .num{font-weight:600;flex-shrink:0}
+.map-side .sec{font-size:12px;font-weight:600;color:var(--ink-3);margin:2px 0 -6px}
+.map-jrows{display:grid;grid-template-columns:10px 1fr auto;gap:6px 8px;align-items:center;font-size:13px}
+.map-jrows i{width:10px;height:10px;border-radius:2px}
+.map-jrows .num{text-align:right;font-weight:600}
+.map-fallback{padding:40px 20px;text-align:center;color:var(--ink-3)}
+.wil-chip{display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:500;border-radius:999px;padding:4px 6px 4px 12px}
+.wil-chip button{border:0;background:rgba(11,93,150,.12);color:var(--accent);width:20px;height:20px;border-radius:50%;cursor:pointer;font-size:13px;line-height:1}
+.wil-chip[hidden]{display:none}
+
 
 /* Instansi terbesar */
 .ranking{padding:8px 28px 20px}
@@ -226,6 +278,8 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
 
 /* ---------- Responsif ---------- */
 @media (max-width:1024px){
+  .map-card{grid-template-columns:1fr}
+  .map-main{border-right:0;border-bottom:1px solid var(--line)}
   .hero{grid-template-columns:1fr;gap:28px}
   .hero-figure{text-align:left}
   .grid-2{grid-template-columns:1fr}
@@ -259,6 +313,9 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
   .block-head{flex-direction:column;align-items:flex-start}
   .block-head h2{font-size:23px}
   .composition,.scope{padding:20px}
+  .map-main{padding:14px 12px 12px}
+  .map-side{padding:18px 16px}
+  .map-legend .scale span{min-width:44px}
   .comp-groups{grid-template-columns:1fr;gap:24px}
   .ranking{padding:4px 20px 12px}
   .rank-row{grid-template-columns:22px minmax(0,1fr) 60px;gap:4px 12px}
@@ -318,6 +375,7 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
         <button type="button" data-scope="kabkota" aria-pressed="false">Kab/Kota</button>
       </div>
       <select class="sub-select" id="sub-select" aria-label="Subkelompok" hidden></select>
+      <span class="wil-chip" id="wil-chip" hidden><span id="wil-chip-text"></span><button type="button" id="wil-clear" aria-label="Hapus filter wilayah">×</button></span>
       <div class="filter-meta">
         <span id="result-meta"></span>
         <button class="btn-link" type="button" id="reset-btn" hidden>Reset filter</button>
@@ -327,6 +385,31 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
 
   <div class="page">
     <section class="kpis" id="kpis" aria-label="Ringkasan per kluster"></section>
+
+    <section class="block" aria-labelledby="h-peta">
+      <div class="block-head">
+        <div>
+          <h2 id="h-peta">Peta sebaran instansi daerah</h2>
+          <p>Klik provinsi untuk melihat kabupaten/kota di dalamnya; klik kabupaten/kota untuk rinciannya. Pilihan di peta ikut menyaring seluruh halaman.</p>
+        </div>
+      </div>
+      <div class="card map-card">
+        <div class="map-main">
+          <div class="map-tools">
+            <div class="map-crumb" id="map-crumb"></div>
+            <div class="map-metric" id="map-metric" role="group" aria-label="Ukuran di peta">
+              <button type="button" data-m="total" class="active">Jumlah arsiparis</button>
+              <button type="button" data-m="avg">Rata-rata per instansi</button>
+            </div>
+          </div>
+          <svg class="map-svg" id="map-svg" viewBox="0 0 1000 400" role="img" aria-label="Peta sebaran arsiparis instansi daerah"></svg>
+          <div class="map-tip" id="map-tip" role="status"></div>
+          <div class="map-legend" id="map-legend"></div>
+          <div class="map-note">Batas wilayah: geoBoundaries (BPS, CC BY 3.0 IGO), disederhanakan dan bersifat ilustratif. Kota administrasi DKI Jakarta bukan daerah otonom.</div>
+        </div>
+        <aside class="map-side" id="map-side" aria-live="polite"></aside>
+      </div>
+    </section>
 
     <section class="block" aria-labelledby="h-komposisi">
       <div class="block-head">
@@ -394,6 +477,9 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
 
 <script src="./assets/data_bkn_rekap_2026.js?v=20261008"></script>
 <script src="./assets/referensi_kluster_instansi.js?v=20261021"></script>
+<script src="./assets/peta_indonesia.js?v=20261021"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
 <script>
 const DATA = window.BKN_REKAP_2026 || { records: [], totals: {}, title: '' };
 const JENJANG = [
@@ -407,7 +493,7 @@ const JENJANG = [
 ];
 const GROUPS = { k:'Keterampilan', a:'Keahlian' };
 const PAGE_SIZE = 50;
-const STATE = { q:'', scope:'semua', sub:'', sortKey:null, sortDir:'desc', showAll:false };
+const STATE = { q:'', scope:'semua', sub:'', wil:'', kab:'', sortKey:null, sortDir:'desc', showAll:false };
 
 const $ = id => document.getElementById(id);
 const fmt = n => (n || 0).toLocaleString('id-ID');
@@ -450,8 +536,10 @@ const PROVINSI = REF.daftar.filter(d => d.k === 'G').map(provOf);
 const subOptions = scope => scope === 'lembaga'
   ? [['', 'Semua lembaga'], ...['B','C','D','E','F'].map(c => [c, SUB_LABEL[c]])]
   : (scope === 'kabkota' || scope === 'provinsi') ? [['', 'Semua provinsi'], ...PROVINSI.map(p => [p, p])] : [];
+const inWil = r => (!STATE.wil || r._prov === STATE.wil) && (!STATE.kab || r._ref === STATE.kab);
 const inScope = r => (STATE.scope === 'semua' || r._kl === STATE.scope)
-  && (!STATE.sub || (STATE.scope === 'lembaga' ? r._kode === STATE.sub : r._prov === STATE.sub));
+  && (!STATE.sub || (STATE.scope === 'lembaga' ? r._kode === STATE.sub : r._prov === STATE.sub))
+  && inWil(r);
 
 const matchQ = r => { const q = STATE.q.trim().toLowerCase(); return !q || String(r.nama).toLowerCase().includes(q); };
 
@@ -484,7 +572,7 @@ function summarize(rows){
   return s;
 }
 
-const isFiltered = () => STATE.q.trim() !== '' || STATE.scope !== 'semua' || STATE.sub !== '';
+const isFiltered = () => STATE.q.trim() !== '' || STATE.scope !== 'semua' || STATE.sub !== '' || STATE.wil !== '' || STATE.kab !== '';
 
 function renderHero(s){
   $('kicker').textContent = `Data BKN · ${DATA.updated_at || 'Rekap terbaru'}`;
@@ -652,9 +740,183 @@ function render(){
   renderSub();
   renderComposition(s);
   renderScope();
+  renderWilChip();
+  MAP.update && MAP.update();
   renderRanking(rows);
   renderTable(rows);
 }
+
+/* ---------- Peta sebaran ---------- */
+const REC_BY_REF = Object.fromEntries(DATA.records.filter(r => r._ref).map(r => [r._ref, r]));
+const KAB_REF = REF.daftar.filter(d => d.k === 'H');
+const shortKab = n => n.replace(/^Kabupaten /, 'Kab. ');
+function renderWilChip(){
+  const on = !!STATE.wil;
+  $('wil-chip').hidden = !on;
+  if (on) $('wil-chip-text').textContent = STATE.kab ? `${STATE.wil} › ${shortKab(STATE.kab)}` : `Wilayah: ${STATE.wil}`;
+}
+const MAP = (function(){
+  const svgEl = $('map-svg');
+  if (!window.d3 || !window.topojson || !window.PETA_INDONESIA){
+    svgEl.outerHTML = '<div class="map-fallback">Peta tidak dapat dimuat (pustaka peta diblokir jaringan). Data lain di halaman ini tetap dapat digunakan.</div>';
+    $('map-side').innerHTML = ''; return {};
+  }
+  const topo = window.PETA_INDONESIA;
+  const provF = topojson.feature(topo, topo.objects.prov).features;
+  const kabF  = topojson.feature(topo, topo.objects.kab).features;
+  const W = 1000, H = 400;
+  const proj = d3.geoMercator().fitExtent([[8, 8], [W - 8, H - 8]], { type:'FeatureCollection', features:provF });
+  const path = d3.geoPath(proj);
+  const svg = d3.select(svgEl);
+  const defs = svg.append('defs');
+  defs.append('pattern').attr('id', 'hatch').attr('patternUnits', 'userSpaceOnUse').attr('width', 5).attr('height', 5).attr('patternTransform', 'rotate(45)')
+    .call(p => { p.append('rect').attr('width', 5).attr('height', 5).attr('fill', '#eeeeea'); p.append('line').attr('x1', 0).attr('y1', 0).attr('x2', 0).attr('y2', 5).attr('stroke', '#c9c9c3').attr('stroke-width', 2); });
+  const g = svg.append('g');
+  const gKab = g.append('g'), gProv = g.append('g');
+  const tip = $('map-tip');
+  const COLORS = ['#d6ebf7', '#9cd0ec', '#4fa6d6', '#1677b8', '#0a3d6b'];
+  let metric = 'total', k = 1;
+
+  // Nilai per wilayah, mengikuti filter kluster (bukan filter wilayah)
+  const useRec = r => (r._kl === 'provinsi' || r._kl === 'kabkota') && matchQ(r)
+    && (STATE.scope === 'semua' || STATE.scope === 'kementerian' || STATE.scope === 'lembaga' || r._kl === STATE.scope);
+  function provStats(){
+    const m = new Map(provF.map(f => [f.properties.prov, { prov:f.properties.prov, total:0, n:0, pemprov:null, kabAda:0, kabAll:0, j:{} }]));
+    KAB_REF.forEach(d => { const x = m.get(d.p); if (x) x.kabAll++; });
+    DATA.records.forEach(r => {
+      if (!useRec(r)) return; const x = m.get(r._prov); if (!x) return;
+      x.total += r.total || 0; x.n++;
+      JENJANG.forEach(j => x.j[j.key] = (x.j[j.key] || 0) + (r[j.key] || 0));
+      if (r._kl === 'provinsi') x.pemprov = r; else x.kabAda++;
+    });
+    m.forEach(x => x.avg = x.n ? x.total / x.n : 0);
+    return m;
+  }
+  const kabRec = id => { const r = REC_BY_REF[id]; return r && useRec(r) ? r : null; };
+  const val = (x, isKab) => isKab ? (x ? (metric === 'avg' ? x.total : x.total) : null) : (x && x.n ? x[metric] : null);
+  function scaleFor(values){
+    const v = values.filter(x => x != null && x > 0).sort(d3.ascending);
+    if (!v.length) return { color:() => 'url(#hatch)', breaks:[] };
+    const q = d3.scaleQuantile().domain(v).range(COLORS);
+    return { color:x => (x == null || x <= 0) ? 'url(#hatch)' : q(x), breaks:[v[0], ...q.quantiles(), v[v.length - 1]] };
+  }
+  const fmt0 = n => fmt(Math.round(n));
+  function legend(sc, label){
+    $('map-legend').innerHTML = (sc.breaks.length ? `<span>${label}</span><span class="scale">${COLORS.map((c, i) =>
+      `<span><i style="background:${c}"></i><span class="num">${i === 0 ? fmt0(sc.breaks[0]) : fmt0(sc.breaks[i])}</span></span>`).join('')}<span><i style="background:transparent"></i><span class="num">${fmt0(sc.breaks[sc.breaks.length - 1])}</span></span></span>` : '')
+      + `<span class="nodata"><i style="background:url(#hatch);background:repeating-linear-gradient(45deg,#eeeeea 0 3px,#c9c9c3 3px 5px)"></i>Belum ada arsiparis tercatat</span>`;
+  }
+  function showTip(ev, html){
+    const box = svgEl.parentNode.getBoundingClientRect();
+    tip.innerHTML = html; tip.style.opacity = 1;
+    const x = ev.clientX - box.left + 14, y = ev.clientY - box.top + 14;
+    tip.style.left = Math.min(x, box.width - tip.offsetWidth - 8) + 'px'; tip.style.top = y + 'px';
+  }
+  const hideTip = () => tip.style.opacity = 0;
+
+  // Gambar provinsi & kab/kota
+  const provSel = gProv.selectAll('path').data(provF).join('path').attr('class', 'prov').attr('d', path)
+    .on('mousemove', (ev, f) => { const x = STATS.get(f.properties.prov); showTip(ev, `<b>${esc(f.properties.prov)}</b>${x && x.n ? `${fmt(x.total)} arsiparis · ${fmt(x.n)} instansi daerah` : 'Belum ada arsiparis tercatat'}`); })
+    .on('mouseleave', hideTip)
+    .on('click', (ev, f) => { hideTip(); selectProv(f.properties.prov); });
+  const kabSel = gKab.selectAll('path').data(kabF).join('path').attr('class', 'kab').attr('d', path).style('display', 'none')
+    .on('mousemove', (ev, f) => { const r = kabRec(f.properties.id); showTip(ev, `<b>${esc(shortKab(f.properties.id))}</b>${r ? `${fmt(r.total)} arsiparis` : 'Belum ada arsiparis tercatat'}`); })
+    .on('mouseleave', hideTip)
+    .on('click', (ev, f) => { hideTip(); selectKab(f.properties.id); });
+
+  const zoom = d3.zoom().scaleExtent([1, 40]).translateExtent([[0, 0], [W, H]]).on('zoom', ev => {
+    k = ev.transform.k; g.attr('transform', ev.transform);
+    gProv.selectAll('path').attr('stroke-width', 0.8 / k); gKab.selectAll('path').attr('stroke-width', 0.6 / k);
+  });
+  svg.call(zoom).on('dblclick.zoom', null);
+  function zoomTo(features){
+    if (!features){ svg.transition().duration(650).call(zoom.transform, d3.zoomIdentity); return; }
+    const [[x0, y0], [x1, y1]] = path.bounds({ type:'FeatureCollection', features });
+    const s = Math.min(40, 0.88 / Math.max((x1 - x0) / W, (y1 - y0) / H));
+    svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity.translate(W / 2, H / 2).scale(s).translate(-(x0 + x1) / 2, -(y0 + y1) / 2));
+  }
+
+  function selectProv(p){
+    const same = STATE.wil === p && !STATE.kab;
+    STATE.wil = same ? '' : p; STATE.kab = ''; STATE.showAll = false;
+    render(); zoomTo(same ? null : provF.filter(f => f.properties.prov === p));
+  }
+  function selectKab(id){
+    const d = KAB_REF.find(x => x.n === id); if (!d) return;
+    STATE.wil = d.p; STATE.kab = STATE.kab === id ? '' : id; STATE.showAll = false; render();
+  }
+
+  let STATS = new Map();
+  function update(){
+    STATS = provStats();
+    const inProv = !!STATE.wil;
+    let sc;
+    if (!inProv){
+      sc = scaleFor([...STATS.values()].map(x => val(x)));
+      provSel.style('display', null).attr('fill', f => sc.color(val(STATS.get(f.properties.prov)))).classed('sel', false);
+      kabSel.style('display', 'none');
+      legend(sc, metric === 'avg' ? 'Rata-rata per instansi' : 'Arsiparis per provinsi');
+    } else {
+      const ids = kabF.filter(f => f.properties.prov === STATE.wil);
+      sc = scaleFor(ids.map(f => { const r = kabRec(f.properties.id); return r ? r.total : null; }));
+      provSel.style('display', f => f.properties.prov === STATE.wil ? 'none' : null).attr('fill', '#ececE8');
+      kabSel.style('display', f => f.properties.prov === STATE.wil ? null : 'none')
+        .attr('fill', f => { const r = kabRec(f.properties.id); return sc.color(r ? r.total : null); })
+        .classed('sel', f => f.properties.id === STATE.kab);
+      legend(sc, 'Arsiparis per kab/kota');
+    }
+    // remah roti
+    $('map-crumb').innerHTML = !inProv ? '<b>Indonesia</b>'
+      : `<button type="button" data-crumb="id">Indonesia</button><span>›</span>${STATE.kab ? `<button type="button" data-crumb="prov">${esc(STATE.wil)}</button><span>›</span><b>${esc(shortKab(STATE.kab))}</b>` : `<b>${esc(STATE.wil)}</b>`}`;
+    $('map-metric').style.visibility = inProv ? 'hidden' : 'visible';
+    side();
+  }
+  const jbar = j => { const t = JENJANG.reduce((a, x) => a + (j[x.key] || 0), 0) || 1;
+    return `<div class="map-jbar">${JENJANG.filter(x => j[x.key]).map(x => `<div style="flex:${j[x.key]} 0 0;background:${x.color}" title="${x.label}: ${fmt(j[x.key])}"></div>`).join('')}</div>`; };
+  function side(){
+    const el = $('map-side');
+    const centralNote = (STATE.scope === 'kementerian' || STATE.scope === 'lembaga') ? `<p class="map-note" style="margin:0">Kementerian dan lembaga berkedudukan di pusat; peta menampilkan instansi daerah.</p>` : '';
+    if (!STATE.wil){
+      const xs = [...STATS.values()];
+      const tot = xs.reduce((a, x) => a + x.total, 0), pem = xs.filter(x => x.pemprov).length, kab = xs.reduce((a, x) => a + x.kabAda, 0), kabAll = xs.reduce((a, x) => a + x.kabAll, 0);
+      const top = xs.filter(x => x.n).sort((a, b) => b[metric] - a[metric]).slice(0, 8);
+      el.innerHTML = `<div class="kick">Indonesia · instansi daerah</div>
+        <div class="big num">${fmt(tot)}<small>arsiparis di pemerintah provinsi dan kabupaten/kota</small></div>
+        <div class="map-stats"><div><b class="num">${fmt(pem)}<span> / 38</span></b><span>pemprov berarsiparis</span></div><div><b class="num">${fmt(kab)}<span> / ${fmt(kabAll)}</span></b><span>kab/kota berarsiparis</span></div></div>
+        ${centralNote}
+        <div class="sec">${metric === 'avg' ? 'Rata-rata tertinggi' : 'Provinsi teratas'}</div>
+        <ul class="map-list">${top.map(x => `<li><button type="button" data-prov="${esc(x.prov)}">${esc(x.prov)}</button><span class="num">${fmt0(x[metric])}</span></li>`).join('')}</ul>`;
+      return;
+    }
+    if (STATE.kab){
+      const r = kabRec(STATE.kab);
+      el.innerHTML = `<div class="kick">${esc(STATE.wil)}</div><h3>${esc(STATE.kab)}</h3>
+        ${r ? `<div class="big num">${fmt(r.total)}<small>arsiparis</small></div>${jbar(r)}
+        <div class="map-jrows">${JENJANG.map(j => `<i style="background:${j.color}"></i><span>${j.label}</span><span class="num">${fmt(r[j.key])}</span>`).join('')}</div>`
+        : '<p class="map-note" style="margin:0;font-size:13.5px">Belum ada arsiparis tercatat di data BKN.</p>'}`;
+      return;
+    }
+    const x = STATS.get(STATE.wil);
+    const kabs = KAB_REF.filter(d => d.p === STATE.wil).map(d => ({ d, r:kabRec(d.n) })).sort((a, b) => (b.r ? b.r.total : -1) - (a.r ? a.r.total : -1));
+    el.innerHTML = `<div class="kick">Provinsi</div><h3>${esc(STATE.wil)}</h3>
+      <div class="big num">${fmt(x ? x.total : 0)}<small>arsiparis di pemprov dan kab/kota</small></div>
+      ${x && x.total ? jbar(x.j) : ''}
+      <div class="map-stats"><div><b class="num">${x && x.pemprov ? fmt(x.pemprov.total) : '–'}</b><span>pemerintah provinsi</span></div><div><b class="num">${fmt(x ? x.kabAda : 0)}<span> / ${fmt(x ? x.kabAll : 0)}</span></b><span>kab/kota berarsiparis</span></div></div>
+      <div class="sec">Kabupaten/kota</div>
+      <ul class="map-list" style="max-height:260px;overflow:auto">${kabs.map(({ d, r }) => `<li><button type="button" data-kab="${esc(d.n)}">${esc(shortKab(d.n))}</button><span class="num"${r ? '' : ' style="color:var(--ink-3);font-weight:400"'}>${r ? fmt(r.total) : '–'}</span></li>`).join('')}</ul>`;
+  }
+
+  $('map-metric').addEventListener('click', e => { const b = e.target.closest('button[data-m]'); if (!b) return; metric = b.dataset.m;
+    document.querySelectorAll('#map-metric button').forEach(x => x.classList.toggle('active', x === b)); update(); });
+  $('map-side').addEventListener('click', e => {
+    const p = e.target.closest('[data-prov]'), kb = e.target.closest('[data-kab]');
+    if (p) selectProv(p.dataset.prov); else if (kb) selectKab(kb.dataset.kab);
+  });
+  $('map-crumb').addEventListener('click', e => { const b = e.target.closest('[data-crumb]'); if (!b) return;
+    if (b.dataset.crumb === 'id'){ STATE.wil = ''; STATE.kab = ''; render(); zoomTo(null); } else { STATE.kab = ''; render(); } });
+  $('wil-clear').addEventListener('click', () => { STATE.wil = ''; STATE.kab = ''; render(); zoomTo(null); });
+  return { update, reset:() => zoomTo(null) };
+})();
 
 /* ---------- Interaksi ---------- */
 let debounce;
@@ -692,7 +954,8 @@ $('thead').addEventListener('click', e => {
 });
 $('more-btn').addEventListener('click', () => { STATE.showAll = !STATE.showAll; render(); });
 $('reset-btn').addEventListener('click', () => {
-  Object.assign(STATE, { q:'', scope:'semua', sub:'', sortKey:null, sortDir:'desc', showAll:false });
+  Object.assign(STATE, { q:'', scope:'semua', sub:'', wil:'', kab:'', sortKey:null, sortDir:'desc', showAll:false });
+  MAP.reset && MAP.reset();
   $('search-input').value = '';
   document.querySelectorAll('#scope-switch button').forEach(b => {
     const on = b.dataset.scope === 'semua'; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on);
