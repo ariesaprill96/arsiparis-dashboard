@@ -14,6 +14,7 @@
 :root{--page:1240px;--radius:14px;--line:var(--ed-line);--line-strong:var(--ed-line-strong);--ink:var(--ed-ink);--ink-2:var(--ed-ink-2);--ink-3:var(--ed-ink-3);
   --accent:#0b5d96;--accent-soft:#e6f1f9;--gold:#9a7b45;--surface:#fff;--surface-2:#f5f5f2;--bg:#f9f9f7;--ok:#1f7a4d;--bad:#b23a2e}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{margin:0}
 body{background:var(--bg)!important;color:var(--ink);font:400 15px/1.55 var(--ed-font)}
 .num{font-variant-numeric:tabular-nums lining-nums}
@@ -53,7 +54,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .setup .card{padding:22px 24px}
 .setup h2,.block h2{font-size:20px;font-weight:600;letter-spacing:-.01em;margin:0 0 4px}
 .setup .sub,.block .sub{margin:0 0 16px;color:var(--ink-2);font-size:14px}
-.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
 .seg{display:flex;flex-wrap:wrap;gap:4px;padding:3px;border-radius:10px;background:rgba(17,23,34,.06);margin:0 0 14px}
 .seg button{flex:1 1 auto;border:0;background:transparent;padding:8px 12px;border-radius:8px;font-size:13.5px;font-weight:500;color:var(--ink-2);cursor:pointer;white-space:nowrap}
 .seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(17,23,34,.12)}
@@ -67,6 +68,21 @@ button,input,select,textarea{font:inherit;color:inherit}
 .chip.uk2{background:#eef3e8;color:#3d6326;border-color:transparent}
 .ambil .btn{white-space:nowrap;flex:0 0 auto}
 .ambil{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--surface-2);border-radius:10px;padding:8px 12px;margin:0 0 8px;font-size:13px;color:var(--ink-2)}
+.ctx{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:12px 18px;margin-top:28px}
+.ctx .ct{font-size:14px;color:var(--ink-2)} .ctx .ct b{color:var(--ink);font-weight:600}
+.unithead{padding:16px 20px;margin-bottom:14px}
+.unithead .uh-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-size:13px;color:var(--ink-3)}
+.unithead .row2{align-items:start}
+.unithead #f-unit{font-size:16px;font-weight:500;height:44px}
+.err{font-size:12.5px;color:var(--bad);margin-top:4px}
+.field input.bad{border-color:var(--bad);box-shadow:0 0 0 3px rgba(178,58,46,.12)}
+.legend{font-size:12px;color:var(--ink-3);margin:-6px 0 14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.saved{display:flex;gap:8px;align-items:center;justify-content:center;height:38px;border-radius:9px;background:#e6f3ec;color:#14532d;font-size:13px;font-weight:500}
+.riil{font-size:12.5px;color:var(--ink-3);text-align:right;margin-top:2px}
+.steps-m{display:none;width:100%;height:42px;border:1px solid var(--line-strong);border-radius:10px;padding:0 12px;background:#fff;font-size:14px;margin-bottom:12px}
+.mbar{display:none}
+.store-note{font-size:12.5px;color:var(--ink-3);margin:8px 0 0}
+#print-area{display:none}
 .warnbox{margin:0 0 12px;padding:10px 14px;border-radius:10px;background:#fff4d6;color:#6b4a12;font-size:13.5px}
 .mode{all:unset;box-sizing:border-box;cursor:pointer;border:1px solid var(--line-strong);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s,background .15s}
 .mode:hover{background:var(--surface-2)}
@@ -141,7 +157,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .rj .rl{font-size:14px}
 .rj .rd{font-size:12.5px;color:var(--ink-3);text-align:right}
 .rj .rb{font-size:22px;font-weight:600;text-align:right;letter-spacing:-.02em}
-.rj.zero .rb{color:#c3c6cc}
+.rj.zero .rb{color:#9aa0a8}
 .rtot{display:grid;grid-template-columns:1fr auto;align-items:baseline;padding:14px 0 4px;border-top:2px solid var(--ink);margin-top:4px}
 .rtot b{font-size:28px;letter-spacing:-.02em}
 .result .note{font-size:12px;color:var(--ink-3);margin:10px 0 14px;line-height:1.45}
@@ -163,14 +179,14 @@ button,input,select,textarea{font:inherit;color:inherit}
 .block-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:14px}
 .table-wrap{overflow-x:auto}
 table.rekap{width:100%;border-collapse:collapse;font-size:13.5px;min-width:980px}
-.rekap th{font-size:12px;font-weight:600;color:var(--ink-2);background:var(--surface-2);padding:9px 8px;border-bottom:1px solid var(--line-strong);text-align:right;white-space:nowrap}
+.rekap th{font-size:12px;font-weight:600;color:var(--ink-2);background:var(--surface-2);padding:9px 6px;border-bottom:1px solid var(--line-strong);text-align:right;white-space:nowrap}
 .rekap th.l,.rekap td.l{text-align:left}
 .rekap thead tr:first-child th{text-align:center;border-bottom:1px solid var(--line)}
-.rekap td{padding:8px;border-bottom:1px solid var(--line);text-align:right}
-.rekap td.unit{min-width:190px}
+.rekap td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:right}
+.rekap td.unit{min-width:150px}
 .rekap td.unit b{display:block;font-weight:500}
 .rekap td.unit small{color:var(--ink-3)}
-.rekap input{width:56px;height:32px;border:1px solid var(--line-strong);border-radius:7px;text-align:right;padding:0 6px;font-variant-numeric:tabular-nums}
+.rekap input{width:42px;height:32px;border:1px solid var(--line-strong);border-radius:7px;text-align:right;padding:0 6px;font-variant-numeric:tabular-nums}
 .rekap .sep{border-left:1px solid var(--line)}
 .rekap tfoot td{font-weight:700;background:var(--surface-2);border-top:2px solid var(--ink)}
 .minus{color:var(--bad);font-weight:600}
@@ -196,10 +212,13 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
   .work{grid-template-columns:minmax(0,1fr) 320px}
   .units{grid-column:1 / -1;position:static;max-height:none}
   .units .tree-list{display:flex;flex-wrap:wrap;gap:4px}
-  .units .tree-list .ui{border:1px solid var(--line);padding-left:8px!important}
+  .units .tree-list .ui{border:1px solid var(--line);padding-left:8px!important;max-width:100%;min-width:0}
   .units .uadd{display:none}
 }
 @media (max-width:1024px){
+  .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line-strong);padding:10px 16px calc(10px + env(safe-area-inset-bottom));justify-content:space-between;align-items:center;gap:12px;box-shadow:0 -4px 16px rgba(17,23,34,.06)}
+  .mbar small{display:block;font-size:11.5px;color:var(--ink-3);max-width:58vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .mbar .btn{white-space:nowrap;flex:0 0 auto} .mbar b{font-size:22px;letter-spacing:-.02em}
+  body.has-mbar{padding-bottom:76px}
   .work{grid-template-columns:minmax(0,1fr)}
   .work > *{min-width:0}
   .result{position:static}
@@ -210,15 +229,28 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
   .modes,.row2{grid-template-columns:1fr}
   .q{grid-template-columns:1fr}
   .send{grid-template-columns:1fr}
-  .steps{overflow-x:auto;flex-wrap:nowrap}
-  .steps button{flex:0 0 auto}
+  .steps{display:none}
+  .steps-m{display:block}
 }
 @media print{
+  body.print-unit > *:not(#print-area){display:none!important}
+  body.print-unit #print-area{display:block}
+  body.print-rekap .hero,body.print-rekap footer,body.print-rekap #rk-send,body.print-rekap #s-hasil,body.print-rekap .store-note{display:none!important}
+  body.print-rekap .rekap input{border:0;width:auto}
+  .mbar{display:none!important}
   .topbar,.views,.steps,.nav-steps,.result .acts,.no-print,#view-isi .section:not(.on){display:none!important}
   body{background:#fff!important}
   .work{grid-template-columns:1fr}
   .section{display:block!important}
 }
+#print-area{font:400 12.5px/1.45 var(--ed-font);color:#111}
+#print-area h1{font-family:var(--ed-serif);font-weight:500;font-size:22px;margin:0 0 4px}
+#print-area table{width:100%;border-collapse:collapse;margin:10px 0 16px}
+#print-area th,#print-area td{border:1px solid #bbb;padding:4px 6px;text-align:left;vertical-align:top}
+#print-area td.n,#print-area th.n{text-align:right}
+#print-area .meta{width:auto} #print-area .meta td{border:0;padding:1px 10px 1px 0}
+#print-area .ttd{display:flex;justify-content:flex-end;margin-top:28px}
+#print-area .ttd div{text-align:center;width:260px}
 </style>
 </head>
 <body>
@@ -260,26 +292,33 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
         <div class="modes" id="modes"></div>
       </div>
       <div class="card">
-        <h2>2. Identitas</h2>
-        <p class="sub">Dipakai pada hasil dan rekapitulasi.</p>
+        <h2>2. Identitas instansi</h2>
+        <p class="sub">Berlaku untuk semua unit di rekapitulasi.</p>
         <div class="fields">
           <div class="field"><label for="f-instansi" id="l-instansi">Nama instansi (K/L)</label><input id="f-instansi" placeholder="mis. Kementerian ABC" autocomplete="organization" list="dl-pemda"><datalist id="dl-pemda"></datalist><div class="hint" id="h-instansi" hidden></div></div>
-          <div class="row2">
-            <div class="field"><label for="f-unit" id="l-unit">Unit kerja</label><input id="f-unit" placeholder="mis. Biro Umum"></div>
-            <div class="field"><label for="f-wke">Waktu kerja efektif</label><input id="f-wke" type="number" min="1" step="1" value="75000" class="num"><div class="hint">menit/tahun · standar 75.000</div></div>
-          </div>
-          <div class="row2" id="struktur" hidden>
-            <div class="field"><label for="f-peran">Peran dalam struktur kearsipan</label><select id="f-peran"></select></div>
-            <div class="field" id="w-induk"><label for="f-induk">Berada di bawah</label><select id="f-induk"></select><div class="hint" id="h-induk"></div></div>
-          </div>
+          <div class="field" style="max-width:260px"><label for="f-wke">Waktu kerja efektif</label><input id="f-wke" type="number" min="1" step="1" value="75000" class="num"><div class="hint">menit/tahun · standar 75.000</div></div>
         </div>
       </div>
+    </div>
+
+    <div class="card ctx no-print" id="ctx" hidden>
+      <div class="ct" id="ctx-text"></div>
+      <button type="button" class="btn" id="ctx-toggle">Ubah pengaturan</button>
     </div>
 
     <div class="work" id="work" hidden>
       <aside class="card units no-print" id="units" aria-label="Daftar unit"></aside>
       <div class="formcol">
+        <div class="card unithead" id="unithead">
+          <div class="uh-top" id="uh-top"></div>
+          <div class="row2">
+            <div class="field"><label for="f-unit" id="l-unit">Nama unit kerja</label><input id="f-unit" placeholder="mis. Biro Umum"><div class="err" id="e-unit" hidden></div></div>
+            <div class="field" id="w-induk"><label for="f-induk">Berada di bawah</label><select id="f-induk"></select><div class="hint" id="h-induk"></div></div>
+          </div>
+        </div>
+        <select id="steps-m" class="steps-m" aria-label="Bagian formulir"></select>
         <nav class="steps" id="steps" aria-label="Bagian formulir"></nav>
+        <div class="legend no-print"><span class="chip j">Penyelia</span> jenjang yang mengerjakan <span class="chip">Unit Pengolah</span> tempat kegiatan · kosongkan bila tidak ada kegiatan</div>
         <div id="sections"></div>
         <div class="nav-steps no-print">
           <button type="button" class="btn" id="prev">← Sebelumnya</button>
@@ -292,14 +331,15 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
         <div class="who" id="r-who"></div>
         <div id="r-list"></div>
         <div class="rtot"><span>Total kebutuhan</span><b class="num" id="r-total">0</b></div>
+        <div class="riil num" id="r-riil"></div>
         <p class="note" id="r-note"></p>
         <div class="acts">
           <button type="button" class="btn primary" id="btn-save">Simpan ke rekapitulasi</button>
+          <div class="saved" id="saved" hidden>✓ Tersimpan · perubahan disimpan otomatis</div>
           <div class="row2">
             <button type="button" class="btn" id="btn-xlsx">Unduh Excel</button>
             <button type="button" class="btn" id="btn-print">Cetak</button>
           </div>
-          <button type="button" class="btn-link" id="btn-new" style="justify-self:center">Mulai unit kerja baru</button>
         </div>
       </aside>
     </div>
@@ -312,6 +352,7 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
         <div>
           <h2 id="rk-title">Rekapitulasi kebutuhan JF Arsiparis</h2>
           <p class="sub" style="margin:0">Isi kolom ketersediaan dengan jumlah arsiparis yang ada saat ini. Selisih negatif berarti kekurangan.</p>
+          <p class="store-note">Data tersimpan di browser ini saja. Simpan file cadangan secara berkala, atau kirim ke ANRI bila sudah final.</p>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap" class="no-print">
           <button type="button" class="btn" id="rk-xlsx">Unduh Excel</button>
@@ -347,6 +388,8 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
   <footer>Metode: pengukuran beban kerja per jenjang sesuai Master Penghitungan Kebutuhan JFA (ANRI) untuk instansi pusat dan pemerintah daerah. Waktu kerja efektif standar 75.000 menit/tahun (330 menit/hari efektif). Kebutuhan dibulatkan ke bilangan bulat terdekat.</footer>
 </main>
 
+<div class="mbar no-print" id="mbar" hidden><div><small>Total kebutuhan · <span id="mb-unit"></span></small><b class="num" id="mb-total">0</b> <span class="muted num" id="mb-riil" style="font-size:12.5px"></span></div><button type="button" class="btn primary" id="mb-lihat">Lihat hasil</button></div>
+<div id="print-area"></div>
 <div class="drawer" id="drawer" aria-hidden="true"><div class="panel" role="dialog" aria-modal="true" aria-labelledby="dr-title" id="dr-panel"></div></div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -370,6 +413,15 @@ const JENIS = {
   provinsi:{ label:'Pemerintah Provinsi', kicker:'Pemerintah Daerah · Provinsi', modes:['ukii', 'lkd'], lInst:'Pemerintah daerah', phInst:'Ketik lalu pilih, mis. Provinsi Jawa Tengah', lUnit:'Perangkat daerah', phUnit:'mis. Dinas Kesehatan', kolom:'Perangkat daerah', kode:'G' },
   kabkota: { label:'Pemerintah Kabupaten/Kota', kicker:'Pemerintah Daerah · Kabupaten/Kota', modes:['ukii', 'lkd'], lInst:'Pemerintah daerah', phInst:'Ketik lalu pilih, mis. Kabupaten Belitung Timur', lUnit:'Perangkat daerah', phUnit:'mis. Dinas Kependudukan dan Pencatatan Sipil', kolom:'Perangkat daerah', kode:'H' }
 };
+const KARTU = { pusat:[['upuk', 'uk1'], ['upuk', 'uk2'], ['up', 'up']], daerah:[['lkd', 'uk1'], ['ukii', 'uk2']] };
+const KARTU_INFO = {
+  'upuk:uk1': { b:'Unit Kearsipan I', s:'Unit kearsipan tingkat instansi (mis. Biro Umum): arsip inaktif, pemusnahan, penyerahan, dan pembinaan seluruh instansi.' },
+  'upuk:uk2': { b:'Unit Kearsipan II', s:'Unit kearsipan di eselon I (mis. Setditjen/Settama) yang membina unit pengolah di bawahnya.' },
+  'up:up':    { b:'Unit Pengolah', s:'Direktorat, biro, atau pusat yang menciptakan dan mengelola arsip aktif.' },
+  'lkd:uk1':  { b:'Lembaga Kearsipan Daerah', s:'Dinas Kearsipan / Dinas Perpustakaan dan Kearsipan: Unit Pengolah, Unit Kearsipan I pemda, serta pengelolaan arsip statis.' },
+  'ukii:uk2': { b:'Perangkat Daerah', s:'Dinas, badan, sekretariat, atau kantor yang mengelola arsip aktif sekaligus arsip inaktif (Unit Kearsipan II).' }
+};
+let SETUP_OPEN = false;
 const MODE_INFO = {
   up:   { b:'Unit Pengolah (UP)', s:'Unit kerja yang menciptakan dan mengelola arsip aktif: biro, pusat, direktorat.' },
   upuk: { b:'Unit Pengolah + Unit Kearsipan', s:'Unit yang juga menjalankan fungsi unit kearsipan: menyimpan arsip inaktif, pemusnahan, penyerahan, pembinaan.' },
@@ -483,7 +535,7 @@ function newUnit(mode){
   if (mode === 'lkd' && !unit) unit = LKD_DEFAULT;
   return { id:uid(), mode, peran:PERAN_OPS[mode][0], induk:'', instansi:$('f-instansi').value.trim() || DB.instansi || '', unit, wke:Number($('f-wke').value) || 75000, isian:{} };
 }
-function setMode(mode){
+function setMode(mode, peran){
   if (!CUR) CUR = newUnit(mode);
   else if (CUR.mode !== mode){
     const filled = Object.values(CUR.isian).some(v => Number(v));
@@ -492,6 +544,7 @@ function setMode(mode){
     CUR.mode = mode;
     if (!PERAN_OPS[mode].includes(CUR.peran)){ CUR.peran = PERAN_OPS[mode][0]; CUR.induk = ''; }
   }
+  if (peran && PERAN_OPS[mode].includes(peran) && CUR.peran !== peran){ CUR.peran = peran; if (!calonInduk(CUR).some(x => x.id === CUR.induk)) CUR.induk = ''; }
   LAYOUT = buildLayout(mode); STEP = 0;
   renderAll();
 }
@@ -501,8 +554,7 @@ function renderJenis(){
   document.querySelectorAll('#jenis button').forEach(b => { const on = b.dataset.jenis === DB.jenis; b.classList.toggle('on', on); b.setAttribute('aria-checked', on); });
   $('kicker').textContent = J.kicker;
   $('l-instansi').textContent = J.lInst; $('f-instansi').placeholder = J.phInst;
-  $('l-unit').textContent = J.lUnit; $('f-unit').placeholder = J.phUnit;
-  $('btn-new').textContent = CUR && peranOf(CUR) === 'up' && indukOf(CUR) ? 'Tambah UP lain di bawah induk yang sama' : `Mulai ${J.lUnit.toLowerCase()} baru`;
+  $('l-unit').textContent = 'Nama ' + J.lUnit.toLowerCase(); $('f-unit').placeholder = J.phUnit;
   $('dl-pemda').innerHTML = J.kode ? PEMDA[J.kode].map(p => `<option value="${esc(p.n)}">${p.p ? esc('Provinsi ' + p.p) : ''}</option>`).join('') : '';
   cekPemda();
 }
@@ -512,21 +564,20 @@ function cekPemda(){
   h.hidden = ok; h.textContent = ok ? '' : `Belum cocok dengan daftar ${J.label.toLowerCase()}. Pilih dari saran agar nama seragam.`;
 }
 function renderStruktur(){
-  const box = $('struktur'); box.hidden = !CUR; if (!CUR) return;
-  const ops = PERAN_OPS[CUR.mode], r = peranOf(CUR);
-  $('f-peran').innerHTML = ops.map(o => `<option value="${o}"${o === r ? ' selected' : ''}>${CUR.mode === 'lkd' ? 'Unit Kearsipan I (LKD)' : PERAN[o]}</option>`).join('');
-  $('f-peran').disabled = ops.length < 2;
-  const c = calonInduk(CUR), ind = indukOf(CUR);
+  if (!CUR) return;
+  const r = peranOf(CUR), c = calonInduk(CUR), ind = indukOf(CUR), k = KARTU_INFO[CUR.mode + ':' + r];
+  $('uh-top').innerHTML = `${peranChip(CUR)}<span>${esc(k ? k.b : MODE_LABEL[CUR.mode])}</span><span>· ${JFA.SPEC[CUR.mode].inputs.length} isian</span>${disimpan() ? '' : '<span class="chip">belum disimpan</span>'}`;
   $('w-induk').hidden = r === 'uk1';
   $('f-induk').innerHTML = `<option value="">${c.length ? '– pilih unit kearsipan –' : '– belum ada di rekap –'}</option>` +
-    c.map(x => `<option value="${x.id}"${x.id === ind ? ' selected' : ''}>${esc(x.unit || '(tanpa nama)')} · ${peranOf(x) === 'uk1' ? 'UK I' : 'UK II'}</option>`).join('');
-  $('h-induk').textContent = c.length ? (r === 'up' ? 'Unit kearsipan yang membina unit pengolah ini.' : 'UK I yang membina UK II ini.')
+    c.map(x => `<option value="${x.id}"${x.id === ind ? ' selected' : ''}>${esc(x.unit || '(tanpa nama)')} · ${peranOf(x) === 'uk1' ? (x.mode === 'lkd' ? 'LKD' : 'UK I') : 'UK II'}</option>`).join('');
+  $('h-induk').textContent = c.length ? (r === 'up' ? 'Unit kearsipan yang membina unit pengolah ini.' : 'UK I yang membina unit ini.')
     : `Simpan dulu ${r === 'up' ? 'UK I/UK II' : 'UK I'} ke rekapitulasi agar bisa dipilih.`;
 }
 function renderModes(){
-  const J = JENIS[DB.jenis];
-  $('modes').innerHTML = J.modes.map(m => `<button type="button" class="mode${CUR && CUR.mode === m ? ' on' : ''}" data-mode="${m}">
-      <b>${MODE_INFO[m].b}</b><span>${MODE_INFO[m].s}</span><small>${JFA.SPEC[m].inputs.length} isian · ${JFA.SPEC[m].acts.length} kegiatan</small></button>`).join('');
+  const J = JENIS[DB.jenis], ks = KARTU[J.kode ? 'daerah' : 'pusat'];
+  $('modes').innerHTML = ks.map(([m, r]) => { const k = KARTU_INFO[m + ':' + r];
+    return `<button type="button" class="mode${CUR && CUR.mode === m && peranOf(CUR) === r ? ' on' : ''}" data-mode="${m}" data-peran="${r}" aria-pressed="${!!(CUR && CUR.mode === m && peranOf(CUR) === r)}">
+      <b>${k.b}</b><span>${k.s}</span><small>${JFA.SPEC[m].inputs.length} isian · ${JFA.SPEC[m].acts.length} kegiatan</small></button>`; }).join('');
 }
 function setJenis(j){
   if (j === DB.jenis || !JENIS[j]) return;
@@ -540,7 +591,11 @@ function setJenis(j){
   persist(); renderJenis(); renderAll(); renderRekap();
 }
 
+function renderStepsM(){
+  $('steps-m').innerHTML = LAYOUT.map((s, i) => `<option value="${i}"${i === STEP ? ' selected' : ''}>Langkah ${i + 1} dari ${LAYOUT.length} · ${esc(s.info.judul)}</option>`).join('');
+}
 function renderSteps(){
+  renderStepsM();
   $('steps').innerHTML = LAYOUT.map((s, i) => {
     const n = s.groups.reduce((a, g) => a + g.fields.filter(f => Number(CUR.isian[f.cell])).length, 0) ;
     return `<button type="button" data-step="${i}" class="${i === STEP ? 'active' : ''}${n ? ' done' : ''}"><i>${i + 1}</i>${esc(s.info.judul)}${n ? ` <span class="muted"><span class="num">${n}</span> terisi</span>` : ''}</button>`;
@@ -555,7 +610,7 @@ function fieldHTML(f){
   } else if (f.tipe === 'rasio'){
     ctrl = `<select data-cell="${f.cell}" aria-label="${esc(cleanLabel(f.label))}">${RASIO.map(([v, l]) => `<option value="${v}"${Number(val) === v ? ' selected' : ''}>${l}</option>`).join('')}</select>`;
   } else {
-    ctrl = `<input type="number" min="0" step="1" inputmode="numeric" data-cell="${f.cell}" value="${esc(val)}" placeholder="0" class="${Number(val) ? 'filled' : ''}" aria-label="${esc(cleanLabel(f.label))}">`;
+    ctrl = `<input type="text" inputmode="numeric" autocomplete="off" data-cell="${f.cell}" data-num="1" value="${Number(val) ? fmt(val) : ''}" placeholder="0" class="${Number(val) ? 'filled' : ''}" aria-label="${esc(cleanLabel(f.label))}">`;
   }
   const jen = f.jenjang ? f.jenjang.split(',').map(s => `<span class="chip j">${esc(s.trim())}</span>`).join('') : '';
   const tmp = (f.tempat || []).map(t => `<span class="chip">${esc(t)}</span>`).join('');
@@ -566,6 +621,7 @@ function fieldHTML(f){
     ${f.turunan_cell ? `<div class="derived" data-derived="${f.cell}" hidden></div>` : ''}
   </div>`;
 }
+function labelNext(){ $('next').textContent = STEP === LAYOUT.length - 1 ? (disimpan() ? 'Lihat rekapitulasi →' : 'Simpan ke rekapitulasi') : 'Berikutnya →'; }
 function renderSections(){
   $('sections').innerHTML = LAYOUT.map((s, i) => `<div class="section${i === STEP ? ' on' : ''}" data-sec="${i}">
       <h3>${esc(s.info.judul)}</h3>${s.info.ket ? `<p>${esc(s.info.ket)}</p>` : ''}
@@ -577,7 +633,7 @@ function renderSections(){
       </div>`).join('')}
     </div>`).join('');
   $('prev').disabled = STEP === 0;
-  $('next').textContent = STEP === LAYOUT.length - 1 ? 'Lihat rincian hasil' : 'Berikutnya →';
+  labelNext();
 }
 
 /* ---------- Panel daftar unit (pemantauan sambil mengisi) ---------- */
@@ -623,7 +679,7 @@ function renderUnits(){
 function bolehPindah(){
   if (!CUR || disimpan() || !terisi()) return true;
   if (confirm(`"${CUR.unit || 'Unit baru'}" belum disimpan ke rekapitulasi. Simpan sekarang?`)){
-    if (!CUR.unit){ $('f-unit').focus(); toast(`Isi nama ${JENIS[DB.jenis].lUnit.toLowerCase()} terlebih dahulu.`); return false; }
+    if (!CUR.unit){ salahNama(); return false; }
     simpanUnit(true); return true;
   }
   return confirm('Abaikan isian unit baru ini?');
@@ -697,16 +753,25 @@ function compute(){
       <span class="rl">${j.label}</span><span class="rd num">${fmt(h.kebutuhan, 2)}</span><span class="rb num">${fmt(h.bulat)}</span></div>`; }).join('');
   $('r-total').textContent = fmt(RES.totalBulat);
   if ($('ambil-info')) $('ambil-info').textContent = ambilInfo();
-  $('btn-save').textContent = disimpan() ? 'Tersimpan · diperbarui otomatis' : 'Simpan ke rekapitulasi';
-  $('btn-save').classList.toggle('primary', !disimpan());
+  $('btn-save').hidden = disimpan(); $('saved').hidden = !disimpan();
+  $('r-riil').textContent = `beban riil ${fmt(RES.total, 2)} orang`;
+  $('mb-total').textContent = fmt(RES.totalBulat); $('mb-riil').textContent = `(${fmt(RES.total, 2)})`; $('mb-unit').textContent = CUR.unit || 'unit ini';
+  labelNext();
   $('rekap-count').textContent = DB.units.length;
   clearTimeout(compute._u); compute._u = setTimeout(renderUnits, 120);
-  $('r-note').textContent = `Angka kecil = hasil hitung (${fmt(RES.total, 2)} orang), angka besar = dibulatkan. Total beban kerja ${fmt(RES.totalMenit)} menit; WKE ${fmt(RES.wke)} menit/tahun. Klik jenjang untuk melihat rincian kegiatan.`;
+  $('r-note').textContent = `Angka kecil = hasil hitung, angka besar = dibulatkan per jenjang; total adalah jumlah angka bulat per jenjang. Total beban kerja ${fmt(RES.totalMenit)} menit; WKE ${fmt(RES.wke)} menit/tahun. Klik jenjang untuk melihat rincian kegiatan.`;
   renderSteps();
 }
 
 function renderAll(){
   renderJenis(); renderModes(); renderStruktur();
+  const J = JENIS[DB.jenis], open = !CUR || !DB.instansi || SETUP_OPEN;
+  document.querySelector('.setup').hidden = !open;
+  $('ctx').hidden = !CUR;
+  $('ctx-text').innerHTML = `${esc(J.label)} · <b>${esc(DB.instansi || 'nama instansi belum diisi')}</b> · WKE <span class="num">${fmt(Number($('f-wke').value) || 75000)}</span> menit`;
+  $('ctx-toggle').textContent = open ? 'Tutup pengaturan' : 'Ubah jenis, peran, atau instansi';
+  $('ctx-toggle').disabled = open && !DB.instansi;
+  $('mbar').hidden = !CUR; document.body.classList.toggle('has-mbar', !!CUR);
   $('work').hidden = !CUR || !LAYOUT.length;
   if (!CUR || !LAYOUT.length) return;
   $('f-instansi').value = CUR.instansi || DB.instansi || ''; $('f-unit').value = CUR.unit || ''; $('f-wke').value = CUR.wke || 75000;
@@ -798,6 +863,28 @@ function renderRekap(){
   </table>`;
 }
 
+/* ---------- Laporan cetak satu unit ---------- */
+function cetakUnit(){
+  if (!CUR) return;
+  const r = RES || unitResult(CUR), J = JENIS[DB.jenis], daerah = !!J.kode, spec = JFA.SPEC[CUR.mode];
+  const isi = spec.inputs.filter(f => Number(CUR.isian[f.cell]));
+  const nilai = f => f.tipe === 'persen' ? Math.round(CUR.isian[f.cell] * 100) + '%' : f.tipe === 'rasio' ? (RASIO.find(x => x[0] === Number(CUR.isian[f.cell])) || [0, CUR.isian[f.cell]])[1] : fmt(CUR.isian[f.cell]);
+  const ind = DB.units.find(x => x.id === indukOf(CUR));
+  $('print-area').innerHTML = `<h1>Penghitungan Kebutuhan Jabatan Fungsional Arsiparis</h1>
+    <table class="meta"><tr><td>${daerah ? 'Pemerintah daerah' : 'Instansi'}</td><td>: ${esc(CUR.instansi || DB.instansi || '-')}</td></tr>
+      <tr><td>${daerah ? 'Perangkat daerah' : 'Unit kerja'}</td><td>: ${esc(CUR.unit || '-')}</td></tr>
+      <tr><td>Peran</td><td>: ${esc((KARTU_INFO[CUR.mode + ':' + peranOf(CUR)] || {}).b || MODE_LABEL[CUR.mode])}${ind ? ' · di bawah ' + esc(ind.unit) : ''}</td></tr>
+      <tr><td>Waktu kerja efektif</td><td>: ${fmt(r.wke)} menit/tahun</td></tr></table>
+    <table><thead><tr><th>Jenjang</th><th class="n">Hasil hitung</th><th class="n">Kebutuhan (orang)</th></tr></thead><tbody>
+      ${JVIS.map(j => `<tr><td>Arsiparis ${j.label}</td><td class="n">${fmt(r.jenjang[j.key].kebutuhan, 2)}</td><td class="n">${fmt(r.jenjang[j.key].bulat)}</td></tr>`).join('')}
+      <tr><th>Total</th><th class="n">${fmt(r.total, 2)}</th><th class="n">${fmt(r.totalBulat)}</th></tr></tbody></table>
+    <b>Data isian (${isi.length} terisi dari ${spec.inputs.length})</b>
+    <table><thead><tr><th>No</th><th>Isian</th><th class="n">Nilai</th><th>Satuan</th></tr></thead><tbody>
+      ${isi.map((f, i) => `<tr><td>${i + 1}</td><td>${esc(cleanLabel(f.label))}</td><td class="n">${esc(nilai(f))}</td><td>${esc(cleanSatuan(f))}</td></tr>`).join('') || '<tr><td colspan="4">Belum ada isian.</td></tr>'}</tbody></table>
+    <div class="ttd"><div>.................., ${new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' })}<br>${daerah ? 'Kepala Perangkat Daerah' : 'Pimpinan Unit Kerja'},<br><br><br><br>(..................................)</div></div>`;
+  document.body.classList.add('print-unit'); window.print(); setTimeout(() => document.body.classList.remove('print-unit'), 1000);
+}
+
 /* ---------- Ekspor Excel ---------- */
 function xlsxOK(){ if (window.XLSX) return true; toast('Pustaka Excel tidak dapat dimuat (jaringan memblokir CDN).'); return false; }
 function sheetUnit(u){
@@ -860,6 +947,8 @@ async function kirim(){
   if (!DB.instansi || DB.instansi.length < 3) return box.innerHTML = `<div class="errbox">Isi ${J.lInst.toLowerCase()} terlebih dahulu (di bagian Identitas).</div>`;
   if (!$('s-nama').value.trim()) return box.innerHTML = '<div class="errbox">Isi nama pengirim.</div>';
   const data = rekapData();
+  const tk = data.reduce((a, d) => a + d.tKeb, 0), ta = data.reduce((a, d) => a + d.tAda, 0);
+  if (!confirm(`Kirim rekapitulasi ke ANRI?\n\n${DB.instansi}\n${data.length} unit · kebutuhan ${fmt(tk)} · ketersediaan ${fmt(ta)} · selisih ${ta - tk > 0 ? '+' : ''}${fmt(ta - tk)}\n\nSetelah dikirim, perubahan berikutnya perlu dikirim ulang.`)) return;
   const kode = kodeAcak();
   const rekap = { jenjang:JVIS.map(j => j.key), unit:data.map(d => ({ unit:d.u.unit, mode:d.u.mode, peran:peranOf(d.u), induk:(DB.units.find(x => x.id === indukOf(d.u)) || {}).unit || null, kebutuhan:d.keb, ketersediaan:d.ada })),
     total:{ kebutuhan:data.reduce((a, d) => a + d.tKeb, 0), ketersediaan:data.reduce((a, d) => a + d.tAda, 0) } };
@@ -935,19 +1024,36 @@ function setView(v){
 /* ---------- Event ---------- */
 $('jenis').addEventListener('click', e => { const b = e.target.closest('[data-jenis]'); if (b) setJenis(b.dataset.jenis); });
 $('f-instansi').addEventListener('input', cekPemda);
-$('f-peran').addEventListener('change', e => { if (!CUR) return; CUR.peran = e.target.value; if (!calonInduk(CUR).some(x => x.id === CUR.induk)) CUR.induk = ''; renderStruktur(); renderSections(); compute(); });
+$('f-unit').addEventListener('input', () => { $('f-unit').classList.remove('bad'); $('e-unit').hidden = true; });
+$('ctx-toggle').addEventListener('click', () => { SETUP_OPEN = document.querySelector('.setup').hidden; renderAll(); if (SETUP_OPEN) window.scrollTo({ top:document.querySelector('.setup').offsetTop - 12, behavior:'smooth' }); });
+$('steps-m').addEventListener('change', e => { STEP = +e.target.value; renderSteps(); renderSections(); compute(); });
+$('mb-lihat').addEventListener('click', () => document.querySelector('.result').scrollIntoView({ behavior:'smooth', block:'start' }));
+document.addEventListener('wheel', e => { const t = e.target; if (t && t.matches && t.matches('input[type=number]') && document.activeElement === t) t.blur(); }, { passive:true });
+$('jenis').addEventListener('keydown', e => {
+  if (!['ArrowLeft', 'ArrowRight'].includes(e.key)) return; e.preventDefault();
+  const ks = Object.keys(JENIS), i = ks.indexOf(DB.jenis), n = ks[(i + (e.key === 'ArrowRight' ? 1 : ks.length - 1)) % ks.length];
+  setJenis(n); const b = document.querySelector(`#jenis [data-jenis="${DB.jenis}"]`); if (b) b.focus();
+});
 $('f-induk').addEventListener('change', e => { if (!CUR) return; CUR.induk = e.target.value; compute(); });
-$('modes').addEventListener('click', e => { const b = e.target.closest('.mode'); if (b) setMode(b.dataset.mode); });
+$('modes').addEventListener('click', e => { const b = e.target.closest('.mode'); if (b) setMode(b.dataset.mode, b.dataset.peran); });
 ['f-instansi', 'f-unit', 'f-wke'].forEach(id => $(id).addEventListener('input', () => { if (CUR) compute(); else { DB.instansi = $('f-instansi').value.trim(); persist(); } }));
 $('steps').addEventListener('click', e => { const b = e.target.closest('[data-step]'); if (!b) return; STEP = +b.dataset.step; renderSteps(); renderSections(); compute(); window.scrollTo({ top:$('work').offsetTop - 8, behavior:'smooth' }); });
 $('prev').addEventListener('click', () => { if (STEP > 0){ STEP--; renderSteps(); renderSections(); compute(); window.scrollTo({ top:$('work').offsetTop - 8, behavior:'smooth' }); } });
 $('next').addEventListener('click', () => {
   if (STEP < LAYOUT.length - 1){ STEP++; renderSteps(); renderSections(); compute(); window.scrollTo({ top:$('work').offsetTop - 8, behavior:'smooth' }); }
-  else { const k = JVIS.slice().sort((a, b) => RES.jenjang[b.key].kebutuhan - RES.jenjang[a.key].kebutuhan)[0]; openDrawer(k.key); }
+  else if (!disimpan()) simpanUnit(false); else setView('rekap');
 });
 $('sections').addEventListener('input', e => {
   const c = e.target.dataset.cell;
-  if (c){ const v = e.target.value; if (v === '' || Number(v) === 0) delete CUR.isian[c]; else CUR.isian[c] = Math.max(0, Number(v)); e.target.classList.toggle('filled', !!Number(v)); compute(); return; }
+  if (c){
+    let v;
+    if (e.target.dataset.num){                       // angka bulat dengan pemisah ribuan
+      const el = e.target, dari = el.value.length - (el.selectionEnd ?? el.value.length);
+      const d = el.value.replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 12); v = d ? Number(d) : 0;
+      el.value = d ? fmt(v) : ''; const pos = Math.max(0, el.value.length - dari); try { el.setSelectionRange(pos, pos); } catch(_){}
+    } else v = Number(e.target.value) || 0;
+    if (!v) delete CUR.isian[c]; else CUR.isian[c] = Math.max(0, v);
+    e.target.classList.toggle('filled', !!v); compute(); return; }
 });
 $('sections').addEventListener('change', e => { if (e.target.tagName === 'SELECT') e.target.dispatchEvent(new Event('input', { bubbles:true })); });
 $('sections').addEventListener('click', e => {
@@ -956,15 +1062,29 @@ $('sections').addEventListener('click', e => {
 $('r-list').addEventListener('click', e => { const r = e.target.closest('[data-j]'); if (r) openDrawer(r.dataset.j); });
 $('r-list').addEventListener('keydown', e => { const r = e.target.closest('[data-j]'); if (r && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); openDrawer(r.dataset.j); } });
 $('drawer').addEventListener('click', e => { if (e.target.id === 'drawer' || e.target.closest('[data-close]')) closeDrawer(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeDrawer();
+  if (e.key === 'Tab' && $('drawer').classList.contains('open')){   // fokus tetap di dalam panel rincian
+    const f = [...$('dr-panel').querySelectorAll('button,[href],input,select,[tabindex]:not([tabindex="-1"])')]; if (!f.length) return;
+    if (e.shiftKey && document.activeElement === f[0]){ e.preventDefault(); f[f.length - 1].focus(); }
+    else if (!e.shiftKey && document.activeElement === f[f.length - 1]){ e.preventDefault(); f[0].focus(); }
+  }
+});
+function salahNama(){
+  const el = $('f-unit'); el.classList.add('bad'); $('e-unit').hidden = false;
+  $('e-unit').textContent = `Isi nama ${JENIS[DB.jenis].lUnit.toLowerCase()} sebelum menyimpan.`;
+  el.scrollIntoView({ block:'center', behavior:'smooth' }); setTimeout(() => el.focus({ preventScroll:true }), 250);
+}
 function simpanUnit(diam){
-  if (!CUR.unit){ $('f-unit').focus(); return toast(`Isi nama ${JENIS[DB.jenis].lUnit.toLowerCase()} terlebih dahulu.`); }
+  if (!CUR.unit){ salahNama(); return false; }
   const i = DB.units.findIndex(u => u.id === CUR.id);
   const copy = JSON.parse(JSON.stringify(CUR));
   copy.peran = peranOf(copy); copy.induk = indukOf(copy);
   if (i >= 0) DB.units[i] = copy; else DB.units.push(copy);
   persist(); renderRekap(); renderStruktur(); if (!diam) compute(); renderUnits();
+  renderStruktur();
   if (!diam) toast(i >= 0 ? 'Unit diperbarui di rekapitulasi' : 'Tersimpan ke rekapitulasi');
+  return true;
 }
 $('btn-save').addEventListener('click', () => simpanUnit(false));
 $('units').addEventListener('click', e => {
@@ -972,9 +1092,9 @@ $('units').addEventListener('click', e => {
   const b = e.target.closest('[data-buka-unit]'); if (b) bukaUnit(b.dataset.bukaUnit);
 });
 $('units').addEventListener('keydown', e => { const b = e.target.closest('[data-buka-unit]'); if (b && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); bukaUnit(b.dataset.bukaUnit); } });
-$('btn-new').addEventListener('click', () => { const up = CUR && peranOf(CUR) === 'up'; tambahUnit(up ? 'up' : null, up ? 'up' : null, up ? indukOf(CUR) : null); });
 $('btn-xlsx').addEventListener('click', downloadUnit);
-$('btn-print').addEventListener('click', () => window.print());
+$('btn-print').addEventListener('click', cetakUnit);
+window.addEventListener('afterprint', () => document.body.classList.remove('print-unit', 'print-rekap'));
 $('views').addEventListener('click', e => { const b = e.target.closest('[data-view]'); if (b) setView(b.dataset.view); });
 $('rk-table').addEventListener('input', e => { const id = e.target.dataset.ada; if (!id) return; (DB.ketersediaan[id] = DB.ketersediaan[id] || {})[e.target.dataset.j] = Math.max(0, Number(e.target.value) || 0); persist(); clearTimeout(renderRekap._t); renderRekap._t = setTimeout(() => { const a = document.activeElement, sel = a && a.dataset.ada ? `[data-ada="${a.dataset.ada}"][data-j="${a.dataset.j}"]` : null; renderRekap(); if (sel){ const el = document.querySelector(sel); if (el){ el.focus(); const v = el.value; el.value = ''; el.value = v; } } }, 500); });
 $('rk-table').addEventListener('click', e => {
@@ -983,7 +1103,7 @@ $('rk-table').addEventListener('click', e => {
   if (del){ const u = DB.units.find(x => x.id === del.dataset.hapus); if (confirm(`Hapus "${u.unit}" dari rekapitulasi?` + (DB.units.some(x => x.induk === u.id) ? ' Unit di bawahnya akan menjadi "belum dikelompokkan".' : ''))){ DB.units = DB.units.filter(x => x.id !== u.id); DB.units.forEach(x => { if (x.induk === u.id) x.induk = ''; }); if (CUR && CUR.id === u.id){ bukaPertama(); renderAll(); } delete DB.ketersediaan[u.id]; persist(); renderRekap(); } }
 });
 $('rk-xlsx').addEventListener('click', downloadRekap);
-$('rk-print').addEventListener('click', () => window.print());
+$('rk-print').addEventListener('click', () => { document.body.classList.add('print-rekap'); window.print(); setTimeout(() => document.body.classList.remove('print-rekap'), 1000); });
 $('rk-export').addEventListener('click', () => {
   const blob = new Blob([JSON.stringify({ format:'kalkulator-jfa', versi:1, ...DB, draft:null }, null, 1)], { type:'application/json' });
   const a = Object.assign(document.createElement('a'), { href:URL.createObjectURL(blob), download:`Cadangan Kebutuhan JFA - ${safe(DB.instansi || 'Instansi')}.json` });
