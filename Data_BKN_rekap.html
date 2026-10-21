@@ -151,8 +151,6 @@ button.kpi:hover{background:var(--surface-2)}
 button.kpi:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 button.kpi.on{background:var(--accent-soft)}
 button.kpi.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent)}
-.kpi .cover{margin-top:10px;height:4px;border-radius:2px;background:var(--surface-2);overflow:hidden}
-.kpi .cover i{display:block;height:100%;background:currentColor;opacity:.9}
 .sub-select{height:40px;border:1px solid var(--line-strong);border-radius:10px;background:var(--surface);padding:0 34px 0 12px;font-size:14px;color:var(--ink);max-width:260px}
 .sub-select[hidden]{display:none}
 
@@ -170,23 +168,6 @@ button.kpi.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height
 .grp-row small{display:block;color:var(--ink-3);font-size:12px}
 .grp-more{font-size:13px;color:var(--ink-3);padding-top:10px}
 
-/* Cakupan daftar tujuan surat */
-.coverage{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
-.cov{padding:20px 22px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
-.cov h3{margin:0 0 6px;font-size:13px;font-weight:500;color:var(--ink-3);display:flex;align-items:center;gap:8px}
-.cov h3 i{width:8px;height:8px;border-radius:2px;display:inline-block}
-.cov .big{font-size:28px;font-weight:600;letter-spacing:-.02em}
-.cov .big small{font-size:15px;font-weight:500;color:var(--ink-3)}
-.cov .bar{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden;margin:10px 0 8px}
-.cov .bar i{display:block;height:100%}
-.cov p{margin:0;font-size:13px;color:var(--ink-2)}
-.cov details{margin-top:10px;font-size:13px}
-.cov summary{cursor:pointer;color:var(--accent);font-weight:500}
-.cov ul{margin:8px 0 0;padding-left:18px;color:var(--ink-2);max-height:220px;overflow:auto}
-.cov li{margin:2px 0}
-.cov li small{color:var(--ink-3)}
-.note-luar{margin-top:12px;font-size:13px;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 14px}
-.note-luar b{color:var(--ink)}
 
 /* Instansi terbesar */
 .ranking{padding:8px 28px 20px}
@@ -261,7 +242,7 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
   .segmented::-webkit-scrollbar{display:none}
   .segmented button{flex:0 0 auto;padding:7px 11px}
   .sub-select{max-width:none;width:100%}
-  .coverage{grid-template-columns:1fr}
+
   .search{max-width:none}
   .kpi{padding:18px}
   .kpi .value{font-size:26px}
@@ -352,17 +333,6 @@ footer{margin:64px 0 40px;padding-top:20px;border-top:1px solid var(--line);font
         </div>
         <div class="card scope" id="scope"></div>
       </div>
-    </section>
-
-    <section class="block" aria-labelledby="h-cakupan">
-      <div class="block-head">
-        <div>
-          <h2 id="h-cakupan">Cakupan daftar tujuan surat</h2>
-          <p id="cakupan-sub">Berapa instansi dalam daftar tujuan surat yang sudah memiliki arsiparis tercatat di BKN.</p>
-        </div>
-      </div>
-      <div class="coverage" id="coverage"></div>
-      <div id="note-luar"></div>
     </section>
 
     <section class="block" aria-labelledby="h-ranking">
@@ -466,7 +436,6 @@ DATA.records.forEach(r => {
   const c = classify(r);
   r._kode = c.kode; r._kl = KL_BY_KODE[c.kode].id; r._sub = SUB_LABEL[c.kode]; r._prov = c.prov; r._ref = c.ref; r._luar = c.luar;
 });
-const MATCHED = new Set(DATA.records.map(r => r._ref).filter(Boolean));
 const PROVINSI = REF.daftar.filter(d => d.k === 'G').map(provOf);
 
 const subOptions = scope => scope === 'lembaga'
@@ -537,9 +506,7 @@ function renderInsights(s, rows){
 function klusterStats(){
   return KLUSTERS.map(k => {
     const rows = DATA.records.filter(r => r._kl === k.id);
-    const daftar = REF.daftar.filter(d => k.kode.includes(d.k));
-    const ada = daftar.filter(d => MATCHED.has(d.n)).length;
-    return { k, n:rows.length, total:rows.reduce((a, r) => a + (r.total || 0), 0), daftar:daftar.length, ada };
+    return { k, n:rows.length, total:rows.reduce((a, r) => a + (r.total || 0), 0) };
   });
 }
 function renderKpis(){
@@ -547,8 +514,7 @@ function renderKpis(){
     <button type="button" class="kpi${STATE.scope === x.k.id ? ' on' : ''}" data-scope="${x.k.id}" aria-pressed="${STATE.scope === x.k.id}">
       <div class="label"><i style="background:${x.k.color}"></i>${x.k.label}</div>
       <div class="value num">${fmt(x.total)}</div>
-      <div class="sub"><span class="num">${fmt(x.n)}</span> instansi · <span class="num">${fmt(x.ada)}</span> dari <span class="num">${fmt(x.daftar)}</span> dalam daftar</div>
-      <div class="cover" style="color:${x.k.color}" title="Cakupan daftar ${pct(x.ada, x.daftar, 0)}"><i style="width:${pctNum(x.ada, x.daftar)}%"></i></div>
+      <div class="sub"><span class="num">${fmt(x.n)}</span> instansi · rata-rata <span class="num">${fmt(Math.round(x.total / (x.n || 1)))}</span></div>
     </button>`).join('');
 }
 
@@ -605,29 +571,6 @@ function renderScope(s, rows){
     </div>`;
 }
 
-function renderCoverage(){
-  const ks = STATE.scope === 'semua' ? KLUSTERS : [KL_BY_ID[STATE.scope]];
-  const cards = ks.map(k => {
-    let daftar = REF.daftar.filter(d => k.kode.includes(d.k));
-    if (STATE.sub) daftar = daftar.filter(d => STATE.scope === 'lembaga' ? d.k === STATE.sub : provOf(d) === STATE.sub);
-    const belum = daftar.filter(d => !MATCHED.has(d.n));
-    const ada = daftar.length - belum.length;
-    const nm = d => d.n.replace(/\s*\(([^)]*)\)/, ' ($1)');
-    const label = STATE.sub ? `${k.label} · ${STATE.scope === 'lembaga' ? SUB_LABEL[STATE.sub] : STATE.sub}` : k.label;
-    return `<div class="cov">
-      <h3><i style="background:${k.color}"></i>${esc(label)}</h3>
-      <div class="big num">${fmt(ada)} <small>dari ${fmt(daftar.length)} instansi</small></div>
-      <div class="bar"><i style="width:${pctNum(ada, daftar.length)}%;background:${k.color}"></i></div>
-      <p>${belum.length ? `<b class="num">${fmt(belum.length)}</b> instansi dalam daftar belum memiliki arsiparis tercatat di BKN.` : 'Semua instansi dalam daftar sudah memiliki arsiparis tercatat.'}</p>
-      ${belum.length ? `<details><summary>Lihat ${fmt(belum.length)} instansi</summary><ul>${belum.map(d =>
-        `<li>${esc(nm(d))}${d.k !== k.kode[0] || k.id === 'kabkota' ? ` <small>· ${esc(k.id === 'kabkota' ? d.p : SUB_LABEL[d.k])}</small>` : ''}</li>`).join('')}</ul></details>` : ''}
-    </div>`;
-  });
-  $('coverage').innerHTML = cards.join('');
-  const luar = DATA.records.filter(r => r._luar && inScope(r));
-  $('note-luar').innerHTML = luar.length ? `<div class="note-luar"><b>${fmt(luar.length)} instansi di data BKN tidak ada di daftar tujuan surat</b> dan dikelompokkan berdasarkan jenisnya: ${luar.map(r => `${esc(r.nama)} (${esc(r._sub)}${/lama/.test(r._luar) ? ', nomenklatur lama' : ''})`).join('; ')}.</div>` : '';
-}
-
 function renderRanking(rows){
   const top = [...rows].sort((a, b) => b.total - a.total).slice(0, 10);
   $('h-ranking').textContent = top.length >= 10 ? 'Sepuluh instansi terbesar' : 'Instansi sesuai filter';
@@ -646,7 +589,7 @@ function renderRanking(rows){
     </div>`).join('');
 }
 
-const klLabel = r => r._kl === 'kabkota' ? `Kab/Kota · ${r._prov || '-'}` : r._kl === 'lembaga' ? `Lembaga · ${r._sub}` : KL_BY_ID[r._kl].label + (r._luar ? ' · di luar daftar' : '');
+const klLabel = r => r._kl === 'kabkota' ? `Kab/Kota · ${r._prov || '-'}` : r._kl === 'lembaga' ? `Lembaga · ${r._sub}` : KL_BY_ID[r._kl].label;
 const COLS = [
   { key:'nama', label:'Instansi', cls:'sticky' },
   ...JENJANG.map((j, i) => ({ key:j.key, label:j.short, grp:i === 0 ? 'Keterampilan' : i === 3 ? 'Keahlian' : '', cls:'n' + (i === 0 || i === 3 ? ' sep' : '') })),
@@ -689,7 +632,6 @@ function render(){
   renderSub();
   renderComposition(s);
   renderScope(s, rows);
-  renderCoverage();
   renderRanking(rows);
   renderTable(rows);
 }
