@@ -32,6 +32,8 @@ button,input,select,textarea{font:inherit;color:inherit}
 .hero h1{font-family:var(--ed-serif);font-weight:500;font-size:clamp(30px,4vw,46px);line-height:1.06;letter-spacing:-.02em;margin:0 0 12px}
 .hero h1 em{color:var(--accent)}
 .hero p{margin:0;max-width:62ch;color:var(--ink-2)}
+.materi{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:14px;font-weight:500;color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(11,93,150,.3);padding-bottom:1px}
+.materi:hover{border-bottom-color:var(--accent)}
 .views{display:inline-flex;max-width:100%;overflow-x:auto;padding:3px;border-radius:10px;background:rgba(17,23,34,.06)}
 .views button{border:0;background:transparent;padding:8px 14px;border-radius:8px;font-size:13.5px;font-weight:500;color:var(--ink-2);cursor:pointer;display:inline-flex;gap:8px;align-items:center}
 .views button.active{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(17,23,34,.12)}
@@ -268,6 +270,7 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
       <div class="kicker" id="kicker">Instansi Pusat · Kementerian/Lembaga</div>
       <h1>Penghitungan <em>kebutuhan</em> Jabatan Fungsional Arsiparis.</h1>
       <p>Isi volume pekerjaan kearsipan satu tahun di unit kerja atau perangkat daerah Anda. Kebutuhan arsiparis per jenjang dihitung langsung dengan metode beban kerja: waktu penyelesaian × volume ÷ waktu kerja efektif.</p>
+      <a class="materi no-print" href="https://drive.google.com/drive/folders/1L8gPaMj_zkPnDZbff8RNgnuf-e7tniJx" target="_blank" rel="noopener">Materi Penghitungan Kebutuhan JFA <span aria-hidden="true">↗</span></a>
     </div>
     <div class="views no-print" id="views" role="tablist">
       <button type="button" data-view="isi" class="active">Hitung kebutuhan</button>
@@ -385,7 +388,7 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
     </div>
   </section>
 
-  <footer>Metode: pengukuran beban kerja per jenjang sesuai Master Penghitungan Kebutuhan JFA (ANRI) untuk instansi pusat dan pemerintah daerah. Waktu kerja efektif standar 75.000 menit/tahun (330 menit/hari efektif). Kebutuhan dibulatkan ke bilangan bulat terdekat.</footer>
+  <footer>Metode: pengukuran beban kerja per jenjang sesuai Master Penghitungan Kebutuhan JFA (ANRI) untuk instansi pusat dan pemerintah daerah. Waktu kerja efektif standar 75.000 menit/tahun (330 menit/hari efektif). Kebutuhan dibulatkan ke bilangan bulat terdekat. <a href="https://drive.google.com/drive/folders/1L8gPaMj_zkPnDZbff8RNgnuf-e7tniJx" target="_blank" rel="noopener" style="color:inherit">Materi Penghitungan Kebutuhan JFA</a>.</footer>
 </main>
 
 <div class="mbar no-print" id="mbar" hidden><div><small>Total kebutuhan · <span id="mb-unit"></span></small><b class="num" id="mb-total">0</b> <span class="muted num" id="mb-riil" style="font-size:12.5px"></span></div><button type="button" class="btn primary" id="mb-lihat">Lihat hasil</button></div>
