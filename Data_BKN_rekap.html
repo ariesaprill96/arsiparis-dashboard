@@ -158,12 +158,21 @@ button.kpi.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height
 .grp-title{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0 0 4px}
 .grp-title h3{margin:0;font-size:15px;font-weight:600}
 .grp-title span{font-size:13px;color:var(--ink-3)}
-.grp-row{display:grid;grid-template-columns:minmax(0,1fr) 64px 48px;gap:4px 12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;cursor:pointer}
+.grp-hint{margin:0 0 6px;font-size:12.5px;color:var(--ink-3)}
+.grp-back{border:0;background:none;padding:0;font:inherit;font-size:13px;font-weight:500;color:var(--accent);cursor:pointer}
+.grp-back:hover{text-decoration:underline;text-underline-offset:3px}
+.grp-row{all:unset;box-sizing:border-box;width:100%;display:grid;grid-template-columns:minmax(0,1fr) 64px 48px;gap:4px 12px;align-items:center;padding:10px 10px;margin:0 -10px;width:calc(100% + 20px);border-bottom:1px solid var(--line);border-radius:8px;font-size:14px;cursor:pointer;transition:background .15s}
 .grp-row:last-child{border-bottom:0}
+.grp-row:hover{background:var(--surface-2)}
 .grp-row:hover .grp-name{color:var(--accent)}
+.grp-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.grp-row.on{background:var(--accent-soft);border-bottom-color:transparent}
+.grp-row.on .grp-name{color:var(--accent);font-weight:600}
+.grp-list.has-active .grp-row:not(.on) .grp-bar i{opacity:.35}
 .grp-row .grp-bar{grid-column:1 / -1;height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden}
 .grp-row .grp-bar i{display:block;height:100%}
 .grp-row .v{text-align:right;font-weight:600}
+.grp-name{min-width:0}
 .grp-row .p{text-align:right;color:var(--ink-3);font-size:13px}
 .grp-row small{display:block;color:var(--ink-3);font-size:12px}
 .grp-more{font-size:13px;color:var(--ink-3);padding-top:10px}
@@ -440,9 +449,11 @@ const PROVINSI = REF.daftar.filter(d => d.k === 'G').map(provOf);
 
 const subOptions = scope => scope === 'lembaga'
   ? [['', 'Semua lembaga'], ...['B','C','D','E','F'].map(c => [c, SUB_LABEL[c]])]
-  : scope === 'kabkota' ? [['', 'Semua provinsi'], ...PROVINSI.map(p => [p, p])] : [];
+  : (scope === 'kabkota' || scope === 'provinsi') ? [['', 'Semua provinsi'], ...PROVINSI.map(p => [p, p])] : [];
 const inScope = r => (STATE.scope === 'semua' || r._kl === STATE.scope)
   && (!STATE.sub || (STATE.scope === 'lembaga' ? r._kode === STATE.sub : r._prov === STATE.sub));
+
+const matchQ = r => { const q = STATE.q.trim().toLowerCase(); return !q || String(r.nama).toLowerCase().includes(q); };
 
 function filtered(){
   const q = STATE.q.trim().toLowerCase();
@@ -543,31 +554,40 @@ function groupRows(rows, keyFn, labelFn, colorFn){
   rows.forEach(r => { const k = keyFn(r); if (!k) return; const g = m.get(k) || { key:k, n:0, total:0 }; g.n++; g.total += r.total || 0; m.set(k, g); });
   return [...m.values()].sort((a, b) => b.total - a.total).map(g => ({ ...g, label:labelFn(g.key), color:colorFn(g.key) }));
 }
-function renderScope(s, rows){
-  let title, groups, act;
-  if (STATE.scope === 'lembaga' && !STATE.sub){
-    title = 'Lembaga per subkelompok';
-    groups = groupRows(rows, r => r._kode, c => SUB_LABEL[c], () => 'var(--k-lem)'); act = 'sub';
-  } else if ((STATE.scope === 'kabkota' && !STATE.sub) || STATE.scope === 'provinsi'){
-    title = STATE.scope === 'provinsi' ? 'Arsiparis pemerintah provinsi' : 'Kabupaten/Kota per provinsi';
-    groups = groupRows(rows, r => r._prov, p => p, () => STATE.scope === 'provinsi' ? 'var(--k-prov)' : 'var(--k-kab)');
-    act = STATE.scope === 'kabkota' ? 'sub' : 'q';
+function renderScope(){
+  // Panel dihitung tanpa subfilter aktif, supaya pilihan lain tetap terlihat dan bisa diklik.
+  const base = DATA.records.filter(r => matchQ(r) && (STATE.scope === 'semua' || r._kl === STATE.scope));
+  let title, groups, act, active;
+  if (STATE.scope === 'lembaga'){
+    title = 'Lembaga per subkelompok'; act = 'sub'; active = STATE.sub;
+    groups = groupRows(base, r => r._kode, c => SUB_LABEL[c], () => 'var(--k-lem)');
+  } else if (STATE.scope === 'kabkota' || STATE.scope === 'provinsi'){
+    title = STATE.scope === 'provinsi' ? 'Pemerintah provinsi' : 'Kabupaten/Kota per provinsi'; act = 'sub'; active = STATE.sub;
+    groups = groupRows(base, r => r._prov, p => p, () => STATE.scope === 'provinsi' ? 'var(--k-prov)' : 'var(--k-kab)');
   } else {
-    title = 'Arsiparis per kluster';
-    groups = groupRows(rows, r => r._kl, id => KL_BY_ID[id].label, id => KL_BY_ID[id].color); act = 'scope';
+    title = 'Arsiparis per kluster'; act = 'scope'; active = STATE.scope === 'semua' ? '' : STATE.scope;
+    groups = groupRows(DATA.records.filter(matchQ), r => r._kl, id => KL_BY_ID[id].label, id => KL_BY_ID[id].color);
   }
-  const t = s.total || 1, LIMIT = 10, max = groups[0] ? groups[0].total : 1;
+  const t = groups.reduce((a, g) => a + g.total, 0) || 1, LIMIT = 10, max = groups[0] ? groups[0].total : 1;
+  let shown = groups.slice(0, LIMIT);
+  const ai = groups.findIndex(g => g.key === active);
+  if (ai >= LIMIT) shown = [...shown.slice(0, LIMIT - 1), groups[ai]];
+  const back = STATE.scope !== 'semua'
+    ? `<button type="button" class="grp-back" data-act="back">${STATE.sub ? '← Semua ' + (STATE.scope === 'lembaga' ? 'lembaga' : 'provinsi') : '← Semua kluster'}</button>` : '';
   $('scope').innerHTML = `
     <div>
-      <div class="grp-title"><h3>${title}</h3><span class="num">${fmt(groups.length)} kelompok</span></div>
-      ${groups.slice(0, LIMIT).map(g => `
-        <div class="grp-row" data-act="${act}" data-key="${esc(g.key)}" title="Klik untuk menyaring">
+      <div class="grp-title"><h3>${title}</h3>${back || `<span>${fmt(groups.length)} kelompok</span>`}</div>
+      <p class="grp-hint">Klik baris untuk menyaring seluruh halaman${active ? '; klik lagi untuk membatalkan' : ''}.</p>
+      <div class="grp-list${active ? ' has-active' : ''}" role="list">
+      ${shown.map(g => `
+        <button type="button" role="listitem" class="grp-row${g.key === active ? ' on' : ''}" data-act="${act}" data-key="${esc(g.key)}" aria-pressed="${g.key === active}">
           <span class="grp-name">${esc(g.label)}<small><span class="num">${fmt(g.n)}</span> instansi · rata-rata <span class="num">${fmt(Math.round(g.total / g.n))}</span></small></span>
           <span class="v num">${fmt(g.total)}</span>
           <span class="p num">${pct(g.total, t, 0)}</span>
           <span class="grp-bar"><i style="width:${(g.total / max) * 100}%;background:${g.color}"></i></span>
-        </div>`).join('') || '<div class="empty">Tidak ada data.</div>'}
-      ${groups.length > LIMIT ? `<div class="grp-more">dan ${fmt(groups.length - LIMIT)} kelompok lainnya; lihat tabel di bawah.</div>` : ''}
+        </button>`).join('') || '<div class="empty">Tidak ada data.</div>'}
+      </div>
+      ${groups.length > shown.length ? `<div class="grp-more">dan ${fmt(groups.length - shown.length)} lainnya; pilih lewat menu di atas atau lihat tabel.</div>` : ''}
     </div>`;
 }
 
@@ -631,7 +651,7 @@ function render(){
   renderKpis();
   renderSub();
   renderComposition(s);
-  renderScope(s, rows);
+  renderScope();
   renderRanking(rows);
   renderTable(rows);
 }
@@ -657,11 +677,11 @@ document.querySelectorAll('#scope-switch button').forEach(btn => btn.addEventLis
 $('kpis').addEventListener('click', e => { const b = e.target.closest('button[data-scope]'); if (b) setScope(STATE.scope === b.dataset.scope ? 'semua' : b.dataset.scope); });
 $('sub-select').addEventListener('change', e => { STATE.sub = e.target.value; STATE.showAll = false; render(); });
 $('scope').addEventListener('click', e => {
-  const row = e.target.closest('.grp-row'); if (!row) return;
+  const row = e.target.closest('.grp-row, .grp-back'); if (!row) return;
   const { act, key } = row.dataset;
-  if (act === 'scope') setScope(key);
-  else if (act === 'sub') setScope(STATE.scope, key);
-  else { $('search-input').value = key; STATE.q = key; render(); }
+  if (act === 'back') setScope(STATE.sub ? STATE.scope : 'semua');
+  else if (act === 'scope') setScope(STATE.scope === key ? 'semua' : key);
+  else if (act === 'sub') setScope(STATE.scope, STATE.sub === key ? '' : key);
 });
 $('thead').addEventListener('click', e => {
   const btn = e.target.closest('button[data-key]'); if (!btn) return;
