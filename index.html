@@ -930,6 +930,57 @@ body::after{
 .g-src{font-size:11px;color:var(--g-ink3);margin-top:8px}
 @media (max-width:1100px){.g-kpis{grid-template-columns:1fr 1fr}.g-kpi-wide{grid-column:1 / -1}}
 @media (max-width:900px){.g-grid{grid-template-columns:1fr}}
+/* Peta Keterisian */
+#keterisian-view{--g-ink:#111722;--g-ink2:#4b5261;--g-ink3:#7d8390;--g-line:rgba(17,23,34,.08)}
+#keterisian-view .g-card{margin-bottom:14px}
+.kt-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:12px}
+.kt-bands{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.kt-band{display:flex;align-items:center;gap:9px;text-align:left;background:#fff;border:1px solid var(--g-line);border-radius:12px;padding:10px 12px;cursor:pointer;font:inherit;color:var(--g-ink);min-width:0;transition:border-color .15s,box-shadow .15s}
+.kt-band:hover{border-color:rgba(17,23,34,.2)}
+.kt-band.on{border-color:var(--g-ink);box-shadow:0 0 0 1px var(--g-ink) inset}
+.kt-band i{width:12px;height:12px;border-radius:4px;flex:0 0 auto}
+.kt-band span{display:flex;flex-direction:column;min-width:0;flex:1}
+.kt-band b{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kt-band small{font-size:11px;color:var(--g-ink3)}
+.kt-band em{font-style:normal;font-weight:650;font-size:16px}
+.kt-crumb{font-size:13px;color:var(--g-ink2);margin:-2px 0 8px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.kt-crumb button{border:0;background:none;padding:0;color:#0b5d96;font:inherit;cursor:pointer}
+.kt-crumb button:hover{text-decoration:underline}
+.kt-pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:2px 9px;border-radius:99px;background:#f3f3ef}
+.kt-pill::before{content:"";width:8px;height:8px;border-radius:3px;background:var(--c)}
+.kt-map{position:relative;width:100%;aspect-ratio:1000/400;background:#f7f7f4;border-radius:12px;overflow:hidden}
+.kt-map svg{width:100%;height:100%;display:block;cursor:grab}
+.kt-prov,.kt-kab{stroke:#fff;stroke-width:.8;cursor:pointer;transition:opacity .15s}
+.kt-prov:hover,.kt-kab:hover{opacity:.82}
+.kt-tip{position:absolute;pointer-events:none;opacity:0;background:#fff;border:1px solid rgba(15,23,42,.12);border-radius:8px;padding:8px 10px;font-size:12px;color:var(--g-ink2);box-shadow:0 6px 18px rgba(17,23,34,.12);display:flex;flex-direction:column;gap:2px;max-width:260px;transition:opacity .1s;z-index:2}
+.kt-tip b{color:var(--g-ink);font-size:12.5px}
+.kt-empty{padding:40px 16px;text-align:center;color:var(--g-ink3);font-size:13px}
+.kt-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.kt-seg{display:inline-flex;padding:3px;border-radius:10px;background:rgba(17,23,34,.06);flex-wrap:wrap}
+.kt-seg button{border:0;background:transparent;padding:6px 11px;border-radius:8px;font:500 12.5px var(--font);color:var(--g-ink2);cursor:pointer}
+.kt-seg button[aria-pressed="true"]{background:#fff;color:var(--g-ink);box-shadow:0 1px 2px rgba(17,23,34,.12)}
+.kt-q{flex:1 1 200px;min-width:0;height:36px;border:1px solid rgba(17,23,34,.16);border-radius:9px;padding:0 12px;font:13px var(--font);outline:none}
+.kt-q:focus{border-color:#0b5d96;box-shadow:0 0 0 3px rgba(11,93,150,.12)}
+.kt-count{font-size:12.5px;color:var(--g-ink3)}
+.kt-list{overflow-x:auto}
+.kt-table{width:100%;border-collapse:collapse;font-size:13px;min-width:760px}
+.kt-table th{font-size:11.5px;font-weight:600;color:var(--g-ink2);text-align:left;padding:8px;border-bottom:1px solid rgba(17,23,34,.14);white-space:nowrap}
+.kt-table th button{border:0;background:none;font:inherit;color:inherit;cursor:pointer;padding:0}
+.kt-table th.n,.kt-table td.n{text-align:right}
+.kt-table td{padding:9px 8px;border-bottom:1px solid var(--g-line);vertical-align:top}
+.kt-table td small{display:block;font-size:11px;color:var(--g-ink3);margin-top:2px}
+.kt-table td.no,.kt-table th.no{color:var(--g-ink3);width:36px}
+.kt-table td.nm{font-weight:500;color:var(--g-ink);min-width:220px}
+.kt-table td.kl{color:var(--g-ink2);white-space:nowrap}
+.kt-table td.pc{width:190px}
+.kt-bar{display:flex;align-items:center;gap:8px}
+.kt-track{flex:1;height:8px;background:#eeeeea;border-radius:99px;overflow:hidden}
+.kt-track i{display:block;height:100%;border-radius:99px}
+.kt-bar b{font-size:12.5px;min-width:38px;text-align:right}
+.kt-na{font-size:12px;color:var(--g-ink3)}
+.kt-more{text-align:center;padding:12px 0 2px}
+@media (max-width:1100px){.kt-bands{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:700px){.kt-kpis{grid-template-columns:1fr}.kt-bands{grid-template-columns:repeat(2,minmax(0,1fr))}}
 #progress-view{display:none;}
 .progress-toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px;}
 .progress-search{min-width:260px;flex:1;border:1px solid var(--border-med);border-radius:16px;padding:11px 14px;background:rgba(255,255,255,.78);font:700 12px var(--font);color:var(--text);outline:none;}
@@ -1852,6 +1903,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
       <div class="sidebar-nav-shell">
         <button class="filter-btn nav-module active" id="btn-dashboard" onclick="showDashboard(this)"><span class="dot" style="background:#0b63ce"></span><span class="filter-label">Dashboard Nasional</span></button>
         <button class="filter-btn nav-module" id="btn-grafik" onclick="showGrafik(this)"><span class="dot" style="background:#7c3aed"></span><span class="filter-label">Grafik Statistik</span></button>
+        <button class="filter-btn nav-module" id="btn-keterisian" onclick="showKeterisian(this)"><span class="dot" style="background:#df6d3d"></span><span class="filter-label">Peta Keterisian</span></button>
         <!-- Disembunyikan sementara; panel Pemantauan Permohonan tetap dipertahankan. -->
         <button class="filter-btn nav-module" id="btn-progress" hidden aria-hidden="true" style="display:none" onclick="showProgress(this)"><span class="dot" style="background:#0d9488"></span><span class="filter-label">Pemantauan Permohonan Rekomendasi JFA</span></button>
       </div>
@@ -2057,6 +2109,37 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
       </div>
     </div>
 
+    <!-- PETA KETERISIAN -->
+    <div id="keterisian-view" style="display:none">
+      <div class="section-header">
+        <div><div class="section-title">Peta Keterisian</div><div class="section-sub">Ketersediaan arsiparis (BKN) dibandingkan kebutuhan yang direkomendasikan ANRI, per instansi</div></div>
+      </div>
+      <div class="kt-kpis">
+        <div class="g-kpi"><div class="g-k-l">Keterisian nasional</div><div class="g-k-v" id="kt-pct">-</div><div class="g-k-s" id="kt-pct-s">-</div></div>
+        <div class="g-kpi"><div class="g-k-l">Total kekurangan</div><div class="g-k-v" id="kt-kurang">-</div><div class="g-k-s">formasi belum terisi</div></div>
+        <div class="g-kpi"><div class="g-k-l">Instansi dihitung</div><div class="g-k-v" id="kt-n">-</div><div class="g-k-s" id="kt-n-s">-</div></div>
+      </div>
+      <div class="kt-bands" id="kt-bands" aria-label="Kategori keterisian (klik untuk menyaring)"></div>
+      <section class="g-card kt-mapcard">
+        <header class="g-head"><div><h3>Peta pemerintah daerah</h3><p>Warna provinsi = keterisian gabungan pemprov dan kab/kota di dalamnya. Klik provinsi untuk melihat kab/kota.</p></div></header>
+        <div class="kt-crumb" id="kt-crumb"></div>
+        <div class="kt-map" id="kt-map"><div class="kt-empty">Memuat peta…</div></div>
+        <div class="g-src">Keterisian = ketersediaan arsiparis menurut BKN ÷ kebutuhan dalam rekomendasi ANRI. Batas wilayah ilustratif (geoBoundaries, CC BY 3.0 IGO).</div>
+      </section>
+      <section class="g-card">
+        <header class="g-head"><div><h3>Daftar instansi</h3><p>Diurutkan dari keterisian terendah. Klik judul kolom untuk mengurutkan.</p></div>
+          <button type="button" class="btn-pill btn-pill-ghost" id="kt-csv">Unduh CSV</button></header>
+        <div class="kt-tools">
+          <div class="kt-seg" id="kt-seg" role="group" aria-label="Kluster">
+            <button type="button" data-g="" aria-pressed="true">Semua</button><button type="button" data-g="kem" aria-pressed="false">Kementerian</button><button type="button" data-g="lemb" aria-pressed="false">Lembaga</button><button type="button" data-g="prov" aria-pressed="false">Provinsi</button><button type="button" data-g="kab" aria-pressed="false">Kab/Kota</button>
+          </div>
+          <input type="search" id="kt-q" class="kt-q" placeholder="Cari instansi…" aria-label="Cari instansi">
+          <span class="kt-count" id="kt-count"></span>
+        </div>
+        <div class="kt-list" id="kt-list"></div>
+      </section>
+    </div>
+
   </main>
 </div><!-- /panel-rekap -->
 
@@ -2187,6 +2270,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="./assets/data_bkn_rekap_2026.js?v=20261008"></script>
+<script src="./assets/keterisian.js?v=20261022"></script>
 <script src="./assets/progres_usulan_jfa_2026.js?v=20260709"></script>
 <script src="config.js"></script>
 <script>
@@ -2438,7 +2522,8 @@ function render() {
     setTimeout(renderCharts, 80);
     return;
   }
-  document.getElementById('grafik-view').style.display = 'none';
+  if (activeCat === '__keterisian__') { if (window.renderKeterisian) window.renderKeterisian(); return; }
+  document.getElementById('grafik-view').style.display = 'none'; document.getElementById('keterisian-view').style.display = 'none';
   document.getElementById('progress-view').style.display = 'none';
   document.getElementById('stat-row').style.display = '';
   showDirectoryChrome();
@@ -2957,7 +3042,7 @@ function showProgress(el){
   activeCat = '__progress__';
   document.getElementById('home-view').style.display = 'none';
   document.getElementById('filter-view').style.display = 'none';
-  document.getElementById('grafik-view').style.display = 'none';
+  document.getElementById('grafik-view').style.display = 'none'; document.getElementById('keterisian-view').style.display = 'none';
   document.getElementById('progress-view').style.display = 'block';
   document.getElementById('results-bar').style.display = 'none';
   document.getElementById('stat-row').style.display = 'none';
@@ -3106,7 +3191,7 @@ function showGrafik(el) {
   document.getElementById('home-view').style.display = 'none';
   document.getElementById('filter-view').style.display = 'none';
   document.getElementById('progress-view').style.display = 'none';
-  document.getElementById('grafik-view').style.display = 'block';
+  document.getElementById('grafik-view').style.display = 'block'; document.getElementById('keterisian-view').style.display = 'none';
   document.getElementById('results-bar').style.display = 'none';
   document.getElementById('stat-row').style.display = 'none';
   document.getElementById('prov-wrap').style.display = 'none';
@@ -3116,7 +3201,7 @@ function showGrafik(el) {
 }
 
 function exitGrafik() {
-  document.getElementById('grafik-view').style.display = 'none';
+  document.getElementById('grafik-view').style.display = 'none'; document.getElementById('keterisian-view').style.display = 'none';
   document.getElementById('stat-row').style.display = '';
 }
 
@@ -3335,7 +3420,7 @@ function showDashboard(el) {
   if (search) search.value = '';
   if (status) status.value = '';
   if (prov) prov.value = '';
-  document.getElementById('grafik-view').style.display = 'none';
+  document.getElementById('grafik-view').style.display = 'none'; document.getElementById('keterisian-view').style.display = 'none';
   document.getElementById('progress-view').style.display = 'none';
   document.getElementById('stat-row').style.display = '';
   document.getElementById('prov-wrap').style.display = 'none';
@@ -3346,7 +3431,7 @@ function showDashboard(el) {
   scrollContentTo('projection-panel');
 }
 function setCat(cat, el) {
-  document.getElementById('grafik-view').style.display = 'none';
+  document.getElementById('grafik-view').style.display = 'none'; document.getElementById('keterisian-view').style.display = 'none';
   document.getElementById('progress-view').style.display = 'none';
   document.getElementById('stat-row').style.display = '';
   activeCat = cat;
