@@ -1988,6 +1988,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
             <option value="">Semua Status</option>
             <option value="Ada Rekomendasi">Ada Rekomendasi</option>
             <option value="Belum Ada Rekomendasi">Belum Rekomendasi</option>
+            <option value="__2020__">Penghitungan ANRI 2020</option>
           </select>
         </div>
         <div class="prov-wrap directory-control" id="prov-wrap">
@@ -2396,6 +2397,7 @@ let ALL = [], activeCat = 'semua', activeSort = 'nama';
 const isRek = d => d.status === 'Ada Rekomendasi';
 const rekTot = d => isRek(d) ? (d.total || 0) : 0;
 const rekJ = (d, k) => isRek(d) ? (d[k] || 0) : 0;
+const isPenghitungan2020 = d => !isRek(d) && (d.total || 0) > 0 && /2020/.test(d.keterangan || '');
 const labelAngka = d => isRek(d) ? 'Total Kebutuhan' : (/2020/.test(d.keterangan || '') ? 'Penghitungan 2020 · belum rekomendasi' : 'Angka penghitungan · belum rekomendasi');
 const expandedClusters = new Set();
 
@@ -2491,7 +2493,8 @@ function getFiltered() {
     if (activeCat === '__pusat__' && !PUSAT_CATEGORIES.includes(d.kategori)) return false;
     if (activeCat === '__daerah__' && !DAERAH_CATEGORIES.includes(d.kategori)) return false;
     if (!['semua','__pusat__','__daerah__'].includes(activeCat) && d.kategori !== activeCat) return false;
-    if (status && d.status !== status) return false;
+    if (status === '__2020__'){ if (!isPenghitungan2020(d)) return false; }
+    else if (status && d.status !== status) return false;
     if (prov && d.provinsi !== prov) return false;
     if (q && !d.nama.toLowerCase().includes(q)) return false;
     return true;
