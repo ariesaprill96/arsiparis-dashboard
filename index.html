@@ -934,13 +934,13 @@ body::after{
 #keterisian-view{--g-ink:#111722;--g-ink2:#4b5261;--g-ink3:#7d8390;--g-line:rgba(17,23,34,.08)}
 #keterisian-view .g-card{margin-bottom:14px}
 .kt-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:12px}
-.kt-bands{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.kt-bands{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin-bottom:14px}
 .kt-band{display:flex;align-items:center;gap:9px;text-align:left;background:#fff;border:1px solid var(--g-line);border-radius:12px;padding:10px 12px;cursor:pointer;font:inherit;color:var(--g-ink);min-width:0;transition:border-color .15s,box-shadow .15s}
 .kt-band:hover{border-color:rgba(17,23,34,.2)}
 .kt-band.on{border-color:var(--g-ink);box-shadow:0 0 0 1px var(--g-ink) inset}
 .kt-band i{width:12px;height:12px;border-radius:4px;flex:0 0 auto}
 .kt-band span{display:flex;flex-direction:column;min-width:0;flex:1}
-.kt-band b{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kt-band b{font-size:12.5px;font-weight:600;line-height:1.25}
 .kt-band small{font-size:11px;color:var(--g-ink3)}
 .kt-band em{font-style:normal;font-weight:650;font-size:16px}
 .kt-crumb{font-size:13px;color:var(--g-ink2);margin:-2px 0 8px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
@@ -979,7 +979,7 @@ body::after{
 .kt-bar b{font-size:12.5px;min-width:38px;text-align:right}
 .kt-na{font-size:12px;color:var(--g-ink3)}
 .kt-more{text-align:center;padding:12px 0 2px}
-@media (max-width:1100px){.kt-bands{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:1100px){.kt-bands{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media (max-width:700px){.kt-kpis{grid-template-columns:1fr}.kt-bands{grid-template-columns:repeat(2,minmax(0,1fr))}}
 #progress-view{display:none;}
 .progress-toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px;}
@@ -2121,7 +2121,8 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
       </div>
       <div class="kt-bands" id="kt-bands" aria-label="Kategori keterisian (klik untuk menyaring)"></div>
       <section class="g-card kt-mapcard">
-        <header class="g-head"><div><h3>Peta pemerintah daerah</h3><p>Warna provinsi = keterisian gabungan pemprov dan kab/kota di dalamnya. Klik provinsi untuk melihat kab/kota.</p></div></header>
+        <header class="g-head"><div><h3>Peta pemerintah daerah</h3><p id="kt-map-sub">Klik provinsi untuk melihat kab/kota. Arahkan kursor untuk membandingkan pemprov dan wilayahnya.</p></div>
+          <div class="kt-seg" id="kt-warna" role="group" aria-label="Dasar warna provinsi"><button type="button" data-w="wilayah" aria-pressed="true">Wilayah</button><button type="button" data-w="pemprov" aria-pressed="false">Pemprov saja</button></div></header>
         <div class="kt-crumb" id="kt-crumb"></div>
         <div class="kt-map" id="kt-map"><div class="kt-empty">Memuat peta…</div></div>
         <div class="g-src">Keterisian = ketersediaan arsiparis menurut BKN ÷ kebutuhan dalam rekomendasi ANRI. Batas wilayah ilustratif (geoBoundaries, CC BY 3.0 IGO).</div>
@@ -2270,7 +2271,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="./assets/data_bkn_rekap_2026.js?v=20261008"></script>
-<script src="./assets/keterisian.js?v=20261022"></script>
+<script src="./assets/keterisian.js?v=20261022b"></script>
 <script src="./assets/progres_usulan_jfa_2026.js?v=20260709"></script>
 <script src="config.js"></script>
 <script>

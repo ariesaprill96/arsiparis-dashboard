@@ -5,12 +5,14 @@
  */
 (function(){
   'use strict';
+  // Rentang disepakati 22 Okt 2026: bagian bawah dirinci karena sebagian besar instansi < 25%.
   const BANDS = [
-    { key:0, max:25,  label:'Kritis',            rentang:'< 25%',   c:'#a3271f' },
-    { key:1, max:50,  label:'Kurang',            rentang:'25–50%',  c:'#df6d3d' },
-    { key:2, max:75,  label:'Sedang',            rentang:'50–75%',  c:'#e8c15a' },
-    { key:3, max:100, label:'Hampir terpenuhi',  rentang:'75–100%', c:'#5aa96a' },
-    { key:4, max:Infinity, label:'Terpenuhi',    rentang:'≥ 100%',  c:'#1d7346' }
+    { key:0, max:10,  label:'Sangat rendah', rentang:'< 10%',   c:'#8a1c17' },
+    { key:1, max:25,  label:'Rendah',        rentang:'10–25%',  c:'#c9452b' },
+    { key:2, max:50,  label:'Sedang',        rentang:'25–50%',  c:'#ec8e44' },
+    { key:3, max:75,  label:'Cukup',         rentang:'50–75%',  c:'#e9d38f' },
+    { key:4, max:100, label:'Tinggi',        rentang:'75–100%', c:'#6fb371' },
+    { key:5, max:Infinity, label:'Terpenuhi', rentang:'≥ 100%', c:'#1b6b42' }
   ];
   const NA = { key:'na', label:'Belum ada rekomendasi', c:'#d9dad4' };
   const KL = { kem:'Kementerian', lemb:'Lembaga', prov:'Provinsi', kab:'Kabupaten/Kota' };
@@ -81,7 +83,7 @@
   }
 
   /* ---------- status tampilan ---------- */
-  const ST = { g:'', band:'', q:'', prov:'', sort:'p', asc:true, semua:false };
+  const ST = { g:'', band:'', q:'', prov:'', sort:'p', asc:true, semua:false, warnaProv:'wilayah' };
   let ROWS = [];
 
   function render(){
@@ -95,7 +97,7 @@
     const cnt = BANDS.map(b => dihitung.filter(r => r.band === b).length);
     $('kt-bands').innerHTML = BANDS.map((b, i) => `<button type="button" class="kt-band${ST.band === String(b.key) ? ' on' : ''}" data-band="${b.key}" aria-pressed="${ST.band === String(b.key)}">
         <i style="background:${b.c}"></i><span><b>${b.label}</b><small>${b.rentang}</small></span><em class="num">${nf(cnt[i])}</em></button>`).join('')
-      + `<button type="button" class="kt-band${ST.band === 'na' ? ' on' : ''}" data-band="na" aria-pressed="${ST.band === 'na'}"><i style="background:${NA.c}"></i><span><b>Belum dihitung</b><small>tanpa rekomendasi/data</small></span><em class="num">${nf(ROWS.length - dihitung.length)}</em></button>`;
+      + `<button type="button" class="kt-band${ST.band === 'na' ? ' on' : ''}" data-band="na" aria-pressed="${ST.band === 'na'}"><i style="background:${NA.c}"></i><span><b>Belum dihitung</b><small>tanpa data</small></span><em class="num">${nf(ROWS.length - dihitung.length)}</em></button>`;
     peta(); daftar();
   }
 
@@ -116,12 +118,16 @@
     const showTip = (ev, html) => { const b = box.getBoundingClientRect(); tip.innerHTML = html; tip.style.opacity = 1;
       tip.style.left = Math.min(ev.clientX - b.left + 14, b.width - tip.offsetWidth - 8) + 'px'; tip.style.top = (ev.clientY - b.top + 14) + 'px'; };
     const hideTip = () => tip.style.opacity = 0;
-    const statProv = p => gabung(ROWS.filter(r => (r.g === 'prov' || r.g === 'kab') && r.prov === p));
+    const statWil = p => gabung(ROWS.filter(r => (r.g === 'prov' || r.g === 'kab') && r.prov === p));     // pemprov + kab/kota
+    const statPem = p => gabung(ROWS.filter(r => r.g === 'prov' && r.prov === p));                         // pemprov saja
+    const statProv = p => ST.warnaProv === 'pemprov' ? statPem(p) : statWil(p);
     const statKab = id => { const rs = ROWS.filter(r => r.ref === id); return rs.length ? gabung(rs) : null; };
     const warna = p => p == null ? NA.c : bandOf(p).c;
     const tipHtml = (nama, x) => `<b>${esc(nama)}</b>` + (x && x.p != null ? `<span class="num">${pf(x.p)} terisi</span><span class="num">${nf(x.ada)} dari ${nf(x.keb)} formasi</span><span>${bandOf(x.p).label}</span>` : '<span>Belum ada rekomendasi</span>');
     const provSel = gProv.selectAll('path').data(provF).join('path').attr('class', 'kt-prov').attr('d', path)
-      .on('mousemove', (ev, f) => showTip(ev, tipHtml('Provinsi ' + f.properties.prov + ' (gabungan pemda)', statProv(f.properties.prov))))
+      .on('mousemove', (ev, f) => { const p = f.properties.prov, w = statWil(p), m = statPem(p);
+        const baris = (t, x) => `<span class="num">${t}: ${x.p != null ? `<b>${pf(x.p)}</b> · ${bandOf(x.p).label}` : 'belum dihitung'}</span>`;
+        showTip(ev, `<b>${esc(p)}</b>${baris('Pemprov', m)}${baris('Wilayah (pemprov + ' + nf(w.n - (m.n || 0)) + ' kab/kota)', w)}`); })
       .on('mouseleave', hideTip).on('click', (ev, f) => { hideTip(); pilihProv(f.properties.prov); });
     const kabSel = gKab.selectAll('path').data(kabF).join('path').attr('class', 'kt-kab').attr('d', path).style('display', 'none')
       .on('mousemove', (ev, f) => showTip(ev, tipHtml(shortKab(f.properties.id), statKab(f.properties.id))))
@@ -145,10 +151,12 @@
         provSel.style('display', f => f.properties.prov === ST.prov ? 'none' : null).attr('fill', '#eeeeea');
         kabSel.style('display', f => f.properties.prov === ST.prov ? null : 'none').attr('fill', f => { const x = statKab(f.properties.id); return warna(x && x.p); });
       }
-      const x = ST.prov ? statProv(ST.prov) : null;
-      $('kt-crumb').innerHTML = ST.prov ? `<button type="button" data-crumb="id">Indonesia</button><span>›</span><b>${esc(ST.prov)}</b>${x && x.p != null ? ` <span class="kt-pill" style="--c:${bandOf(x.p).c}">${pf(x.p)} · ${bandOf(x.p).label}</span>` : ''}` : '<b>Indonesia</b> <span class="muted">· klik provinsi untuk melihat kab/kota</span>';
+      const x = ST.prov ? statWil(ST.prov) : null;
+      $('kt-crumb').innerHTML = ST.prov ? `<button type="button" data-crumb="id">Indonesia</button><span>›</span><b>${esc(ST.prov)}</b>${x && x.p != null ? ` <span class="kt-pill" style="--c:${bandOf(x.p).c}">Wilayah ${pf(x.p)} · ${bandOf(x.p).label}</span>` : ''}${(() => { const m = statPem(ST.prov); return m.p != null ? ` <span class="kt-pill" style="--c:${bandOf(m.p).c}">Pemprov ${pf(m.p)} · ${bandOf(m.p).label}</span>` : ''; })()}` : '<b>Indonesia</b> <span class="muted">· klik provinsi untuk melihat kab/kota</span>';
     }
     $('kt-crumb').addEventListener('click', e => { if (e.target.closest('[data-crumb="id"]')) pilihProv(ST.prov); });
+    $('kt-warna').addEventListener('click', e => { const b = e.target.closest('[data-w]'); if (!b) return; ST.warnaProv = b.dataset.w;
+      document.querySelectorAll('#kt-warna [data-w]').forEach(x => x.setAttribute('aria-pressed', x.dataset.w === ST.warnaProv)); update(); });
     return { update, pilihProv };
   }
 
