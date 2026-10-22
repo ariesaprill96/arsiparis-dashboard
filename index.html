@@ -3587,10 +3587,10 @@ function setupCustomFilterSelects(){
       const triggerRect=trigger.getBoundingClientRect();
       const viewportHeight=window.innerHeight || document.documentElement.clientHeight || 0;
       const viewportWidth=window.innerWidth || document.documentElement.clientWidth || 0;
-      const panelWidth=Math.min(triggerRect.width, Math.max(180, viewportWidth - 24));
+      const panelWidth=Math.min(Math.max(triggerRect.width, 230), Math.max(180, viewportWidth - 24));
       const spaceBelow=Math.max(0,viewportHeight - triggerRect.bottom - 16);
       const spaceAbove=Math.max(0,triggerRect.top - 16);
-      const desiredHeight=Math.min(Math.max(list.scrollHeight, 160), 240);
+      const desiredHeight=Math.min(Math.max(list.scrollHeight, 160), 360);
       const shouldOpenUp=spaceBelow < Math.min(desiredHeight, 220) && spaceAbove > spaceBelow;
       const availableSpace=Math.max(140, Math.min(shouldOpenUp ? spaceAbove - 10 : spaceBelow - 10, 320));
       const panelHeight=Math.min(desiredHeight, availableSpace);
@@ -3642,7 +3642,7 @@ function setupCustomFilterSelects(){
     new MutationObserver(buildOptions).observe(select,{childList:true,subtree:true,attributes:true});
 
     buildOptions();
-    instances.push({wrap,trigger,list,panel,syncLabel});
+    instances.push({wrap,trigger,list,panel,syncLabel,placePanel});
   });
 
   document.addEventListener('click',e=>{
@@ -3651,8 +3651,18 @@ function setupCustomFilterSelects(){
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape') closeAll();
   });
-  window.addEventListener('resize',closeAll);
-  window.addEventListener('scroll',closeAll,true);
+  // Saat halaman/sidebar bergeser sedikit, panel ikut berpindah (tidak langsung tertutup).
+  // Gulir di dalam daftar pilihan diabaikan; panel baru ditutup bila tombolnya keluar dari layar.
+  const ikutiPosisi=e=>{
+    if(e && e.target && e.target.closest && e.target.closest('.custom-select-panel')) return;
+    instances.forEach(inst=>{
+      if(!inst.wrap.classList.contains('open')) return;
+      const r=inst.trigger.getBoundingClientRect();
+      if(r.bottom<0 || r.top>(window.innerHeight||0)) closeAll(); else inst.placePanel();
+    });
+  };
+  window.addEventListener('resize',ikutiPosisi);
+  window.addEventListener('scroll',ikutiPosisi,true);
 
   window.syncCustomFilterSelects=()=>instances.forEach(instance=>instance.syncLabel());
 }
