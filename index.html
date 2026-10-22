@@ -2779,9 +2779,9 @@ function gapHTML(d){
   const sumSel=sumE-sumR, ssc=sumSel<0?'var(--red)':(sumSel>0?'var(--green)':'var(--text-4)');
   const src = (window.BKN_REKAP_2026 && window.BKN_REKAP_2026.updated_at) ? `sumber BKN - ${window.BKN_REKAP_2026.updated_at}` : 'sumber BKN';
   return `<div class="gap-wrap">
-    <div class="gap-head"><span class="gap-title">Perbandingan Rekomendasi Arsiparis dan Ketersediaan</span><span class="gap-src">${src}</span></div>
+    <div class="gap-head"><span class="gap-title">${isRek(d) ? 'Perbandingan Rekomendasi Arsiparis dan Ketersediaan' : (/2020/.test(d.keterangan || '') ? 'Perbandingan Penghitungan 2020 dan Ketersediaan' : 'Perbandingan Angka Penghitungan dan Ketersediaan')}</span><span class="gap-src">${src}</span></div>
     <div class="gap-table">
-      <div class="gap-row gap-h"><div class="gap-c gap-name">Jenjang</div><div class="gap-c">Rekom.</div><div class="gap-c">Eksis.</div><div class="gap-c gap-d">Selisih</div></div>
+      <div class="gap-row gap-h"><div class="gap-c gap-name">Jenjang</div><div class="gap-c">${isRek(d) ? 'Rekom.' : (/2020/.test(d.keterangan || '') ? 'Hitung 2020' : 'Hitungan')}</div><div class="gap-c">Eksis.</div><div class="gap-c gap-d">Selisih</div></div>
       ${rows}
       <div class="gap-row gap-sum"><div class="gap-c gap-name">JUMLAH</div><div class="gap-c">${sumR.toLocaleString('id')}</div><div class="gap-c">${sumE.toLocaleString('id')}</div><div class="gap-c gap-d" style="color:${ssc}">${sumSel>0?'+':''}${sumSel.toLocaleString('id')}</div></div>
     </div>
