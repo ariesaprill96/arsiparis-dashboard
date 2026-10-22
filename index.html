@@ -906,6 +906,30 @@ body::after{
 
 /* -- GRAFIK VIEW ----------------------------------------------- */
 #grafik-view .stat-card{border-radius:24px;}
+/* Grafik Statistik: satu sistem visual */
+#grafik-view{--g-rek:#0b5d96;--g-eks:#b9823a;--g-neu:#dcdcd5;--g-ink:#111722;--g-ink2:#4b5261;--g-ink3:#7d8390;--g-line:rgba(17,23,34,.08)}
+.g-kpis{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+.g-kpi{background:#fff;border:1px solid var(--g-line);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.g-k-l{font-size:12px;font-weight:600;color:var(--g-ink2);display:flex;align-items:center;gap:7px}
+.g-k-v{font-size:28px;font-weight:650;letter-spacing:-.03em;color:var(--g-ink);font-variant-numeric:tabular-nums;line-height:1.1}
+.g-k-v small{font-size:13px;font-weight:500;color:var(--g-ink3);letter-spacing:0}
+.g-k-s{font-size:12px;color:var(--g-ink3)} .g-k-s b{color:var(--g-ink);font-weight:600}
+.g-prog{height:8px;border-radius:99px;background:var(--g-neu);overflow:hidden;margin-top:2px}
+.g-prog i{display:block;height:100%;width:0;background:var(--g-rek);border-radius:99px;transition:width .6s ease}
+.g-sw{width:10px;height:10px;border-radius:3px;flex:0 0 auto;display:inline-block}
+.g-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g-card{background:#fff;border:1px solid var(--g-line);border-radius:16px;padding:18px 20px 14px;min-width:0;display:flex;flex-direction:column}
+.g-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px}
+.g-head h3{margin:0;font-size:15px;font-weight:600;color:var(--g-ink);letter-spacing:-.01em}
+.g-head p{margin:3px 0 0;font-size:12.5px;color:var(--g-ink3);line-height:1.45}
+.g-select{flex:0 0 auto;font:600 12px var(--font);color:var(--g-ink);border:1px solid rgba(17,23,34,.16);border-radius:8px;padding:6px 10px;background:#fff;cursor:pointer;outline:none}
+.g-select:focus{border-color:var(--g-rek);box-shadow:0 0 0 3px rgba(11,93,150,.12)}
+.g-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--g-ink2);margin:0 0 6px;min-height:18px}
+.g-legend span{display:inline-flex;align-items:center;gap:6px}
+.g-body{position:relative;width:100%}
+.g-src{font-size:11px;color:var(--g-ink3);margin-top:8px}
+@media (max-width:1100px){.g-kpis{grid-template-columns:1fr 1fr}.g-kpi-wide{grid-column:1 / -1}}
+@media (max-width:900px){.g-grid{grid-template-columns:1fr}}
 #progress-view{display:none;}
 .progress-toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px;}
 .progress-search{min-width:260px;flex:1;border:1px solid var(--border-med);border-radius:16px;padding:11px 14px;background:rgba(255,255,255,.78);font:700 12px var(--font);color:var(--text);outline:none;}
@@ -1976,88 +2000,60 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
     <!-- GRAFIK VIEW -->
     <div id="grafik-view" style="display:none">
       <div class="section-header">
-        <div><div class="section-title">Grafik Statistik</div><div class="section-sub">Analitik interaktif dari data kebutuhan arsiparis nasional</div></div>
+        <div><div class="section-title">Grafik Statistik</div><div class="section-sub">Rekomendasi kebutuhan JF Arsiparis dari ANRI dibandingkan ketersediaan arsiparis (data BKN)</div></div>
       </div>
 
-      <div class="stat-card" style="padding:20px;margin-bottom:16px">
-        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px">
-          <div class="stat-label" style="margin:0">Disparitas Rekomendasi vs Ketersediaan (Nasional)</div>
-          <div style="font-size:11px;color:var(--text-4)" id="disp-src">sumber BKN</div>
+      <div class="g-kpis">
+        <div class="g-kpi g-kpi-wide">
+          <div class="g-k-l">Instansi sudah memperoleh rekomendasi</div>
+          <div class="g-k-v"><span id="k-ada">-</span><small> dari <span id="k-all">-</span> instansi</small></div>
+          <div class="g-prog" role="img" id="k-prog-aria"><i id="k-prog"></i></div>
+          <div class="g-k-s"><b id="k-pct">-</b> tercakup · <span id="k-belum">-</span> belum</div>
         </div>
-        <div style="font-size:11px;color:var(--text-4);margin-bottom:2px">Batang terisi = Rekomendasi (ANRI) - batang kosong/outline = Ketersediaan (Eksisting). Warna membedakan cluster.</div>
-        <div style="height:380px;margin-top:10px"><canvas id="chart-disparitas"></canvas></div>
+        <div class="g-kpi"><div class="g-k-l"><span class="g-sw" style="background:var(--g-rek)"></span>Total rekomendasi</div><div class="g-k-v" id="k-rek">-</div><div class="g-k-s">formasi JF Arsiparis</div></div>
+        <div class="g-kpi"><div class="g-k-l"><span class="g-sw" style="background:var(--g-eks)"></span>Ketersediaan</div><div class="g-k-v" id="k-eks">-</div><div class="g-k-s" id="k-eks-src">arsiparis menurut BKN</div></div>
+        <div class="g-kpi"><div class="g-k-l">Rekomendasi terbit</div><div class="g-k-v" id="k-thn">-</div><div class="g-k-s" id="k-thn-s">-</div></div>
       </div>
 
-      <div class="stat-card" style="padding:20px;margin-bottom:16px">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px">
-          <div class="stat-label" style="margin:0">Rincian per Cluster per Jabatan</div>
-          <select id="cj-cluster" onchange="renderClusterJabatan()" style="font-size:11px;font-weight:600;border:1px solid var(--border-med);border-radius:var(--radius-xs);padding:5px 10px;background:var(--bg);color:var(--text);font-family:var(--font);cursor:pointer;outline:none">
-            <option value="nas">Nasional</option>
-            <option value="kem">Kementerian</option>
-            <option value="lemb">Lembaga (gabungan)</option>
-            <option value="prov">Provinsi</option>
-            <option value="kab">Kabupaten/Kota</option>
-          </select>
-        </div>
-        <div style="font-size:11px;color:var(--text-4);margin-bottom:2px">Batang terisi = Rekomendasi - kosong/outline = Ketersediaan (Eksisting). Warna membedakan jenjang.</div>
-        <div style="height:380px;margin-top:8px"><canvas id="chart-cj"></canvas></div>
-      </div>
+      <div class="g-grid">
+        <section class="g-card">
+          <header class="g-head"><div><h3>Rekomendasi vs ketersediaan per kluster</h3><p>Jumlah formasi yang direkomendasikan ANRI dibandingkan arsiparis yang ada.</p></div></header>
+          <div class="g-legend" data-legend="pair"></div>
+          <div class="g-body" style="height:280px"><canvas id="chart-disparitas"></canvas></div>
+          <div class="g-src" id="disp-src">Sumber: rekomendasi ANRI · BKN</div>
+        </section>
+        <section class="g-card">
+          <header class="g-head"><div><h3>Rekomendasi vs ketersediaan per jenjang</h3><p>Rincian jenjang untuk kluster yang dipilih.</p></div>
+            <select id="cj-cluster" class="g-select" onchange="renderClusterJabatan()" aria-label="Pilih kluster">
+              <option value="nas">Nasional</option><option value="kem">Kementerian</option><option value="lemb">Lembaga</option><option value="prov">Provinsi</option><option value="kab">Kabupaten/Kota</option>
+            </select></header>
+          <div class="g-legend" data-legend="pair"></div>
+          <div class="g-body" style="height:280px"><canvas id="chart-cj"></canvas></div>
+          <div class="g-src">Sumber: rekomendasi ANRI · BKN</div>
+        </section>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-        <div class="stat-card" style="padding:20px">
-          <div class="stat-label">Status Rekomendasi Nasional</div>
-          <div style="position:relative;width:180px;height:180px;margin:12px auto 0">
-            <canvas id="chart-donut"></canvas>
-            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none">
-              <div style="font-size:26px;font-weight:700;color:var(--text);letter-spacing:-.03em" id="donut-pct">-</div>
-              <div style="font-size:9px;font-weight:600;color:var(--text-4);text-transform:uppercase;letter-spacing:.05em">sudah rek.</div>
-            </div>
-          </div>
-          <div style="display:flex;justify-content:center;gap:16px;margin-top:12px;font-size:10px;font-weight:500">
-            <div style="display:flex;align-items:center;gap:5px"><div style="width:7px;height:7px;background:var(--green);border-radius:50%"></div><span style="color:var(--text-4)" id="lbl-ada">-</span></div>
-            <div style="display:flex;align-items:center;gap:5px"><div style="width:7px;height:7px;background:#e5e7eb;border-radius:50%"></div><span style="color:var(--text-4)" id="lbl-belum">-</span></div>
-          </div>
-        </div>
-        <div class="stat-card" style="padding:20px">
-          <div class="stat-label">Persentase Rekomendasi per Kluster</div>
-          <div style="height:200px;margin-top:10px"><canvas id="chart-kluster"></canvas></div>
-        </div>
-      </div>
+        <section class="g-card">
+          <header class="g-head"><div><h3>Cakupan rekomendasi per kluster</h3><p>Persentase instansi yang sudah memperoleh rekomendasi.</p></div></header>
+          <div class="g-legend" id="lg-cakupan"></div>
+          <div class="g-body" style="height:230px"><canvas id="chart-kluster"></canvas></div>
+        </section>
+        <section class="g-card">
+          <header class="g-head"><div><h3>Komposisi jenjang per kluster</h3><p>Proporsi formasi yang direkomendasikan menurut jenjang; angka di kanan = total formasi.</p></div></header>
+          <div class="g-legend" id="lg-jenjang"></div>
+          <div class="g-body" style="height:230px"><canvas id="chart-jenjang"></canvas></div>
+        </section>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-        <div class="stat-card" style="padding:20px">
-          <div class="stat-label">Rekomendasi Terbit per Tahun</div>
-          <div style="height:200px;margin-top:10px"><canvas id="chart-tahun"></canvas></div>
-        </div>
-        <div class="stat-card" style="padding:20px">
-          <div class="stat-label">Total Rekomendasi per Kluster</div>
-          <div style="height:200px;margin-top:10px"><canvas id="chart-formasi"></canvas></div>
-        </div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-        <div class="stat-card" style="padding:20px">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-            <div class="stat-label" style="margin:0">Top 15 Instansi - Rekomendasi Terbesar</div>
-            <select id="top15-filter" onchange="renderCharts()" style="font-size:10px;font-weight:600;border:1px solid var(--border-med);border-radius:var(--radius-xs);padding:3px 8px;background:var(--bg);color:var(--text);font-family:var(--font);cursor:pointer;outline:none">
-              <option value="">Semua Kluster</option>
-              <option value="Kementerian">Kementerian</option>
-              <option value="Lembaga Pemerintah Non Kementerian">Lembaga Pemerintahan Non Kementerian</option>
-              <option value="Sekretariat Lembaga Negara">Sekretariat Lembaga Negara</option>
-              <option value="Lembaga Non Struktural">Lembaga Non Struktural</option>
-              <option value="Alat Negara">Alat Negara</option>
-              <option value="Lembaga Pemerintah Lainnya">Lembaga Pemerintahan Lainnya</option>
-              <option value="Lembaga Penyiaran Publik">Lembaga Penyiaran Publik</option>
-              <option value="Provinsi">Provinsi</option>
-              <option value="Kabupaten/Kota">Kabupaten/Kota</option>
-            </select>
-          </div>
-          <div style="height:320px"><canvas id="chart-top15"></canvas></div>
-        </div>
-        <div class="stat-card" style="padding:20px">
-          <div class="stat-label">Komposisi Jenjang per Kluster</div>
-          <div style="height:360px;margin-top:10px"><canvas id="chart-jenjang"></canvas></div>
-        </div>
+        <section class="g-card">
+          <header class="g-head"><div><h3>Rekomendasi terbit per tahun</h3><p id="tahun-sub">Jumlah instansi yang menerima rekomendasi pada tahun tersebut.</p></div></header>
+          <div class="g-body" style="height:340px"><canvas id="chart-tahun"></canvas></div>
+        </section>
+        <section class="g-card">
+          <header class="g-head"><div><h3>15 instansi dengan rekomendasi terbesar</h3><p>Jumlah formasi yang direkomendasikan.</p></div>
+            <select id="top15-filter" class="g-select" onchange="renderCharts()" aria-label="Filter kluster">
+              <option value="">Semua kluster</option><option value="kem">Kementerian</option><option value="lemb">Lembaga</option><option value="prov">Provinsi</option><option value="kab">Kabupaten/Kota</option>
+            </select></header>
+          <div class="g-body" style="height:340px"><canvas id="chart-top15"></canvas></div>
+        </section>
       </div>
     </div>
 
@@ -3124,240 +3120,153 @@ function exitGrafik() {
   document.getElementById('stat-row').style.display = '';
 }
 
-function destroyChart(id) {
-  if (CHART_INSTANCES[id]) { CHART_INSTANCES[id].destroy(); delete CHART_INSTANCES[id]; }
-}
-function mkChart(id, config) {
-  destroyChart(id);
-  const ctx = document.getElementById(id);
-  if (!ctx) return;
-  CHART_INSTANCES[id] = new Chart(ctx, config);
-  return CHART_INSTANCES[id];
-}
 
-const CAT_COLORS = CAT_COLOR; // satu sumber warna kategori untuk kartu dan grafik
+const CAT_COLORS = CAT_COLOR; // satu sumber warna kategori untuk kartu (bukan untuk grafik statistik)
 
-/* -- Token visual seragam untuk semua chart batang --
-   Satu bahasa: isian transparan tipis + garis tepi warna penuh, sudut rounded halus. */
+/* -- Grafik Statistik: satu sistem visual --
+   Biru tinta = Rekomendasi ANRI, emas = Ketersediaan (BKN), abu = belum/sisa,
+   gradasi biru muda->tua = jenjang (Terampil->Ahli Utama). Kluster dikenali dari label, bukan warna.
+   Palet divalidasi (CVD & kontras) dengan validator dataviz. */
 const CHART_FONT = "'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+const G = { rek:'#0b5d96', eks:'#b9823a', neu:'#dcdcd5', ink:'#111722', ink2:'#4b5261', ink3:'#7d8390', grid:'rgba(17,23,34,.07)',
+  ramp:['#cfe2f2','#a7cbe8','#7aaed8','#4f91c4','#2c74ab','#14598f','#0b3d66'] };
+const KLUSTER4 = [['kem','Kementerian'],['lemb','Lembaga'],['prov','Provinsi'],['kab','Kabupaten/Kota']];
+const kl4 = kat => kat === 'Kementerian' ? 'kem' : kat === 'Provinsi' ? 'prov' : kat === 'Kabupaten/Kota' ? 'kab' : (PUSAT_CATEGORIES.includes(kat) ? 'lemb' : null);
 const TOOLTIP_DEFAULTS = {
-  backgroundColor:'rgba(255,255,255,.98)',titleColor:'#111722',bodyColor:'#4b5261',
-  borderColor:'rgba(15,23,42,.08)',borderWidth:1,
-  padding:12,cornerRadius:8,displayColors:false,
-  titleFont:{family:CHART_FONT,weight:'600',size:12},
-  bodyFont:{family:CHART_FONT,size:11}
+  backgroundColor:'rgba(255,255,255,.98)',titleColor:G.ink,bodyColor:G.ink2,
+  borderColor:'rgba(15,23,42,.10)',borderWidth:1,padding:10,cornerRadius:8,boxPadding:4,usePointStyle:true,
+  titleFont:{family:CHART_FONT,weight:'600',size:12},bodyFont:{family:CHART_FONT,size:12}
 };
-const BAR_RADIUS  = 6;     // sudut rounded halus, dipakai semua batang
-const BAR_BORDER  = 1.5;   // tebal garis tepi seragam
-const BAR_PCT     = 0.62;  // ketebalan batang seragam
-const CAT_PCT     = 0.72;  // jarak antar grup seragam
-const fillSolid = c => c+'D9'; // isian "terisi"  (Rekomendasi / seri tunggal)
-const fillGhost = c => c+'14'; // isian "kosong"  (Ketersediaan)
+const nf = v => (Number(v) || 0).toLocaleString('id-ID');
+const compact = v => Math.abs(v) >= 1000 ? (v / 1000).toLocaleString('id-ID', { maximumFractionDigits:1 }) + 'rb' : v;
+const AXIS_X = (extra = {}) => ({ grid:{ color:G.grid, drawTicks:false }, border:{ display:false }, ticks:{ color:G.ink3, padding:6, font:{ size:11, family:CHART_FONT }, callback:compact }, ...extra });
+const AXIS_CAT = { grid:{ display:false }, border:{ display:false }, ticks:{ color:G.ink2, font:{ size:12, family:CHART_FONT, weight:'500' } } };
+const BAR = { borderRadius:4, borderSkipped:'start', maxBarThickness:16, categoryPercentage:.72, barPercentage:.86 };
+/* Label angka di ujung batang (warna teks, bukan warna data) */
+const ujungLabel = (fmtFn, ds = null) => ({ id:'ujungLabel', afterDatasetsDraw(chart){
+  const c = chart.ctx; c.save(); c.font = '600 11px ' + CHART_FONT; c.textBaseline = 'middle';
+  const hz = chart.options.indexAxis === 'y';
+  chart.data.datasets.forEach((d, di) => { if (ds && !ds.includes(di)) return; const meta = chart.getDatasetMeta(di); if (meta.hidden) return;
+    meta.data.forEach((bar, i) => { const v = d.data[i]; if (v == null) return; const t = fmtFn(v, i, di);
+      c.fillStyle = di === 0 ? G.ink : G.ink2;
+      if (hz){ c.textAlign = 'left'; c.fillText(t, bar.x + 6, bar.y); } else { c.textAlign = 'center'; c.textBaseline = 'bottom'; c.fillText(t, bar.x, bar.y - 5); }
+    }); });
+  c.restore(); } });
+const legend = (el, items) => { if (el) el.innerHTML = items.map(([c, t]) => `<span><i class="g-sw" style="background:${c}"></i>${t}</span>`).join(''); };
+function destroyChart(id) { if (CHART_INSTANCES[id]) { CHART_INSTANCES[id].destroy(); delete CHART_INSTANCES[id]; } }
+function mkChart(id, config) {
+  destroyChart(id); const ctx = document.getElementById(id); if (!ctx) return;
+  config.options = Object.assign({ responsive:true, maintainAspectRatio:false, animation:{ duration:500 } }, config.options || {});
+  CHART_INSTANCES[id] = new Chart(ctx, config); return CHART_INSTANCES[id];
+}
+/* Ketersediaan (BKN) dikelompokkan ke 4 kluster yang sama */
+function bknKluster(n){ const t = (n || '').toLowerCase();
+  if (/provinsi|^pemerintah aceh$|daerah istimewa yogyakarta|^pemerintah dki/.test(t)) return 'prov';
+  if (/kabupaten|^pemerintah kab\b|^pemerintah kota|kota /.test(t)) return 'kab';
+  if (/^kementerian/.test(t)) return 'kem';
+  return 'lemb'; }
 
 function renderCharts() {
-  if (!ALL.length) return;
-  Chart.defaults.color = '#4b5261';
-  Chart.defaults.borderColor = 'rgba(20,24,31,.10)';
-  Chart.defaults.font.family = "'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
-  Chart.defaults.font.size = 12;
-  const font = CHART_FONT;
-  const tooltipDefaults = TOOLTIP_DEFAULTS;
+  if (!ALL.length || typeof Chart === 'undefined') return;
+  Chart.defaults.color = G.ink2; Chart.defaults.font.family = CHART_FONT; Chart.defaults.font.size = 12;
+  const pairLegend = [[G.rek, 'Rekomendasi (ANRI)'], [G.eks, 'Ketersediaan (BKN)']];
+  document.querySelectorAll('[data-legend="pair"]').forEach(el => legend(el, pairLegend));
 
-  const ada = ALL.filter(d=>d.status==='Ada Rekomendasi').length;
-  const belum = ALL.length - ada;
-  const pct = ALL.length ? ((ada/ALL.length)*100).toFixed(1) : 0;
-  document.getElementById('donut-pct').textContent = pct+'%';
-  document.getElementById('lbl-ada').textContent = `Ada: ${ada.toLocaleString('id')}`;
-  document.getElementById('lbl-belum').textContent = `Belum: ${belum.toLocaleString('id')}`;
-  mkChart('chart-donut', {
-    type:'doughnut',
-    data:{ datasets:[{ data:[ada,belum], backgroundColor:['#0b5d96','#e8e8e4'], borderWidth:0, hoverOffset:4 }] },
-    options:{ cutout:'74%', plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>`${ctx.raw.toLocaleString('id')} instansi`},...tooltipDefaults} }, animation:{duration:700} }
-  });
+  // ---- Ringkasan
+  const ada = ALL.filter(d => d.status === 'Ada Rekomendasi').length, belum = ALL.length - ada;
+  const pct = ALL.length ? ada / ALL.length * 100 : 0;
+  const totRek = ALL.reduce((a, d) => a + (d.total || 0), 0);
+  document.getElementById('k-ada').textContent = nf(ada);
+  document.getElementById('k-all').textContent = nf(ALL.length);
+  document.getElementById('k-pct').textContent = pct.toLocaleString('id-ID', { maximumFractionDigits:1 }) + '%';
+  document.getElementById('k-belum').textContent = nf(belum);
+  document.getElementById('k-prog').style.width = pct.toFixed(1) + '%';
+  document.getElementById('k-prog-aria').setAttribute('aria-label', `${pct.toFixed(1)}% instansi sudah memperoleh rekomendasi`);
+  document.getElementById('k-rek').textContent = nf(totRek);
 
-  const klusterPct = CAT_LABELS.map(cat => {
-    const items = ALL.filter(d=>d.kategori===cat);
-    if (!items.length) return 0;
-    return +((items.filter(d=>d.status==='Ada Rekomendasi').length / items.length)*100).toFixed(1);
-  });
-  const klusterColors = CAT_LABELS.map(c => CAT_COLORS[c]||'#0071e3');
-  mkChart('chart-kluster', {
-    type:'bar',
-    data:{ labels:CAT_LABELS.map(c=>CAT_SHORT2[c]||c), datasets:[{
-      label:'% Ada Rekomendasi', data:klusterPct,
-      backgroundColor:klusterColors.map(fillSolid),borderColor:klusterColors,borderWidth:BAR_BORDER,borderRadius:BAR_RADIUS,borderSkipped:false,barPercentage:BAR_PCT,categoryPercentage:CAT_PCT
-    }]},
-    options:{
-      indexAxis:'y',responsive:true,maintainAspectRatio:false,
-      scales:{ x:{max:100,grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>v+'%',font:{size:10,family:font}}},
-               y:{grid:{display:false},ticks:{font:{size:10,family:font,weight:'500'}}} },
-      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>`${ctx.raw}% (${ALL.filter(d=>d.kategori===CAT_LABELS[ctx.dataIndex]&&d.status==='Ada Rekomendasi').length}/${ALL.filter(d=>d.kategori===CAT_LABELS[ctx.dataIndex]).length} instansi)`},...tooltipDefaults} },
-      animation:{duration:700}
-    }
-  });
-
+  // ---- Tren per tahun (satu sumbu; kumulatif di tooltip & subjudul)
   const byTahun = {};
-  ALL.filter(d=>d.tahun&&d.status==='Ada Rekomendasi').forEach(d=>{ byTahun[d.tahun]=(byTahun[d.tahun]||0)+1; });
-  const tahunKeys = Object.keys(byTahun).sort();
-  let cum = 0;
-  const cumData = tahunKeys.map(t=>{ cum+=byTahun[t]; return cum; });
-  mkChart('chart-tahun', {
-    type:'bar',
-    data:{ labels:tahunKeys, datasets:[
-      { type:'bar', label:'Terbit Tahun Ini', data:tahunKeys.map(t=>byTahun[t]), backgroundColor:fillSolid('#0b5d96'), borderColor:'#0b5d96', borderWidth:BAR_BORDER, borderRadius:BAR_RADIUS, borderSkipped:false, yAxisID:'y', barPercentage:BAR_PCT, categoryPercentage:CAT_PCT },
-      { type:'line', label:'Kumulatif', data:cumData, borderColor:'#9a7b45', backgroundColor:'rgba(154,123,69,.08)', borderWidth:2.5, pointRadius:4, pointBackgroundColor:'#9a7b45', tension:.35, fill:true, yAxisID:'y1' }
-    ]},
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      scales:{
-        y:{position:'left',grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:10,family:font}},title:{display:true,text:'Per Tahun',font:{size:9}}},
-        y1:{position:'right',grid:{drawOnChartArea:false},ticks:{font:{size:10,family:font}},title:{display:true,text:'Kumulatif',font:{size:9}}},
-        x:{grid:{display:false},ticks:{font:{size:10,family:font}}}
-      },
-      plugins:{legend:{labels:{font:{family:font,size:10},boxWidth:10,padding:12}},tooltip:{...tooltipDefaults}},
-      animation:{duration:700}
-    }
-  });
+  ALL.filter(d => d.tahun && d.status === 'Ada Rekomendasi').forEach(d => { byTahun[d.tahun] = (byTahun[d.tahun] || 0) + 1; });
+  const thn = Object.keys(byTahun).sort(); let cum = 0; const kum = thn.map(t => (cum += byTahun[t]));
+  const last = thn[thn.length - 1];
+  document.getElementById('k-thn').textContent = last ? nf(byTahun[last]) : '-';
+  document.getElementById('k-thn-s').textContent = last ? `instansi pada ${last} · kumulatif ${nf(cum)}` : 'belum ada data tahun';
+  document.getElementById('tahun-sub').textContent = thn.length ? `Jumlah instansi yang menerima rekomendasi per tahun · total ${nf(cum)} instansi sejak ${thn[0]}.` : 'Belum ada data tahun terbit.';
+  mkChart('chart-tahun', { type:'bar',
+    data:{ labels:thn, datasets:[{ label:'Instansi', data:thn.map(t => byTahun[t]), backgroundColor:G.rek, ...BAR, maxBarThickness:24 }] },
+    options:{ layout:{ padding:{ top:20 } }, scales:{ x:AXIS_CAT, y:{ ...AXIS_X(), beginAtZero:true, ticks:{ ...AXIS_X().ticks, precision:0 } } },
+      plugins:{ legend:{ display:false }, tooltip:{ ...TOOLTIP_DEFAULTS, callbacks:{ label:c => ` ${nf(c.raw)} instansi`, afterLabel:c => ` Kumulatif: ${nf(kum[c.dataIndex])}` } } } },
+    plugins:[ujungLabel(v => nf(v))] });
 
-  const formasiPerKluster = CAT_LABELS.map(cat => ALL.filter(d=>d.kategori===cat).reduce((s,d)=>s+(d.total||0),0));
-  const formasiColors = CAT_LABELS.map(c=>CAT_COLORS[c]||'#0071e3');
-  mkChart('chart-formasi', {
-    type:'bar',
-    data:{ labels:CAT_LABELS.map(c=>CAT_SHORT2[c]||c), datasets:[{
-      label:'Total Rekomendasi', data:formasiPerKluster,
-      backgroundColor:formasiColors.map(fillSolid),borderColor:formasiColors,borderWidth:BAR_BORDER,borderRadius:BAR_RADIUS,borderSkipped:false,barPercentage:BAR_PCT,categoryPercentage:CAT_PCT
-    }]},
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      scales:{ x:{grid:{display:false},ticks:{font:{size:10,family:font,weight:'500'}}},
-               y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>v>=1000?(v/1000).toFixed(0)+'rb':v,font:{size:10,family:font}}} },
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw.toLocaleString('id')} rekomendasi`},...tooltipDefaults}},
-      animation:{duration:700}
-    }
-  });
+  // ---- Cakupan per kluster (100%: sudah vs belum)
+  const cak = KLUSTER4.map(([k]) => { const it = ALL.filter(d => kl4(d.kategori) === k); const a = it.filter(d => d.status === 'Ada Rekomendasi').length; return { n:it.length, a, p:it.length ? a / it.length * 100 : 0 }; });
+  legend(document.getElementById('lg-cakupan'), [[G.rek, 'Sudah rekomendasi'], [G.neu, 'Belum']]);
+  mkChart('chart-kluster', { type:'bar',
+    data:{ labels:KLUSTER4.map(k => k[1]), datasets:[
+      { label:'Sudah rekomendasi', data:cak.map(c => c.p), backgroundColor:G.rek, borderColor:'#fff', borderWidth:{ right:2 }, borderSkipped:false, borderRadius:{ topLeft:4, bottomLeft:4 }, maxBarThickness:18, categoryPercentage:.7 },
+      { label:'Belum', data:cak.map(c => 100 - c.p), backgroundColor:G.neu, borderRadius:{ topRight:4, bottomRight:4 }, borderSkipped:false, maxBarThickness:18, categoryPercentage:.7 } ] },
+    options:{ indexAxis:'y', layout:{ padding:{ right:96 } },
+      scales:{ x:{ ...AXIS_X(), stacked:true, max:100, ticks:{ ...AXIS_X().ticks, callback:v => v + '%' } }, y:{ ...AXIS_CAT, stacked:true } },
+      plugins:{ legend:{ display:false }, tooltip:{ ...TOOLTIP_DEFAULTS, callbacks:{ label:c => { const x = cak[c.dataIndex]; return c.datasetIndex === 0 ? ` Sudah: ${nf(x.a)} instansi (${x.p.toFixed(1)}%)` : ` Belum: ${nf(x.n - x.a)} instansi`; } } } } },
+    plugins:[{ id:'cakLabel', afterDatasetsDraw(ch){ const c = ch.ctx, meta = ch.getDatasetMeta(1); c.save(); c.textBaseline = 'middle'; c.textAlign = 'left';
+      meta.data.forEach((bar, i) => { const x = cak[i]; c.font = '600 12px ' + CHART_FONT; c.fillStyle = G.ink; c.fillText(x.p.toLocaleString('id-ID', { maximumFractionDigits:0 }) + '%', ch.chartArea.right + 8, bar.y);
+        c.font = '400 11px ' + CHART_FONT; c.fillStyle = G.ink3; c.fillText(`${nf(x.a)}/${nf(x.n)}`, ch.chartArea.right + 46, bar.y); }); c.restore(); } }] });
 
-  const filterKat = document.getElementById('top15-filter').value;
-  const top15src = (filterKat ? ALL.filter(d=>d.kategori===filterKat) : ALL)
-    .filter(d=>d.total>0).sort((a,b)=>b.total-a.total).slice(0,15);
-  const top15colors = top15src.map(d=>CAT_COLORS[d.kategori]||'#0071e3');
-  mkChart('chart-top15', {
-    type:'bar',
-    data:{ labels:top15src.map(d=>d.nama.length>35?d.nama.slice(0,35)+'...':d.nama),
-      datasets:[{ label:'Rekomendasi', data:top15src.map(d=>d.total), backgroundColor:top15colors.map(fillSolid), borderColor:top15colors, borderWidth:BAR_BORDER, borderRadius:BAR_RADIUS, borderSkipped:false, barThickness:12 }] },
-    options:{
-      indexAxis:'y',responsive:true,maintainAspectRatio:false,
-      scales:{ x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>v>=1000?(v/1000).toFixed(0)+'rb':v,font:{size:10,family:font}}},
-               y:{grid:{display:false},ticks:{font:{size:9,family:font,weight:'500'}}} },
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw.toLocaleString('id')} rekomendasi`},...tooltipDefaults}},
-      animation:{duration:700}
-    }
-  });
+  // ---- Komposisi jenjang per kluster (100% bertumpuk, gradasi jenjang)
+  const komp = KLUSTER4.map(([k]) => { const it = ALL.filter(d => kl4(d.kategori) === k); const v = JENJANG.map(j => it.reduce((s, d) => s + (d[j.k] || 0), 0)); const t = v.reduce((a, b) => a + b, 0); return { v, t }; });
+  legend(document.getElementById('lg-jenjang'), JENJANG.map((j, i) => [G.ramp[i], j.lbl]));
+  mkChart('chart-jenjang', { type:'bar',
+    data:{ labels:KLUSTER4.map(k => k[1]), datasets:JENJANG.map((j, i) => ({ label:j.lbl, data:komp.map(x => x.t ? x.v[i] / x.t * 100 : 0),
+      backgroundColor:G.ramp[i], borderColor:'#fff', borderWidth:{ right:2 }, borderSkipped:false, maxBarThickness:18, categoryPercentage:.7,
+      borderRadius:i === 0 ? { topLeft:4, bottomLeft:4 } : i === JENJANG.length - 1 ? { topRight:4, bottomRight:4 } : 0 })) },
+    options:{ indexAxis:'y', layout:{ padding:{ right:56 } },
+      scales:{ x:{ ...AXIS_X(), stacked:true, max:100, ticks:{ ...AXIS_X().ticks, callback:v => v + '%' } }, y:{ ...AXIS_CAT, stacked:true } },
+      plugins:{ legend:{ display:false }, tooltip:{ ...TOOLTIP_DEFAULTS, mode:'index', intersect:false, filter:c => c.raw > 0,
+        callbacks:{ label:c => ` ${c.dataset.label}: ${nf(komp[c.dataIndex].v[c.datasetIndex])} (${c.raw.toFixed(1)}%)` } } } },
+    plugins:[{ id:'kompTot', afterDatasetsDraw(ch){ const c = ch.ctx, meta = ch.getDatasetMeta(0); c.save(); c.textBaseline = 'middle'; c.textAlign = 'left';
+      meta.data.forEach((bar, i) => { c.font = '600 12px ' + CHART_FONT; c.fillStyle = G.ink; c.fillText(nf(komp[i].t), ch.chartArea.right + 8, bar.y); }); c.restore(); } }] });
 
-  const jenjangColors = JENJANG.map(j => j.c);
-  const jenjangDatasets = JENJANG.map((j,i)=>({
-    label:j.lbl, data:CAT_LABELS.map(cat=>ALL.filter(d=>d.kategori===cat).reduce((s,d)=>s+(d[j.k]||0),0)),
-    backgroundColor:fillSolid(jenjangColors[i]),borderColor:jenjangColors[i],borderWidth:BAR_BORDER,borderSkipped:false,borderRadius:BAR_RADIUS
-  }));
-  mkChart('chart-jenjang', {
-    type:'bar',
-    data:{ labels:CAT_LABELS.map(c=>CAT_SHORT2[c]||c), datasets:jenjangDatasets },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      scales:{ x:{stacked:true,grid:{display:false},ticks:{font:{size:9,family:font,weight:'500'}}},
-               y:{stacked:true,grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>v>=1000?(v/1000).toFixed(0)+'rb':v,font:{size:10,family:font}}} },
-      plugins:{legend:{position:'bottom',labels:{font:{family:font,size:9},boxWidth:9,padding:8}},tooltip:{mode:'index',intersect:false,...tooltipDefaults}},
-      animation:{duration:700}
-    }
-  });
+  // ---- Top 15 instansi
+  const f15 = document.getElementById('top15-filter').value;
+  const top = ALL.filter(d => d.total > 0 && (!f15 || kl4(d.kategori) === f15)).sort((a, b) => b.total - a.total).slice(0, 15);
+  mkChart('chart-top15', { type:'bar',
+    data:{ labels:top.map(d => d.nama.length > 34 ? d.nama.slice(0, 33) + '…' : d.nama), datasets:[{ label:'Rekomendasi', data:top.map(d => d.total), backgroundColor:G.rek, ...BAR, maxBarThickness:14 }] },
+    options:{ indexAxis:'y', layout:{ padding:{ right:44 } }, scales:{ x:AXIS_X({ beginAtZero:true }), y:{ ...AXIS_CAT, ticks:{ ...AXIS_CAT.ticks, font:{ size:11, family:CHART_FONT } } } },
+      plugins:{ legend:{ display:false }, tooltip:{ ...TOOLTIP_DEFAULTS, callbacks:{ title:c => top[c[0].dataIndex].nama, label:c => ` ${nf(c.raw)} formasi direkomendasikan` } } } },
+    plugins:[ujungLabel(v => nf(v))] });
 
-  // -- Disparitas Rekomendasi vs Ketersediaan (Nasional) --
-  if (window.BKN_REKAP_2026 && window.BKN_REKAP_2026.records) {
-    const bknCls = n => { const t=(n||'').toLowerCase();
-      if(/provinsi|^pemerintah aceh$|daerah istimewa yogyakarta|^pemerintah dki/.test(t)) return 'prov';
-      if(/kabupaten|^pemerintah kab\b/.test(t)) return 'kab';
-      if(/kota /.test(t)||/^pemerintah kota/.test(t)) return 'kota';
-      if(/^kementerian/.test(t)) return 'kem';
-      return 'lemb'; };
-    const LEMB=['Alat Negara','Sekretariat Lembaga Negara','Lembaga Non Struktural','Lembaga Pemerintah Lainnya','Lembaga Pemerintah Non Kementerian','Lembaga Penyiaran Publik'];
-    const rsum=fn=>ALL.filter(fn).reduce((a,d)=>a+(d.total||0),0);
-    const rek={ nas:rsum(()=>true), kem:rsum(d=>d.kategori==='Kementerian'), lemb:rsum(d=>LEMB.includes(d.kategori)), prov:rsum(d=>d.kategori==='Provinsi'), kab:rsum(d=>d.kategori==='Kabupaten/Kota') };
-    const eks={nas:0,kem:0,lemb:0,prov:0,kab:0};
-    window.BKN_REKAP_2026.records.forEach(r=>{ const c=bknCls(r.nama); const v=r.total||0; eks.nas+=v;
-      if(c==='kem')eks.kem+=v; else if(c==='lemb')eks.lemb+=v; else if(c==='prov')eks.prov+=v; else eks.kab+=v; });
-    const gk=['nas','kem','lemb','prov','kab'];
-    const gl=['Nasional','Kementerian','Lembaga','Provinsi','Kabupaten/Kota'];
-    const dsrc=document.getElementById('disp-src'); if(dsrc) dsrc.textContent='sumber BKN - '+(window.BKN_REKAP_2026.updated_at||'');
-    const COL=['#7d8390','#0b5d96','#3fa7dc','#8a5f2a','#c39553'];
-    const dispLabels={ id:'dispLabels', afterDatasetsDraw(chart){
-      const ctx=chart.ctx; ctx.save();
-      ctx.font="600 10px "+font; ctx.textBaseline='middle'; ctx.textAlign='left';
-      chart.data.datasets.forEach((ds,di)=>{ const meta=chart.getDatasetMeta(di);
-        meta.data.forEach((bar,i)=>{ const v=ds.data[i]; if(v==null)return;
-          ctx.fillStyle = di===0 ? '#111722' : '#7d8390'; // label angka selalu terbaca, tidak ikut warna batang
-          ctx.fillText(v.toLocaleString('id'), bar.x+7, bar.y); }); });
-      ctx.restore(); } };
-    mkChart('chart-disparitas', {
-      type:'bar',
-      data:{ labels:gl, datasets:[
-        {label:'Rekomendasi (ANRI)', data:gk.map(k=>rek[k]), backgroundColor:COL.map(fillSolid), borderColor:COL, borderWidth:BAR_BORDER, borderRadius:BAR_RADIUS, borderSkipped:false},
-        {label:'Ketersediaan (Eksisting)', data:gk.map(k=>eks[k]), backgroundColor:COL.map(fillGhost), borderColor:COL, borderWidth:BAR_BORDER, borderRadius:BAR_RADIUS, borderSkipped:false}
-      ]},
-      options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
-        layout:{padding:{right:54}},
-        scales:{ x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>v>=1000?(v/1000).toFixed(0)+'rb':v,font:{size:10,family:font}}},
-                 y:{grid:{display:false},ticks:{font:{size:11,family:font,weight:'600'}}} },
-        plugins:{ legend:{display:false},
-          tooltip:{mode:'index',intersect:false,...tooltipDefaults,callbacks:{
-            label:ctx=>`${ctx.dataset.label}: ${ctx.raw.toLocaleString('id')}`,
-            afterbody:items=>{const i=items[0].dataIndex;const sel=eks[gk[i]]-rek[gk[i]];return `Selisih: ${sel>0?'+':''}${sel.toLocaleString('id')}`;} }} },
-        animation:{duration:700} },
-      plugins:[dispLabels]
-    });
-
-    // -- Data per cluster per jabatan (untuk tabel rincian) --
-    const JCL=['nas','kem','lemb','prov','kab'];
-    const JBYC={rek:{},eks:{}};
-    JCL.forEach(c=>{ JBYC.rek[c]={}; JBYC.eks[c]={}; JENJANG.forEach(j=>{JBYC.rek[c][j.k]=0;JBYC.eks[c][j.k]=0;}); });
-    const catCl = kat => kat==='Kementerian'?'kem': (LEMB.includes(kat)?'lemb': (kat==='Provinsi'?'prov': (kat==='Kabupaten/Kota'?'kab':null)));
-    ALL.forEach(d=>{ const cc=catCl(d.kategori); JENJANG.forEach(j=>{ const v=d[j.k]||0; JBYC.rek.nas[j.k]+=v; if(cc) JBYC.rek[cc][j.k]+=v; }); });
-    window.BKN_REKAP_2026.records.forEach(r=>{ const c=bknCls(r.nama); const cc=(c==='kem'?'kem':c==='lemb'?'lemb':c==='prov'?'prov':'kab'); JENJANG.forEach(j=>{ const v=r[j.k]||0; JBYC.eks.nas[j.k]+=v; JBYC.eks[cc][j.k]+=v; }); });
-    window.__JBYC=JBYC;
-    renderClusterJabatan();
-  }
+  // ---- Rekomendasi vs ketersediaan
+  const BK = window.BKN_REKAP_2026 && window.BKN_REKAP_2026.records;
+  const rek = { nas:totRek, kem:0, lemb:0, prov:0, kab:0 }, eks = { nas:0, kem:0, lemb:0, prov:0, kab:0 };
+  ALL.forEach(d => { const c = kl4(d.kategori); if (c) rek[c] += d.total || 0; });
+  const JB = { rek:{}, eks:{} };
+  ['nas', 'kem', 'lemb', 'prov', 'kab'].forEach(c => { JB.rek[c] = {}; JB.eks[c] = {}; JENJANG.forEach(j => { JB.rek[c][j.k] = 0; JB.eks[c][j.k] = 0; }); });
+  ALL.forEach(d => { const c = kl4(d.kategori); JENJANG.forEach(j => { const v = d[j.k] || 0; JB.rek.nas[j.k] += v; if (c) JB.rek[c][j.k] += v; }); });
+  if (BK) BK.forEach(r => { const c = bknKluster(r.nama); eks.nas += r.total || 0; eks[c] += r.total || 0; JENJANG.forEach(j => { const v = r[j.k] || 0; JB.eks.nas[j.k] += v; JB.eks[c][j.k] += v; }); });
+  document.getElementById('k-eks').textContent = BK ? nf(eks.nas) : '-';
+  const upd = BK && window.BKN_REKAP_2026.updated_at ? window.BKN_REKAP_2026.updated_at : '';
+  document.getElementById('k-eks-src').textContent = 'arsiparis menurut BKN' + (upd ? ' · ' + upd : '');
+  document.getElementById('disp-src').textContent = 'Sumber: rekomendasi ANRI · BKN' + (upd ? ' ' + upd : '');
+  window.__JBYC = JB;
+  pairChart('chart-disparitas', KLUSTER4.map(k => k[1]), KLUSTER4.map(([k]) => rek[k]), KLUSTER4.map(([k]) => eks[k]));
+  renderClusterJabatan();
 }
 
-function renderClusterJabatan(){
-  const J=window.__JBYC; if(!J || typeof Chart==='undefined') return;
-  const sel=document.getElementById('cj-cluster'); const c=sel?sel.value:'nas';
-  const font="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
-  const labels=JENJANG.map(j=>j.lbl);
-  const colors=JENJANG.map(j=>j.c);
-  const rek=JENJANG.map(j=>J.rek[c][j.k]||0);
-  const eks=JENJANG.map(j=>J.eks[c][j.k]||0);
-  const cjLabels={ id:'cjLabels', afterDatasetsDraw(chart){
-    const ctx=chart.ctx; ctx.save(); ctx.font="600 10px "+font; ctx.textBaseline='middle'; ctx.textAlign='left';
-    chart.data.datasets.forEach((ds,di)=>{ const meta=chart.getDatasetMeta(di);
-      meta.data.forEach((bar,i)=>{ const v=ds.data[i]; if(v==null)return;
-        ctx.fillStyle = di===0 ? '#111722' : '#7d8390'; // label angka selalu terbaca, tidak ikut warna batang
-        ctx.fillText(v.toLocaleString('id'), bar.x+7, bar.y); }); });
-    ctx.restore(); } };
-  mkChart('chart-cj', {
-    type:'bar',
+/* Batang berpasangan Rekomendasi (biru) vs Ketersediaan (emas) */
+function pairChart(id, labels, rek, eks){
+  mkChart(id, { type:'bar',
     data:{ labels, datasets:[
-      {label:'Rekomendasi', data:rek, backgroundColor:colors.map(fillSolid), borderColor:colors, borderWidth:BAR_BORDER, borderRadius:BAR_RADIUS, borderSkipped:false},
-      {label:'Ketersediaan', data:eks, backgroundColor:colors.map(fillGhost), borderColor:colors, borderWidth:BAR_BORDER, borderRadius:BAR_RADIUS, borderSkipped:false}
-    ]},
-    options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
-      layout:{padding:{right:54}},
-      scales:{ x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>v>=1000?(v/1000).toFixed(0)+'rb':v,font:{size:10,family:font}}},
-               y:{grid:{display:false},ticks:{font:{size:11,family:font,weight:'600'}}} },
-      plugins:{ legend:{display:false},
-        tooltip:{mode:'index',intersect:false,...TOOLTIP_DEFAULTS,
-          callbacks:{ label:ctx=>`${ctx.dataset.label}: ${ctx.raw.toLocaleString('id')}`,
-            afterbody:items=>{const i=items[0].dataIndex; const x=eks[i]-rek[i]; return `Selisih: ${x>0?'+':''}${x.toLocaleString('id')}`;} } } },
-      animation:{duration:700} },
-    plugins:[cjLabels]
-  });
+      { label:'Rekomendasi (ANRI)', data:rek, backgroundColor:G.rek, ...BAR },
+      { label:'Ketersediaan (BKN)', data:eks, backgroundColor:G.eks, ...BAR } ] },
+    options:{ indexAxis:'y', layout:{ padding:{ right:52 } }, scales:{ x:AXIS_X({ beginAtZero:true }), y:AXIS_CAT },
+      plugins:{ legend:{ display:false }, tooltip:{ ...TOOLTIP_DEFAULTS, mode:'index', intersect:false,
+        callbacks:{ label:c => ` ${c.dataset.label}: ${nf(c.raw)}`, afterBody:it => { const i = it[0].dataIndex, x = eks[i] - rek[i]; return `Selisih: ${x > 0 ? '+' : ''}${nf(x)}`; } } } } },
+    plugins:[ujungLabel(v => nf(v))] });
+}
+function renderClusterJabatan(){
+  const J = window.__JBYC; if (!J || typeof Chart === 'undefined') return;
+  const c = (document.getElementById('cj-cluster') || {}).value || 'nas';
+  pairChart('chart-cj', JENJANG.map(j => j.lbl), JENJANG.map(j => J.rek[c][j.k] || 0), JENJANG.map(j => J.eks[c][j.k] || 0));
 }
 
 function setActiveModule(elOrId) {
