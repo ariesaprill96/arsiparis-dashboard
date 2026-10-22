@@ -534,6 +534,7 @@ body::after{
 
 /* -- STAT ROW --------------------------------------------------- */
 .stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:26px;}
+.total-num.total-belum{color:var(--text-4)!important}
 .stat-card{
   background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.78));
   border-radius:24px;
@@ -2389,6 +2390,13 @@ async function sbFetch(path, opts = {}, retried = false) {
 }
 
 let ALL = [], activeCat = 'semua', activeSort = 'nama';
+/* Angka rekomendasi hanya dihitung dari instansi berstatus "Ada Rekomendasi".
+   Instansi "Belum Ada Rekomendasi" dapat menyimpan angka penghitungan (mis. penghitungan massal ANRI 2020);
+   angka itu tetap ditampilkan di kartu/detail, tetapi tidak ikut dijumlahkan sebagai rekomendasi. */
+const isRek = d => d.status === 'Ada Rekomendasi';
+const rekTot = d => isRek(d) ? (d.total || 0) : 0;
+const rekJ = (d, k) => isRek(d) ? (d[k] || 0) : 0;
+const labelAngka = d => isRek(d) ? 'Total Kebutuhan' : (/2020/.test(d.keterangan || '') ? 'Penghitungan 2020 · belum rekomendasi' : 'Angka penghitungan · belum rekomendasi');
 const expandedClusters = new Set();
 
 async function init() {
@@ -2529,7 +2537,7 @@ function render() {
   document.getElementById('stat-row').style.display = '';
   showDirectoryChrome();
   const filtered = getFiltered(), sorted = getSorted(filtered);
-  const tf = filtered.reduce((s,d) => s+(d.total||0), 0);
+  const tf = filtered.reduce((s,d) => s+rekTot(d), 0);
   if (isFiltered()) {
     document.getElementById('home-view').style.display = 'none';
     document.getElementById('filter-view').style.display = 'block';
@@ -2549,7 +2557,7 @@ function render() {
 }
 
 function updateStats() {
-  const totalFormasi = ALL.reduce((s,d) => s+(d.total||0), 0);
+  const totalFormasi = ALL.reduce((s,d) => s+rekTot(d), 0);
   const totalRek = ALL.filter(d => d.status === 'Ada Rekomendasi').length;
   const belum = ALL.length - totalRek;
   document.getElementById('st-total').textContent = ALL.length.toLocaleString('id');
@@ -2568,9 +2576,9 @@ function updateStats() {
 }
 
 function getProjection2026() {
-  const kebutuhan = ALL.reduce((s,d) => s + (d.total || 0), 0);
+  const kebutuhan = ALL.reduce((s,d) => s + rekTot(d), 0);
   const existing = BKN ? (BKN.total_arsiparis || (BKN.records || []).reduce((s,d) => s + (d.total || 0), 0)) : 0;
-  const byNeed = Object.fromEntries(JENJANG.map(j => [j.k, ALL.reduce((s,d) => s + (d[j.k] || 0), 0)]));
+  const byNeed = Object.fromEntries(JENJANG.map(j => [j.k, ALL.reduce((s,d) => s + rekJ(d, j.k), 0)]));
   const bknTotals = BKN && BKN.totals ? BKN.totals : {};
   const byExist = Object.fromEntries(JENJANG.map(j => [j.k, bknTotals[j.k] || 0]));
   const gap = existing - kebutuhan;
@@ -2668,7 +2676,7 @@ Hasil proyeksi ini perlu dipahami sebagai gambaran arah perkembangan yang masih 
     <div class="projection-method">Catatan metodologis: estimasi ketersediaan 2031 menggunakan trend projection melalui regresi linear sederhana OLS atas data nasional Juni 2025-Juli 2026. Estimasi kebutuhan nasional konservatif disusun melalui simulasi kluster, dengan Lembaga Non Struktural dipertahankan sebesar 3.806, instansi pusat dihitung berdasarkan rata-rata kebutuhan kluster, provinsi menggunakan rata-rata 335 Arsiparis per provinsi, dan kabupaten/kota berada pada rentang 120-167,5 Arsiparis per daerah.</div>`;
 }
 function renderRekap() {
-  const totalFormasi = ALL.reduce((s,d) => s+(d.total||0), 0);
+  const totalFormasi = ALL.reduce((s,d) => s+rekTot(d), 0);
   const totalRek = ALL.filter(d => d.status === 'Ada Rekomendasi').length;
   const totalPct = ALL.length ? ((totalRek/(ALL.length||1))*100).toFixed(0) : 0;
   const totalCard = `<div class="rekap-card rekap-total" onclick="setCat('semua',document.querySelector('[data-cat=semua]'))">
@@ -2679,7 +2687,7 @@ function renderRekap() {
   const catCards = CLUSTERS.map(c => {
     const items = ALL.filter(d => d.kategori === c.cat);
     if (!items.length) return '';
-    const formasi = items.reduce((s,d)=>s+(d.total||0),0);
+    const formasi = items.reduce((s,d)=>s+rekTot(d),0);
     const rek = items.filter(d=>d.status==='Ada Rekomendasi').length;
     const pct = items.length ? ((rek/(items.length||1))*100).toFixed(0) : 0;
     const color = CAT_COLOR[c.cat] || '#888';
@@ -2701,7 +2709,7 @@ function renderClusters() {
     const items = getSorted(ALL.filter(d => d.kategori === cl.cat));
     if (!items.length) return;
     const shown = items.slice(0, 3);
-    const formasi = items.reduce((s,d) => s+(d.total||0), 0);
+    const formasi = items.reduce((s,d) => s+rekTot(d), 0);
     const rek = items.filter(d=>d.status==='Ada Rekomendasi').length;
     const icon = CAT_ICON[cl.cat] || 'JFA';
     const color = CAT_COLOR[cl.cat] || '#888';
@@ -2726,7 +2734,7 @@ function renderClusters() {
 
 function openClusterSheet(cat) {
   const items = getSorted(ALL.filter(d => d.kategori === cat));
-  const formasi = items.reduce((s,d) => s+(d.total||0), 0);
+  const formasi = items.reduce((s,d) => s+rekTot(d), 0);
   const rek = items.filter(d=>d.status==='Ada Rekomendasi').length;
   document.getElementById('cluster-sheet-title').textContent = CAT_SHORT[cat] || cat;
   document.getElementById('cluster-sheet-kicker').textContent = 'Cluster Collection';
@@ -2797,8 +2805,8 @@ function cardHTML(d, i) {
     </div>
     <div class="card-body">
       <div class="total-row">
-        <div class="${tc}">${d.total>0?d.total.toLocaleString('id'):'-'}</div>
-        <div class="total-meta"><div class="total-lbl">Total Kebutuhan</div>${d.tahun?`<div class="total-year">${d.tahun}</div>`:''}</div>
+        <div class="${tc}${!isRek(d) && d.total > 0 ? ' total-belum' : ''}">${d.total>0?d.total.toLocaleString('id'):'-'}</div>
+        <div class="total-meta"><div class="total-lbl">${labelAngka(d)}</div>${d.tahun?`<div class="total-year">${d.tahun}</div>`:''}</div>
       </div>
       ${comp?`<div class="comp-bar comp-bar-card">${comp}</div><div class="card-legend">${legendTop}${legendMore}</div>`:''}
     </div>
@@ -2827,7 +2835,7 @@ function openDetail(id) {
   const compBar = d.total>0 ? `<div class="comp-bar">${JENJANG.map(j=>{const v=d[j.k]||0;if(!v)return '';const pct=v/d.total*100;return `<div class="comp-seg" style="width:${pct}%;background:${j.c}" title="${j.lbl}: ${v}"></div>`;}).join('')}</div>` : '';
   const adminHtml = IS_ADMIN ? `<div class="modal-admin-actions visible"><button class="btn-modal-edit" onclick="document.getElementById('overlay').classList.remove('open');document.querySelector('.sidebar')?.classList.remove('detail-hidden');openForm(${d.id})">Edit Data Ini</button><button class="btn-modal-del" onclick="confirmDelete(${d.id})">Hapus</button></div>` : '';
   document.getElementById('modal-body').innerHTML = `
-    <div class="big-total"><div class="big-num">${d.total>0?d.total.toLocaleString('id'):'-'}</div><div class="big-lbl">Total Kebutuhan Arsiparis</div>${compBar}</div>
+    <div class="big-total"><div class="big-num">${d.total>0?d.total.toLocaleString('id'):'-'}</div><div class="big-lbl">${isRek(d) ? 'Total Kebutuhan Arsiparis' : labelAngka(d) + ' (tidak dihitung sebagai rekomendasi)'}</div>${compBar}</div>
     ${jHtml}
     ${gapHTML(d)}
     <div class="info-rows">
@@ -3261,7 +3269,7 @@ function renderCharts() {
   // ---- Ringkasan
   const ada = ALL.filter(d => d.status === 'Ada Rekomendasi').length, belum = ALL.length - ada;
   const pct = ALL.length ? ada / ALL.length * 100 : 0;
-  const totRek = ALL.reduce((a, d) => a + (d.total || 0), 0);
+  const totRek = ALL.reduce((a, d) => a + rekTot(d), 0);
   document.getElementById('k-ada').textContent = nf(ada);
   document.getElementById('k-all').textContent = nf(ALL.length);
   document.getElementById('k-pct').textContent = pct.toLocaleString('id-ID', { maximumFractionDigits:1 }) + '%';
@@ -3299,7 +3307,7 @@ function renderCharts() {
         c.font = '400 11px ' + CHART_FONT; c.fillStyle = G.ink3; c.fillText(`${nf(x.a)}/${nf(x.n)}`, ch.chartArea.right + 46, bar.y); }); c.restore(); } }] });
 
   // ---- Komposisi jenjang per kluster (100% bertumpuk, gradasi jenjang)
-  const komp = KLUSTER4.map(([k]) => { const it = ALL.filter(d => kl4(d.kategori) === k); const v = JENJANG.map(j => it.reduce((s, d) => s + (d[j.k] || 0), 0)); const t = v.reduce((a, b) => a + b, 0); return { v, t }; });
+  const komp = KLUSTER4.map(([k]) => { const it = ALL.filter(d => kl4(d.kategori) === k); const v = JENJANG.map(j => it.reduce((s, d) => s + rekJ(d, j.k), 0)); const t = v.reduce((a, b) => a + b, 0); return { v, t }; });
   legend(document.getElementById('lg-jenjang'), JENJANG.map((j, i) => [G.ramp[i], j.lbl]));
   mkChart('chart-jenjang', { type:'bar',
     data:{ labels:KLUSTER4.map(k => k[1]), datasets:JENJANG.map((j, i) => ({ label:j.lbl, data:komp.map(x => x.t ? x.v[i] / x.t * 100 : 0),
@@ -3314,7 +3322,7 @@ function renderCharts() {
 
   // ---- Top 15 instansi
   const f15 = document.getElementById('top15-filter').value;
-  const top = ALL.filter(d => d.total > 0 && (!f15 || kl4(d.kategori) === f15)).sort((a, b) => b.total - a.total).slice(0, 15);
+  const top = ALL.filter(d => isRek(d) && d.total > 0 && (!f15 || kl4(d.kategori) === f15)).sort((a, b) => b.total - a.total).slice(0, 15);
   mkChart('chart-top15', { type:'bar',
     data:{ labels:top.map(d => d.nama.length > 34 ? d.nama.slice(0, 33) + '…' : d.nama), datasets:[{ label:'Rekomendasi', data:top.map(d => d.total), backgroundColor:G.rek, ...BAR, maxBarThickness:14 }] },
     options:{ indexAxis:'y', layout:{ padding:{ right:44 } }, scales:{ x:AXIS_X({ beginAtZero:true }), y:{ ...AXIS_CAT, ticks:{ ...AXIS_CAT.ticks, font:{ size:11, family:CHART_FONT } } } },
@@ -3324,10 +3332,10 @@ function renderCharts() {
   // ---- Rekomendasi vs ketersediaan
   const BK = window.BKN_REKAP_2026 && window.BKN_REKAP_2026.records;
   const rek = { nas:totRek, kem:0, lemb:0, prov:0, kab:0 }, eks = { nas:0, kem:0, lemb:0, prov:0, kab:0 };
-  ALL.forEach(d => { const c = kl4(d.kategori); if (c) rek[c] += d.total || 0; });
+  ALL.forEach(d => { const c = kl4(d.kategori); if (c) rek[c] += rekTot(d); });
   const JB = { rek:{}, eks:{} };
   ['nas', 'kem', 'lemb', 'prov', 'kab'].forEach(c => { JB.rek[c] = {}; JB.eks[c] = {}; JENJANG.forEach(j => { JB.rek[c][j.k] = 0; JB.eks[c][j.k] = 0; }); });
-  ALL.forEach(d => { const c = kl4(d.kategori); JENJANG.forEach(j => { const v = d[j.k] || 0; JB.rek.nas[j.k] += v; if (c) JB.rek[c][j.k] += v; }); });
+  ALL.forEach(d => { const c = kl4(d.kategori); JENJANG.forEach(j => { const v = rekJ(d, j.k); JB.rek.nas[j.k] += v; if (c) JB.rek[c][j.k] += v; }); });
   if (BK) BK.forEach(r => { const c = bknKluster(r.nama); eks.nas += r.total || 0; eks[c] += r.total || 0; JENJANG.forEach(j => { const v = r[j.k] || 0; JB.eks.nas[j.k] += v; JB.eks[c][j.k] += v; }); });
   document.getElementById('k-eks').textContent = BK ? nf(eks.nas) : '-';
   const upd = BK && window.BKN_REKAP_2026.updated_at ? window.BKN_REKAP_2026.updated_at : '';
