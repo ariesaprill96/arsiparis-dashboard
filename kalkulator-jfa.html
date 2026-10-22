@@ -336,7 +336,6 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
         <p class="sub">Berlaku untuk semua unit di rekapitulasi.</p>
         <div class="fields">
           <div class="field"><label for="f-instansi" id="l-instansi">Nama instansi (K/L)</label><input id="f-instansi" placeholder="mis. Kementerian ABC" autocomplete="organization" list="dl-pemda"><datalist id="dl-pemda"></datalist><div class="hint" id="h-instansi" hidden></div></div>
-          <div class="field" style="max-width:260px"><label for="f-wke">Waktu kerja efektif</label><input id="f-wke" type="number" min="1" step="1" value="75000" class="num"><div class="hint">menit/tahun · standar 75.000</div></div>
         </div>
       </div>
     </div>
@@ -427,7 +426,7 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
     </div>
   </section>
 
-  <footer>Metode: pengukuran beban kerja per jenjang sesuai Master Penghitungan Kebutuhan JFA (ANRI) untuk instansi pusat dan pemerintah daerah. Waktu kerja efektif standar 75.000 menit/tahun (330 menit/hari efektif). Kebutuhan dibulatkan ke bilangan bulat terdekat. <a href="https://drive.google.com/file/d/1R9IkxgfPyrfT7wuTSaQMcywZtwTLWdDu/view?usp=sharing" target="_blank" rel="noopener" style="color:inherit">Materi Penghitungan Kebutuhan JFA</a>.</footer>
+  <footer>Metode: pengukuran beban kerja per jenjang sesuai Master Penghitungan Kebutuhan JFA (ANRI) untuk instansi pusat dan pemerintah daerah. Kebutuhan dibulatkan ke bilangan bulat terdekat. <a href="https://drive.google.com/file/d/1R9IkxgfPyrfT7wuTSaQMcywZtwTLWdDu/view?usp=sharing" target="_blank" rel="noopener" style="color:inherit">Materi Penghitungan Kebutuhan JFA</a>.</footer>
 </main>
 
 <div class="mbar no-print" id="mbar" hidden><div><small>Total kebutuhan · <span id="mb-unit"></span></small><b class="num" id="mb-total">0</b> <span class="muted num" id="mb-riil" style="font-size:12.5px"></span></div><button type="button" class="btn primary" id="mb-lihat">Lihat hasil</button></div>
@@ -620,13 +619,13 @@ function buildLayout(mode){
 }
 
 /* ---------- Status kerja ---------- */
-let CUR = DB.draft || null;     // { id, mode, instansi, unit, wke, isian:{}, peran, induk }
+let CUR = DB.draft || null;     // { id, mode, instansi, unit, isian:{}, peran, induk }
 let LAYOUT = [], STEP = 0;
 
 function newUnit(mode){
   let unit = $('f-unit').value.trim();
   if (mode === 'lkd' && !unit) unit = LKD_DEFAULT;
-  return { id:uid(), mode, peran:PERAN_OPS[mode][0], induk:'', instansi:$('f-instansi').value.trim() || DB.instansi || '', unit, wke:Number($('f-wke').value) || 75000, isian:{} };
+  return { id:uid(), mode, peran:PERAN_OPS[mode][0], induk:'', instansi:$('f-instansi').value.trim() || DB.instansi || '', unit, isian:{} };
 }
 async function setMode(mode, peran){
   if (!CUR) CUR = newUnit(mode);
@@ -839,12 +838,12 @@ function ambilDariRekap(){
 
 let RES = null;
 function compute(){
-  CUR.instansi = $('f-instansi').value.trim(); CUR.unit = $('f-unit').value.trim(); CUR.wke = Number($('f-wke').value) || 75000;
+  CUR.instansi = $('f-instansi').value.trim(); CUR.unit = $('f-unit').value.trim(); delete CUR.wke;   // waktu kerja efektif dikunci di mesin hitung (standar ANRI)
   DB.instansi = CUR.instansi; DB.draft = CUR;
   const iu = DB.units.findIndex(u => u.id === CUR.id);
   if (iu >= 0){ const c = JSON.parse(JSON.stringify(CUR)); c.peran = peranOf(c); c.induk = indukOf(c); DB.units[iu] = c; }   // simpan otomatis
   persist();
-  RES = JFA.hitung(CUR.mode, CUR.isian, { wke:CUR.wke });
+  RES = JFA.hitung(CUR.mode, CUR.isian, {});
   // nilai turunan di bawah isian
   JFA.SPEC[CUR.mode].inputs.forEach(f => {
     const el = document.querySelector(`[data-derived="${f.cell}"]`); if (!el) return;
@@ -863,7 +862,7 @@ function compute(){
   labelNext();
   $('rekap-count').textContent = DB.units.length;
   clearTimeout(compute._u); compute._u = setTimeout(renderUnits, 120);
-  $('r-note').textContent = `Angka kecil = hasil hitung, angka besar = dibulatkan per jenjang; total adalah jumlah angka bulat per jenjang. Total beban kerja ${fmt(RES.totalMenit)} menit; WKE ${fmt(RES.wke)} menit/tahun. Klik jenjang untuk melihat rincian kegiatan.`;
+  $('r-note').textContent = `Angka kecil = hasil hitung, angka besar = dibulatkan per jenjang; total adalah jumlah angka bulat per jenjang. Total beban kerja ${fmt(RES.totalMenit)} menit. Klik jenjang untuk melihat rincian kegiatan.`;
   renderSteps();
 }
 
@@ -872,13 +871,13 @@ function renderAll(){
   const J = JENIS[DB.jenis], open = !CUR || !DB.instansi || SETUP_OPEN;
   document.querySelector('.setup').hidden = !open;
   $('ctx').hidden = !CUR;
-  $('ctx-text').innerHTML = `${esc(J.label)} · <b>${esc(DB.instansi || 'nama instansi belum diisi')}</b> · WKE <span class="num">${fmt(Number($('f-wke').value) || 75000)}</span> menit`;
+  $('ctx-text').innerHTML = `${esc(J.label)} · <b>${esc(DB.instansi || 'nama instansi belum diisi')}</b>`;
   $('ctx-toggle').textContent = open ? 'Tutup pengaturan' : 'Ubah jenis, peran, atau instansi';
   $('ctx-toggle').disabled = open && !DB.instansi;
   $('mbar').hidden = !CUR; document.body.classList.toggle('has-mbar', !!CUR);
   $('work').hidden = !CUR || !LAYOUT.length;
   if (!CUR || !LAYOUT.length) return;
-  $('f-instansi').value = CUR.instansi || DB.instansi || ''; $('f-unit').value = CUR.unit || ''; $('f-wke').value = CUR.wke || 75000;
+  $('f-instansi').value = CUR.instansi || DB.instansi || ''; $('f-unit').value = CUR.unit || '';
   renderSteps(); renderSections(); compute(); renderUnits();
 }
 
@@ -890,7 +889,7 @@ function openDrawer(key){
       <div><div class="kicker" style="margin-bottom:6px">Rincian kegiatan</div><h3 id="dr-title">Arsiparis ${esc(h.label)}</h3></div>
       <button type="button" class="btn" data-close>Tutup</button></div>
     <p style="margin:10px 0 0;font-size:15px">Kebutuhan <b class="num">${fmt(h.kebutuhan, 2)}</b> orang → dibulatkan <b class="num">${fmt(h.bulat)}</b> orang.</p>
-    <div class="formula">Kebutuhan = Σ (waktu penyelesaian × volume) ÷ WKE = <span class="num">${fmt(h.menit)}</span> menit ÷ <span class="num">${fmt(RES.wke)}</span> menit</div>
+    <div class="formula">Kebutuhan = Σ (waktu penyelesaian × volume) ÷ waktu kerja efektif · total beban kerja jenjang ini <span class="num">${fmt(h.menit)}</span> menit</div>
     ${rows.length ? `<table><thead><tr><th>Kegiatan</th><th class="n">Waktu (menit)</th><th class="n">Volume</th><th class="n">Kebutuhan</th></tr></thead><tbody>
       ${rows.map(k => `<tr><td>${esc(k.induk ? cleanUraian(k.induk) + ' — ' + k.uraian : cleanUraian(k.uraian))}<div class="muted" style="font-size:12px">${esc(k.satuan)}</div></td>
         <td class="n num">${fmt(k.waktu)}${k.waktu >= 330 ? `<div class="muted" style="font-size:11.5px">≈ ${fmt(k.waktu / 330, 1)} hari</div>` : ''}</td>
@@ -902,7 +901,7 @@ function openDrawer(key){
 function closeDrawer(){ $('drawer').classList.remove('open'); $('drawer').setAttribute('aria-hidden', 'true'); }
 
 /* ---------- Rekapitulasi ---------- */
-function unitResult(u){ return JFA.hitung(u.mode, u.isian, { wke:u.wke }); }
+function unitResult(u){ return JFA.hitung(u.mode, u.isian, {}); }
 function rekapData(){
   return DB.units.map(u => {
     const r = unitResult(u), k = DB.ketersediaan[u.id] || {};
@@ -978,7 +977,7 @@ function cetakUnit(){
     <table class="meta"><tr><td>${daerah ? 'Pemerintah daerah' : 'Instansi'}</td><td>: ${esc(CUR.instansi || DB.instansi || '-')}</td></tr>
       <tr><td>${daerah ? 'Perangkat daerah' : 'Unit kerja'}</td><td>: ${esc(CUR.unit || '-')}</td></tr>
       <tr><td>Peran</td><td>: ${esc((KARTU_INFO[CUR.mode + ':' + peranOf(CUR)] || {}).b || MODE_LABEL[CUR.mode])}${ind ? ' · di bawah ' + esc(ind.unit) : ''}</td></tr>
-      <tr><td>Waktu kerja efektif</td><td>: ${fmt(r.wke)} menit/tahun</td></tr></table>
+</table>
     <table><thead><tr><th>Jenjang</th><th class="n">Hasil hitung</th><th class="n">Kebutuhan (orang)</th></tr></thead><tbody>
       ${JVIS.map(j => `<tr><td>Arsiparis ${j.label}</td><td class="n">${fmt(r.jenjang[j.key].kebutuhan, 2)}</td><td class="n">${fmt(r.jenjang[j.key].bulat)}</td></tr>`).join('')}
       <tr><th>Total</th><th class="n">${fmt(r.total, 2)}</th><th class="n">${fmt(r.totalBulat)}</th></tr></tbody></table>
@@ -994,7 +993,7 @@ function xlsxOK(){ if (window.XLSX) return true; toast('Pustaka Excel tidak dapa
 function sheetUnit(u){
   const r = unitResult(u), spec = JFA.SPEC[u.mode];
   const J = JENIS[DB.jenis], daerah = jenisOf(u.mode) === 'daerah';
-  const aoa = [['PENGHITUNGAN KEBUTUHAN JABATAN FUNGSIONAL ARSIPARIS'], [], [daerah ? 'Pemerintah daerah' : 'Instansi', u.instansi || ''], [daerah ? 'Perangkat daerah' : 'Unit kerja', u.unit || ''], ['Formulir', MODE_LABEL[u.mode]], ['Peran', u.mode === 'lkd' ? 'Unit Kearsipan I (LKD)' : PERAN[peranOf(u)]], ['Berada di bawah', (DB.units.find(x => x.id === indukOf(u)) || {}).unit || '-'], ['Waktu kerja efektif (menit/tahun)', r.wke], [],
+  const aoa = [['PENGHITUNGAN KEBUTUHAN JABATAN FUNGSIONAL ARSIPARIS'], [], [daerah ? 'Pemerintah daerah' : 'Instansi', u.instansi || ''], [daerah ? 'Perangkat daerah' : 'Unit kerja', u.unit || ''], ['Formulir', MODE_LABEL[u.mode]], ['Peran', u.mode === 'lkd' ? 'Unit Kearsipan I (LKD)' : PERAN[peranOf(u)]], ['Berada di bawah', (DB.units.find(x => x.id === indukOf(u)) || {}).unit || '-'], [],
     ['ISIAN', '', 'Nilai', 'Satuan']];
   spec.inputs.forEach(f => aoa.push([cleanLabel(f.label), '', f.tipe === 'persen' ? (Number(u.isian[f.cell]) || 0) : (Number(u.isian[f.cell]) || 0), f.tipe === 'persen' ? 'persen (0–1)' : cleanSatuan(f)]));
   aoa.push([], ['HASIL', 'Kebutuhan (hitung)', 'Kebutuhan (dibulatkan)']);
@@ -1058,7 +1057,7 @@ async function kirim(){
   const kode = kodeAcak();
   const rekap = { jenjang:JVIS.map(j => j.key), unit:data.map(d => ({ unit:d.u.unit, mode:d.u.mode, peran:peranOf(d.u), induk:(DB.units.find(x => x.id === indukOf(d.u)) || {}).unit || null, kebutuhan:d.keb, ketersediaan:d.ada })),
     total:{ kebutuhan:data.reduce((a, d) => a + d.tKeb, 0), ketersediaan:data.reduce((a, d) => a + d.tAda, 0) } };
-  const detail = { versi:2, jenis:DB.jenis, units:DB.units.map(u => ({ id:u.id, unit:u.unit, mode:u.mode, peran:peranOf(u), induk:indukOf(u) || null, wke:u.wke, isian:u.isian })) };
+  const detail = { versi:2, jenis:DB.jenis, units:DB.units.map(u => ({ id:u.id, unit:u.unit, mode:u.mode, peran:peranOf(u), induk:indukOf(u) || null, isian:u.isian })) };
   const body = { kode, instansi:DB.instansi, pengirim_nama:$('s-nama').value.trim().slice(0, 120), pengirim_jabatan:$('s-jabatan').value.trim().slice(0, 120),
     pengirim_kontak:$('s-kontak').value.trim().slice(0, 120), jumlah_unit:DB.units.length, rekap, detail,
     jenis_instansi:DB.jenis, wilayah:J.kode ? wilayahOf(DB.instansi) : null };
@@ -1115,7 +1114,7 @@ async function bukaPengajuan(p){
     catatan:'Simpan file cadangan dulu bila rekapitulasi saat ini masih diperlukan.', aksi:[{ label:'Ganti dengan pengajuan', nilai:true, jenis:'primary' }] })) return;
   DB.instansi = p.instansi; DB.units = []; DB.ketersediaan = {};
   DB.jenis = JENIS[p.jenis_instansi] ? p.jenis_instansi : (p.detail && JENIS[p.detail.jenis] ? p.detail.jenis : 'pusat');
-  (p.detail && p.detail.units || []).forEach((u, i) => { const id = u.id || uid(); DB.units.push({ id, mode:u.mode, peran:u.peran, induk:u.induk || '', instansi:p.instansi, unit:u.unit, wke:u.wke, isian:u.isian || {} });
+  (p.detail && p.detail.units || []).forEach((u, i) => { const id = u.id || uid(); DB.units.push({ id, mode:u.mode, peran:u.peran, induk:u.induk || '', instansi:p.instansi, unit:u.unit, isian:u.isian || {} });
     const r = p.rekap && p.rekap.unit && p.rekap.unit[i]; if (r) DB.ketersediaan[id] = r.ketersediaan || {}; });
   bukaPertama(); $('f-instansi').value = DB.instansi;
   persist(); renderJenis(); renderAll(); setView('rekap'); toast('Pengajuan ' + p.kode + ' dibuka');
@@ -1144,7 +1143,7 @@ $('jenis').addEventListener('keydown', e => {
 });
 $('f-induk').addEventListener('change', e => { if (!CUR) return; CUR.induk = e.target.value; compute(); });
 $('modes').addEventListener('click', e => { const b = e.target.closest('.mode'); if (b) setMode(b.dataset.mode, b.dataset.peran); });
-['f-instansi', 'f-unit', 'f-wke'].forEach(id => $(id).addEventListener('input', () => { if (CUR) compute(); else { DB.instansi = $('f-instansi').value.trim(); persist(); } }));
+['f-instansi', 'f-unit'].forEach(id => $(id).addEventListener('input', () => { if (CUR) compute(); else { DB.instansi = $('f-instansi').value.trim(); persist(); } }));
 $('steps').addEventListener('click', e => { const b = e.target.closest('[data-step]'); if (!b) return; STEP = +b.dataset.step; renderSteps(); renderSections(); compute(); window.scrollTo({ top:$('work').offsetTop - 8, behavior:'smooth' }); });
 $('prev').addEventListener('click', () => { if (STEP > 0){ STEP--; renderSteps(); renderSections(); compute(); window.scrollTo({ top:$('work').offsetTop - 8, behavior:'smooth' }); } });
 $('next').addEventListener('click', () => {
