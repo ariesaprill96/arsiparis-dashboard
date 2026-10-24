@@ -68,6 +68,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .rekap td.unit .tree i{font-style:normal;color:var(--ink-3);flex:0 0 auto}
 .chip.uk1{background:#e6f1f9;color:var(--accent);border-color:transparent}
 .chip.uk2{background:#eef3e8;color:#3d6326;border-color:transparent}
+.impor-hint{margin:14px 0 0;font-size:13px;color:var(--ink-3)}
 .ambil .btn{white-space:nowrap;flex:0 0 auto}
 .ambil{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--surface-2);border-radius:10px;padding:8px 12px;margin:0 0 8px;font-size:13px;color:var(--ink-2)}
 .ctx{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:12px 18px;margin-top:28px}
@@ -330,6 +331,7 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
         </div>
         <div class="lbl-step">Peran unit</div>
         <div class="modes" id="modes"></div>
+        <p class="impor-hint no-print">Sudah mengisi formulir Excel (Master Penghitungan Kebutuhan JFA)? <button type="button" class="btn-link" data-impor-xl>Impor file Excel</button></p>
       </div>
       <div class="card">
         <h2>2. Identitas instansi</h2>
@@ -397,10 +399,12 @@ footer{margin:56px 0 36px;padding-top:18px;border-top:1px solid var(--line);font
         <div style="display:flex;gap:8px;flex-wrap:wrap" class="no-print">
           <button type="button" class="btn" id="rk-xlsx">Unduh Excel</button>
           <button type="button" class="btn" id="rk-print">Cetak</button>
-          <button type="button" class="btn" id="rk-import">Impor file</button>
+          <button type="button" class="btn" data-impor-xl>Impor Excel formulir</button>
+          <button type="button" class="btn" id="rk-import">Impor cadangan</button>
           <button type="button" class="btn" id="rk-export">Simpan file cadangan</button>
           <button type="button" class="btn danger" id="rk-reset">Kosongkan rekapitulasi</button>
           <input type="file" id="rk-file" accept=".json,application/json" hidden>
+          <input type="file" id="xl-file" accept=".xlsx,.xlsm,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" multiple hidden>
         </div>
       </div>
       <div class="card table-wrap" id="rk-table"></div>
@@ -708,9 +712,11 @@ function fieldHTML(f){
   const val = CUR.isian[f.cell] ?? '';
   let ctrl;
   if (f.tipe === 'persen'){
-    ctrl = `<select data-cell="${f.cell}" aria-label="${esc(cleanLabel(f.label))}">${PERSEN.map(p => `<option value="${p}"${Number(val) === p ? ' selected' : ''}>${Math.round(p * 100)}%</option>`).join('')}</select>`;
+    const ps = val !== '' && !PERSEN.includes(Number(val)) ? [...PERSEN, Number(val)].sort((a, b) => a - b) : PERSEN;   // nilai dari Excel di luar kelipatan 10% tetap dipertahankan
+    ctrl = `<select data-cell="${f.cell}" aria-label="${esc(cleanLabel(f.label))}">${ps.map(p => `<option value="${p}"${Number(val) === p ? ' selected' : ''}>${(p * 100).toLocaleString('id-ID', { maximumFractionDigits:1 })}%</option>`).join('')}</select>`;
   } else if (f.tipe === 'rasio'){
-    ctrl = `<select data-cell="${f.cell}" aria-label="${esc(cleanLabel(f.label))}">${RASIO.map(([v, l]) => `<option value="${v}"${Number(val) === v ? ' selected' : ''}>${l}</option>`).join('')}</select>`;
+    const rs = val !== '' && Number(val) && !RASIO.some(x => x[0] === Number(val)) ? [...RASIO, [Number(val), `${fmt(Number(val))} item per berkas (dari Excel)`]] : RASIO;
+    ctrl = `<select data-cell="${f.cell}" aria-label="${esc(cleanLabel(f.label))}">${rs.map(([v, l]) => `<option value="${v}"${Number(val) === v ? ' selected' : ''}>${l}</option>`).join('')}</select>`;
   } else {
     ctrl = `<input type="text" inputmode="numeric" autocomplete="off" data-cell="${f.cell}" data-num="1" value="${Number(val) ? fmt(val) : ''}" placeholder="0" class="${Number(val) ? 'filled' : ''}" aria-label="${esc(cleanLabel(f.label))}">`;
   }
@@ -775,6 +781,7 @@ function renderUnits(){
     <div class="ufoot">
       <div style="display:flex;justify-content:space-between;font-size:13px"><span>Total kebutuhan</span><b class="num">${fmt(total)}</b></div>
       <button type="button" class="btn" data-tambah="" data-peran="" data-induk="">+ ${daerah ? 'Perangkat daerah' : 'Unit kerja'} baru</button>
+      <button type="button" class="btn" data-impor-xl>Impor dari Excel</button>
       <div class="muted">Unit yang sudah tersimpan diperbarui otomatis saat diubah.</div>
     </div>`;
 }
@@ -1252,6 +1259,72 @@ $('rk-export').addEventListener('click', () => {
   document.body.appendChild(a); a.click(); a.remove();
 });
 $('rk-import').addEventListener('click', () => $('rk-file').click());
+/* ---------- Impor formulir Excel (Master Penghitungan Kebutuhan JFA) ----------
+   Sheet isian dikenali dari namanya; nilai dibaca dari sel yang sama dengan formulir master. */
+const SHEET_MODE = { 'input unit pengolah':'up', 'input up dan uk i kl':'upuk', 'input up dan uk ii':'ukii', 'input up uk1- lkd':'lkd' };
+async function bacaFormulir(file){
+  if (!window.XLSX) throw new Error('Pustaka Excel tidak dapat dimuat');
+  const wb = XLSX.read(await file.arrayBuffer(), { type:'array' });
+  const sn = wb.SheetNames.find(n => SHEET_MODE[n.trim().toLowerCase()]);
+  if (!sn) throw new Error('bukan formulir Master Penghitungan Kebutuhan JFA');
+  const mode = SHEET_MODE[sn.trim().toLowerCase()], ws = wb.Sheets[sn], cat = [];
+  const sel = a => (ws[a] || {}).v;
+  const isian = {};
+  JFA.SPEC[mode].inputs.forEach(f => {
+    let v = sel(f.cell);
+    if (typeof v === 'string'){ const t = v.trim().replace(/%$/, ''); v = t ? Number(t.replace(/\./g, '').replace(',', '.')) : 0; }
+    if (typeof v !== 'number' || !isFinite(v) || v <= 0) return;
+    if (f.tipe === 'persen' && v > 1) v = v / 100;
+    isian[f.cell] = v;
+  });
+  const nama = String(sel('D2') || '').trim() || file.name.replace(/\.[^.]+$/, '');
+  const jenisTeks = String(sel('D3') || '');
+  const peran = mode === 'upuk' && /kearsipan\s*ii\b/i.test(jenisTeks) ? 'uk2' : PERAN_OPS[mode][0];
+  const tl = wb.Sheets['Tugas Lain'] && wb.Sheets['Tugas Lain']['H213'];
+  if (tl && Number(tl.v) > 0) cat.push('ada isian Tugas Lain yang tidak diimpor');
+  const m = wb.Sheets['Menu'], wke = m && m['E11'] ? Number(m['E11'].v) : 75000;
+  if (wke && wke !== 75000) cat.push(`WKE di Excel ${fmt(wke)} menit; kalkulator memakai standar ANRI`);
+  const ex = m ? ['E5', 'E6', 'E7', 'J5', 'J6', 'J7'].reduce((a, c) => a + JFA.bulat(Number((m[c] || {}).v) || 0), 0) : null;
+  const r = JFA.hitung(mode, isian, {});
+  if (ex != null && ex !== r.totalBulat) cat.push(`hasil Excel ${fmt(ex)} → kalkulator ${fmt(r.totalBulat)} karena koreksi rumus ANRI`);
+  return { file:file.name, mode, peran, nama, isian, n:Object.keys(isian).length, total:r.totalBulat, cat };
+}
+async function imporExcel(files){
+  files = [...files]; if (!files.length) return;
+  const hasil = [], gagal = [];
+  for (const f of files){ try { hasil.push(await bacaFormulir(f)); } catch(e){ gagal.push(`${f.name}: ${e.message}`); } }
+  if (!hasil.length) return tanya({ ikon:'file', nada:'danger', kicker:'Impor Excel', judul:'File tidak dapat diimpor', teks:gagal.map(esc).join('<br>'), batal:'Tutup', aksi:[] });
+  // satu rekapitulasi = satu jenis instansi
+  const fam = jenisOf(hasil[0].mode), cocok = hasil.filter(h => jenisOf(h.mode) === fam), lain = hasil.filter(h => jenisOf(h.mode) !== fam);
+  lain.forEach(h => gagal.push(`${h.file}: formulir ${jenisOf(h.mode) === 'daerah' ? 'daerah' : 'pusat'} tidak bisa dicampur dalam satu rekapitulasi`));
+  const famDB = jenisOf(JENIS[DB.jenis].modes[0]);
+  if (DB.units.length && famDB !== fam) return tanya({ ikon:'file', nada:'warn', kicker:'Impor Excel', judul:'Jenis instansi berbeda', teks:`File ini formulir <b>${fam === 'daerah' ? 'pemerintah daerah' : 'instansi pusat'}</b>, sedangkan rekapitulasi saat ini untuk ${esc(JENIS[DB.jenis].label)}. Kosongkan rekapitulasi atau simpan cadangan dulu, lalu impor lagi.`, batal:'Tutup', aksi:[] });
+  const ganti = h => DB.units.find(u => (u.unit || '').trim().toLowerCase() === h.nama.toLowerCase());
+  const ok = await tanya({ ikon:'file', kicker:'Impor Excel', judul:`Impor ${cocok.length} formulir ke rekapitulasi?`,
+    teks:'Isian dibaca dari sheet formulir dan dihitung ulang dengan kalkulator. Periksa nama unit setelah impor.',
+    rincian:cocok.map(h => [h.nama, `${KARTU_INFO[h.mode + ':' + h.peran] ? KARTU_INFO[h.mode + ':' + h.peran].b : MODE_LABEL[h.mode]} · ${fmt(h.n)} isian · ${fmt(h.total)} orang${ganti(h) ? ' · menggantikan isian lama' : ''}`]),
+    catatan:[...cocok.filter(h => h.cat.length).map(h => `<b>${esc(h.nama)}</b>: ${h.cat.map(esc).join('; ')}`), ...gagal.map(g => 'Dilewati: ' + esc(g))].join('<br>') || null,
+    aksi:[{ label:`Impor ${cocok.length} unit`, nilai:true, jenis:'primary' }] });
+  if (!ok) return;
+  const snap = potret();
+  if (!DB.units.length && fam !== famDB) DB.jenis = fam === 'daerah' ? 'kabkota' : 'pusat';
+  let pertama = null;
+  cocok.forEach(h => {
+    const lama = ganti(h);
+    const u = { id:lama ? lama.id : uid(), mode:h.mode, peran:h.peran, induk:lama ? lama.induk : '', instansi:DB.instansi, unit:h.nama, isian:h.isian };
+    if (lama) Object.assign(lama, u); else DB.units.push(u);
+    pertama = pertama || u.id;
+  });
+  persist();
+  CUR = JSON.parse(JSON.stringify(DB.units.find(u => u.id === pertama))); LAYOUT = buildLayout(CUR.mode); STEP = 0; DB.draft = CUR;
+  if (!DB.instansi) SETUP_OPEN = true;
+  setView('isi'); renderAll(); renderRekap();
+  urungkan(`${cocok.length} formulir diimpor` + (DB.instansi ? '' : ' · isi nama instansi'), () => pulihkan(snap, 'Impor dibatalkan'), 10000);
+  if (!DB.instansi) setTimeout(() => $('f-instansi').focus(), 400);
+}
+document.addEventListener('click', e => { if (e.target.closest('[data-impor-xl]')) $('xl-file').click(); });
+$('xl-file').addEventListener('change', async e => { const fs = [...e.target.files]; e.target.value = ''; await imporExcel(fs); });
+
 $('rk-file').addEventListener('change', async e => {
   const f = e.target.files[0]; if (!f) return;
   try { const d = JSON.parse(await f.text()); if (d.format !== 'kalkulator-jfa' || !Array.isArray(d.units)) throw 0;
