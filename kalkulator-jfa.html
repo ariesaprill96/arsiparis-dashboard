@@ -1269,14 +1269,28 @@ async function bacaFormulir(file){
   if (!sn) throw new Error('bukan formulir Master Penghitungan Kebutuhan JFA');
   const mode = SHEET_MODE[sn.trim().toLowerCase()], ws = wb.Sheets[sn], cat = [];
   const sel = a => (ws[a] || {}).v;
+  // Cocokkan isian berdasarkan NAMA isian (kolom B), bukan posisi sel: sebagian instansi menyisipkan/menghapus baris
+  // sehingga susunan barisnya bergeser dari formulir master. Pencarian berurutan agar nama yang sama tidak tertukar.
+  const nrm = x => String(x ?? '').replace(/\s+/g, ' ').trim().toLowerCase();
+  const maxR = XLSX.utils.decode_range(ws['!ref'] || 'A1:A200').e.r + 1;
+  const barisLabel = []; for (let r = 1; r <= maxR; r++) barisLabel[r] = nrm(sel('B' + r));
+  let kursor = 1, geser = 0; const takKetemu = [];
   const isian = {};
   JFA.SPEC[mode].inputs.forEach(f => {
-    let v = sel(f.cell);
+    const asal = +f.cell.slice(1), target = nrm(f.label);
+    let r = barisLabel[asal] === target && asal >= kursor ? asal : 0;
+    if (!r) for (let i = kursor; i <= maxR; i++) if (barisLabel[i] === target){ r = i; break; }
+    if (!r){ takKetemu.push(cleanLabel(f.label)); return; }
+    if (r !== asal) geser++;
+    kursor = r + 1;
+    let v = sel('D' + r);
     if (typeof v === 'string'){ const t = v.trim().replace(/%$/, ''); v = t ? Number(t.replace(/\./g, '').replace(',', '.')) : 0; }
     if (typeof v !== 'number' || !isFinite(v) || v <= 0) return;
     if (f.tipe === 'persen' && v > 1) v = v / 100;
     isian[f.cell] = v;
   });
+  if (geser) cat.push(`susunan baris berbeda dari formulir master (${geser} isian bergeser); isian dicocokkan berdasarkan namanya`);
+  if (takKetemu.length) cat.push(`${takKetemu.length} isian tidak ditemukan: ${takKetemu.slice(0, 3).join(', ')}${takKetemu.length > 3 ? ', …' : ''}`);
   const nama = String(sel('D2') || '').trim() || file.name.replace(/\.[^.]+$/, '');
   const jenisTeks = String(sel('D3') || '');
   const peran = mode === 'upuk' && /kearsipan\s*ii\b/i.test(jenisTeks) ? 'uk2' : PERAN_OPS[mode][0];
@@ -1286,7 +1300,11 @@ async function bacaFormulir(file){
   if (wke && wke !== 75000) cat.push(`WKE di Excel ${fmt(wke)} menit; kalkulator memakai standar ANRI`);
   const ex = m ? ['E5', 'E6', 'E7', 'J5', 'J6', 'J7'].reduce((a, c) => a + JFA.bulat(Number((m[c] || {}).v) || 0), 0) : null;
   const r = JFA.hitung(mode, isian, {});
-  if (ex != null && ex !== r.totalBulat) cat.push(`hasil Excel ${fmt(ex)} → kalkulator ${fmt(r.totalBulat)} karena koreksi rumus ANRI`);
+  if (ex != null && ex !== r.totalBulat){
+    const asli = JFA.hitung(mode, isian, { perbaikan:false });
+    const exAsli = ['terampil', 'mahir', 'penyelia', 'ahli_pertama', 'ahli_muda', 'ahli_madya'].reduce((a, k) => a + asli.jenjang[k].bulat, 0);
+    cat.push(exAsli === ex ? `hasil Excel ${fmt(ex)} → kalkulator ${fmt(r.totalBulat)} karena koreksi rumus ANRI` : `hasil Excel ${fmt(ex)} berbeda dari kalkulator ${fmt(r.totalBulat)}; periksa isian setelah impor`);
+  }
   return { file:file.name, mode, peran, nama, isian, n:Object.keys(isian).length, total:r.totalBulat, cat };
 }
 async function imporExcel(files){
