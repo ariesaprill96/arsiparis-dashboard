@@ -925,15 +925,12 @@ body::after{
 .g-head p{margin:3px 0 0;font-size:12.5px;color:var(--g-ink3);line-height:1.45}
 .g-select{flex:0 0 auto;font:600 12px var(--font);color:var(--g-ink);border:1px solid rgba(17,23,34,.16);border-radius:8px;padding:6px 10px;background:#fff;cursor:pointer;outline:none}
 .g-select:focus{border-color:var(--g-rek);box-shadow:0 0 0 3px rgba(11,93,150,.12)}
-.g-years{display:flex;flex-wrap:wrap;align-items:center;gap:4px;padding:4px;background:#fff;border:1px solid rgba(17,23,34,.12);border-radius:12px;box-shadow:0 1px 2px rgba(17,23,34,.04)}
-.g-years-l{font:600 11px var(--font);letter-spacing:.04em;text-transform:uppercase;color:var(--g-ink3,#6b7280);padding:0 8px 0 6px}
-.g-years button{font:600 12.5px var(--font);color:var(--g-ink2,#374151);background:transparent;border:0;border-radius:8px;padding:6px 11px;cursor:pointer;font-variant-numeric:tabular-nums;transition:background .15s,color .15s}
-.g-years button:hover{background:rgba(11,93,150,.08);color:var(--g-rek)}
-.g-years button[aria-pressed="true"]{background:var(--g-rek);color:#fff;box-shadow:0 1px 3px rgba(11,93,150,.35)}
-.g-years button:focus-visible{outline:2px solid var(--g-rek);outline-offset:2px}
+.g-years{display:flex;align-items:center;gap:10px;margin:0}
+.g-years-l{font:600 11px var(--font);letter-spacing:.04em;text-transform:uppercase;color:var(--g-ink3,#6b7280)}
+.g-years .g-select{min-width:150px;padding:8px 12px;font-size:13px}
 .g-ynote{display:none;margin:-6px 0 14px;font:400 12px var(--font);color:var(--g-ink3,#6b7280)}
 .g-ynote.on{display:block}
-@media (max-width:720px){.g-years{width:100%}.g-years-l{width:100%;padding:4px 6px 2px}}
+@media (max-width:720px){.g-years{width:100%;justify-content:space-between}}
 .g-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--g-ink2);margin:0 0 6px;min-height:18px}
 .g-legend span{display:inline-flex;align-items:center;gap:6px}
 .g-body{position:relative;width:100%}
@@ -2064,7 +2061,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
     <div id="grafik-view" style="display:none">
       <div class="section-header" style="flex-wrap:wrap;gap:12px">
         <div><div class="section-title">Grafik Statistik</div><div class="section-sub">Rekomendasi kebutuhan JF Arsiparis dari ANRI dibandingkan ketersediaan arsiparis (data BKN)</div></div>
-        <div class="g-years" id="g-years" role="group" aria-label="Filter tahun rekomendasi"><span class="g-years-l">Tahun</span></div>
+        <label class="g-years"><span class="g-years-l">Tahun rekomendasi</span><select id="g-years" class="g-select" onchange="setGrafikTahun(this.value)" aria-label="Filter tahun rekomendasi"><option value="">Semua tahun</option></select></label>
       </div>
       <div class="g-ynote" id="g-ynote"></div>
 
@@ -3280,8 +3277,8 @@ function renderTahunChips(){
   const box = document.getElementById('g-years'); if (!box) return;
   const ys = [...new Set(ALL.filter(d => d.status === 'Ada Rekomendasi' && d.tahun).map(d => String(d.tahun)))].sort();
   if (G_TAHUN && !ys.includes(G_TAHUN)) G_TAHUN = '';
-  box.innerHTML = '<span class="g-years-l">Tahun</span>' + ['', ...ys].map(y =>
-    `<button type="button" aria-pressed="${y === G_TAHUN}" onclick="setGrafikTahun('${y}')">${y || 'Semua'}</button>`).join('');
+  box.innerHTML = ['', ...ys].map(y => `<option value="${y}">${y || 'Semua tahun'}</option>`).join('');
+  box.value = G_TAHUN;
 }
 function renderCharts() {
   if (!ALL.length || typeof Chart === 'undefined') return;
