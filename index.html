@@ -925,6 +925,15 @@ body::after{
 .g-head p{margin:3px 0 0;font-size:12.5px;color:var(--g-ink3);line-height:1.45}
 .g-select{flex:0 0 auto;font:600 12px var(--font);color:var(--g-ink);border:1px solid rgba(17,23,34,.16);border-radius:8px;padding:6px 10px;background:#fff;cursor:pointer;outline:none}
 .g-select:focus{border-color:var(--g-rek);box-shadow:0 0 0 3px rgba(11,93,150,.12)}
+.g-years{display:flex;flex-wrap:wrap;align-items:center;gap:4px;padding:4px;background:#fff;border:1px solid rgba(17,23,34,.12);border-radius:12px;box-shadow:0 1px 2px rgba(17,23,34,.04)}
+.g-years-l{font:600 11px var(--font);letter-spacing:.04em;text-transform:uppercase;color:var(--g-ink3,#6b7280);padding:0 8px 0 6px}
+.g-years button{font:600 12.5px var(--font);color:var(--g-ink2,#374151);background:transparent;border:0;border-radius:8px;padding:6px 11px;cursor:pointer;font-variant-numeric:tabular-nums;transition:background .15s,color .15s}
+.g-years button:hover{background:rgba(11,93,150,.08);color:var(--g-rek)}
+.g-years button[aria-pressed="true"]{background:var(--g-rek);color:#fff;box-shadow:0 1px 3px rgba(11,93,150,.35)}
+.g-years button:focus-visible{outline:2px solid var(--g-rek);outline-offset:2px}
+.g-ynote{display:none;margin:-6px 0 14px;font:400 12px var(--font);color:var(--g-ink3,#6b7280)}
+.g-ynote.on{display:block}
+@media (max-width:720px){.g-years{width:100%}.g-years-l{width:100%;padding:4px 6px 2px}}
 .g-legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--g-ink2);margin:0 0 6px;min-height:18px}
 .g-legend span{display:inline-flex;align-items:center;gap:6px}
 .g-body{position:relative;width:100%}
@@ -2053,18 +2062,20 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
     </div>
     <!-- GRAFIK VIEW -->
     <div id="grafik-view" style="display:none">
-      <div class="section-header">
+      <div class="section-header" style="flex-wrap:wrap;gap:12px">
         <div><div class="section-title">Grafik Statistik</div><div class="section-sub">Rekomendasi kebutuhan JF Arsiparis dari ANRI dibandingkan ketersediaan arsiparis (data BKN)</div></div>
+        <div class="g-years" id="g-years" role="group" aria-label="Filter tahun rekomendasi"><span class="g-years-l">Tahun</span></div>
       </div>
+      <div class="g-ynote" id="g-ynote"></div>
 
       <div class="g-kpis">
         <div class="g-kpi g-kpi-wide">
-          <div class="g-k-l">Instansi sudah memperoleh rekomendasi</div>
+          <div class="g-k-l" id="k-ada-l">Instansi sudah memperoleh rekomendasi</div>
           <div class="g-k-v"><span id="k-ada">-</span><small> dari <span id="k-all">-</span> instansi</small></div>
           <div class="g-prog" role="img" id="k-prog-aria"><i id="k-prog"></i></div>
-          <div class="g-k-s"><b id="k-pct">-</b> tercakup · <span id="k-belum">-</span> belum</div>
+          <div class="g-k-s"><b id="k-pct">-</b> <span id="k-pct-l">tercakup</span> · <span id="k-belum">-</span> <span id="k-belum-l">belum</span></div>
         </div>
-        <div class="g-kpi"><div class="g-k-l"><span class="g-sw" style="background:var(--g-rek)"></span>Total rekomendasi</div><div class="g-k-v" id="k-rek">-</div><div class="g-k-s">formasi JF Arsiparis</div></div>
+        <div class="g-kpi"><div class="g-k-l"><span class="g-sw" style="background:var(--g-rek)"></span>Total rekomendasi</div><div class="g-k-v" id="k-rek">-</div><div class="g-k-s" id="k-rek-s">formasi JF Arsiparis</div></div>
         <div class="g-kpi"><div class="g-k-l"><span class="g-sw" style="background:var(--g-eks)"></span>Ketersediaan</div><div class="g-k-v" id="k-eks">-</div><div class="g-k-s" id="k-eks-src">arsiparis menurut BKN</div></div>
         <div class="g-kpi"><div class="g-k-l">Rekomendasi terbit</div><div class="g-k-v" id="k-thn">-</div><div class="g-k-s" id="k-thn-s">-</div></div>
       </div>
@@ -2087,7 +2098,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
         </section>
 
         <section class="g-card">
-          <header class="g-head"><div><h3>Cakupan rekomendasi per kluster</h3><p>Persentase instansi yang sudah memperoleh rekomendasi.</p></div></header>
+          <header class="g-head"><div><h3>Cakupan rekomendasi per kluster</h3><p id="cak-sub">Persentase instansi yang sudah memperoleh rekomendasi.</p></div></header>
           <div class="g-legend" id="lg-cakupan"></div>
           <div class="g-body" style="height:230px"><canvas id="chart-kluster"></canvas></div>
         </section>
@@ -2102,7 +2113,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
           <div class="g-body" style="height:340px"><canvas id="chart-tahun"></canvas></div>
         </section>
         <section class="g-card">
-          <header class="g-head"><div><h3>15 instansi dengan rekomendasi terbesar</h3><p>Jumlah formasi yang direkomendasikan.</p></div>
+          <header class="g-head"><div><h3>15 instansi dengan rekomendasi terbesar</h3><p id="top15-sub">Jumlah formasi yang direkomendasikan.</p></div>
             <select id="top15-filter" class="g-select" onchange="renderCharts()" aria-label="Filter kluster">
               <option value="">Semua kluster</option><option value="kem">Kementerian</option><option value="lemb">Lembaga</option><option value="prov">Provinsi</option><option value="kab">Kabupaten/Kota</option>
             </select></header>
@@ -2279,7 +2290,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 <script>
 // -- TAB SWITCHING ---------------------------------------------
 // Naikkan ASSET_VER setiap kali halaman di dalam tab diperbarui, agar browser tidak memakai versi lama dari cache.
-const ASSET_VER = '20261026a';
+const ASSET_VER = '20261107a';
 const TAB_SRCS = { rekomendasiJfa:'kalkulator-jfa.html?v='+ASSET_VER, bkn:'Data_BKN_rekap.html?v='+ASSET_VER, pengawasanSdm:'pengawasan_sdm_kearsipan.html?v='+ASSET_VER, sertifikasi:'sertifikasi.html?v='+ASSET_VER, standarKompetensi:'standar_kompetensi_teknis.html?v='+ASSET_VER };
 const iframeLoaded = { rekomendasiJfa:false, bkn:false, pengawasanSdm:false, sertifikasi:false, standarKompetensi:false };
 function switchTab(tabId, el) {
@@ -3263,16 +3274,38 @@ function bknKluster(n){ const t = (n || '').toLowerCase();
   if (/^kementerian/.test(t)) return 'kem';
   return 'lemb'; }
 
+let G_TAHUN = '';
+function setGrafikTahun(t){ G_TAHUN = t || ''; renderCharts(); }
+function renderTahunChips(){
+  const box = document.getElementById('g-years'); if (!box) return;
+  const ys = [...new Set(ALL.filter(d => d.status === 'Ada Rekomendasi' && d.tahun).map(d => String(d.tahun)))].sort();
+  if (G_TAHUN && !ys.includes(G_TAHUN)) G_TAHUN = '';
+  box.innerHTML = '<span class="g-years-l">Tahun</span>' + ['', ...ys].map(y =>
+    `<button type="button" aria-pressed="${y === G_TAHUN}" onclick="setGrafikTahun('${y}')">${y || 'Semua'}</button>`).join('');
+}
 function renderCharts() {
   if (!ALL.length || typeof Chart === 'undefined') return;
+  renderTahunChips();
+  const TH = G_TAHUN, cocok = d => !TH || String(d.tahun) === TH;
+  const SRC = TH ? ALL.filter(cocok) : ALL;            // sumber angka rekomendasi (rekTot sudah hanya menghitung status Ada)
+  const ynote = document.getElementById('g-ynote');
+  ynote.classList.toggle('on', !!TH);
+  ynote.textContent = TH ? `Menampilkan rekomendasi yang terbit tahun ${TH}. Ketersediaan (BKN) tetap data terkini seluruh arsiparis, tidak difilter tahun.` : '';
   Chart.defaults.color = G.ink2; Chart.defaults.font.family = CHART_FONT; Chart.defaults.font.size = 12;
   const pairLegend = [[G.rek, 'Rekomendasi (ANRI)'], [G.eks, 'Ketersediaan (BKN)']];
   document.querySelectorAll('[data-legend="pair"]').forEach(el => legend(el, pairLegend));
 
   // ---- Ringkasan
-  const ada = ALL.filter(d => d.status === 'Ada Rekomendasi').length, belum = ALL.length - ada;
+  const ada = SRC.filter(d => d.status === 'Ada Rekomendasi').length;
+  const adaAll = ALL.filter(d => d.status === 'Ada Rekomendasi').length, belum = ALL.length - adaAll;
   const pct = ALL.length ? ada / ALL.length * 100 : 0;
-  const totRek = ALL.reduce((a, d) => a + rekTot(d), 0);
+  const totRek = SRC.reduce((a, d) => a + rekTot(d), 0);
+  document.getElementById('k-ada-l').textContent = TH ? `Instansi memperoleh rekomendasi tahun ${TH}` : 'Instansi sudah memperoleh rekomendasi';
+  document.getElementById('k-pct-l').textContent = TH ? 'dari seluruh instansi' : 'tercakup';
+  document.getElementById('k-belum-l').textContent = TH ? 'belum (seluruh tahun)' : 'belum';
+  document.getElementById('k-rek-s').textContent = TH ? `formasi JF Arsiparis · terbit ${TH}` : 'formasi JF Arsiparis';
+  document.getElementById('cak-sub').textContent = TH ? `Persentase instansi di tiap kluster yang memperoleh rekomendasi tahun ${TH}.` : 'Persentase instansi yang sudah memperoleh rekomendasi.';
+  document.getElementById('top15-sub').textContent = TH ? `Jumlah formasi yang direkomendasikan tahun ${TH}.` : 'Jumlah formasi yang direkomendasikan.';
   document.getElementById('k-ada').textContent = nf(ada);
   document.getElementById('k-all').textContent = nf(ALL.length);
   document.getElementById('k-pct').textContent = pct.toLocaleString('id-ID', { maximumFractionDigits:1 }) + '%';
@@ -3285,32 +3318,35 @@ function renderCharts() {
   const byTahun = {};
   ALL.filter(d => d.tahun && d.status === 'Ada Rekomendasi').forEach(d => { byTahun[d.tahun] = (byTahun[d.tahun] || 0) + 1; });
   const thn = Object.keys(byTahun).sort(); let cum = 0; const kum = thn.map(t => (cum += byTahun[t]));
-  const last = thn[thn.length - 1];
+  const last = TH && byTahun[TH] ? TH : thn[thn.length - 1];
+  const kumLast = last ? kum[thn.indexOf(last)] : 0;
   document.getElementById('k-thn').textContent = last ? nf(byTahun[last]) : '-';
-  document.getElementById('k-thn-s').textContent = last ? `instansi pada ${last} · kumulatif ${nf(cum)}` : 'belum ada data tahun';
+  document.getElementById('k-thn-s').textContent = last ? `instansi pada ${last} · kumulatif ${TH ? 's.d. ' + last + ' ' : ''}${nf(kumLast)}` : 'belum ada data tahun';
   document.getElementById('tahun-sub').textContent = thn.length ? `Jumlah instansi yang menerima rekomendasi per tahun · total ${nf(cum)} instansi sejak ${thn[0]}.` : 'Belum ada data tahun terbit.';
   mkChart('chart-tahun', { type:'bar',
-    data:{ labels:thn, datasets:[{ label:'Instansi', data:thn.map(t => byTahun[t]), backgroundColor:G.rek, ...BAR, maxBarThickness:24 }] },
+    data:{ labels:thn, datasets:[{ label:'Instansi', data:thn.map(t => byTahun[t]), backgroundColor:thn.map(t => !TH || t === TH ? G.rek : '#b8cfe2'), ...BAR, maxBarThickness:24 }] },
     options:{ layout:{ padding:{ top:20 } }, scales:{ x:AXIS_CAT, y:{ ...AXIS_X(), beginAtZero:true, ticks:{ ...AXIS_X().ticks, precision:0 } } },
       plugins:{ legend:{ display:false }, tooltip:{ ...TOOLTIP_DEFAULTS, callbacks:{ label:c => ` ${nf(c.raw)} instansi`, afterLabel:c => ` Kumulatif: ${nf(kum[c.dataIndex])}` } } } },
     plugins:[ujungLabel(v => nf(v))] });
+  const chT = Chart.getChart('chart-tahun');
+  if (chT) chT.options.onClick = (e, el) => { if (el.length) { const t = thn[el[0].index]; setGrafikTahun(t === TH ? '' : t); } };
 
   // ---- Cakupan per kluster (100%: sudah vs belum)
-  const cak = KLUSTER4.map(([k]) => { const it = ALL.filter(d => kl4(d.kategori) === k); const a = it.filter(d => d.status === 'Ada Rekomendasi').length; return { n:it.length, a, p:it.length ? a / it.length * 100 : 0 }; });
-  legend(document.getElementById('lg-cakupan'), [[G.rek, 'Sudah rekomendasi'], [G.neu, 'Belum']]);
+  const cak = KLUSTER4.map(([k]) => { const it = ALL.filter(d => kl4(d.kategori) === k); const a = it.filter(d => d.status === 'Ada Rekomendasi' && cocok(d)).length; return { n:it.length, a, p:it.length ? a / it.length * 100 : 0 }; });
+  legend(document.getElementById('lg-cakupan'), TH ? [[G.rek, 'Rekomendasi ' + TH], [G.neu, 'Lainnya']] : [[G.rek, 'Sudah rekomendasi'], [G.neu, 'Belum']]);
   mkChart('chart-kluster', { type:'bar',
     data:{ labels:KLUSTER4.map(k => k[1]), datasets:[
       { label:'Sudah rekomendasi', data:cak.map(c => c.p), backgroundColor:G.rek, borderColor:'#fff', borderWidth:{ right:2 }, borderSkipped:false, borderRadius:{ topLeft:4, bottomLeft:4 }, maxBarThickness:18, categoryPercentage:.7 },
       { label:'Belum', data:cak.map(c => 100 - c.p), backgroundColor:G.neu, borderRadius:{ topRight:4, bottomRight:4 }, borderSkipped:false, maxBarThickness:18, categoryPercentage:.7 } ] },
     options:{ indexAxis:'y', layout:{ padding:{ right:96 } },
       scales:{ x:{ ...AXIS_X(), stacked:true, max:100, ticks:{ ...AXIS_X().ticks, callback:v => v + '%' } }, y:{ ...AXIS_CAT, stacked:true } },
-      plugins:{ legend:{ display:false }, tooltip:{ ...TOOLTIP_DEFAULTS, callbacks:{ label:c => { const x = cak[c.dataIndex]; return c.datasetIndex === 0 ? ` Sudah: ${nf(x.a)} instansi (${x.p.toFixed(1)}%)` : ` Belum: ${nf(x.n - x.a)} instansi`; } } } } },
+      plugins:{ legend:{ display:false }, tooltip:{ ...TOOLTIP_DEFAULTS, callbacks:{ label:c => { const x = cak[c.dataIndex]; return c.datasetIndex === 0 ? ` ${TH ? 'Rekomendasi ' + TH : 'Sudah'}: ${nf(x.a)} instansi (${x.p.toFixed(1)}%)` : ` ${TH ? 'Lainnya' : 'Belum'}: ${nf(x.n - x.a)} instansi`; } } } } },
     plugins:[{ id:'cakLabel', afterDatasetsDraw(ch){ const c = ch.ctx, meta = ch.getDatasetMeta(1); c.save(); c.textBaseline = 'middle'; c.textAlign = 'left';
       meta.data.forEach((bar, i) => { const x = cak[i]; c.font = '600 12px ' + CHART_FONT; c.fillStyle = G.ink; c.fillText(x.p.toLocaleString('id-ID', { maximumFractionDigits:0 }) + '%', ch.chartArea.right + 8, bar.y);
         c.font = '400 11px ' + CHART_FONT; c.fillStyle = G.ink3; c.fillText(`${nf(x.a)}/${nf(x.n)}`, ch.chartArea.right + 46, bar.y); }); c.restore(); } }] });
 
   // ---- Komposisi jenjang per kluster (100% bertumpuk, gradasi jenjang)
-  const komp = KLUSTER4.map(([k]) => { const it = ALL.filter(d => kl4(d.kategori) === k); const v = JENJANG.map(j => it.reduce((s, d) => s + rekJ(d, j.k), 0)); const t = v.reduce((a, b) => a + b, 0); return { v, t }; });
+  const komp = KLUSTER4.map(([k]) => { const it = SRC.filter(d => kl4(d.kategori) === k); const v = JENJANG.map(j => it.reduce((s, d) => s + rekJ(d, j.k), 0)); const t = v.reduce((a, b) => a + b, 0); return { v, t }; });
   legend(document.getElementById('lg-jenjang'), JENJANG.map((j, i) => [G.ramp[i], j.lbl]));
   mkChart('chart-jenjang', { type:'bar',
     data:{ labels:KLUSTER4.map(k => k[1]), datasets:JENJANG.map((j, i) => ({ label:j.lbl, data:komp.map(x => x.t ? x.v[i] / x.t * 100 : 0),
@@ -3325,7 +3361,7 @@ function renderCharts() {
 
   // ---- Top 15 instansi
   const f15 = document.getElementById('top15-filter').value;
-  const top = ALL.filter(d => isRek(d) && d.total > 0 && (!f15 || kl4(d.kategori) === f15)).sort((a, b) => b.total - a.total).slice(0, 15);
+  const top = SRC.filter(d => isRek(d) && d.total > 0 && (!f15 || kl4(d.kategori) === f15)).sort((a, b) => b.total - a.total).slice(0, 15);
   mkChart('chart-top15', { type:'bar',
     data:{ labels:top.map(d => d.nama.length > 34 ? d.nama.slice(0, 33) + '…' : d.nama), datasets:[{ label:'Rekomendasi', data:top.map(d => d.total), backgroundColor:G.rek, ...BAR, maxBarThickness:14 }] },
     options:{ indexAxis:'y', layout:{ padding:{ right:44 } }, scales:{ x:AXIS_X({ beginAtZero:true }), y:{ ...AXIS_CAT, ticks:{ ...AXIS_CAT.ticks, font:{ size:11, family:CHART_FONT } } } },
@@ -3335,15 +3371,15 @@ function renderCharts() {
   // ---- Rekomendasi vs ketersediaan
   const BK = window.BKN_REKAP_2026 && window.BKN_REKAP_2026.records;
   const rek = { nas:totRek, kem:0, lemb:0, prov:0, kab:0 }, eks = { nas:0, kem:0, lemb:0, prov:0, kab:0 };
-  ALL.forEach(d => { const c = kl4(d.kategori); if (c) rek[c] += rekTot(d); });
+  SRC.forEach(d => { const c = kl4(d.kategori); if (c) rek[c] += rekTot(d); });
   const JB = { rek:{}, eks:{} };
   ['nas', 'kem', 'lemb', 'prov', 'kab'].forEach(c => { JB.rek[c] = {}; JB.eks[c] = {}; JENJANG.forEach(j => { JB.rek[c][j.k] = 0; JB.eks[c][j.k] = 0; }); });
-  ALL.forEach(d => { const c = kl4(d.kategori); JENJANG.forEach(j => { const v = rekJ(d, j.k); JB.rek.nas[j.k] += v; if (c) JB.rek[c][j.k] += v; }); });
+  SRC.forEach(d => { const c = kl4(d.kategori); JENJANG.forEach(j => { const v = rekJ(d, j.k); JB.rek.nas[j.k] += v; if (c) JB.rek[c][j.k] += v; }); });
   if (BK) BK.forEach(r => { const c = bknKluster(r.nama); eks.nas += r.total || 0; eks[c] += r.total || 0; JENJANG.forEach(j => { const v = r[j.k] || 0; JB.eks.nas[j.k] += v; JB.eks[c][j.k] += v; }); });
   document.getElementById('k-eks').textContent = BK ? nf(eks.nas) : '-';
   const upd = BK && window.BKN_REKAP_2026.updated_at ? window.BKN_REKAP_2026.updated_at : '';
   document.getElementById('k-eks-src').textContent = 'arsiparis menurut BKN' + (upd ? ' · ' + upd : '');
-  document.getElementById('disp-src').textContent = 'Sumber: rekomendasi ANRI · BKN' + (upd ? ' ' + upd : '');
+  document.getElementById('disp-src').textContent = 'Sumber: rekomendasi ANRI' + (TH ? ' terbit ' + TH : '') + ' · BKN' + (upd ? ' ' + upd : '') + (TH ? ' (seluruh arsiparis)' : '');
   window.__JBYC = JB;
   pairChart('chart-disparitas', KLUSTER4.map(k => k[1]), KLUSTER4.map(([k]) => rek[k]), KLUSTER4.map(([k]) => eks[k]));
   renderClusterJabatan();
