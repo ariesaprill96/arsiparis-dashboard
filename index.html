@@ -6,226 +6,266 @@
 (function(){var h=(location.hash||'').slice(1).toLowerCase();if(/^(kalkulator|bkn|pengawasan|sertifikasi|grafik|keterisian|dashboard)$/.test(h))location.replace('dashboard.html'+location.hash);})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Beranda · JF Arsiparis ANRI</title>
-<meta name="description" content="Satu pintu data Jabatan Fungsional Arsiparis: rekomendasi kebutuhan ANRI, ketersediaan BKN, penghitungan JFA, pengawasan, dan sertifikasi.">
+<meta name="description" content="Satu platform data Jabatan Fungsional Arsiparis: rekomendasi kebutuhan ANRI, ketersediaan BKN, penghitungan JFA, pengawasan, dan sertifikasi.">
 <link rel="icon" href="assets-anri-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --kertas:#F6F3EC; --kertas2:#EFEADF; --tinta:#16181D; --tinta2:#4A4D55; --tinta3:#7C7F87;
-  --biru:#0B5D96; --biru-tua:#08446E; --emas:#B9823A; --garis:#DDD6C8;
-  --serif:'Newsreader', Georgia, 'Times New Roman', serif;
-  --sans:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --lebar:1180px;
+  --bg:#F1F1F3; --kartu:#FFFFFF; --kartu2:#F7F7F9; --tinta:#0E0F12; --tinta2:#55585F; --tinta3:#8B8E96;
+  --garis:#E4E4E8; --biru:#0B5D96; --biru2:#2F86C5; --biru-muda:#E3F0FA; --emas:#C98A2B; --emas-muda:#FBF0DC;
+  --merah:#E5484D; --hijau:#2E9E6B;
+  --sans:'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --lebar:1160px; --r:22px;
+  --bayang:0 1px 2px rgba(14,15,18,.04), 0 12px 32px -12px rgba(14,15,18,.12);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--kertas);color:var(--tinta);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{background:var(--bg);color:var(--tinta);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit}
 img{display:block;max-width:100%}
-.wrap{max-width:var(--lebar);margin:0 auto;padding:0 32px}
+button{font-family:inherit}
+.wrap{max-width:var(--lebar);margin:0 auto;padding:0 24px}
 .num{font-variant-numeric:tabular-nums}
-:focus-visible{outline:2px solid var(--biru);outline-offset:3px;border-radius:4px}
+:focus-visible{outline:2px solid var(--biru);outline-offset:3px;border-radius:8px}
 
-/* ---------- Navigasi ---------- */
-.nav{position:sticky;top:0;z-index:20;background:rgba(246,243,236,.86);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid transparent;transition:border-color .2s}
-.nav.scrolled{border-bottom-color:var(--garis)}
-.nav .wrap{display:flex;align-items:center;gap:28px;height:68px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex:0 0 auto}
-.brand img{width:30px;height:30px;object-fit:contain}
-.brand b{font:600 14px/1.15 var(--sans);letter-spacing:-.005em}
-.brand small{display:block;font:400 11.5px var(--sans);color:var(--tinta3)}
-.menu{display:flex;gap:4px;margin-left:auto;list-style:none}
-.menu a{display:block;padding:8px 12px;border-radius:8px;font:500 14px var(--sans);color:var(--tinta2);text-decoration:none;transition:color .15s,background .15s}
-.menu a:hover{color:var(--tinta);background:var(--kertas2)}
-.menu a[aria-current="page"]{color:var(--tinta)}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;font:600 14px var(--sans);text-decoration:none;border:1px solid transparent;transition:background .15s,color .15s,border-color .15s,transform .15s;white-space:nowrap}
-.btn:active{transform:translateY(1px)}
-.btn-tinta{background:var(--tinta);color:var(--kertas)}
-.btn-tinta:hover{background:#000}
-.btn-garis{border-color:var(--tinta);color:var(--tinta)}
-.btn-garis:hover{background:var(--tinta);color:var(--kertas)}
-.btn .pnh{transition:transform .2s}
-.btn:hover .pnh{transform:translateX(3px)}
-.nav .btn{padding:9px 16px;font-size:13.5px}
-.burger{display:none;margin-left:auto;background:none;border:1px solid var(--garis);border-radius:8px;width:40px;height:40px;cursor:pointer;color:var(--tinta)}
+/* ---------- Navigasi pil ---------- */
+.nav{position:sticky;top:14px;z-index:30;display:flex;justify-content:center;padding:0 16px;pointer-events:none}
+.nav-in{pointer-events:auto;position:relative;display:flex;align-items:center;gap:6px;padding:7px 7px 7px 16px;background:rgba(255,255,255,.82);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border:1px solid rgba(14,15,18,.06);border-radius:999px;box-shadow:var(--bayang)}
+.brand{display:flex;align-items:center;gap:8px;text-decoration:none;font:700 15px var(--sans);letter-spacing:-.02em;margin-right:10px;white-space:nowrap}
+.brand img{width:22px;height:22px;object-fit:contain}
+.menu{display:flex;list-style:none;gap:2px}
+.menu a{display:block;padding:8px 12px;border-radius:999px;font:500 13.5px var(--sans);color:var(--tinta2);text-decoration:none;transition:background .15s,color .15s;white-space:nowrap}
+.menu a:hover{background:var(--bg);color:var(--tinta)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:12px;font:600 14px var(--sans);text-decoration:none;border:0;cursor:pointer;transition:transform .15s, box-shadow .15s, background .15s;white-space:nowrap}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:none}
+.btn-hitam{background:var(--tinta);color:#fff;border-radius:999px;padding:9px 16px;font-size:13.5px}
+.btn-biru{background:var(--biru);color:#fff;box-shadow:0 8px 20px -8px rgba(11,93,150,.6)}
+.btn-biru:hover{background:#0a5285}
+.btn-putih{background:#fff;color:var(--tinta);box-shadow:var(--bayang)}
+.burger{display:none;width:36px;height:36px;border-radius:50%;border:0;background:var(--bg);cursor:pointer;color:var(--tinta);place-items:center}
+
+/* ---------- Teks muncul dari buram ---------- */
+.kabur .k{display:inline-block;opacity:0;filter:blur(12px);transform:translateY(8px);transition:opacity .7s ease, filter .7s ease, transform .7s ease;transition-delay:calc(var(--i) * 70ms)}
+.kabur.on .k{opacity:1;filter:none;transform:none}
+.muncul{opacity:0;transform:translateY(22px);transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1)}
+.muncul.on{opacity:1;transform:none}
+
+h1,h2{font-weight:600;letter-spacing:-.045em;line-height:1.04}
+h1{font-size:clamp(40px,6vw,68px)}
+h2{font-size:clamp(34px,4.6vw,54px)}
+.sub{color:var(--tinta3);font-size:15px;line-height:1.55;max-width:400px;margin:18px auto 0}
+.tengah{text-align:center}
 
 /* ---------- Hero ---------- */
-.hero{padding:72px 0 56px}
-.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
-.eyebrow{display:flex;align-items:center;gap:10px;font:600 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--tinta2)}
-.eyebrow::before{content:"";width:28px;height:1px;background:var(--tinta)}
-h1{font:400 clamp(40px,5.4vw,68px)/1.02 var(--serif);letter-spacing:-.025em;margin:22px 0 22px}
-h1 em{font-style:italic;color:var(--biru)}
-.lead{font-size:18px;line-height:1.6;color:var(--tinta2);max-width:520px}
-.aksi{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
-.hero-ill{position:relative}
-.hero-ill svg{width:100%;height:auto;display:block}
-.cap{font:italic 400 14px var(--serif);color:var(--tinta3);margin-top:10px;text-align:right}
+.hero{padding:34px 0 96px}
+.panggung{position:relative;height:250px;max-width:920px;margin:0 auto}
+.panggung svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.panggung svg path{stroke:#D3D4DA;stroke-width:1.2;fill:none;stroke-dasharray:3 5}
+.panggung svg circle{fill:var(--biru2)}
+.ubin{position:absolute;display:grid;place-items:center;border-radius:22%;box-shadow:0 14px 28px -12px rgba(14,15,18,.28), inset 0 1px 0 rgba(255,255,255,.5);transform:translate(-50%,-50%);animation:apung 6s ease-in-out infinite;animation-delay:var(--d,0s)}
+.ubin svg{position:static;width:46%;height:46%;overflow:visible}
+.ubin svg path,.ubin svg rect,.ubin svg circle{stroke:currentColor;stroke-width:1.9;stroke-dasharray:none;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ubin img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.ubin.pusat{width:104px;height:104px;background:linear-gradient(160deg,#3D97D6,#0B5D96);color:#fff;box-shadow:0 26px 44px -16px rgba(11,93,150,.7), inset 0 1px 0 rgba(255,255,255,.35)}
+.ubin.pusat svg{width:44%;height:44%}
+.ubin.pusat svg path,.ubin.pusat svg circle{stroke-width:2.2}
+@keyframes apung{50%{transform:translate(-50%,calc(-50% - 8px))}}
+.hero-teks{position:relative;margin-top:6px}
+.hero .aksi{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:28px}
 
-/* ---------- Angka ---------- */
-.angka{border-top:1px solid var(--tinta);border-bottom:1px solid var(--garis)}
-.angka .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
-.angka div.it{padding:26px 24px 24px 0}
-.angka div.it + div.it{padding-left:24px;border-left:1px solid var(--garis)}
-.angka b{display:block;font:400 clamp(30px,3.4vw,44px)/1 var(--serif);letter-spacing:-.02em}
-.angka span{display:block;margin-top:10px;font-size:13.5px;color:var(--tinta2);line-height:1.45}
-.angka .sw{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;vertical-align:1px}
+/* ---------- Foto ---------- */
+.orang{padding:40px 0 110px}
+.orang .wrap{display:grid;grid-template-columns:1fr minmax(300px,380px) 1fr;gap:32px;align-items:center}
+.gugus{position:relative;height:470px}
+.foto{position:absolute;width:44%;aspect-ratio:4/5;border-radius:16px;overflow:hidden;box-shadow:0 18px 36px -18px rgba(14,15,18,.45);border:3px solid #fff;background:var(--garis);will-change:transform}
+.foto img{width:100%;height:100%;object-fit:cover}
+.gugus.kiri .foto:nth-child(1){left:2%;top:4%}
+.gugus.kiri .foto:nth-child(2){left:52%;top:14%}
+.gugus.kiri .foto:nth-child(3){left:4%;top:52%}
+.gugus.kiri .foto:nth-child(4){left:54%;top:60%;width:40%}
+.gugus.kanan .foto:nth-child(1){left:4%;top:14%}
+.gugus.kanan .foto:nth-child(2){left:54%;top:2%;width:40%}
+.gugus.kanan .foto:nth-child(3){left:2%;top:60%;width:42%}
+.gugus.kanan .foto:nth-child(4){left:52%;top:50%}
+.ikon-bulat{width:44px;height:44px;border-radius:14px;background:#fff;box-shadow:var(--bayang);display:grid;place-items:center;margin:0 auto 22px;color:var(--biru)}
+.ikon-bulat svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 
-/* ---------- Bagian umum ---------- */
-section.bag{padding:104px 0}
-.kepala{display:grid;grid-template-columns:200px 1fr;gap:32px;align-items:start;margin-bottom:48px}
-.no{font:500 13px var(--sans);letter-spacing:.06em;color:var(--tinta3);padding-top:12px;border-top:1px solid var(--tinta)}
-.no b{color:var(--tinta);font-weight:600}
-h2{font:400 clamp(30px,3.6vw,46px)/1.08 var(--serif);letter-spacing:-.02em;max-width:760px}
-h2 em{font-style:italic;color:var(--biru)}
-.kepala p{margin-top:16px;color:var(--tinta2);max-width:620px}
+/* ---------- Bento ---------- */
+.bag{padding:0 0 120px}
+.kepala{margin-bottom:44px}
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.kotak{position:relative;background:var(--kartu);border-radius:var(--r);padding:22px;display:flex;flex-direction:column;min-height:300px;text-decoration:none;overflow:hidden;transition:transform .25s ease, box-shadow .25s ease}
+.kotak:hover{transform:translateY(-4px);box-shadow:var(--bayang)}
+.kotak.k2{grid-column:span 2}.kotak.k3{grid-column:span 3}.kotak.k4{grid-column:span 4}
+.kotak .vis{flex:1;display:flex;align-items:center;justify-content:center;background:var(--kartu2);border-radius:14px;margin-bottom:18px;min-height:170px;padding:16px;position:relative;overflow:hidden}
+.kotak h3{font:600 16.5px/1.3 var(--sans);letter-spacing:-.02em}
+.kotak p{font-size:13.5px;color:var(--tinta3);margin-top:6px;line-height:1.5}
+.kotak .pn{position:absolute;right:20px;bottom:22px;width:30px;height:30px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:14px;transition:background .2s,color .2s,transform .2s}
+.kotak:hover .pn{background:var(--tinta);color:#fff;transform:translateX(2px)}
+.kotak .tk{padding-right:44px}
+/* visual: batang */
+.batang{display:flex;align-items:flex-end;gap:10px;height:120px;width:100%;justify-content:center}
+.batang i{width:16px;border-radius:6px 6px 3px 3px;background:var(--biru);height:0;transition:height 1s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--i)*80ms)}
+.batang i.e{background:var(--emas)}
+.on .batang i{height:var(--h)}
+.pil{position:absolute;top:14px;left:14px;display:inline-flex;align-items:center;gap:7px;background:#fff;border-radius:999px;padding:6px 11px 6px 7px;font:600 11.5px var(--sans);box-shadow:var(--bayang)}
+.pil b{width:18px;height:18px;border-radius:6px;display:grid;place-items:center;color:#fff;font-size:10px}
+/* visual: cincin */
+.cincin{position:relative;width:128px;height:128px}
+.cincin svg{width:100%;height:100%;transform:rotate(-90deg)}
+.cincin circle{fill:none;stroke-width:12;stroke-linecap:round}
+.cincin .a{stroke:var(--garis)}
+.cincin .b{stroke:var(--emas);stroke-dasharray:314;stroke-dashoffset:314;transition:stroke-dashoffset 1.3s cubic-bezier(.2,.7,.2,1) .2s}
+.cincin span{position:absolute;inset:0;display:grid;place-items:center;font:600 28px var(--sans);letter-spacing:-.04em}
+/* visual: tabel mini */
+.mini{width:100%;display:grid;gap:8px}
+.mini .br{display:grid;grid-template-columns:120px 1fr 62px;gap:12px;align-items:center;font-size:12.5px;color:var(--tinta2)}
+.mini .rel{height:8px;border-radius:99px;background:var(--garis);overflow:hidden}
+.mini .rel i{display:block;height:100%;width:0;border-radius:99px;background:var(--biru);transition:width 1.1s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--i)*90ms)}
+.on .mini .rel i{width:var(--w)}
+.mini b{font-weight:600;color:var(--tinta);text-align:right}
+/* visual: lencana */
+.lencana{display:grid;place-items:center;gap:10px}
+.lencana .l{width:74px;height:74px;border-radius:50%;background:linear-gradient(160deg,#F3C877,#C98A2B);display:grid;place-items:center;color:#fff;box-shadow:0 14px 26px -12px rgba(201,138,43,.8)}
+.lencana .l svg{width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lencana small{font:600 11.5px var(--sans);color:var(--tinta2);background:#fff;padding:5px 11px;border-radius:99px;box-shadow:var(--bayang)}
+/* visual: formulir */
+.form{width:100%;max-width:230px;background:#fff;border-radius:12px;padding:14px;box-shadow:var(--bayang);display:grid;gap:9px}
+.form div{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--tinta3)}
+.form div b{font:600 12.5px var(--sans);color:var(--tinta);background:var(--kartu2);padding:3px 9px;border-radius:7px}
+.form .hs{border-top:1px dashed var(--garis);padding-top:10px;color:var(--tinta)}
+.form .hs b{background:var(--biru);color:#fff}
 
 /* ---------- Tab fitur ---------- */
-.tabs{display:flex;gap:0;border-bottom:1px solid var(--garis);margin-bottom:32px;overflow-x:auto;scrollbar-width:none}
+.panel-fitur{background:var(--kartu);border-radius:28px;padding:16px}
+.tabs{display:flex;gap:4px;padding:5px;background:var(--bg);border-radius:14px;overflow-x:auto;scrollbar-width:none;margin-bottom:16px}
 .tabs::-webkit-scrollbar{display:none}
-.tab{position:relative;flex:0 0 auto;background:none;border:0;padding:14px 22px 16px 0;margin-right:22px;font:500 15px var(--sans);color:var(--tinta3);cursor:pointer;text-align:left;transition:color .15s}
-.tab:hover{color:var(--tinta)}
-.tab small{display:block;font:500 11px var(--sans);letter-spacing:.08em;color:var(--tinta3);margin-bottom:3px}
-.tab[aria-selected="true"]{color:var(--tinta)}
-.tab .bar{position:absolute;left:0;right:22px;bottom:-1px;height:2px;background:var(--garis);overflow:hidden;opacity:0}
-.tab[aria-selected="true"] .bar{opacity:1}
-.tab .bar i{display:block;height:100%;width:0;background:var(--tinta)}
-.tab[aria-selected="true"] .bar i{animation:isi var(--dur,7s) linear forwards}
-.tabs.diam .tab[aria-selected="true"] .bar i{animation:none;width:100%}
+.tab{position:relative;flex:1 0 auto;border:0;background:none;padding:11px 16px;border-radius:10px;font:600 13.5px var(--sans);color:var(--tinta3);cursor:pointer;overflow:hidden;transition:color .2s, background .2s}
+.tab[aria-selected="true"]{background:#fff;color:var(--tinta);box-shadow:0 1px 2px rgba(14,15,18,.08)}
+.tab i{position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--biru)}
+.tab[aria-selected="true"] i{animation:isi var(--dur,7s) linear forwards}
+.tabs.diam .tab i{animation:none;width:0}
 @keyframes isi{to{width:100%}}
-.panel{display:grid;grid-template-columns:1.6fr 1fr;gap:48px;align-items:center}
-.layar{position:relative;border:1px solid var(--tinta);border-radius:12px;background:#fff;padding:10px;box-shadow:12px 12px 0 var(--kertas2)}
-.layar .bilah{display:flex;gap:6px;padding:2px 4px 10px}
-.layar .bilah i{width:9px;height:9px;border-radius:50%;border:1px solid var(--tinta3)}
-.layar .bingkai{position:relative;aspect-ratio:16/10;overflow:hidden;border-radius:6px;background:var(--kertas2)}
-.layar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;opacity:0;transform:scale(1.015);transition:opacity .5s ease,transform .8s ease}
+.isi-fitur{display:grid;grid-template-columns:1.55fr 1fr;gap:16px;align-items:stretch}
+.layar{position:relative;aspect-ratio:16/10;border-radius:16px;overflow:hidden;background:var(--bg);border:1px solid var(--garis)}
+.layar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;opacity:0;transform:scale(1.03);transition:opacity .5s ease, transform .9s ease}
 .layar img.on{opacity:1;transform:none}
-.info{transition:opacity .35s ease, transform .35s ease}
+.info{background:var(--kartu2);border-radius:16px;padding:28px;display:flex;flex-direction:column;transition:opacity .3s ease, transform .3s ease}
 .info.ganti{opacity:0;transform:translateY(8px)}
-.info .lbl{font:600 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--emas)}
-.info h3{font:400 32px/1.12 var(--serif);letter-spacing:-.015em;margin:12px 0 14px}
-.info p{color:var(--tinta2)}
-.info dl{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:26px 0 28px;border-top:1px solid var(--garis)}
-.info dl div{padding:16px 16px 14px 0;border-bottom:1px solid var(--garis)}
-.info dl div:nth-child(even){padding-left:16px;border-left:1px solid var(--garis)}
-.info dt{font-size:12.5px;color:var(--tinta3)}
-.info dd{font:400 26px/1.15 var(--serif);letter-spacing:-.01em;margin-top:4px}
+.info .lbl{font:600 11.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--biru)}
+.info h3{font:600 26px/1.15 var(--sans);letter-spacing:-.035em;margin:10px 0 12px}
+.info p{color:var(--tinta2);font-size:14.5px}
+.info dl{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:22px 0}
+.info dl div{background:#fff;border-radius:12px;padding:12px 14px}
+.info dt{font-size:11.5px;color:var(--tinta3)}
+.info dd{font:600 20px var(--sans);letter-spacing:-.03em;margin-top:2px}
+.info .btn{margin-top:auto;align-self:flex-start}
 
-/* ---------- Pita biru ---------- */
-.pita{background:var(--biru);color:#fff}
-.pita .wrap{padding-top:88px;padding-bottom:88px;display:grid;grid-template-columns:200px 1fr;gap:32px}
-.pita .no{color:rgba(255,255,255,.7);border-top-color:#fff}
-.pita .no b{color:#fff}
-.pernyataan{font:400 clamp(28px,3.4vw,44px)/1.22 var(--serif);letter-spacing:-.015em;max-width:880px}
-.pernyataan .e{color:#F1D3A3;font-style:italic}
-.pernyataan .hl{border-bottom:1px solid rgba(255,255,255,.45)}
-.pita .ket{margin-top:26px;font-size:14px;color:rgba(255,255,255,.75);max-width:640px}
-.pita .ket a{color:#fff}
+/* ---------- Sumber data (busur) ---------- */
+.sumber{background:var(--kartu);border-radius:28px;padding:64px 24px 0;text-align:center;overflow:hidden}
+.sumber h2{font-size:clamp(26px,3.4vw,38px);max-width:520px;margin:0 auto}
+.busur{position:relative;height:300px;margin-top:20px}
+.keping{position:absolute;left:50%;top:40px;width:104px;height:104px;margin-left:-52px;border-radius:24px;background:var(--kartu2);display:grid;place-items:center;transition:transform .8s cubic-bezier(.3,.7,.2,1), opacity .6s ease, background .4s;will-change:transform}
+.keping svg{width:44px;height:44px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.keping.tengah-k{background:#fff;box-shadow:var(--bayang)}
+.busur-ket{position:absolute;left:0;right:0;top:170px;transition:opacity .3s}
+.busur-ket b{display:block;font:600 16px var(--sans);letter-spacing:-.02em}
+.busur-ket span{font-size:13px;color:var(--tinta3)}
 
-/* ---------- Alur ---------- */
-.alur{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--tinta)}
-.alur li{list-style:none;padding:28px 28px 8px 0}
-.alur li + li{padding-left:28px;border-left:1px solid var(--garis)}
-.alur .ik{width:56px;height:56px;margin-bottom:22px}
-.alur .s{font:500 12px var(--sans);letter-spacing:.08em;color:var(--tinta3)}
-.alur h3{font:400 24px/1.2 var(--serif);letter-spacing:-.01em;margin:8px 0 10px}
-.alur p{color:var(--tinta2);font-size:15px}
-.alur a{display:inline-block;margin-top:14px;font:600 13.5px var(--sans);text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:1px}
-
-/* ---------- Daftar isi ---------- */
-.daftar{border-top:1px solid var(--tinta);list-style:none}
-.daftar li{border-bottom:1px solid var(--garis)}
-.daftar a{display:grid;grid-template-columns:64px 1fr 1.3fr 32px;gap:24px;align-items:baseline;padding:24px 4px;text-decoration:none;transition:background .2s,padding .2s}
-.daftar a:hover{background:var(--kertas2);padding-left:14px;padding-right:14px}
-.daftar .n{font:500 13px var(--sans);color:var(--tinta3)}
-.daftar .j{font:400 26px/1.15 var(--serif);letter-spacing:-.01em}
-.daftar .d{color:var(--tinta2);font-size:15px}
-.daftar .p{justify-self:end;font-size:20px;transition:transform .2s}
-.daftar a:hover .p{transform:translateX(4px)}
+/* ---------- Dasar hukum ---------- */
+.hukum{overflow:hidden}
+.hukum .dek{position:relative;height:290px;max-width:900px;margin:0 auto}
+.kh{position:absolute;left:50%;top:10px;width:300px;margin-left:-150px;min-height:236px;background:var(--kartu);border-radius:var(--r);padding:30px 26px;text-align:center;box-shadow:var(--bayang);transition:transform .7s cubic-bezier(.3,.7,.2,1), opacity .5s ease;will-change:transform}
+.kh .jn{display:inline-block;font:600 11px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--biru);background:var(--biru-muda);padding:5px 11px;border-radius:99px}
+.kh h3{font:600 24px/1.15 var(--sans);letter-spacing:-.035em;margin:18px 0 10px}
+.kh p{font-size:14px;color:var(--tinta2);line-height:1.55}
+.kh .gr{width:36px;height:3px;border-radius:9px;background:var(--emas);margin:18px auto 0}
+.panah{display:flex;justify-content:center;gap:8px;margin-top:18px}
+.panah button{width:38px;height:38px;border-radius:50%;border:0;background:#fff;box-shadow:var(--bayang);cursor:pointer;font-size:15px;color:var(--tinta);transition:transform .15s, background .15s}
+.panah button:hover{background:var(--tinta);color:#fff}
+.catatan{font-size:12.5px;color:var(--tinta3);text-align:center;margin-top:16px}
 
 /* ---------- Footer ---------- */
-footer{border-top:1px solid var(--tinta);padding:56px 0 40px}
-footer .wrap{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
-footer h4{font:600 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--tinta3);margin-bottom:14px}
-footer ul{list-style:none}
-footer li{margin:7px 0}
-footer li a{text-decoration:none;color:var(--tinta2);font-size:14.5px}
-footer li a:hover{color:var(--tinta);text-decoration:underline}
-footer .tag{font:italic 400 22px/1.3 var(--serif);max-width:360px;margin-top:16px}
-.bawah{max-width:var(--lebar);margin:44px auto 0;padding:20px 32px 0;border-top:1px solid var(--garis);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--tinta3)}
+footer{padding:0 0 0}
+.kaki{background:var(--kartu);border-radius:28px 28px 0 0;padding:64px 48px 0;overflow:hidden;container-type:inline-size}
+.kaki-atas{display:grid;grid-template-columns:1.3fr repeat(3,auto);gap:56px;align-items:start}
+.kaki-atas .tag{font:600 15px/1.45 var(--sans);letter-spacing:-.01em;max-width:260px}
+.kaki h4{font:600 13px var(--sans);margin-bottom:12px}
+.kaki ul{list-style:none}
+.kaki li{margin:7px 0}
+.kaki li a{font-size:13.5px;color:var(--tinta3);text-decoration:none;transition:color .15s}
+.kaki li a:hover{color:var(--tinta)}
+.raksasa{font:700 22cqw/.78 var(--sans);letter-spacing:-.07em;color:var(--biru);text-align:center;margin:40px -20px -0.08em;white-space:nowrap;user-select:none;transform:translateY(40%);transition:transform 1.1s cubic-bezier(.2,.7,.2,1)}
+.raksasa.on{transform:translateY(12%)}
+.hak{font-size:12px;color:var(--tinta3);margin-top:48px;padding-top:18px;border-top:1px solid var(--garis)}
 
-/* ---------- Muncul saat scroll ---------- */
-.muncul{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
-.muncul.on{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .muncul,.layar img,.info{transition:none!important;opacity:1;transform:none}
-  .tab[aria-selected="true"] .bar i{animation:none;width:100%}
-  .ill-melayang{animation:none!important}
+  .kabur .k,.muncul,.raksasa{transition:none!important;opacity:1!important;filter:none!important;transform:none!important}
+  .ubin{animation:none}
+  .tab[aria-selected="true"] i{animation:none}
 }
-.ill-melayang{animation:melayang 7s ease-in-out infinite;transform-origin:center}
-@keyframes melayang{50%{transform:translateY(-6px)}}
 
 /* ---------- Responsif ---------- */
 @media (max-width:1020px){
   .menu{display:none}
-  .burger{display:inline-grid;place-items:center}
-  .nav .btn{display:none}
-  .menu.buka{display:flex;position:absolute;top:68px;left:0;right:0;flex-direction:column;background:var(--kertas);border-bottom:1px solid var(--garis);padding:8px 20px 16px}
-  .menu.buka a{padding:12px 4px;border-bottom:1px solid var(--garis);border-radius:0}
-  .hero .wrap{grid-template-columns:1fr;gap:36px}
-  .hero-ill{max-width:520px}
-  .panel{grid-template-columns:1fr;gap:32px}
-  .kepala,.pita .wrap{grid-template-columns:1fr;gap:18px}
-  .no{max-width:200px}
+  .burger{display:grid}
+  .nav-in .btn-hitam{display:none}
+  .menu.buka{display:flex;flex-direction:column;position:absolute;top:calc(100% + 8px);left:0;right:0;min-width:240px;background:#fff;border-radius:18px;padding:8px;box-shadow:var(--bayang)}
+  .menu.buka a{padding:12px 14px;border-radius:12px}
+  .orang .wrap{grid-template-columns:1fr}
+  .orang .teks{order:-1}
+  .gugus{height:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .gugus .foto{position:static;width:auto!important;border-width:2px;border-radius:12px;transform:none!important}
+  .bento{grid-template-columns:1fr 1fr}
+  .kotak.k2,.kotak.k3,.kotak.k4{grid-column:span 1}
+  .kotak.lebar{grid-column:1/-1}
+  .isi-fitur{grid-template-columns:1fr}
+  .kaki-atas{grid-template-columns:1fr 1fr;gap:32px}
+  .kaki-atas > div:first-child{grid-column:1/-1}
 }
-@media (max-width:720px){
+@media (max-width:640px){
   .wrap{padding:0 16px}
-  .hero{padding:40px 0 40px}
-  .angka .wrap{grid-template-columns:1fr 1fr}
-  .angka div.it{padding:20px 14px 18px 0}
-  .angka div.it + div.it{padding-left:14px}
-  .angka .wrap > div.it:nth-child(3){padding-left:0;border-left:0;border-top:1px solid var(--garis)}
-  .angka .wrap > div.it:nth-child(4){border-top:1px solid var(--garis)}
-  section.bag{padding:72px 0}
-  .alur{grid-template-columns:1fr}
-  .alur li + li{padding-left:0;border-left:0;border-top:1px solid var(--garis)}
-  .daftar a{grid-template-columns:36px 1fr 24px;gap:12px}
-  .daftar .n{grid-column:1;grid-row:1}
-  .daftar .j{grid-column:2;grid-row:1}
-  .daftar .d{grid-column:2;grid-row:2}
-  .daftar .p{grid-column:3;grid-row:1}
-  .daftar .j{font-size:22px}
-  .layar{box-shadow:6px 6px 0 var(--kertas2)}
-  .info h3{font-size:27px}
-  footer .wrap{grid-template-columns:1fr 1fr}
-  footer .wrap > div:first-child{grid-column:1/-1}
-  .bawah{padding:20px 16px 0}
-  .pita .wrap{padding-top:64px;padding-bottom:64px}
+  .hero{padding:22px 0 72px}
+  .panggung{height:190px}
+  .ubin.pusat{width:78px;height:78px}
+  .ubin.sm-hilang{display:none}
+  .ubin:not(.pusat){width:46px!important;height:46px!important}
+  .orang{padding:10px 0 80px}
+  .bag{padding-bottom:84px}
+  .bento{grid-template-columns:1fr}
+  .kotak{min-height:0}
+  .mini .br{grid-template-columns:92px 1fr 56px}
+  .panel-fitur{padding:10px;border-radius:22px}
+  .info{padding:22px}
+  .sumber{padding-top:44px}
+  .keping{width:78px;height:78px;margin-left:-39px;border-radius:20px}
+  .keping svg{width:34px;height:34px}
+  .busur{height:250px}
+  .busur-ket{top:140px}
+  .kh{width:270px;margin-left:-135px}
+  .kaki{padding:44px 22px 0;border-radius:22px 22px 0 0}
 }
 </style>
 </head>
 <body>
 
-<header class="nav" id="nav">
-  <div class="wrap">
-    <a class="brand" href="./" aria-label="Beranda JF Arsiparis">
-      <img src="assets-anri-logo.png" alt="">
-      <div><b>Direktorat SDM Kearsipan<br>dan Sertifikasi</b></div>
-    </a>
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="./" aria-label="Beranda"><img src="assets-anri-logo.png" alt="">JF Arsiparis</a>
     <ul class="menu" id="menu">
-      <li><a href="./" aria-current="page">Beranda</a></li>
       <li><a href="dashboard.html">Dashboard</a></li>
       <li><a href="dashboard.html#kalkulator">Penghitungan JFA</a></li>
       <li><a href="dashboard.html#bkn">Data BKN</a></li>
       <li><a href="dashboard.html#pengawasan">Pengawasan</a></li>
       <li><a href="dashboard.html#sertifikasi">Sertifikasi</a></li>
     </ul>
-    <a class="btn btn-tinta" href="dashboard.html">Buka Dashboard <span class="pnh" aria-hidden="true">→</span></a>
+    <a class="btn btn-hitam" href="dashboard.html">Buka Dashboard</a>
     <button class="burger" id="burger" aria-label="Buka menu" aria-expanded="false" aria-controls="menu">
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2 5h14M2 9h14M2 13h14"/></svg>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M2 5h12M2 11h12"/></svg>
     </button>
   </div>
 </header>
@@ -234,296 +274,305 @@ footer .tag{font:italic 400 22px/1.3 var(--serif);max-width:360px;margin-top:16p
 <!-- HERO -->
 <section class="hero">
   <div class="wrap">
-    <div class="muncul">
-      <div class="eyebrow">Jabatan Fungsional Arsiparis · Indonesia</div>
-      <h1>Kebutuhan arsiparis Indonesia, <em>tercatat rapi</em> dalam satu lembar.</h1>
-      <p class="lead">Rekomendasi kebutuhan dari ANRI, ketersediaan menurut BKN, penghitungan formasi, pengawasan, dan sertifikasi, untuk seluruh instansi pusat dan daerah.</p>
-      <div class="aksi">
-        <a class="btn btn-tinta" href="dashboard.html">Buka Dashboard <span class="pnh" aria-hidden="true">→</span></a>
-        <a class="btn btn-garis" href="dashboard.html#kalkulator">Hitung Kebutuhan JFA</a>
-      </div>
-    </div>
-    <figure class="hero-ill muncul" aria-hidden="true">
-      <svg viewBox="0 0 560 470" fill="none" stroke-linejoin="round" stroke-linecap="round">
-        <!-- matahari arsip -->
-        <circle cx="452" cy="86" r="46" fill="#B9823A"/>
-        <!-- rak -->
-        <g stroke="#16181D" stroke-width="2">
-          <path d="M70 420V92M330 420V92M70 92h260M70 196h260M70 300h260"/>
-        </g>
-        <!-- rak atas: boks & ordner -->
-        <g stroke="#16181D" stroke-width="2">
-          <rect x="84" y="128" width="54" height="68" fill="#0B5D96"/>
-          <rect x="96" y="146" width="30" height="16" fill="#F6F3EC"/>
-          <rect x="142" y="120" width="54" height="76" fill="#EFEADF"/>
-          <rect x="154" y="140" width="30" height="16" fill="#F6F3EC"/>
-          <rect x="200" y="112" width="18" height="84" fill="#16181D"/>
-          <rect x="222" y="112" width="18" height="84" fill="#B9823A"/>
-          <rect x="244" y="112" width="18" height="84" fill="#EFEADF"/>
-          <path d="M266 196l22-80 18 5-22 80z" fill="#0B5D96"/>
-        </g>
-        <!-- rak tengah: bundel bertali -->
-        <g stroke="#16181D" stroke-width="2">
-          <rect x="88" y="252" width="92" height="44" fill="#EFEADF"/>
-          <path d="M88 266h92M88 282h92" stroke-width="1.2"/>
-          <path d="M134 252v44" stroke="#B9823A" stroke-width="3"/>
-          <rect x="92" y="226" width="84" height="26" fill="#F6F3EC"/>
-          <path d="M134 226v26" stroke="#B9823A" stroke-width="3"/>
-          <rect x="196" y="220" width="54" height="76" fill="#0B5D96"/>
-          <rect x="208" y="238" width="30" height="16" fill="#F6F3EC"/>
-          <rect x="256" y="232" width="58" height="64" fill="#B9823A"/>
-          <rect x="268" y="248" width="34" height="14" fill="#F6F3EC"/>
-        </g>
-        <!-- rak bawah -->
-        <g stroke="#16181D" stroke-width="2">
-          <rect x="84" y="332" width="18" height="88" fill="#EFEADF"/>
-          <rect x="106" y="332" width="18" height="88" fill="#0B5D96"/>
-          <rect x="128" y="332" width="18" height="88" fill="#EFEADF"/>
-          <rect x="150" y="340" width="18" height="80" fill="#16181D"/>
-          <rect x="178" y="350" width="70" height="70" fill="#EFEADF"/>
-          <rect x="192" y="366" width="42" height="16" fill="#F6F3EC"/>
-        </g>
-        <!-- lantai -->
-        <path d="M24 420h512" stroke="#16181D" stroke-width="2"/>
-        <!-- boks utama berlabel -->
-        <g class="ill-melayang">
-          <g stroke="#16181D" stroke-width="2">
-            <path d="M318 420V300h184v120z" fill="#F6F3EC"/>
-            <path d="M318 300l20-28h184l-20 28z" fill="#EFEADF"/>
-            <path d="M502 300l20-28v120l-20 28z" fill="#DDD6C8"/>
-            <rect x="346" y="324" width="128" height="58" fill="#fff"/>
-          </g>
-          <text x="410" y="352" text-anchor="middle" font-family="Newsreader, Georgia, serif" font-size="25" fill="#16181D" id="ill-angka">731</text>
-          <text x="410" y="371" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" letter-spacing="1.6" fill="#4A4D55">INSTANSI</text>
-          <path d="M346 398h128" stroke="#0B5D96" stroke-width="3"/>
-        </g>
-        <!-- map di lantai -->
-        <g stroke="#16181D" stroke-width="2">
-          <path d="M392 260l28-40h72l10 10h40l-28 40z" fill="#B9823A"/>
-        </g>
-        <!-- lembar melayang -->
-        <g stroke="#16181D" stroke-width="2" class="ill-melayang" style="animation-delay:-3s">
-          <path d="M378 150l62-14 14 62-62 14z" fill="#fff"/>
-          <path d="M392 164l36-8M395 176l36-8M398 188l22-5" stroke-width="1.3"/>
-        </g>
+    <div class="panggung muncul" aria-hidden="true">
+      <svg viewBox="0 0 920 250" preserveAspectRatio="none">
+        <path d="M460 120 L250 150 L120 100"/><path d="M250 150 L330 215"/><path d="M460 120 L215 50"/>
+        <path d="M460 120 L690 190 L790 80"/><path d="M690 190 L610 228"/><path d="M460 120 L720 40"/>
+        <circle cx="330" cy="215" r="3"/><circle cx="610" cy="228" r="3"/>
       </svg>
-      <figcaption class="cap">Ilustrasi: rak arsip, 2026</figcaption>
-    </figure>
-  </div>
-</section>
-
-<!-- ANGKA -->
-<div class="angka" aria-label="Angka utama">
-  <div class="wrap">
-    <div class="it muncul"><b class="num" data-a="instansi">731</b><span>instansi pusat dan daerah tercatat</span></div>
-    <div class="it muncul"><b class="num" data-a="ada">343</b><span>sudah memperoleh rekomendasi ANRI</span></div>
-    <div class="it muncul"><b class="num" data-a="formasi">106.241</b><span><i class="sw" style="background:var(--biru)"></i>formasi JF Arsiparis direkomendasikan</span></div>
-    <div class="it muncul"><b class="num" data-a="bkn">32.174</b><span><i class="sw" style="background:var(--emas)"></i>arsiparis tersedia menurut BKN</span></div>
-  </div>
-</div>
-
-<!-- 01 FITUR -->
-<section class="bag" id="fitur">
-  <div class="wrap">
-    <div class="kepala muncul">
-      <div class="no"><b>01</b> — Jelajahi</div>
-      <div>
-        <h2>Lima ruang kerja, <em>satu sumber</em> data.</h2>
-        <p>Setiap menu di dashboard punya perannya sendiri. Pilih salah satu untuk melihat isinya.</p>
+      <div class="ubin sm-hilang" style="left:23.4%;top:20%;width:46px;height:46px;background:#FBE08A;color:#7A5A00;--d:-1s">
+        <svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.400 1 2.500h6c0-1.100.3-1.800 1-2.500A6 6 0 0 0 12 3z"/></svg></div>
+      <div class="ubin" style="left:13%;top:40%;width:74px;height:74px;--d:-2.500s"><img src="assets/beranda/foto/f2.webp" alt=""></div>
+      <div class="ubin" style="left:27.2%;top:60%;width:60px;height:60px;background:#5CC8F0;color:#fff;--d:-.5s">
+        <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2.500"/><path d="M9 8h6M9 13h.01M12 13h.01M15 13h.01M9 17h.01M12 17h3"/></svg></div>
+      <div class="ubin pusat" style="left:50%;top:48%;--d:-3s">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.500l2.800 2.800L16 9.500"/></svg></div>
+      <div class="ubin" style="left:78.300%;top:16%;width:54px;height:54px;background:#F2685B;color:#fff;--d:-4s">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-7-5.300-7-11a7 7 0 0 1 14 0c0 5.700-7 11-7 11z"/><circle cx="12" cy="10" r="2.500"/></svg></div>
+      <div class="ubin sm-hilang" style="left:86%;top:32%;width:58px;height:58px;background:#fff;color:var(--emas);--d:-1.500s">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M9 13.500L7.500 21l4.500-2.500 4.500 2.500L15 13.500"/></svg></div>
+      <div class="ubin" style="left:75%;top:76%;width:56px;height:56px;--d:-2s"><img src="assets/beranda/foto/f5.webp" alt=""></div>
+    </div>
+    <div class="hero-teks tengah">
+      <h1 class="kabur" data-kabur>Satu platform untuk<br>data JF Arsiparis</h1>
+      <p class="sub muncul">Rekomendasi kebutuhan, ketersediaan, penghitungan formasi, pengawasan, dan sertifikasi arsiparis seluruh Indonesia.</p>
+      <div class="aksi muncul">
+        <a class="btn btn-biru" href="dashboard.html">Buka Dashboard</a>
+        <a class="btn btn-putih" href="dashboard.html#kalkulator">Hitung Kebutuhan JFA</a>
       </div>
     </div>
-
-    <div class="tabs" role="tablist" aria-label="Fitur dashboard" id="tabs"></div>
-    <div class="panel muncul">
-      <div class="layar">
-        <div class="bilah" aria-hidden="true"><i></i><i></i><i></i></div>
-        <div class="bingkai" id="bingkai"></div>
-      </div>
-      <div class="info" id="info" role="tabpanel" aria-live="polite"></div>
-    </div>
   </div>
 </section>
 
-<!-- 02 PITA -->
-<section class="pita">
+<!-- FOTO -->
+<section class="orang">
   <div class="wrap">
-    <div class="no muncul"><b>02</b> — Gambaran nasional</div>
-    <div class="muncul">
-      <p class="pernyataan">ANRI telah merekomendasikan <span class="hl num" data-a="formasi">106.241</span> formasi arsiparis. Saat ini tersedia <span class="hl num" data-a="bkn">32.174</span> orang, atau baru sekitar <span class="e num" data-a="persen">30%</span> dari jumlah yang direkomendasikan.</p>
-      <p class="ket">Rekomendasi dihitung dari instansi berstatus "Ada Rekomendasi"; ketersediaan bersumber dari data BKN <span data-a="bkn-upd">Oktober 2026</span>. Rincian per instansi ada di <a href="dashboard.html#keterisian">Peta Keterisian</a>.</p>
+    <div class="gugus kiri" data-paralaks>
+      <div class="foto" data-v=".03"><img src="assets/beranda/foto/f1.webp" alt="Narasumber memaparkan dasar hukum JFA" loading="lazy" width="480" height="600"></div>
+      <div class="foto" data-v="-.025"><img src="assets/beranda/foto/f3.webp" alt="Sertifikasi SDM kearsipan" loading="lazy" width="480" height="600"></div>
+      <div class="foto" data-v="-.02"><img src="assets/beranda/foto/f6.webp" alt="Diskusi kebijakan kearsipan" loading="lazy" width="480" height="600"></div>
+      <div class="foto" data-v=".035"><img src="assets/beranda/foto/f7.webp" alt="Peserta sertifikasi" loading="lazy" width="480" height="600"></div>
+    </div>
+    <div class="teks tengah">
+      <div class="ikon-bulat muncul"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.500"/><path d="M5 20c.6-3.600 3.400-5.500 7-5.500s6.400 1.900 7 5.500"/></svg></div>
+      <h2 class="kabur" data-kabur>Untuk SDM<br>kearsipan</h2>
+      <p class="sub muncul">Di balik setiap angka ada arsiparis yang dibina, diuji, dan disertifikasi oleh Direktorat SDM Kearsipan dan Sertifikasi ANRI.</p>
+      <div class="muncul" style="margin-top:26px"><a class="btn btn-biru" href="dashboard.html#sertifikasi">Lihat sertifikasi</a></div>
+    </div>
+    <div class="gugus kanan" data-paralaks>
+      <div class="foto" data-v="-.025"><img src="assets/beranda/foto/f5.webp" alt="Ujian praktik sertifikasi" loading="lazy" width="480" height="600"></div>
+      <div class="foto" data-v=".03"><img src="assets/beranda/foto/f2.webp" alt="Peserta menyampaikan pendapat" loading="lazy" width="480" height="600"></div>
+      <div class="foto" data-v=".025"><img src="assets/beranda/foto/f4.webp" alt="Pembukaan kegiatan" loading="lazy" width="480" height="600"></div>
+      <div class="foto" data-v="-.03"><img src="assets/beranda/foto/f8.webp" alt="Forum diskusi" loading="lazy" width="480" height="600"></div>
     </div>
   </div>
 </section>
 
-<!-- 03 ALUR -->
+<!-- BENTO -->
 <section class="bag">
   <div class="wrap">
-    <div class="kepala muncul">
-      <div class="no"><b>03</b> — Alur</div>
-      <div>
-        <h2>Dari penghitungan sampai <em>pemantauan</em>.</h2>
-        <p>Tiga langkah yang menghubungkan instansi, ANRI, dan data kepegawaian nasional.</p>
-      </div>
+    <div class="kepala tengah">
+      <h2 class="kabur" data-kabur>Dibuat untuk semua</h2>
+      <p class="sub muncul">Dari instansi yang menghitung kebutuhan sampai pimpinan yang memantau keterisian.</p>
     </div>
-    <ol class="alur">
-      <li class="muncul">
-        <svg class="ik" viewBox="0 0 56 56" fill="none" stroke="#16181D" stroke-width="1.6" aria-hidden="true"><rect x="10" y="6" width="36" height="44" rx="3" fill="#EFEADF"/><rect x="16" y="12" width="24" height="9" fill="#fff"/><path d="M17 29h4M26 29h4M35 29h4M17 36h4M26 36h4M35 36h4M17 43h4M26 43h13"/></svg>
-        <div class="s">LANGKAH 1</div>
-        <h3>Instansi menghitung kebutuhan</h3>
-        <p>Isi formulir beban kerja di Kalkulator JFA, atau impor dari Excel yang sudah ada, lalu kirim ke ANRI.</p>
-        <a href="dashboard.html#kalkulator">Buka kalkulator</a>
-      </li>
-      <li class="muncul">
-        <svg class="ik" viewBox="0 0 56 56" fill="none" stroke="#16181D" stroke-width="1.6" aria-hidden="true"><path d="M12 8h24l8 8v32H12z" fill="#fff"/><path d="M36 8v8h8"/><path d="M18 24h20M18 30h20M18 36h12"/><circle cx="40" cy="42" r="9" fill="#0B5D96"/><path d="M36 42l3 3 5-6" stroke="#fff"/></svg>
-        <div class="s">LANGKAH 2</div>
-        <h3>ANRI menerbitkan rekomendasi</h3>
-        <p>Hasil penghitungan diverifikasi, lalu rekomendasi kebutuhan per jenjang dicatat di dashboard.</p>
-        <a href="dashboard.html">Lihat rekomendasi</a>
-      </li>
-      <li class="muncul">
-        <svg class="ik" viewBox="0 0 56 56" fill="none" stroke="#16181D" stroke-width="1.6" aria-hidden="true"><rect x="6" y="10" width="44" height="36" rx="3" fill="#EFEADF"/><path d="M14 38V28M22 38V20M30 38V24M38 38V16" stroke-width="5" stroke="#B9823A"/><path d="M12 38h32"/></svg>
-        <div class="s">LANGKAH 3</div>
-        <h3>Keterisian dipantau</h3>
-        <p>Rekomendasi disandingkan dengan data BKN, pengawasan, dan sertifikasi untuk melihat celah di tiap instansi.</p>
-        <a href="dashboard.html#keterisian">Peta keterisian</a>
-      </li>
-    </ol>
+    <div class="bento">
+      <a class="kotak k2 muncul" href="dashboard.html#kalkulator">
+        <div class="vis"><div class="form">
+          <div>Arsip diciptakan <b class="num">12.400</b></div><div>Arsip dipindahkan <b class="num">3.150</b></div><div>Layanan arsip <b class="num">860</b></div>
+          <div class="hs">Kebutuhan <b class="num">7 arsiparis</b></div></div></div>
+        <div class="tk"><h3>Untuk instansi</h3><p>Hitung kebutuhan dari beban kerja, impor dari Excel, kirim ke ANRI.</p></div><span class="pn" aria-hidden="true">→</span>
+      </a>
+      <a class="kotak k2 muncul" href="dashboard.html">
+        <div class="vis"><span class="pil"><b style="background:var(--biru)">✓</b><span><span class="num" data-a="ada">343</span> instansi direkomendasi</span></span>
+          <div class="batang" id="batang-thn"></div></div>
+        <div class="tk"><h3>Untuk pembina kearsipan</h3><p>Catat dan telusuri rekomendasi per instansi, kluster, dan tahun.</p></div><span class="pn" aria-hidden="true">→</span>
+      </a>
+      <a class="kotak k2 muncul" href="dashboard.html#keterisian">
+        <div class="vis"><div class="cincin"><svg viewBox="0 0 120 120"><circle class="a" cx="60" cy="60" r="50"/><circle class="b" id="cincin" cx="60" cy="60" r="50"/></svg><span class="num" data-a="persen">30%</span></div></div>
+        <div class="tk"><h3>Untuk pimpinan</h3><p>Lihat seberapa terisi kebutuhan arsiparis, nasional sampai kabupaten/kota.</p></div><span class="pn" aria-hidden="true">→</span>
+      </a>
+      <a class="kotak k4 lebar muncul" href="dashboard.html#grafik">
+        <div class="vis"><div class="mini" id="mini"></div></div>
+        <div class="tk"><h3>Rekomendasi dan ketersediaan, berdampingan</h3><p>Formasi yang direkomendasikan ANRI dibandingkan arsiparis yang tersedia menurut BKN.</p></div><span class="pn" aria-hidden="true">→</span>
+      </a>
+      <a class="kotak k2 muncul" href="dashboard.html#sertifikasi">
+        <div class="vis"><div class="lencana"><div class="l"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M9 13.500L7.500 21l4.500-2.500 4.500 2.500L15 13.500"/></svg></div><small>Sertifikasi 2021–2026</small></div></div>
+        <div class="tk"><h3>Untuk arsiparis</h3><p>Jadwal uji kompetensi dan data sertifikasi dari tahun ke tahun.</p></div><span class="pn" aria-hidden="true">→</span>
+      </a>
+    </div>
   </div>
 </section>
 
-<!-- 04 DAFTAR ISI -->
-<section class="bag" style="padding-top:24px">
+<!-- FITUR -->
+<section class="bag" id="fitur">
   <div class="wrap">
-    <div class="kepala muncul">
-      <div class="no"><b>04</b> — Daftar isi</div>
-      <div><h2>Semua halaman, <em>sekali lihat</em>.</h2></div>
+    <div class="kepala tengah">
+      <h2 class="kabur" data-kabur>Lima menu, satu sumber</h2>
+      <p class="sub muncul">Pilih menu untuk melihat isinya.</p>
     </div>
-    <ul class="daftar">
-      <li class="muncul"><a href="dashboard.html"><span class="n">4.1</span><span class="j">Dashboard Rekomendasi</span><span class="d">Rekomendasi kebutuhan per instansi, kluster, dan jenjang.</span><span class="p" aria-hidden="true">→</span></a></li>
-      <li class="muncul"><a href="dashboard.html#grafik"><span class="n">4.2</span><span class="j">Grafik Statistik</span><span class="d">Rekomendasi vs ketersediaan, cakupan, dan tren per tahun.</span><span class="p" aria-hidden="true">→</span></a></li>
-      <li class="muncul"><a href="dashboard.html#keterisian"><span class="n">4.3</span><span class="j">Peta Keterisian</span><span class="d">Persentase keterisian per provinsi dan kabupaten/kota.</span><span class="p" aria-hidden="true">→</span></a></li>
-      <li class="muncul"><a href="dashboard.html#kalkulator"><span class="n">4.4</span><span class="j">Penghitungan JFA</span><span class="d">Formulir kebutuhan pusat dan daerah, impor Excel, kirim ke ANRI.</span><span class="p" aria-hidden="true">→</span></a></li>
-      <li class="muncul"><a href="dashboard.html#bkn"><span class="n">4.5</span><span class="j">Data BKN</span><span class="d">Rekap arsiparis per instansi dan per jenjang.</span><span class="p" aria-hidden="true">→</span></a></li>
-      <li class="muncul"><a href="dashboard.html#pengawasan"><span class="n">4.6</span><span class="j">Pengawasan SDM Kearsipan</span><span class="d">Hasil penilaian LAKE 2025 aspek SDM kearsipan.</span><span class="p" aria-hidden="true">→</span></a></li>
-      <li class="muncul"><a href="dashboard.html#sertifikasi"><span class="n">4.7</span><span class="j">Sertifikasi</span><span class="d">Jadwal sertifikasi 2026 dan data peserta 2021–2026.</span><span class="p" aria-hidden="true">→</span></a></li>
-    </ul>
+    <div class="panel-fitur muncul">
+      <div class="tabs" role="tablist" aria-label="Fitur dashboard" id="tabs"></div>
+      <div class="isi-fitur">
+        <div class="layar" id="layar"></div>
+        <div class="info" id="info" role="tabpanel" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUMBER DATA -->
+<section class="bag">
+  <div class="wrap">
+    <div class="sumber muncul">
+      <div class="ikon-bulat" style="color:var(--merah)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="16.500" cy="15.500" r="3.500"/></svg></div>
+      <h2 class="kabur" data-kabur>Terhubung ke sumber data resmi</h2>
+      <div class="busur" id="busur" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<!-- DASAR HUKUM -->
+<section class="bag hukum">
+  <div class="wrap">
+    <div class="kepala tengah">
+      <h2 class="kabur" data-kabur>Berpijak pada regulasi</h2>
+      <p class="sub muncul">Dasar hukum penghitungan kebutuhan Jabatan Fungsional Arsiparis.</p>
+    </div>
+    <div class="dek" id="dek" aria-live="polite"></div>
+    <div class="panah"><button id="hk-prev" aria-label="Sebelumnya">←</button><button id="hk-next" aria-label="Berikutnya">→</button></div>
   </div>
 </section>
 </main>
 
 <footer>
-  <div class="wrap">
-    <div>
-      <a class="brand" href="./"><img src="assets-anri-logo.png" alt=""><div><b>Direktorat SDM Kearsipan<br>dan Sertifikasi</b></div></a>
-      <p class="tag">Arsip Nasional Republik Indonesia.</p>
-    </div>
-    <div>
-      <h4>Data</h4>
-      <ul>
-        <li><a href="dashboard.html">Dashboard</a></li>
-        <li><a href="dashboard.html#grafik">Grafik Statistik</a></li>
-        <li><a href="dashboard.html#keterisian">Peta Keterisian</a></li>
-        <li><a href="dashboard.html#bkn">Data BKN</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Layanan</h4>
-      <ul>
-        <li><a href="dashboard.html#kalkulator">Penghitungan JFA</a></li>
-        <li><a href="dashboard.html#pengawasan">Pengawasan</a></li>
-        <li><a href="dashboard.html#sertifikasi">Sertifikasi</a></li>
-        <li><a href="standar_kompetensi_teknis.html">Standar Kompetensi Teknis</a></li>
-      </ul>
+  <div class="wrap" style="max-width:1240px">
+    <div class="kaki">
+      <div class="kaki-atas">
+        <div><p class="tag">Data Jabatan Fungsional Arsiparis Indonesia, dalam satu tempat.</p></div>
+        <div><h4>Data</h4><ul>
+          <li><a href="dashboard.html">Dashboard</a></li><li><a href="dashboard.html#grafik">Grafik Statistik</a></li>
+          <li><a href="dashboard.html#keterisian">Peta Keterisian</a></li><li><a href="dashboard.html#bkn">Data BKN</a></li></ul></div>
+        <div><h4>Layanan</h4><ul>
+          <li><a href="dashboard.html#kalkulator">Penghitungan JFA</a></li><li><a href="dashboard.html#pengawasan">Pengawasan</a></li>
+          <li><a href="dashboard.html#sertifikasi">Sertifikasi</a></li><li><a href="standar_kompetensi_teknis.html">Standar Kompetensi</a></li></ul></div>
+        <div><h4>Pengelola</h4><ul>
+          <li><a href="https://www.anri.go.id" target="_blank" rel="noopener">ANRI</a></li><li><a href="dashboard.html">Dit. SDM Kearsipan dan Sertifikasi</a></li></ul></div>
+      </div>
+      <div class="hak">© <span id="thn">2026</span> Direktorat SDM Kearsipan dan Sertifikasi · ANRI · Data BKN <span data-a="bkn-upd">Oktober 2026</span></div>
+      <div class="raksasa" id="raksasa" aria-hidden="true">Arsiparis</div>
     </div>
   </div>
-  <div class="bawah"><span>© <span id="thn">2026</span> Dit. SDM Kearsipan dan Sertifikasi · ANRI</span><span>Data: rekomendasi ANRI · BKN <span data-a="bkn-upd">Oktober 2026</span></span></div>
 </footer>
 
 <script src="config.js"></script>
 <script>
 (function(){
   'use strict';
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
   const nf = n => Number(n || 0).toLocaleString('id-ID');
-  const set = (k, v) => document.querySelectorAll(`[data-a="${k}"]`).forEach(el => { el.textContent = v; });
-  document.getElementById('thn').textContent = new Date().getFullYear();
+  const set = (k, v) => $$(`[data-a="${k}"]`).forEach(el => { el.textContent = v; });
+  const tenang = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  $('#thn').textContent = new Date().getFullYear();
 
-  /* ---------- Navigasi ---------- */
-  const nav = document.getElementById('nav');
-  const onScroll = () => nav.classList.toggle('scrolled', scrollY > 8);
-  addEventListener('scroll', onScroll, { passive:true }); onScroll();
-  const burger = document.getElementById('burger'), menu = document.getElementById('menu');
+  /* ---------- Menu ---------- */
+  const burger = $('#burger'), menu = $('#menu');
   burger.addEventListener('click', () => { const b = menu.classList.toggle('buka'); burger.setAttribute('aria-expanded', b); });
 
-  /* ---------- Muncul saat scroll ---------- */
-  const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } }), { rootMargin:'0px 0px -8% 0px' }) : null;
-  document.querySelectorAll('.muncul').forEach((el, i) => { if (io) { el.style.transitionDelay = (el.closest('.angka,.alur,.daftar') ? (i % 4) * 70 : 0) + 'ms'; io.observe(el); } else el.classList.add('on'); });
+  /* ---------- Judul muncul dari buram (per kata) ---------- */
+  $$('[data-kabur]').forEach(el => {
+    let i = 0;
+    const bungkus = node => [...node.childNodes].forEach(n => {
+      if (n.nodeType === 3) { const f = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(t => { if (!t) return; if (/^\s+$/.test(t)) f.appendChild(document.createTextNode(' ')); else { const s = document.createElement('span'); s.className = 'k'; s.style.setProperty('--i', i++); s.textContent = t; f.appendChild(s); } });
+        n.replaceWith(f); }
+    });
+    bungkus(el);
+  });
+
+  /* ---------- Muncul saat terlihat ---------- */
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } }), { rootMargin:'0px 0px -10% 0px' }) : null;
+  $$('.muncul, .kabur, .raksasa').forEach(el => io ? io.observe(el) : el.classList.add('on'));
+  $$('.bento .kotak').forEach((el, i) => { el.style.transitionDelay = (i % 3) * 90 + 'ms'; });
+
+  /* ---------- Paralaks foto ---------- */
+  const fotos = $$('.gugus .foto');
+  let tunggu = false;
+  function paralaks(){ tunggu = false; if (innerWidth <= 1020) return;
+    const sek = $('.orang').getBoundingClientRect(), c = sek.top + sek.height / 2 - innerHeight / 2;
+    fotos.forEach(f => { f.style.transform = `translateY(${(c * Number(f.dataset.v)).toFixed(1)}px)`; }); }
+  if (!tenang) { addEventListener('scroll', () => { if (!tunggu) { tunggu = true; requestAnimationFrame(paralaks); } }, { passive:true }); paralaks(); }
+
+  /* ---------- Data ---------- */
+  const ANGKA = { instansi:731, ada:343, formasi:106241, bkn:32174, pengawasan:91, bknInstansi:627,
+    tahun:{ 2020:9, 2021:23, 2022:17, 2023:48, 2024:124, 2025:85, 2026:24 } };
 
   /* ---------- Tab fitur ---------- */
-  const ANGKA = { instansi:731, ada:343, formasi:106241, bkn:32174, pengawasan:91, bknInstansi:627 };
   const FITUR = [
-    { id:'dashboard', nama:'Dashboard', lbl:'Rekomendasi', judul:'Rekomendasi kebutuhan setiap instansi.', teks:'Telusuri rekomendasi ANRI per kluster, provinsi, dan jenjang jabatan. Buka detail instansi untuk melihat surat dan rinciannya.', img:'dashboard', href:'dashboard.html',
+    { id:'dashboard', nama:'Dashboard', lbl:'Rekomendasi', judul:'Rekomendasi kebutuhan setiap instansi', teks:'Telusuri rekomendasi ANRI per kluster, provinsi, dan jenjang jabatan. Buka detail instansi untuk melihat surat dan rinciannya.', img:'dashboard', href:'dashboard.html',
       st:() => [['Instansi tercatat', nf(ANGKA.instansi)], ['Formasi direkomendasikan', nf(ANGKA.formasi)]] },
-    { id:'kalkulator', nama:'Penghitungan JFA', lbl:'Kalkulator', judul:'Hitung kebutuhan arsiparis dari beban kerja.', teks:'Formulir untuk instansi pusat dan daerah, termasuk unit kerja berjenjang. Bisa impor dari Excel lama, lalu dikirim langsung ke ANRI.', img:'kalkulator', href:'dashboard.html#kalkulator',
+    { id:'kalkulator', nama:'Penghitungan JFA', lbl:'Kalkulator', judul:'Hitung kebutuhan dari beban kerja', teks:'Formulir untuk instansi pusat dan daerah, termasuk unit kerja berjenjang. Bisa impor dari Excel lama, lalu dikirim ke ANRI.', img:'kalkulator', href:'dashboard.html#kalkulator',
       st:() => [['Formulir', 'Pusat & daerah'], ['Hasil', 'Per jenjang']] },
-    { id:'bkn', nama:'Data BKN', lbl:'Ketersediaan', judul:'Arsiparis yang benar-benar ada saat ini.', teks:'Rekap pejabat fungsional arsiparis per instansi dan jenjang dari data BKN, siap dibandingkan dengan rekomendasi.', img:'bkn', href:'dashboard.html#bkn',
+    { id:'bkn', nama:'Data BKN', lbl:'Ketersediaan', judul:'Arsiparis yang tersedia saat ini', teks:'Rekap pejabat fungsional arsiparis per instansi dan jenjang dari data BKN, siap dibandingkan dengan rekomendasi.', img:'bkn', href:'dashboard.html#bkn',
       st:() => [['Arsiparis', nf(ANGKA.bkn)], ['Instansi', nf(ANGKA.bknInstansi)]] },
-    { id:'pengawasan', nama:'Pengawasan', lbl:'LAKE 2025', judul:'Penilaian SDM kearsipan di instansi.', teks:'Hasil pengawasan kearsipan aspek SDM: ketersediaan, sertifikasi, dan capaian arsiparis di tiap instansi yang dinilai.', img:'pengawasan', href:'dashboard.html#pengawasan',
-      st:() => [['Instansi dinilai', nf(ANGKA.pengawasan)], ['Aspek', '3 indikator']] },
-    { id:'sertifikasi', nama:'Sertifikasi', lbl:'Kompetensi', judul:'Jadwal dan data sertifikasi arsiparis.', teks:'Jadwal uji kompetensi dan sertifikasi tahun berjalan, beserta rekap peserta dari tahun ke tahun.', img:'sertifikasi', href:'dashboard.html#sertifikasi',
+    { id:'pengawasan', nama:'Pengawasan', lbl:'LAKE 2025', judul:'Penilaian SDM kearsipan di instansi', teks:'Hasil pengawasan kearsipan aspek SDM: ketersediaan, sertifikasi, dan capaian arsiparis di tiap instansi yang dinilai.', img:'pengawasan', href:'dashboard.html#pengawasan',
+      st:() => [['Instansi dinilai', nf(ANGKA.pengawasan)], ['Tahun', '2025']] },
+    { id:'sertifikasi', nama:'Sertifikasi', lbl:'Kompetensi', judul:'Jadwal dan data sertifikasi arsiparis', teks:'Jadwal uji kompetensi dan sertifikasi tahun berjalan, beserta rekap peserta dari tahun ke tahun.', img:'sertifikasi', href:'dashboard.html#sertifikasi',
       st:() => [['Jadwal', '2026'], ['Data peserta', '2021–2026']] }
   ];
-  const DUR = 7000;
-  const tabs = document.getElementById('tabs'), bingkai = document.getElementById('bingkai'), info = document.getElementById('info');
+  const DUR = 7000, tabs = $('#tabs'), layar = $('#layar'), info = $('#info');
   tabs.style.setProperty('--dur', DUR + 'ms');
-  tabs.innerHTML = FITUR.map((f, i) => `<button class="tab" role="tab" id="tab-${f.id}" aria-controls="info" aria-selected="false"><small>0${i + 1}</small>${f.nama}<span class="bar"><i></i></span></button>`).join('');
-  bingkai.innerHTML = FITUR.map((f, i) => `<img src="assets/beranda/${f.img}.webp" alt="Tangkapan layar ${f.nama}" ${i ? 'loading="lazy"' : ''} width="1600" height="1000">`).join('');
-  const btns = [...tabs.children], imgs = [...bingkai.children];
-  let aktif = -1, timer = null, berhenti = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function isiInfo(f){
-    info.innerHTML = `<div class="lbl">${f.lbl}</div><h3>${f.judul}</h3><p>${f.teks}</p>
-      <dl>${f.st().map(([a, b]) => `<div><dt>${a}</dt><dd class="num">${b}</dd></div>`).join('')}</dl>
-      <a class="btn btn-tinta" href="${f.href}">Buka ${f.nama} <span class="pnh" aria-hidden="true">→</span></a>`;
-  }
+  tabs.innerHTML = FITUR.map(f => `<button class="tab" role="tab" id="tab-${f.id}" aria-controls="info" aria-selected="false">${f.nama}<i></i></button>`).join('');
+  layar.innerHTML = FITUR.map((f, i) => `<img src="assets/beranda/${f.img}.webp" alt="Tangkapan layar ${f.nama}" ${i ? 'loading="lazy"' : ''} width="1600" height="1000">`).join('');
+  const btns = [...tabs.children], imgs = [...layar.children];
+  let aktif = -1, timer = null, berhenti = tenang, tampak = false;
+  const isiInfo = f => { info.innerHTML = `<div class="lbl">${f.lbl}</div><h3>${f.judul}</h3><p>${f.teks}</p>
+    <dl>${f.st().map(([a, b]) => `<div><dt>${a}</dt><dd class="num">${b}</dd></div>`).join('')}</dl>
+    <a class="btn btn-biru" href="${f.href}">Buka ${f.nama}</a>`; };
   function pilih(i, manual){
-    if (i === aktif) return;
-    aktif = i;
+    if (i === aktif) return; aktif = i;
     btns.forEach((b, j) => { b.setAttribute('aria-selected', j === i); b.tabIndex = j === i ? 0 : -1; });
     imgs.forEach((im, j) => im.classList.toggle('on', j === i));
     info.classList.add('ganti');
-    setTimeout(() => { isiInfo(FITUR[i]); info.setAttribute('aria-labelledby', btns[i].id); info.classList.remove('ganti'); }, info.innerHTML ? 220 : 0);
-    if (manual) diam();
-    else jadwal();
+    setTimeout(() => { isiInfo(FITUR[i]); info.setAttribute('aria-labelledby', btns[i].id); info.classList.remove('ganti'); }, info.innerHTML ? 200 : 0);
+    if (manual) { berhenti = true; clearTimeout(timer); tabs.classList.add('diam'); } else jadwal();
   }
-  function jadwal(){ clearTimeout(timer); if (!berhenti) timer = setTimeout(() => pilih((aktif + 1) % FITUR.length), DUR); }
-  function diam(){ berhenti = true; clearTimeout(timer); tabs.classList.add('diam'); }
-  if (berhenti) tabs.classList.add('diam');
-  btns.forEach((b, i) => {
-    b.addEventListener('click', () => pilih(i, true));
-    b.addEventListener('keydown', e => { const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (d) { e.preventDefault(); const n = (aktif + d + FITUR.length) % FITUR.length; pilih(n, true); btns[n].focus(); } });
-  });
-  // jeda saat kursor di atas panel
-  const panel = document.querySelector('.panel');
-  panel.addEventListener('mouseenter', () => { if (!berhenti) { clearTimeout(timer); tabs.classList.add('diam'); } });
-  panel.addEventListener('mouseleave', () => { if (!berhenti) { tabs.classList.remove('diam'); const b = btns[aktif].querySelector('i'); b.style.animation = 'none'; b.offsetWidth; b.style.animation = ''; jadwal(); } });
-  pilih(0);
+  function jadwal(){ clearTimeout(timer); if (!berhenti && tampak) timer = setTimeout(() => pilih((aktif + 1) % FITUR.length), DUR); }
+  btns.forEach((b, i) => { b.addEventListener('click', () => pilih(i, true));
+    b.addEventListener('keydown', e => { const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (d) { e.preventDefault(); const n = (aktif + d + FITUR.length) % FITUR.length; pilih(n, true); btns[n].focus(); } }); });
+  tabs.classList.add('diam'); pilih(0);
+  if (io) new IntersectionObserver(es => { tampak = es[0].isIntersecting; if (tampak && !berhenti) { tabs.classList.remove('diam'); const b = btns[aktif].querySelector('i'); b.style.animation = 'none'; b.offsetWidth; b.style.animation = ''; jadwal(); } else clearTimeout(timer); }, { threshold:.35 }).observe($('.panel-fitur'));
+
+  /* ---------- Busur sumber data ---------- */
+  const SUMBER = [
+    { n:'Rekomendasi ANRI', d:'Kebutuhan JFA per instansi', c:'#0B5D96', p:'<path d="M7 3h8l4 4v14H7z"/><path d="M15 3v4h4M10 12h6M10 16h4"/>' },
+    { n:'Data BKN', d:'Ketersediaan arsiparis nasional', c:'#C98A2B', p:'<circle cx="9" cy="8" r="3"/><path d="M3.500 19c.5-3 2.700-4.500 5.500-4.500s5 1.500 5.500 4.500M16 5.500a3 3 0 0 1 0 5.500M17.500 14.800c1.700.6 2.700 2 3 4.200"/>' },
+    { n:'Pengawasan LAKE', d:'Penilaian aspek SDM kearsipan', c:'#E5484D', p:'<circle cx="11" cy="11" r="6.500"/><path d="M16 16l4.500 4.500M8.500 11l1.800 1.800 3.200-3.600"/>' },
+    { n:'Sertifikasi', d:'Uji kompetensi dan peserta', c:'#7C5CE0', p:'<circle cx="12" cy="9" r="5"/><path d="M9 13.500L7.500 21l4.500-2.500 4.500 2.500L15 13.500"/>' },
+    { n:'Impor Excel', d:'Formulir kebutuhan yang sudah ada', c:'#2E9E6B', p:'<rect x="4" y="4" width="16" height="16" rx="2.500"/><path d="M4 10h16M10 4v16M13.500 13.500l3 3M16.500 13.500l-3 3"/>' }
+  ];
+  const busur = $('#busur');
+  busur.innerHTML = SUMBER.map(s => `<div class="keping"><svg viewBox="0 0 24 24" stroke="${s.c}">${s.p}</svg></div>`).join('') + '<div class="busur-ket"><b></b><span></span></div>';
+  const keping = $$('.keping'), ket = $('.busur-ket');
+  let geser = 0;
+  function tataBusur(){
+    const jarak = innerWidth <= 640 ? 92 : 150, n = SUMBER.length;
+    keping.forEach((k, i) => { let p = ((i - geser) % n + n) % n; if (p > n / 2) p -= n;       // posisi -2..2
+      const x = p * jarak, y = p * p * (innerWidth <= 640 ? 14 : 24), rot = p * 11;
+      k.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg)`;
+      k.style.opacity = Math.abs(p) > 2 ? 0 : 1; k.style.zIndex = 5 - Math.abs(p);
+      k.classList.toggle('tengah-k', p === 0);
+      if (p === 0) { ket.style.opacity = 0; setTimeout(() => { ket.firstChild.textContent = SUMBER[i].n; ket.lastChild.textContent = SUMBER[i].d; ket.style.opacity = 1; }, 220); } });
+  }
+  tataBusur(); addEventListener('resize', tataBusur);
+  if (!tenang) setInterval(() => { if (busur.getBoundingClientRect().top < innerHeight && busur.getBoundingClientRect().bottom > 0) { geser++; tataBusur(); } }, 2600);
+
+  /* ---------- Dasar hukum ---------- */
+  const HUKUM = [
+    { j:'Undang-Undang', n:'UU 43/2009', t:'Kearsipan' },
+    { j:'Peraturan Pemerintah', n:'PP 28/2012', t:'Pelaksanaan UU 43/2009 tentang Kearsipan' },
+    { j:'PermenPANRB', n:'48/2014 jo. 13/2016', t:'Jabatan Fungsional Arsiparis' },
+    { j:'PermenPANRB', n:'1/2020', t:'Pedoman Analisis Jabatan dan Analisis Beban Kerja' },
+    { j:'Peraturan Kepala ANRI', n:'4/2017', t:'Pelaksanaan Tugas Jabatan Fungsional Arsiparis' }
+  ];
+  const dek = $('#dek');
+  dek.innerHTML = HUKUM.map(h => `<article class="kh"><span class="jn">${h.j}</span><h3>${h.n}</h3><p>${h.t}</p><div class="gr"></div></article>`).join('');
+  const kh = $$('.kh'); let hk = 0;
+  function tataHukum(){ const n = HUKUM.length, lebar = innerWidth <= 640 ? 200 : 330;
+    kh.forEach((k, i) => { let p = ((i - hk) % n + n) % n; if (p > n / 2) p -= n;
+      k.style.transform = `translateX(${p * lebar}px) translateY(${Math.abs(p) * 26}px) rotate(${p * 7}deg) scale(${p === 0 ? 1 : .92})`;
+      k.style.opacity = p === 0 ? 1 : Math.abs(p) === 1 ? .45 : 0; k.style.zIndex = 5 - Math.abs(p);
+      k.setAttribute('aria-hidden', p !== 0); }); }
+  tataHukum(); addEventListener('resize', tataHukum);
+  $('#hk-prev').addEventListener('click', () => { hk--; tataHukum(); });
+  $('#hk-next').addEventListener('click', () => { hk++; tataHukum(); });
 
   /* ---------- Angka langsung ---------- */
   function terapkan(){
-    set('instansi', nf(ANGKA.instansi)); set('ada', nf(ANGKA.ada)); set('formasi', nf(ANGKA.formasi)); set('bkn', nf(ANGKA.bkn));
-    const ill = document.getElementById('ill-angka'); if (ill) ill.textContent = nf(ANGKA.instansi);
-    set('persen', ANGKA.formasi ? Math.round(ANGKA.bkn / ANGKA.formasi * 100) + '%' : '-');
-    isiInfo(FITUR[aktif]);
+    set('ada', nf(ANGKA.ada));
+    const pr = ANGKA.formasi ? ANGKA.bkn / ANGKA.formasi : 0;
+    set('persen', Math.round(pr * 100) + '%');
+    const c = $('#cincin'); if (c) { c.dataset.off = 314 * (1 - Math.min(1, pr)); if (c.closest('.kotak').classList.contains('on') || !io) c.style.strokeDashoffset = c.dataset.off; }
+    const th = Object.keys(ANGKA.tahun).sort(), mx = Math.max(...th.map(t => ANGKA.tahun[t]), 1);
+    $('#batang-thn').innerHTML = th.map((t, i) => `<i style="--i:${i};--h:${Math.max(6, ANGKA.tahun[t] / mx * 100)}%" title="${t}: ${ANGKA.tahun[t]} instansi"></i>`).join('');
+    const brs = [['Direkomendasikan', ANGKA.formasi, 'var(--biru)'], ['Tersedia (BKN)', ANGKA.bkn, 'var(--emas)'], ['Selisih', Math.max(0, ANGKA.formasi - ANGKA.bkn), '#C9CAD1']];
+    const m2 = Math.max(...brs.map(b => b[1]), 1);
+    $('#mini').innerHTML = brs.map((b, i) => `<div class="br"><span>${b[0]}</span><div class="rel"><i style="--i:${i};--w:${(b[1] / m2 * 100).toFixed(1)}%;background:${b[2]}"></i></div><b class="num">${nf(b[1])}</b></div>`).join('');
+    if (aktif >= 0) isiInfo(FITUR[aktif]);
   }
+  // cincin baru terisi saat kartunya terlihat
+  const kc = $('#cincin').closest('.kotak');
+  new MutationObserver(() => { if (kc.classList.contains('on')) $('#cincin').style.strokeDashoffset = $('#cincin').dataset.off; }).observe(kc, { attributes:true, attributeFilter:['class'] });
+
   async function muat(){
     try {
       if (window.SUPABASE_URL && window.SUPABASE_ANON_KEY) {
-        const r = await fetch(window.SUPABASE_URL + '/rest/v1/instansi?select=status,total&limit=5000', { headers:{ apikey:window.SUPABASE_ANON_KEY } });
-        if (r.ok) { const rows = await r.json(); const ada = rows.filter(d => d.status === 'Ada Rekomendasi');
-          ANGKA.instansi = rows.length; ANGKA.ada = ada.length; ANGKA.formasi = ada.reduce((a, d) => a + (Number(d.total) || 0), 0); }
+        const r = await fetch(window.SUPABASE_URL + '/rest/v1/instansi?select=status,total,tahun&limit=5000', { headers:{ apikey:window.SUPABASE_ANON_KEY } });
+        if (r.ok) { const rows = await r.json(), ada = rows.filter(d => d.status === 'Ada Rekomendasi');
+          if (rows.length) { ANGKA.instansi = rows.length; ANGKA.ada = ada.length; ANGKA.formasi = ada.reduce((a, d) => a + (Number(d.total) || 0), 0);
+            const th = {}; ada.forEach(d => { if (d.tahun) th[d.tahun] = (th[d.tahun] || 0) + 1; }); if (Object.keys(th).length) ANGKA.tahun = th; } }
       }
-    } catch(e) { /* tetap pakai angka cadangan */ }
+    } catch(e) { /* pakai angka cadangan */ }
     terapkan();
-    // data BKN & pengawasan dimuat belakangan agar halaman tetap ringan
     const s = document.createElement('script'); s.src = 'assets/data_bkn_rekap_2026.js'; s.async = true;
     s.onload = () => { const B = window.BKN_REKAP_2026; if (B) { ANGKA.bkn = B.total_arsiparis || ANGKA.bkn; ANGKA.bknInstansi = B.total_instansi || ANGKA.bknInstansi; if (B.updated_at) set('bkn-upd', B.updated_at); terapkan(); } };
     document.body.appendChild(s);
@@ -531,7 +580,7 @@ footer .tag{font:italic 400 22px/1.3 var(--serif);max-width:360px;margin-top:16p
     p.onload = () => { if (Array.isArray(window.PENGAWASAN_SDM_2025)) { ANGKA.pengawasan = window.PENGAWASAN_SDM_2025.length; terapkan(); } };
     document.body.appendChild(p);
   }
-  if ('requestIdleCallback' in window) requestIdleCallback(muat, { timeout:1200 }); else setTimeout(muat, 300);
+  terapkan(); muat();
 })();
 </script>
 </body>
