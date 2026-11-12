@@ -180,10 +180,10 @@ h1 em,h2 em{font-style:italic;color:var(--biru)}
 
 /* ---------- Dasar hukum ---------- */
 .hukum{overflow:hidden}
-.hukum .dek{position:relative;height:290px;max-width:900px;margin:0 auto}
-.kh{position:absolute;left:50%;top:10px;width:300px;margin-left:-150px;min-height:236px;background:var(--kartu);border-radius:var(--r);padding:30px 26px;text-align:center;box-shadow:var(--bayang);transition:transform .7s cubic-bezier(.3,.7,.2,1), opacity .5s ease;will-change:transform}
+.hukum .dek{position:relative;height:310px;max-width:900px;margin:0 auto}
+.kh{position:absolute;left:50%;top:10px;width:360px;margin-left:-180px;min-height:250px;background:var(--kartu);border-radius:var(--r);padding:30px 26px;text-align:center;box-shadow:var(--bayang);transition:transform .7s cubic-bezier(.3,.7,.2,1), opacity .5s ease;will-change:transform}
 .kh .jn{display:inline-block;font:600 11px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--biru);background:var(--biru-muda);padding:5px 11px;border-radius:99px}
-.kh h3{font:500 30px/1.12 var(--serif);letter-spacing:-.02em;margin:18px 0 10px}
+.kh h3{font:500 23px/1.2 var(--serif);letter-spacing:-.015em;margin:18px 0 10px}
 .kh p{font-size:14px;color:var(--tinta2);line-height:1.55}
 .kh .gr{width:36px;height:3px;border-radius:9px;background:var(--emas);margin:18px auto 0}
 .panah{display:flex;justify-content:center;gap:8px;margin-top:18px}
@@ -249,7 +249,8 @@ footer{padding:0 0 0}
   .keping svg{width:34px;height:34px}
   .busur{height:250px}
   .busur-ket{top:140px}
-  .kh{width:270px;margin-left:-135px}
+  .kh{width:290px;margin-left:-145px}
+  .kh h3{font-size:21px}
   .kaki{padding:44px 22px 0;border-radius:22px 22px 0 0}
 }
 </style>
@@ -532,16 +533,16 @@ footer{padding:0 0 0}
 
   /* ---------- Dasar hukum ---------- */
   const HUKUM = [
-    { j:'Undang-Undang', n:'UU 43/2009', t:'Kearsipan' },
-    { j:'Peraturan Pemerintah', n:'PP 28/2012', t:'Pelaksanaan UU 43/2009 tentang Kearsipan' },
-    { j:'PermenPANRB', n:'48/2014 jo. 13/2016', t:'Jabatan Fungsional Arsiparis' },
-    { j:'PermenPANRB', n:'1/2020', t:'Pedoman Analisis Jabatan dan Analisis Beban Kerja' },
-    { j:'Peraturan Kepala ANRI', n:'4/2017', t:'Pelaksanaan Tugas Jabatan Fungsional Arsiparis' }
+    { j:'Undang-Undang', n:'Undang-Undang Nomor 43 Tahun 2009', t:'tentang Kearsipan' },
+    { j:'Peraturan Pemerintah', n:'Peraturan Pemerintah Nomor 28 Tahun 2012', t:'tentang Pelaksanaan Undang-Undang Nomor 43 Tahun 2009 tentang Kearsipan' },
+    { j:'Peraturan Menteri PANRB', n:'Peraturan Menteri PANRB Nomor 48 Tahun 2014 jo. Nomor 13 Tahun 2016', t:'tentang Jabatan Fungsional Arsiparis' },
+    { j:'Peraturan Menteri PANRB', n:'Peraturan Menteri PANRB Nomor 1 Tahun 2020', t:'tentang Pedoman Analisis Jabatan dan Analisis Beban Kerja' },
+    { j:'Peraturan Kepala ANRI', n:'Peraturan Kepala ANRI Nomor 4 Tahun 2017', t:'tentang Pelaksanaan Tugas Jabatan Fungsional Arsiparis' }
   ];
   const dek = $('#dek');
   dek.innerHTML = HUKUM.map(h => `<article class="kh"><span class="jn">${h.j}</span><h3>${h.n}</h3><p>${h.t}</p><div class="gr"></div></article>`).join('');
   const kh = $$('.kh'); let hk = 0;
-  function tataHukum(){ const n = HUKUM.length, lebar = innerWidth <= 640 ? 200 : 330;
+  function tataHukum(){ const n = HUKUM.length, lebar = innerWidth <= 640 ? 230 : 390;
     kh.forEach((k, i) => { let p = ((i - hk) % n + n) % n; if (p > n / 2) p -= n;
       k.style.transform = `translateX(${p * lebar}px) translateY(${Math.abs(p) * 26}px) rotate(${p * 7}deg) scale(${p === 0 ? 1 : .92})`;
       k.style.opacity = p === 0 ? 1 : Math.abs(p) === 1 ? .45 : 0; k.style.zIndex = 5 - Math.abs(p);
