@@ -422,7 +422,7 @@ footer{padding:0 0 0}
         <div><h4>Pengelola</h4><ul>
           <li><a href="https://www.anri.go.id" target="_blank" rel="noopener">ANRI</a></li><li><a href="dashboard.html">Dit. SDM Kearsipan dan Sertifikasi</a></li></ul></div>
       </div>
-      <div class="hak">© <span id="thn">2026</span> Direktorat SDM Kearsipan dan Sertifikasi · ANRI · Data BKN <span data-a="bkn-upd">Oktober 2026</span></div>
+      <div class="hak">© <span id="thn">2026</span> Direktorat SDM Kearsipan dan Sertifikasi · ANRI · Data BKN <span data-a="bkn-upd">November 2026</span></div>
       <div class="raksasa" id="raksasa" aria-hidden="true">Arsiparis</div>
     </div>
   </div>
@@ -468,7 +468,7 @@ footer{padding:0 0 0}
   if (!tenang) { addEventListener('scroll', () => { if (!tunggu) { tunggu = true; requestAnimationFrame(paralaks); } }, { passive:true }); paralaks(); }
 
   /* ---------- Data ---------- */
-  const ANGKA = { instansi:731, ada:343, formasi:106241, bkn:32174, pengawasan:91, bknInstansi:627,
+  const ANGKA = { instansi:731, ada:343, formasi:106241, bkn:31961, pengawasan:91, bknInstansi:628,
     tahun:{ 2020:9, 2021:23, 2022:17, 2023:48, 2024:124, 2025:85, 2026:24 } };
 
   /* ---------- Tab fitur ---------- */
@@ -578,7 +578,7 @@ footer{padding:0 0 0}
       }
     } catch(e) { /* pakai angka cadangan */ }
     terapkan();
-    const s = document.createElement('script'); s.src = 'assets/data_bkn_rekap_2026.js'; s.async = true;
+    const s = document.createElement('script'); s.src = 'assets/data_bkn_rekap_2026.js?v=20261113'; s.async = true;
     s.onload = () => { const B = window.BKN_REKAP_2026; if (B) { ANGKA.bkn = B.total_arsiparis || ANGKA.bkn; ANGKA.bknInstansi = B.total_instansi || ANGKA.bknInstansi; if (B.updated_at) set('bkn-upd', B.updated_at); terapkan(); } };
     document.body.appendChild(s);
     const p = document.createElement('script'); p.src = 'assets/pengawasan_sdm_kearsipan_2025.js'; p.async = true;
