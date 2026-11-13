@@ -1593,6 +1593,19 @@ body::after{
   .cluster-sheet-overlay{padding:8px;}
   .cluster-sheet{max-height:92vh;border-radius:28px;}
 }
+
+/* ---------- Perbaikan tampilan HP ---------- */
+@media (max-width:760px){
+  #grid.instansi-grid,.instansi-grid{grid-template-columns:minmax(0,1fr)!important}
+  .kluster-grid{grid-template-columns:minmax(0,1fr)!important}
+  .kluster-block,.kluster-grid > .card,.instansi-grid > .card{min-width:0;max-width:100%}
+  .kluster-block{padding:14px;border-radius:24px}
+  .card-name{overflow-wrap:anywhere;white-space:normal}
+  .card-head,.card-body,.card-foot{min-width:0}
+  .kluster-head{flex-wrap:wrap;row-gap:4px}
+  .kluster-name{flex:1 1 60%;min-width:0}
+  .kluster-formasi{margin-left:0}
+}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2287,7 +2300,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 <script>
 // -- TAB SWITCHING ---------------------------------------------
 // Naikkan ASSET_VER setiap kali halaman di dalam tab diperbarui, agar browser tidak memakai versi lama dari cache.
-const ASSET_VER = '20261113a';
+const ASSET_VER = '20261114a';
 const TAB_SRCS = { rekomendasiJfa:'kalkulator-jfa.html?v='+ASSET_VER, bkn:'Data_BKN_rekap.html?v='+ASSET_VER, pengawasanSdm:'pengawasan_sdm_kearsipan.html?v='+ASSET_VER, sertifikasi:'sertifikasi.html?v='+ASSET_VER, standarKompetensi:'standar_kompetensi_teknis.html?v='+ASSET_VER };
 const iframeLoaded = { rekomendasiJfa:false, bkn:false, pengawasanSdm:false, sertifikasi:false, standarKompetensi:false };
 function switchTab(tabId, el) {
