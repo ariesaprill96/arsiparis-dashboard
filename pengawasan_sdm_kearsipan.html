@@ -175,7 +175,7 @@ tbody tr:hover{background:#f8fbff}
   --green:var(--ed-ok);--amber:var(--ed-gold);--red:var(--ed-bad);--gray:var(--ed-ink-3);
   --shadow:none;--radius:14px;
   /* Level 0–4: berurutan dari bata (rendah) ke biru tinta (tinggi) */
-  --l0:#b23a2e;--l1:#b5652c;--l2:#8f7032;--l3:#1f86c6;--l4:#0a3d6b;--missing:#b9bec6;
+  --l0:#B23A2E;--l1:#D0763A;--l2:#D4A845;--l3:#5596CF;--l4:#0B4F84;--missing:#C3C7CE;--ring-bg:#ECEDEA;
   --font:var(--ed-font);
 }
 body{background:var(--ed-bg) !important}
@@ -203,6 +203,103 @@ tbody tr:hover{background:#f7fafc}
 .level-chip{font-size:12px}
 .footnote{border-left-color:var(--ed-gold);background:var(--ed-surface);font-size:13px}
 .stack{background:#eeeeea}
+
+/* ---------- Visual baru: ringkasan ---------- */
+.insights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:18px}
+.insight{display:flex;gap:18px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;position:relative;overflow:hidden}
+.insight::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--l4)}
+.insight.lemah::before{background:var(--l0)}.insight.sedang::before{background:var(--l3)}
+.insight-ring{position:relative;width:84px;height:84px;flex:none}
+.insight-ring .ring{width:84px;height:84px}
+.insight-ring span{position:absolute;inset:0;display:grid;place-items:center;font:500 22px var(--ed-serif,Georgia,serif);letter-spacing:-.02em}
+.insight-body{min-width:0}
+.insight-top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.insight-name{font-size:12px;font-weight:600;color:var(--muted)}
+.insight-tone{font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;background:rgba(11,79,132,.09);color:var(--l4)}
+.insight.lemah .insight-tone{background:rgba(178,58,46,.1);color:var(--l0)}
+.insight.sedang .insight-tone{background:rgba(85,150,207,.14);color:#2E6FA8}
+.insight-big{font:500 30px/1.1 var(--ed-serif,Georgia,serif);letter-spacing:-.02em;margin-top:8px;font-variant-numeric:tabular-nums}
+.insight-head{font-size:14px;font-weight:600;margin-top:2px}
+.insight p{font-size:12.5px;color:var(--muted);margin-top:8px;line-height:1.5}
+.panel-x{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px}
+.px-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.px-head h2{font-size:20px;font-weight:600;letter-spacing:-.02em}
+.px-head p{font-size:12.5px;color:var(--muted);margin-top:4px;max-width:620px}
+.lv-legend{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;font-weight:600;color:var(--muted)}
+.lv-legend span{display:inline-flex;align-items:center;gap:5px}
+.lv-legend i{width:12px;height:12px;border-radius:4px}
+.dv-axisrow .dv-track::after{display:none}
+.dv-axisrow .ax-l,.dv-axisrow .ax-r{font-size:11.5px;color:var(--muted);padding:0 10px}
+.dv-axisrow .ax-l{text-align:right}
+.dv-block{padding:14px 0;border-top:1px solid var(--line)}
+.dv-block h3{font-size:14px;font-weight:600;margin-bottom:10px}
+.dv-row{display:grid;grid-template-columns:170px 1fr;gap:12px;align-items:center;padding:5px 0}
+.dv-label{font-size:13px;font-weight:500}
+.dv-label small{display:block;font-size:11px;color:var(--muted);font-weight:400}
+.dv-track{position:relative;display:grid;grid-template-columns:44px 1fr 1fr 44px;align-items:center;height:22px}
+.dv-track::after{content:"";position:absolute;left:50%;top:-4px;bottom:-4px;width:1px;background:var(--ed-ink,#152033);opacity:.35}
+.dv-left{display:flex;justify-content:flex-end;height:18px}
+.dv-right{display:flex;height:18px}
+.dv-left{grid-column:2;width:100%;}
+.dv-right{grid-column:3;width:100%}
+.dv-seg{height:100%;display:block;transition:width .4s ease}
+.dv-left .dv-seg:first-child{border-radius:6px 0 0 6px}
+.dv-right .dv-seg:last-child{border-radius:0 6px 6px 0}
+.dv-seg.l0{background:var(--l0)}.dv-seg.l1{background:var(--l1)}.dv-seg.l2{background:var(--l2)}.dv-seg.l3{background:var(--l3)}.dv-seg.l4{background:var(--l4)}
+.dv-pct{font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+.dv-pct.lo{color:var(--l0);text-align:left}.dv-pct.hi{color:var(--l4);text-align:right;grid-column:4}
+.pg-wrap{display:grid;grid-template-columns:minmax(0,560px) minmax(0,1fr);gap:32px;align-items:start}
+.pg{display:grid;grid-template-columns:24px 1fr;grid-template-rows:1fr auto}
+.pg-ytitle{writing-mode:vertical-rl;transform:rotate(180deg);font-size:12px;font-weight:600;color:var(--muted);text-align:center}
+.pg-grid{display:grid;grid-template-columns:30px repeat(5,1fr);gap:4px}
+.pg-xtitle{grid-column:2;text-align:center;font-size:12px;font-weight:600;color:var(--muted);margin-top:6px}
+.pg-ylab,.pg-xlab{font-size:11px;font-weight:600;color:var(--muted);display:grid;place-items:center}
+.pg-cell{aspect-ratio:1;border:0;border-radius:10px;background:var(--surface-soft,#f6f6f3);display:grid;place-items:center;padding:0;transition:background .2s}
+.pg-cell.hot{background:rgba(212,168,69,.18)}
+.pg-cell:disabled{cursor:default}
+.pg-cell:not(:disabled):hover{background:rgba(11,79,132,.08)}
+.pg-cell.on{background:rgba(11,79,132,.14);box-shadow:inset 0 0 0 2px var(--l4)}
+.pg-dot{display:grid;place-items:center;border-radius:50%;background:var(--l4);color:#fff;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;max-width:92%;max-height:92%}
+.pg-cell.hot .pg-dot{background:#B5822B}
+.pg-note{border-left:3px solid #B5822B;padding:4px 0 4px 18px}
+.pg-note-big{font:500 52px/1 var(--ed-serif,Georgia,serif);color:#9A6A1C;letter-spacing:-.03em}
+.pg-note-head{font-size:15px;font-weight:600;margin-top:8px}
+.pg-note p{font-size:13px;color:var(--muted);margin-top:8px}
+.pg-hint{font-size:12px!important;font-style:italic}
+.pg-list{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.pg-list-head{display:flex;align-items:center;gap:6px;padding:10px 14px;background:var(--surface-soft,#f6f6f3);font-size:13px}
+.pg-list-head button{margin-left:auto;border:0;background:none;font-size:18px;line-height:1;color:var(--muted)}
+.pg-list ul{list-style:none;max-height:320px;overflow:auto}
+.pg-list li{display:flex;justify-content:space-between;gap:10px;padding:9px 14px;border-top:1px solid var(--line);font-size:13px}
+.pg-list li span{font-size:11.5px;color:var(--muted);white-space:nowrap}
+.two-col{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:18px;align-items:start}
+.two-col .panel-x{margin-bottom:18px}
+.att,.best-list{list-style:none;counter-reset:a}
+.att li,.best-list li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.att li{counter-increment:a}
+.att li::before{content:counter(a);font-size:12px;font-weight:600;color:var(--muted);width:18px;flex:none}
+.att-name{flex:1;min-width:0;font-size:13.5px;font-weight:500}
+.att-name small{display:block;font-size:11.5px;color:var(--muted);font-weight:400}
+.att-cells{display:flex;gap:4px;flex:none}
+.hc{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff}
+.hc.l2,.hm-cell.l2{color:#3d2c08}
+.hc.l0,.hm-cell.l0{background:var(--l0)}.hc.l1,.hm-cell.l1{background:var(--l1)}.hc.l2,.hm-cell.l2{background:var(--l2)}.hc.l3,.hm-cell.l3{background:var(--l3)}.hc.l4,.hm-cell.l4{background:var(--l4)}.hc.missing,.hm-cell.missing{background:var(--missing);color:#fff}
+.att-key{font-size:11.5px;color:var(--muted)}
+.empty-s{font-size:13px;color:var(--muted)}
+/* heatmap tabel */
+.hm-table td.hm{padding:6px 8px}
+.hm-cell{display:grid;place-items:center;height:30px;min-width:64px;border-radius:8px;color:#fff;font-size:12px;font-weight:700}
+.sc{white-space:nowrap}
+.sc-bar{display:inline-block;width:70px;height:6px;border-radius:9px;background:var(--ring-bg);vertical-align:middle;margin-right:8px;overflow:hidden}
+.sc-bar i{display:block;height:100%;background:var(--l4);border-radius:9px}
+.sc b{font-variant-numeric:tabular-nums;font-weight:600}
+.sort-seg{display:inline-flex;background:var(--surface-soft,#f6f6f3);border-radius:10px;padding:3px;gap:2px}
+.sort-seg button{border:0;background:none;padding:6px 12px;border-radius:8px;font-size:12.5px;font-weight:500;color:var(--muted)}
+.sort-seg button[aria-pressed="true"]{background:#fff;color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.stack{height:16px!important}
+@media(max-width:1050px){.insights{grid-template-columns:1fr}.pg-wrap,.two-col{grid-template-columns:1fr}}
+@media(max-width:720px){.dv-row{grid-template-columns:1fr}.dv-axisrow > div:first-child{display:none}.dv-row{gap:4px}.insight{padding:16px;gap:14px}.insight-ring,.insight-ring .ring{width:68px;height:68px}.insight-big{font-size:26px}.insight-ring span{font-size:18px}.panel-x{padding:16px}.hm-cell{min-width:44px}}
+@media (prefers-reduced-motion:reduce){.dv-seg{transition:none}}
 </style>
 </head>
 <body data-anri-theme="pengawasan">
@@ -300,7 +397,7 @@ const INDICATORS = {
   }
 };
 
-let state={view:'summary',searchText:'',selectedInstitutions:[],multiOpen:false,group:'all',levelSelection:{availability:null,certification:null,achievement:null}};
+let state={sort:'low',cell:null,view:'summary',searchText:'',selectedInstitutions:[],multiOpen:false,group:'all',levelSelection:{availability:null,certification:null,achievement:null}};
 const escapeHTML=(value)=>String(value??'').replace(/[&<>'"]/g,(char)=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
 const levelKey=(value)=>Number.isInteger(value)?String(value):'missing';
 const filteredData=()=>DATA.filter(row=>(state.group==='all'||row.group===state.group)&&(!state.selectedInstitutions.length||state.selectedInstitutions.includes(row.institution)));
@@ -337,13 +434,68 @@ function searchHighlightHTML(rows){
 }
 
 function summaryHTML(rows){
-  const groupCounts=Object.fromEntries(GROUPS.map(group=>[group,rows.filter(row=>row.group===group).length]));
-  const cards=Object.values(INDICATORS).map(ind=>{
-    const counts=countsFor(rows,ind.field);const valid=rows.length-counts.missing;const high=counts[3]+counts[4];
-    return `<article class="indicator-card"><div class="indicator-top"><span class="indicator-code">${ind.code}</span><div class="indicator-title">${ind.title}</div><p class="indicator-question">${ind.question}</p><div class="indicator-facts"><div class="fact"><strong>${valid}</strong><span>Data valid</span></div><div class="fact"><strong>${high}</strong><span>Level 3–4</span></div><div class="fact"><strong>${counts.missing}</strong><span>Tidak tersedia</span></div></div></div><div class="distribution">${distributionHTML(rows,ind.field,true)}</div></article>`;
-  }).join('');
-  return `<div class="kpis"><div class="kpi"><div class="kpi-label">Instansi ditampilkan</div><div class="kpi-value">${rows.length}</div><div class="kpi-note">dari 91 Kementerian/Lembaga</div></div><div class="kpi"><div class="kpi-label">Kementerian</div><div class="kpi-value">${groupCounts.Kementerian}</div><div class="kpi-note">47 pada data nasional</div></div><div class="kpi"><div class="kpi-label">LPNK</div><div class="kpi-value">${groupCounts.LPNK}</div><div class="kpi-note">20 pada data nasional</div></div><div class="kpi"><div class="kpi-label">Lembaga Negara & Lainnya</div><div class="kpi-value">${groupCounts['Lembaga Negara & Lainnya']}</div><div class="kpi-note">24 pada data nasional</div></div></div><div class="section-head"><div><h2>Distribusi level per indikator</h2><p>Perbandingan menggunakan proporsi per kelompok agar ukuran kelompok yang berbeda tetap dapat dibaca secara adil.</p></div></div><div class="indicator-grid">${cards}</div>${legendHTML()}`;
+  return insightHTML(rows)+divergingHTML(rows)+priorityHTML(rows)+attentionHTML(rows);
 }
+const pctNum=(a,b)=>b?Math.round(a/b*100):0;
+const SHORT={availability:'Ketersediaan',certification:'Sertifikasi',achievement:'Berprestasi'};
+function ringSVG(pct,color){
+  const r=34,c=2*Math.PI*r,off=c*(1-pct/100);
+  return `<svg class="ring" viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="${r}" fill="none" stroke="var(--ring-bg)" stroke-width="9"/><circle cx="42" cy="42" r="${r}" fill="none" stroke="${color}" stroke-width="9" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" transform="rotate(-90 42 42)"/></svg>`;
+}
+function insightHTML(rows){
+  const n=rows.length;
+  const A=countsFor(rows,'availability'),C=countsFor(rows,'certification'),P=countsFor(rows,'achievement');
+  const vA=n-A.missing,vC=n-C.missing,vP=n-P.missing;
+  const cards=[
+    {key:'availability',pct:pctNum(A[4],vA),color:'var(--l4)',tone:'baik',big:`${A[4]} dari ${vA}`,head:'instansi sudah di Level 4',sub:`Arsiparis tersedia dan sedang ditambah sesuai rekomendasi ANRI. ${A[0]+A[1]} instansi masih di Level 0–1.`},
+    {key:'certification',pct:pctNum(C[4],vC),color:'var(--l0)',tone:'lemah',big:`${C[4]} dari ${vC}`,head:'instansi seluruh arsiparisnya tersertifikasi',sub:`${C[2]} instansi (${pctNum(C[2],vC)}%) baru 0–50% tersertifikasi, ${C[0]} belum sama sekali.`},
+    {key:'achievement',pct:pctNum(P[3]+P[4],vP),color:'var(--l3)',tone:'sedang',big:`${P[3]+P[4]} dari ${vP}`,head:'instansi ikut atau berprestasi di tingkat nasional',sub:`${P[4]} meraih capaian tertinggi. ${P[0]} belum menyelenggarakan pemilihan${P.missing?`, ${P.missing} tidak dinilai`:''}.`}
+  ];
+  const tone={baik:'Paling kuat',lemah:'Titik lemah',sedang:'Menengah'};
+  return `<section class="insights">${cards.map(c=>`<article class="insight ${c.tone}"><div class="insight-ring">${ringSVG(c.pct,c.color)}<span>${c.pct}%</span></div><div class="insight-body"><div class="insight-top"><span class="insight-name">${INDICATORS[c.key].title}</span><span class="insight-tone">${tone[c.tone]}</span></div><div class="insight-big">${c.big}</div><div class="insight-head">${c.head}</div><p>${c.sub}</p></div></article>`).join('')}</section>`;
+}
+function divRow(label,items,field){
+  const c=countsFor(items,field),v=items.length-c.missing;
+  if(!v)return `<div class="dv-row"><div class="dv-label">${escapeHTML(label)}<small>tidak ada data</small></div><div class="dv-track"></div></div>`;
+  const w=k=>c[k]/v*100, h=c[2]/v*50;
+  const lowPct=pctNum(c[0]+c[1],v),highPct=pctNum(c[3]+c[4],v);
+  const seg=(k,width,extra='')=>width>0?`<span class="dv-seg l${k}" style="width:${width}%" title="Level ${k}: ${c[k]} instansi${extra}"></span>`:'';
+  return `<div class="dv-row"><div class="dv-label">${escapeHTML(label)}<small>${v} instansi</small></div><div class="dv-track"><span class="dv-pct lo">${lowPct}%</span><div class="dv-left">${seg(0,w(0))}${seg(1,w(1))}${seg(2,h,' (separuh di tiap sisi)')}</div><div class="dv-right">${seg(2,h,' (separuh di tiap sisi)')}${seg(3,w(3))}${seg(4,w(4))}</div><span class="dv-pct hi">${highPct}%</span></div></div>`;
+}
+function divergingHTML(rows){
+  const groups=GROUPS.filter(g=>state.group==='all'||g===state.group);
+  const blocks=Object.keys(INDICATORS).map(key=>`<div class="dv-block"><h3>${INDICATORS[key].title}</h3>${divRow('Semua',rows,INDICATORS[key].field)}${groups.length>1?groups.map(g=>divRow(g,rows.filter(r=>r.group===g),INDICATORS[key].field)).join(''):''}</div>`).join('');
+  return `<section class="panel-x"><div class="px-head"><div><h2>Condong ke mana tiap indikator?</h2><p>Level 0–1 ke kiri, Level 3–4 ke kanan, Level 2 dibagi di tengah. Persentase dihitung dari instansi yang dinilai.</p></div>${levelLegendHTML()}</div><div class="dv-row dv-axisrow" aria-hidden="true"><div></div><div class="dv-track"><span></span><span class="ax-l">← perlu perhatian</span><span class="ax-r">lebih baik →</span><span></span></div></div>${blocks}</section>`;
+}
+function levelLegendHTML(){return `<div class="lv-legend">${[0,1,2,3,4].map(k=>`<span><i style="background:${LEVEL_META[k].color}"></i>L${k}</span>`).join('')}<span><i style="background:var(--missing)"></i>—</span></div>`}
+function priorityHTML(rows){
+  const grid={};rows.forEach(r=>{if(Number.isInteger(r.availability)&&Number.isInteger(r.certification)){const k=r.availability+'-'+r.certification;(grid[k]=grid[k]||[]).push(r)}});
+  const max=Math.max(1,...Object.values(grid).map(a=>a.length));
+  const zone=rows.filter(r=>r.availability>=3&&Number.isInteger(r.certification)&&r.certification<=2);
+  const sel=state.cell;
+  let cells='';
+  for(let y=4;y>=0;y--){
+    cells+=`<div class="pg-ylab">L${y}</div>`;
+    for(let x=0;x<=4;x++){
+      const list=grid[x+'-'+y]||[],n=list.length,d=n?Math.max(18,Math.sqrt(n/max)*64):0;
+      const hot=x>=3&&y<=2,on=sel===x+'-'+y;
+      cells+=`<button type="button" class="pg-cell${hot?' hot':''}${on?' on':''}" data-cell="${x}-${y}" ${n?'':'disabled'} aria-label="Ketersediaan Level ${x}, Sertifikasi Level ${y}: ${n} instansi">${n?`<span class="pg-dot" style="width:${d}px;height:${d}px">${n}</span>`:''}</button>`;
+    }
+  }
+  cells+=`<div></div>`+[0,1,2,3,4].map(x=>`<div class="pg-xlab">L${x}</div>`).join('');
+  const list=sel&&grid[sel]?grid[sel]:null;
+  const [sx,sy]=sel?sel.split('-'):[];
+  const detail=list?`<div class="pg-list"><div class="pg-list-head"><strong>${list.length} instansi</strong> · Ketersediaan L${sx}, Sertifikasi L${sy}<button type="button" data-cell-clear aria-label="Tutup daftar">×</button></div><ul>${list.map(r=>`<li>${escapeHTML(r.institution)}<span>${escapeHTML(r.group)}</span></li>`).join('')}</ul></div>`
+    :`<div class="pg-note"><div class="pg-note-big">${zone.length}</div><div class="pg-note-head">instansi sudah punya arsiparis memadai, tapi sertifikasinya ≤ 50%</div><p>Mereka ada di kotak bersorot (Ketersediaan Level 3–4, Sertifikasi Level 0–2). Arsiparisnya sudah ada, tinggal didorong ikut uji kompetensi dan sertifikasi.</p><p class="pg-hint">Klik gelembung untuk melihat daftar instansinya.</p></div>`;
+  return `<section class="panel-x"><div class="px-head"><div><h2>Peta prioritas pembinaan</h2><p>Setiap gelembung adalah kelompok instansi dengan kombinasi level yang sama. Makin besar, makin banyak instansinya.</p></div></div><div class="pg-wrap"><div class="pg"><div class="pg-ytitle">Sertifikasi →</div><div class="pg-grid">${cells}</div><div class="pg-xtitle">Ketersediaan arsiparis →</div></div>${detail}</div></section>`;
+}
+function scoreOf(r){const v=['availability','certification','achievement'].map(k=>r[k]).filter(Number.isInteger);return v.length?v.reduce((a,b)=>a+b,0)/v.length:null}
+function attentionHTML(rows){
+  const low=rows.map(r=>({r,s:scoreOf(r)})).filter(x=>x.s!==null).sort((a,b)=>a.s-b.s||a.r.institution.localeCompare(b.r.institution,'id')).slice(0,8);
+  const top=rows.filter(r=>r.availability===4&&r.certification===4&&r.achievement===4);
+  return `<section class="two-col"><div class="panel-x"><div class="px-head"><div><h2>Paling perlu perhatian</h2><p>Delapan instansi dengan rata-rata level terendah di tiga indikator.</p></div><div class="att-key">Ketersediaan · Sertifikasi · Berprestasi</div></div><ol class="att">${low.map(x=>`<li><span class="att-name">${escapeHTML(x.r.institution)}<small>${escapeHTML(x.r.group)}</small></span><span class="att-cells">${cellsHTML(x.r)}</span></li>`).join('')}</ol></div><div class="panel-x best"><div class="px-head"><div><h2>Level 4 di semua indikator</h2><p>Instansi yang bisa jadi contoh.</p></div><div class="att-key">Ketersediaan · Sertifikasi · Berprestasi</div></div>${top.length?`<ul class="best-list">${top.map(r=>`<li><span class="att-name">${escapeHTML(r.institution)}<small>${escapeHTML(r.group)}</small></span><span class="att-cells">${cellsHTML(r)}</span></li>`).join('')}</ul>`:'<p class="empty-s">Belum ada pada filter ini.</p>'}</div></section>`;
+}
+function cellsHTML(r){return ['availability','certification','achievement'].map(k=>{const lk=levelKey(r[k]);return `<span class="hc ${lk==='missing'?'missing':'l'+lk}" title="${SHORT[k]}: ${lk==='missing'?'tidak dinilai':'Level '+lk}">${lk==='missing'?'—':lk}</span>`}).join('')}
 
 function levelInstitutionsHTML(rows,key,level){
   const ind=INDICATORS[key];
@@ -372,8 +524,13 @@ function chipHTML(value,indicator){
   return `<span class="level-chip" title="${escapeHTML(title)}"><i class="dot" style="background:${meta.color}"></i>${key==='missing'?'—':'Level '+key}</span>`;
 }
 function tableHTML(rows){
-  const body=rows.length?rows.map(row=>`<tr><td><span class="group-tag">${escapeHTML(row.group)}</span></td><td class="institution">${escapeHTML(row.institution)}</td><td>${chipHTML(row.availability,'availability')}</td><td>${chipHTML(row.certification,'certification')}</td><td>${chipHTML(row.achievement,'achievement')}</td></tr>`).join(''):`<tr><td colspan="5" class="empty">Tidak ada instansi yang cocok dengan filter.</td></tr>`;
-  return `<section class="table-panel"><div class="table-head"><div><h2>Data per Kementerian/Lembaga</h2><p>Level ditampilkan sesuai jawaban pada tiga indikator SDM Kearsipan.</p></div><span class="group-tag">${rows.length} instansi</span></div><div class="table-wrap"><table><thead><tr><th>Kelompok</th><th>Kementerian/Lembaga</th><th>Ketersediaan Arsiparis</th><th>Sertifikasi Arsiparis</th><th>Arsiparis Berprestasi</th></tr></thead><tbody>${body}</tbody></table></div></section>`;
+  const sorted=[...rows];
+  const by=state.sort||'low';
+  if(by==='az')sorted.sort((a,b)=>a.institution.localeCompare(b.institution,'id'));
+  else sorted.sort((a,b)=>{const sa=scoreOf(a)??-1,sb=scoreOf(b)??-1;return (by==='low'?sa-sb:sb-sa)||a.institution.localeCompare(b.institution,'id')});
+  const body=sorted.length?sorted.map(row=>{const sc=scoreOf(row);return `<tr><td class="institution">${escapeHTML(row.institution)}</td><td><span class="group-tag">${escapeHTML(row.group)}</span></td>${['availability','certification','achievement'].map(k=>{const lk=levelKey(row[k]);const t=lk==='missing'?'Data tidak tersedia/tidak dinilai':INDICATORS[k].levels[Number(lk)][1];return `<td class="hm"><span class="hm-cell ${lk==='missing'?'missing':'l'+lk}" title="${escapeHTML(t)}">${lk==='missing'?'—':'L'+lk}</span></td>`}).join('')}<td class="sc"><span class="sc-bar"><i style="width:${sc===null?0:sc/4*100}%"></i></span><b>${sc===null?'—':sc.toFixed(1).replace('.',',')}</b></td></tr>`}).join(''):`<tr><td colspan="6" class="empty">Tidak ada instansi yang cocok dengan filter.</td></tr>`;
+  const opt=(v,l)=>`<button type="button" data-sort="${v}" aria-pressed="${by===v}">${l}</button>`;
+  return `<section class="table-panel"><div class="table-head"><div><h2>Peta panas per Kementerian/Lembaga</h2><p>Warna mengikuti level tiap indikator. Skor = rata-rata level yang dinilai (0–4).</p></div><div class="sort-seg" role="group" aria-label="Urutkan">${opt('low','Skor terendah')}${opt('high','Skor tertinggi')}${opt('az','A–Z')}</div></div><div class="table-wrap"><table class="hm-table"><thead><tr><th>Kementerian/Lembaga</th><th>Kelompok</th><th>Ketersediaan</th><th>Sertifikasi</th><th>Berprestasi</th><th>Skor</th></tr></thead><tbody>${body}</tbody></table></div></section>`;
 }
 
 function multiSelectOptions(){
@@ -440,7 +597,14 @@ document.addEventListener('click',(event)=>{
   if(remove){removeInstitution(remove.dataset.removeInstitution);return;}
   if(!event.target.closest('.multi-field')&&state.multiOpen){state.multiOpen=false;renderMultiSelect();}
 });
-document.getElementById('group-filter').addEventListener('change',(event)=>{state.group=event.target.value;render()});
+document.getElementById('group-filter').addEventListener('change',(event)=>{state.group=event.target.value;state.cell=null;render()});
+document.addEventListener('click',(event)=>{
+  const cell=event.target.closest('[data-cell]');
+  if(cell){state.cell=state.cell===cell.dataset.cell?null:cell.dataset.cell;render();return;}
+  if(event.target.closest('[data-cell-clear]')){state.cell=null;render();return;}
+  const so=event.target.closest('[data-sort]');
+  if(so){state.sort=so.dataset.sort;render();}
+});
 document.getElementById('reset-filter').addEventListener('click',()=>{state={...state,searchText:'',selectedInstitutions:[],multiOpen:false,group:'all'};document.getElementById('group-filter').value='all';render()});
 render();
 </script>
