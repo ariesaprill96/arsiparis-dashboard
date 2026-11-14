@@ -359,7 +359,31 @@ td.institution{font-weight:500}
 .scope-switch button[aria-pressed="true"]{background:var(--ed-accent);color:#fff}
 .scope-switch button[aria-pressed="true"] span{background:rgba(255,255,255,.2);color:#fff}
 @media(max-width:520px){.scope-switch{display:flex;width:100%}.scope-switch button{flex:1;justify-content:center;padding:9px 8px;font-size:12.5px;white-space:nowrap}.sc-long{display:none}}
-.sc-long{font-weight:inherit}
+.sc-long{font-weight:inherit}.sc-t{font-style:normal}
+
+/* ---------- Penyeragaman kotak dan huruf (audit 14 Nov 2026) ---------- */
+/* Kotak utama: satu radius, satu garis, tanpa bayangan */
+.insight,.panel-x,.ind-hero,.table-panel,.toolbar,.source-card,.highlight-shell,.defs,.scope-switch{border-radius:var(--ed-radius) !important;border:1px solid var(--ed-line-strong) !important;background:#fff !important;box-shadow:none !important}
+.insight,.panel-x,.ind-hero,.highlight-shell,.defs{padding:22px !important}
+.insight{border-left-width:1px !important}
+/* Kotak dalam: radius lebih kecil, garis tipis */
+.level-institution,.pg-list,.profile-card,.lad-row,.multi-options{border-radius:10px !important;box-shadow:none !important}
+.level-institution,.pg-list,.profile-card{border:1px solid var(--ed-line) !important;background:#fff !important}
+.multi-options{border:1px solid var(--ed-line-strong) !important;box-shadow:0 10px 28px rgba(17,23,34,.08) !important}
+.scope-switch button,.sort-seg button{border-radius:9px}
+/* Judul bagian */
+.px-head h2,.table-head h2,.ind-hero h2,.highlight-title{font-family:var(--ed-font) !important;font-size:22px !important;font-weight:600 !important;letter-spacing:-.02em !important;line-height:1.25}
+.px-head p,.table-head p,.ind-hero p{font-size:13px !important;color:var(--muted)}
+/* Label kecil huruf besar */
+.source-label,.field label,.kpi-label,.profile-indicator-name,.choice,.highlight-kicker,.question-number,.insight-name{font-family:var(--ed-font) !important;font-size:11px !important;font-weight:600 !important;letter-spacing:.08em !important;text-transform:uppercase !important}
+/* Angka besar */
+.insight-big,.ind-hero-big,.pg-note-big{font-family:var(--ed-font) !important;font-size:28px !important;font-weight:650 !important;letter-spacing:-.03em !important;line-height:1.1}
+/* Nama dan teks isi */
+.level-results-title,.profile-name,.insight-head,.pg-note-head,.defs summary{font-size:14px !important;font-weight:600 !important}
+.level-institution-name,.multi-option-name,.att-name,.dv-label,.pg-list li,.pg-list-head{font-size:13px !important;font-weight:500 !important}
+.pg-list-head strong{font-weight:600}
+.insight p,.pg-note p,.defs p,.defs li,.level-results-sub{font-size:13px !important}
+.hc,.hm-cell,.lad-badge,.pg-dot{font-weight:600 !important}
 </style>
 </head>
 <body data-anri-theme="pengawasan">
@@ -379,7 +403,7 @@ td.institution{font-weight:500}
 
   <div class="scope-switch" role="group" aria-label="Cakupan pengawasan">
     <button type="button" data-scope-set="kl" aria-pressed="true">Kementerian/Lembaga <span id="n-kl">91</span></button>
-    <button type="button" data-scope-set="prov" aria-pressed="false"><b class="sc-long">Pemerintah&nbsp;</b>Provinsi <span id="n-prov">36</span></button>
+    <button type="button" data-scope-set="prov" aria-pressed="false"><i class="sc-t"><b class="sc-long">Pemerintah </b>Provinsi</i> <span id="n-prov">36</span></button>
   </div>
   <nav class="subnav" aria-label="Bagian dashboard">
     <button class="active" data-view="summary">Ringkasan Nasional</button>
