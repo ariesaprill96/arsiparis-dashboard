@@ -300,6 +300,42 @@ tbody tr:hover{background:#f7fafc}
 @media(max-width:1050px){.insights{grid-template-columns:1fr}.pg-wrap,.two-col{grid-template-columns:1fr}}
 @media(max-width:720px){.dv-row{grid-template-columns:1fr}.dv-axisrow > div:first-child{display:none}.dv-row{gap:4px}.insight{padding:16px;gap:14px}.insight-ring,.insight-ring .ring{width:68px;height:68px}.insight-big{font-size:26px}.insight-ring span{font-size:18px}.panel-x{padding:16px}.hm-cell{min-width:44px}}
 @media (prefers-reduced-motion:reduce){.dv-seg{transition:none}}
+
+/* ---------- Visual baru: tab indikator ---------- */
+.ind-hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:28px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:18px}
+.ind-hero h2{font:500 clamp(26px,3vw,34px)/1.1 var(--ed-serif,Georgia,serif);letter-spacing:-.02em;margin-top:6px}
+.ind-hero-text p{font-size:14px;color:var(--muted);margin-top:10px;max-width:560px}
+.ind-hero-stat{display:flex;gap:20px;align-items:center;padding-left:24px;border-left:1px solid var(--line)}
+.insight-ring.big,.insight-ring.big .ring{width:110px;height:110px}
+.insight-ring.big span{font-size:28px}
+.ind-hero-big{font:500 26px/1.15 var(--ed-serif,Georgia,serif);letter-spacing:-.02em}
+.ind-hero-sub{font-size:13px;color:var(--muted);margin-top:4px}
+.ind-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.ind-chips span{font-size:12px;color:var(--muted);background:var(--surface-soft,#f6f6f3);border-radius:99px;padding:4px 10px}
+.ind-chips b{color:var(--text);font-weight:600}
+.ind-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px;align-items:start}
+.ind-side .panel-x .dv-row{grid-template-columns:120px 1fr}
+.grp-note{font-size:12.5px;color:var(--muted);margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.lad{display:grid;gap:6px}
+.lad-row{display:grid;grid-template-columns:32px minmax(0,1.3fr) minmax(0,1fr) 52px;gap:14px;align-items:center;width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:12px;padding:10px 12px;color:inherit;transition:background .15s,border-color .15s}
+.lad-row:not(.miss):not([aria-disabled="true"]):hover{background:var(--surface-soft,#f6f6f3)}
+.lad-row.on{background:rgba(11,79,132,.06);border-color:rgba(11,79,132,.35)}
+.lad-row[aria-disabled="true"]{cursor:default;opacity:.55}
+.lad-badge{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:14px}
+.lad-text b{display:block;font-size:13.5px;font-weight:600}
+.lad-text small{display:block;font-size:11.5px;color:var(--muted);line-height:1.4;margin-top:2px}
+.lad-bar{height:12px;border-radius:99px;background:var(--ring-bg);overflow:hidden}
+.lad-bar i{display:block;height:100%;border-radius:99px;transition:width .4s ease}
+.lad-n{text-align:right;font-variant-numeric:tabular-nums}
+.lad-n b{display:block;font-size:16px;font-weight:600}
+.lad-n small{font-size:11px;color:var(--muted)}
+.defs summary{cursor:pointer;font-size:15px;font-weight:600;list-style:none;display:flex;justify-content:space-between}
+.defs summary::after{content:"+";font-weight:400;color:var(--muted)}
+.defs[open] summary::after{content:"–"}
+.defs p,.defs li{font-size:12.5px;color:var(--muted)}
+.defs p{margin-top:12px}.defs ul{padding-left:18px;margin-top:8px;display:grid;gap:4px}
+@media(max-width:1050px){.ind-hero,.ind-grid{grid-template-columns:1fr}.ind-hero-stat{padding-left:0;border-left:0;padding-top:18px;border-top:1px solid var(--line)}}
+@media(max-width:720px){.lad-row{grid-template-columns:30px minmax(0,1fr) 44px;gap:10px}.lad-bar{grid-column:2/4;grid-row:2}.lad-text small{display:none}.insight-ring.big,.insight-ring.big .ring{width:84px;height:84px}.insight-ring.big span{font-size:20px}.ind-hero{padding:18px}.ind-side .panel-x .dv-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body data-anri-theme="pengawasan">
@@ -507,15 +543,22 @@ function levelInstitutionsHTML(rows,key,level){
 
 function indicatorHTML(rows,key){
   const ind=INDICATORS[key];const counts=countsFor(rows,ind.field);const valid=rows.length-counts.missing;
-  const interactive=['availability','certification','achievement'].includes(key);
-  const selected=interactive?state.levelSelection[key]:null;
-  const levels=ind.levels.map((item,index)=>{
-    const content=`<div class="level-head"><span class="level-badge" style="background:${LEVEL_META[index].color}">${index}</span><span class="choice">${LEVEL_META[index].choice}</span></div><h4>${item[0]}</h4><p>${item[1]}</p>`;
-    if(!interactive)return `<article class="level-card">${content}</article>`;
-    return `<button type="button" class="level-card interactive${selected===index?' selected':''}" data-indicator="${key}" data-level="${index}" aria-pressed="${selected===index}">${content}</button>`;
-  }).join('');
-  const results=interactive?(Number.isInteger(selected)?levelInstitutionsHTML(rows,key,selected):`<div class="level-results is-empty" id="level-results-${key}">Klik salah satu Level 0–4 untuk melihat daftar Kementerian/Lembaga pada level tersebut.</div>`):'';
-  return `<div class="indicator-detail"><article class="question-panel"><div class="question-number">${ind.code}</div><h2>${ind.title}</h2><p class="question-text">${ind.question}</p><div class="indicator-facts"><div class="fact"><strong>${valid}</strong><span>Data valid</span></div><div class="fact"><strong>${counts[4]}</strong><span>Level 4</span></div><div class="fact"><strong>${counts.missing}</strong><span>Tidak tersedia</span></div></div></article><aside class="definition-panel"><h3>Definisi operasional</h3><p>${ind.definition}</p><ul>${ind.notes.map(note=>`<li>${note}</li>`).join('')}</ul></aside><section class="level-panel"><div class="section-head" style="margin:0"><div><h2>Makna setiap level</h2><p>${interactive?'Klik level untuk melihat instansi di dalamnya.':'Level mengikuti urutan pilihan a sampai e pada instrumen pengawasan.'}</p></div></div><div class="level-list">${levels}</div>${results}</section><section class="detail-chart"><h3>Distribusi ${ind.title.toLocaleLowerCase('id')} menurut kelompok instansi</h3>${distributionHTML(rows,ind.field,true)}${legendHTML()}</section></div>`;
+  const selected=state.levelSelection[key];
+  const hi=counts[3]+counts[4],lo=counts[0]+counts[1],hiP=pctNum(hi,valid);
+  const ringColor=hiP>=70?'var(--l4)':hiP>=40?'var(--l3)':'var(--l0)';
+  const verdict=hiP>=70?'Sebagian besar instansi sudah di level tinggi.':hiP>=40?'Baru sekitar separuh instansi di level tinggi.':'Sebagian besar instansi masih di level rendah–menengah.';
+  const mx=Math.max(1,...[0,1,2,3,4].map(k=>counts[k]));
+  const ladder=[4,3,2,1,0].map(k=>{const n=counts[k],on=selected===k;return `<button type="button" class="lad-row${on?' on':''}" data-lv-ind="${key}" data-lv="${k}" aria-pressed="${on}" ${n?'':'aria-disabled="true"'}><span class="lad-badge" style="background:${LEVEL_META[k].color}">${k}</span><span class="lad-text"><b>${ind.levels[k][0]}</b><small>${ind.levels[k][1]}</small></span><span class="lad-bar"><i style="width:${n/mx*100}%;background:${LEVEL_META[k].color}"></i></span><span class="lad-n"><b>${n}</b><small>${pctNum(n,valid)}%</small></span></button>`}).join('')
+    +(counts.missing?`<div class="lad-row miss"><span class="lad-badge" style="background:var(--missing)">—</span><span class="lad-text"><b>Tidak dinilai</b><small>Data tidak tersedia atau tidak dinilai, tidak digabung dengan Level 0.</small></span><span class="lad-bar"><i style="width:${counts.missing/mx*100}%;background:var(--missing)"></i></span><span class="lad-n"><b>${counts.missing}</b><small>&nbsp;</small></span></div>`:'');
+  const results=Number.isInteger(selected)?levelInstitutionsHTML(rows,key,selected):`<div class="level-results is-empty" id="level-results-${key}">Klik salah satu level untuk melihat daftar Kementerian/Lembaga di dalamnya.</div>`;
+  const groups=GROUPS.filter(g=>state.group==='all'||g===state.group);
+  const groupRows=groups.map(g=>{const it=rows.filter(r=>r.group===g),c=countsFor(it,ind.field),v=it.length-c.missing;const avg=v?it.filter(r=>Number.isInteger(r[ind.field])).reduce((a,r)=>a+r[ind.field],0)/v:null;return {g,it,avg,v}});
+  const best=groupRows.filter(x=>x.avg!==null).sort((a,b)=>b.avg-a.avg);
+  const groupNote=best.length>1?`<p class="grp-note"><b>${escapeHTML(best[0].g)}</b> paling tinggi (rata-rata L${best[0].avg.toFixed(1).replace('.',',')}), <b>${escapeHTML(best[best.length-1].g)}</b> paling rendah (L${best[best.length-1].avg.toFixed(1).replace('.',',')}).</p>`:'';
+  return `<section class="ind-hero"><div class="ind-hero-text"><div class="question-number">${ind.code}</div><h2>${ind.title}</h2><p>${ind.question}</p></div><div class="ind-hero-stat"><div class="insight-ring big">${ringSVG(hiP,ringColor)}<span>${hiP}%</span></div><div><div class="ind-hero-big">${hi} dari ${valid} instansi</div><div class="ind-hero-sub">di Level 3–4. ${verdict}</div><div class="ind-chips"><span><b>${counts[4]}</b> Level 4</span><span><b>${lo}</b> Level 0–1</span>${counts.missing?`<span><b>${counts.missing}</b> tidak dinilai</span>`:''}</div></div></div></section>
+  <div class="ind-grid"><section class="panel-x"><div class="px-head"><div><h2>Tangga level</h2><p>Dari level tertinggi ke terendah. Panjang batang = jumlah instansi. Klik untuk melihat daftarnya.</p></div></div><div class="lad">${ladder}</div>${results}</section>
+  <div class="ind-side"><section class="panel-x"><div class="px-head"><div><h2>Per kelompok instansi</h2><p>Level 0–1 ke kiri, Level 3–4 ke kanan.</p></div></div>${divRow('Semua',rows,ind.field)}${groups.length>1?groups.map(g=>divRow(g,rows.filter(r=>r.group===g),ind.field)).join(''):''}${groupNote}</section>
+  <details class="panel-x defs"><summary>Definisi operasional</summary><p>${ind.definition}</p><ul>${ind.notes.map(note=>`<li>${note}</li>`).join('')}</ul></details></div></div>`;
 }
 
 function chipHTML(value,indicator){
@@ -599,6 +642,8 @@ document.addEventListener('click',(event)=>{
 });
 document.getElementById('group-filter').addEventListener('change',(event)=>{state.group=event.target.value;state.cell=null;render()});
 document.addEventListener('click',(event)=>{
+  const lv=event.target.closest('[data-lv-ind]');
+  if(lv){if(lv.getAttribute('aria-disabled')==='true')return;const k=lv.dataset.lvInd,l=Number(lv.dataset.lv);state.levelSelection[k]=state.levelSelection[k]===l?null:l;render();document.getElementById(`level-results-${k}`)?.scrollIntoView({behavior:'smooth',block:'nearest'});return;}
   const cell=event.target.closest('[data-cell]');
   if(cell){state.cell=state.cell===cell.dataset.cell?null:cell.dataset.cell;render();return;}
   if(event.target.closest('[data-cell-clear]')){state.cell=null;render();return;}
