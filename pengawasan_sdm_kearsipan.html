@@ -351,6 +351,15 @@ h1 em{font-style:italic;color:var(--ed-accent)}
 td.institution{font-weight:500}
 .question-number{letter-spacing:.08em}
 @media(max-width:720px){.insight-ring span{font-size:17px}.insight-big{font-size:24px}.insight-ring.big span{font-size:19px}.ind-hero h2{font-size:22px}}
+
+/* ---------- Pilihan cakupan ---------- */
+.scope-switch{display:inline-flex;gap:4px;padding:4px;margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:12px}
+.scope-switch button{border:0;background:none;border-radius:9px;padding:9px 16px;font-size:13.5px;font-weight:600;color:var(--muted);display:inline-flex;gap:8px;align-items:center}
+.scope-switch button span{font-size:11.5px;font-weight:600;background:var(--surface-soft,#f3f3ef);color:var(--muted);border-radius:99px;padding:1px 8px}
+.scope-switch button[aria-pressed="true"]{background:var(--ed-accent);color:#fff}
+.scope-switch button[aria-pressed="true"] span{background:rgba(255,255,255,.2);color:#fff}
+@media(max-width:520px){.scope-switch{display:flex;width:100%}.scope-switch button{flex:1;justify-content:center;padding:9px 8px;font-size:12.5px;white-space:nowrap}.sc-long{display:none}}
+.sc-long{font-weight:inherit}
 </style>
 </head>
 <body data-anri-theme="pengawasan">
@@ -363,21 +372,25 @@ td.institution{font-weight:500}
     </div>
     <div class="source-card">
       <div class="source-label">Sumber data</div>
-      <div class="source-value">Rekap LAKE 2025 — Bab II</div>
-      <div class="source-note">3 indikator · 91 instansi</div>
+      <div class="source-value" id="source-value">Rekap LAKE 2025 — Bab II</div>
+      <div class="source-note" id="source-note">3 indikator · 91 instansi</div>
     </div>
   </header>
 
+  <div class="scope-switch" role="group" aria-label="Cakupan pengawasan">
+    <button type="button" data-scope-set="kl" aria-pressed="true">Kementerian/Lembaga <span id="n-kl">91</span></button>
+    <button type="button" data-scope-set="prov" aria-pressed="false"><b class="sc-long">Pemerintah&nbsp;</b>Provinsi <span id="n-prov">36</span></button>
+  </div>
   <nav class="subnav" aria-label="Bagian dashboard">
     <button class="active" data-view="summary">Ringkasan Nasional</button>
     <button data-view="availability">Ketersediaan Arsiparis</button>
     <button data-view="certification">Sertifikasi Arsiparis</button>
     <button data-view="achievement">Arsiparis Berprestasi</button>
-    <button data-view="institutions">Data Instansi</button>
+    <button data-view="institutions" id="tab-data">Data Instansi</button>
   </nav>
 
   <section class="toolbar" aria-label="Filter data">
-    <div class="field multi-field"><label for="search">Bandingkan kementerian/lembaga</label><div class="multi-control" id="multi-control"><div class="selected-chips" id="selected-chips"></div><input id="search" type="search" placeholder="Cari dan pilih beberapa instansi..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="multi-options"></div><div class="multi-options" id="multi-options" role="listbox" aria-label="Pilihan instansi" hidden></div></div>
+    <div class="field multi-field"><label for="search" id="search-label">Bandingkan kementerian/lembaga</label><div class="multi-control" id="multi-control"><div class="selected-chips" id="selected-chips"></div><input id="search" type="search" placeholder="Cari dan pilih beberapa instansi..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="multi-options"></div><div class="multi-options" id="multi-options" role="listbox" aria-label="Pilihan instansi" hidden></div></div>
     <div class="field"><label for="group-filter">Kelompok instansi</label><select id="group-filter"><option value="all">Semua kelompok</option><option value="Kementerian">Kementerian</option><option value="LPNK">LPNK</option><option value="Lembaga Negara & Lainnya">Lembaga Negara & Lainnya</option></select></div>
     <button class="reset" id="reset-filter" type="button">Atur ulang</button>
     <div class="filter-status" id="filter-status" aria-live="polite"></div>
@@ -395,9 +408,13 @@ td.institution{font-weight:500}
 </main>
 
 <script src="./assets/pengawasan_sdm_kearsipan_2025.js?v=20260720"></script>
+<script src="./assets/pengawasan_sdm_provinsi_2025.js?v=20261114"></script>
 <script>
-const DATA = Array.isArray(window.PENGAWASAN_SDM_2025) ? window.PENGAWASAN_SDM_2025 : [];
-const GROUPS = ['Kementerian','LPNK','Lembaga Negara & Lainnya'];
+const DATA_KL = Array.isArray(window.PENGAWASAN_SDM_2025) ? window.PENGAWASAN_SDM_2025 : [];
+const DATA_PROV = Array.isArray(window.PENGAWASAN_SDM_PROV_2025) ? window.PENGAWASAN_SDM_PROV_2025 : [];
+const GROUPS_KL = ['Kementerian','LPNK','Lembaga Negara & Lainnya'];
+const GROUPS_PROV = ['Sumatera','Jawa dan Bali','Kalimantan','Sulawesi','Nusa Tenggara, Maluku, Papua'];
+let DATA = DATA_KL, GROUPS = GROUPS_KL, U = 'instansi', UL = 'Kementerian/Lembaga';
 const LEVEL_META = {
   0:{label:'Level 0',choice:'Pilihan a',color:'var(--l0)'},
   1:{label:'Level 1',choice:'Pilihan b',color:'var(--l1)'},
@@ -406,7 +423,7 @@ const LEVEL_META = {
   4:{label:'Level 4',choice:'Pilihan e',color:'var(--l4)'},
   missing:{label:'Tidak tersedia',choice:'—',color:'var(--missing)'}
 };
-const INDICATORS = {
+const INDICATORS_KL = {
   availability:{
     code:'Pertanyaan 4',title:'Ketersediaan Arsiparis',field:'availability',
     question:'Ketersediaan arsiparis pada Unit Kearsipan dan Unit Pengolah sesuai dengan analisis kebutuhan yang telah mendapatkan rekomendasi ANRI.',
@@ -447,8 +464,38 @@ const INDICATORS = {
     notes:['Bukti internasional dapat berupa sertifikat penghargaan atau bukti lain yang mendukung sebagai pembicara pada forum internasional.','Pemilihan calon peserta arsiparis teladan nasional diselenggarakan oleh ANRI.','Kurun waktu penilaian adalah lima tahun terakhir dari masa audit.']
   }
 };
+const INDICATORS_PROV = {
+  availability:{code:'Pernyataan 6',title:'Ketersediaan Arsiparis',field:'availability',
+    question:'Ketersediaan arsiparis pada pemerintah daerah provinsi sesuai dengan analisis kebutuhan yang telah mendapatkan rekomendasi ANRI.',
+    levels:[['Belum tersedia arsiparis','Belum tersedia arsiparis pada pemerintah daerah provinsi.'],
+      ['Tersedia, analisis sedang disusun','Tersedia arsiparis pada unit kearsipan dan/atau unit pengolah, serta dalam proses penyusunan analisis kebutuhan.'],
+      ['Rekomendasi ANRI sedang diproses','Tersedia arsiparis pada unit kearsipan dan/atau unit pengolah, serta analisis kebutuhan dalam proses mendapatkan rekomendasi ANRI.'],
+      ['Analisis telah direkomendasikan','Tersedia arsiparis pada unit kearsipan dan unit pengolah, serta memiliki analisis kebutuhan yang telah mendapatkan rekomendasi ANRI.'],
+      ['Dalam upaya penambahan','Tersedia arsiparis pada unit kearsipan dan unit pengolah, serta dalam upaya penambahan jumlah arsiparis sesuai analisis kebutuhan yang telah mendapatkan rekomendasi ANRI.']],
+    definition:'Diambil dari tabel Bab II Laporan Hasil Pengawasan Kearsipan Eksternal (LAKE) 2025 masing-masing provinsi, aspek sumber daya manusia kearsipan.',
+    notes:['Level adalah angka pada kolom LEVEL laporan, sesuai kondisi faktual yang dipilih tim pengawas.','Instrumen provinsi berbeda dengan instrumen kementerian/lembaga, sehingga kedua cakupan tidak digabung.']},
+  certification:{code:'Pernyataan 11',title:'Sertifikasi Arsiparis',field:'certification',
+    question:'Arsiparis pada lembaga kearsipan daerah (LKD) telah tersertifikasi.',
+    levels:[['Belum tersertifikasi','Seluruh arsiparis pada lembaga kearsipan daerah belum tersertifikasi.'],
+      ['Lebih dari 0%–50%','Lebih dari 0% sampai dengan 50% arsiparis pada lembaga kearsipan daerah telah tersertifikasi.'],
+      ['Lebih dari 50%–70%','Lebih dari 50% sampai dengan 70% arsiparis pada lembaga kearsipan daerah telah tersertifikasi.'],
+      ['Lebih dari 70%–90%','Lebih dari 70% sampai dengan 90% arsiparis pada lembaga kearsipan daerah telah tersertifikasi.'],
+      ['Lebih dari 90%–100%','Lebih dari 90% sampai dengan 100% atau seluruh arsiparis pada lembaga kearsipan daerah telah tersertifikasi.']],
+    definition:'Diambil dari tabel Bab II LAKE 2025 masing-masing provinsi. Pernyataan ini hanya menilai arsiparis pada lembaga kearsipan daerah, bukan seluruh perangkat daerah.',
+    notes:['Skala persentase provinsi berbeda dengan skala kementerian/lembaga (Level 1 provinsi = lebih dari 0% s.d. 50%).']},
+  achievement:{code:'Pernyataan 13',title:'Arsiparis Berprestasi',field:'achievement',
+    question:'Pemerintah daerah provinsi memiliki arsiparis berprestasi dan/atau arsiparis teladan nasional dalam kurun waktu 3 tahun terakhir.',
+    levels:[['Belum menyelenggarakan','Pemerintah daerah provinsi belum menyelenggarakan kegiatan pemilihan arsiparis berprestasi dalam kurun waktu 3 tahun terakhir.'],
+      ['Dalam perencanaan','Pemerintah daerah provinsi merencanakan kegiatan pemilihan arsiparis berprestasi.'],
+      ['Memiliki arsiparis berprestasi','Pemerintah daerah provinsi telah memiliki arsiparis berprestasi melalui kegiatan pemilihan arsiparis berprestasi.'],
+      ['Mengirim ke pemilihan nasional','Pemerintah daerah provinsi telah memiliki arsiparis berprestasi serta mengirimkannya sebagai peserta pemilihan arsiparis teladan nasional.'],
+      ['Finalis teladan nasional','Pemerintah daerah provinsi memiliki arsiparis yang menjadi finalis pada pemilihan arsiparis teladan nasional.']],
+    definition:'Diambil dari tabel Bab II LAKE 2025 masing-masing provinsi, aspek sumber daya manusia kearsipan.',
+    notes:['Kurun waktu penilaian adalah tiga tahun terakhir.']}
+};
+let INDICATORS = INDICATORS_KL;
 
-let state={sort:'low',cell:null,view:'summary',searchText:'',selectedInstitutions:[],multiOpen:false,group:'all',levelSelection:{availability:null,certification:null,achievement:null}};
+let state={scope:'kl',sort:'low',cell:null,view:'summary',searchText:'',selectedInstitutions:[],multiOpen:false,group:'all',levelSelection:{availability:null,certification:null,achievement:null}};
 const escapeHTML=(value)=>String(value??'').replace(/[&<>'"]/g,(char)=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
 const levelKey=(value)=>Number.isInteger(value)?String(value):'missing';
 const filteredData=()=>DATA.filter(row=>(state.group==='all'||row.group===state.group)&&(!state.selectedInstitutions.length||state.selectedInstitutions.includes(row.institution)));
@@ -464,9 +511,9 @@ function distributionHTML(rows,field,includeGroups=true){
   return groups.map(group=>{
     const items=group==='Semua instansi'?rows:rows.filter(row=>row.group===group);
     const counts=countsFor(items,field); const total=items.length;
-    const segments=[0,1,2,3,4,'missing'].map(key=>`<span class="segment ${key==='missing'?'missing':'l'+key}" style="width:${total?counts[key]/total*100:0}%" title="${LEVEL_META[key].label}: ${counts[key]} instansi (${formatPct(counts[key],total)})"></span>`).join('');
+    const segments=[0,1,2,3,4,'missing'].map(key=>`<span class="segment ${key==='missing'?'missing':'l'+key}" style="width:${total?counts[key]/total*100:0}%" title="${LEVEL_META[key].label}: ${counts[key]} ${U} (${formatPct(counts[key],total)})"></span>`).join('');
     const labels=[0,1,2,3,4,'missing'].filter(key=>counts[key]>0).map(key=>`<span class="dist-count"><i class="dot" style="background:${LEVEL_META[key].color}"></i>L${key==='missing'?'—':key}: ${counts[key]}</span>`).join('');
-    return `<div class="dist-group"><div class="dist-head"><strong>${escapeHTML(group)}</strong><span>${total} instansi</span></div><div class="stack" role="img" aria-label="Distribusi level ${escapeHTML(group)}">${segments}</div><div class="dist-counts">${labels||'<span class="dist-count">Tidak ada data</span>'}</div></div>`;
+    return `<div class="dist-group"><div class="dist-head"><strong>${escapeHTML(group)}</strong><span>${total} ${U}</span></div><div class="stack" role="img" aria-label="Distribusi level ${escapeHTML(group)}">${segments}</div><div class="dist-counts">${labels||'<span class="dist-count">Tidak ada data</span>'}</div></div>`;
   }).join('');
 }
 function legendHTML(){return `<div class="legend">${[0,1,2,3,4,'missing'].map(key=>`<span class="legend-item"><i class="dot" style="background:${LEVEL_META[key].color}"></i><strong>${key==='missing'?'—':'L'+key}</strong> ${LEVEL_META[key].choice}</span>`).join('')}</div>`}
@@ -479,9 +526,9 @@ function profileIndicatorHTML(row,key){
 }
 function searchHighlightHTML(rows){
   if(!state.selectedInstitutions.length)return '';
-  if(!rows.length)return `<div class="highlight-shell"><div class="highlight-kicker">Komparasi instansi</div><div class="highlight-title">Tidak ada instansi terpilih pada kelompok ini</div><div class="highlight-empty">Ubah filter kelompok atau pilih instansi lain.</div></div>`;
+  if(!rows.length)return `<div class="highlight-shell"><div class="highlight-kicker">Komparasi ${U}</div><div class="highlight-title">Tidak ada ${U} terpilih pada kelompok ini</div><div class="highlight-empty">Ubah filter kelompok atau pilih ${U} lain.</div></div>`;
   const cards=rows.map(row=>`<article class="profile-card"><div class="profile-top"><div class="profile-name">${escapeHTML(row.institution)}</div><span class="group-tag">${escapeHTML(row.group)}</span></div><div class="profile-indicators">${profileIndicatorHTML(row,'availability')}${profileIndicatorHTML(row,'certification')}${profileIndicatorHTML(row,'achievement')}</div></article>`).join('');
-  return `<div class="highlight-shell"><div class="highlight-head"><div><div class="highlight-kicker">Komparasi instansi</div><div class="highlight-title">Perbandingan tiga indikator SDM Kearsipan</div></div><div class="highlight-summary">${rows.length} dari ${state.selectedInstitutions.length} instansi terpilih</div></div><div class="profile-list">${cards}</div></div>`;
+  return `<div class="highlight-shell"><div class="highlight-head"><div><div class="highlight-kicker">Komparasi ${U}</div><div class="highlight-title">Perbandingan tiga indikator SDM Kearsipan</div></div><div class="highlight-summary">${rows.length} dari ${state.selectedInstitutions.length} ${U} terpilih</div></div><div class="profile-list">${cards}</div></div>`;
 }
 
 function summaryHTML(rows){
@@ -494,14 +541,17 @@ function ringSVG(pct,color){
   return `<svg class="ring" viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="${r}" fill="none" stroke="var(--ring-bg)" stroke-width="9"/><circle cx="42" cy="42" r="${r}" fill="none" stroke="${color}" stroke-width="9" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" transform="rotate(-90 42 42)"/></svg>`;
 }
 function insightHTML(rows){
-  const n=rows.length;
+  const n=rows.length,P_=state.scope==='prov';
   const A=countsFor(rows,'availability'),C=countsFor(rows,'certification'),P=countsFor(rows,'achievement');
   const vA=n-A.missing,vC=n-C.missing,vP=n-P.missing;
   const cards=[
-    {key:'availability',pct:pctNum(A[4],vA),color:'var(--l4)',tone:'baik',big:`${A[4]} dari ${vA}`,head:'instansi sudah di Level 4',sub:`Arsiparis tersedia dan sedang ditambah sesuai rekomendasi ANRI. ${A[0]+A[1]} instansi masih di Level 0–1.`},
-    {key:'certification',pct:pctNum(C[4],vC),color:'var(--l0)',tone:'lemah',big:`${C[4]} dari ${vC}`,head:'instansi seluruh arsiparisnya tersertifikasi',sub:`${C[2]} instansi (${pctNum(C[2],vC)}%) baru 0–50% tersertifikasi, ${C[0]} belum sama sekali.`},
-    {key:'achievement',pct:pctNum(P[3]+P[4],vP),color:'var(--l3)',tone:'sedang',big:`${P[3]+P[4]} dari ${vP}`,head:'instansi ikut atau berprestasi di tingkat nasional',sub:`${P[4]} meraih capaian tertinggi. ${P[0]} belum menyelenggarakan pemilihan${P.missing?`, ${P.missing} tidak dinilai`:''}.`}
+    {key:'availability',pct:pctNum(A[4],vA),rank:pctNum(A[3]+A[4],vA),big:`${A[4]} dari ${vA}`,head:`${U} sudah di Level 4`,sub:`Arsiparis tersedia dan sedang ditambah sesuai rekomendasi ANRI. ${A[0]+A[1]} ${U} masih di Level 0–1.`},
+    P_?{key:'certification',pct:pctNum(C[3]+C[4],vC),rank:pctNum(C[3]+C[4],vC),big:`${C[3]+C[4]} dari ${vC}`,head:`provinsi dengan lebih dari 70% arsiparis LKD tersertifikasi`,sub:`${C[1]} provinsi (${pctNum(C[1],vC)}%) baru 0–50% tersertifikasi, ${C[0]} belum sama sekali.`}
+      :{key:'certification',pct:pctNum(C[4],vC),rank:pctNum(C[3]+C[4],vC),big:`${C[4]} dari ${vC}`,head:'instansi seluruh arsiparisnya tersertifikasi',sub:`${C[2]} instansi (${pctNum(C[2],vC)}%) baru 0–50% tersertifikasi, ${C[0]} belum sama sekali.`},
+    {key:'achievement',pct:pctNum(P[3]+P[4],vP),rank:pctNum(P[3]+P[4],vP),big:`${P[3]+P[4]} dari ${vP}`,head:`${U} ${P_?'mengirim ke':'ikut atau berprestasi di'} tingkat nasional`,sub:`${P[4]} ${P_?'punya finalis teladan nasional':'meraih capaian tertinggi'}. ${P[0]} belum menyelenggarakan pemilihan${P.missing?`, ${P.missing} tidak dinilai`:''}.`}
   ];
+  const ord=[...cards].sort((x,y)=>y.rank-x.rank);
+  cards.forEach(c=>{c.tone=c===ord[0]?'baik':c===ord[2]?'lemah':'sedang';c.color=c.tone==='baik'?'var(--l4)':c.tone==='lemah'?'var(--l0)':'var(--l3)'});
   const tone={baik:'Paling kuat',lemah:'Titik lemah',sedang:'Menengah'};
   return `<section class="insights">${cards.map(c=>`<article class="insight ${c.tone}"><div class="insight-ring">${ringSVG(c.pct,c.color)}<span>${c.pct}%</span></div><div class="insight-body"><div class="insight-top"><span class="insight-name">${INDICATORS[c.key].title}</span><span class="insight-tone">${tone[c.tone]}</span></div><div class="insight-big">${c.big}</div><div class="insight-head">${c.head}</div><p>${c.sub}</p></div></article>`).join('')}</section>`;
 }
@@ -510,13 +560,13 @@ function divRow(label,items,field){
   if(!v)return `<div class="dv-row"><div class="dv-label">${escapeHTML(label)}<small>tidak ada data</small></div><div class="dv-track"></div></div>`;
   const w=k=>c[k]/v*100, h=c[2]/v*50;
   const lowPct=pctNum(c[0]+c[1],v),highPct=pctNum(c[3]+c[4],v);
-  const seg=(k,width,extra='')=>width>0?`<span class="dv-seg l${k}" style="width:${width}%" title="Level ${k}: ${c[k]} instansi${extra}"></span>`:'';
-  return `<div class="dv-row"><div class="dv-label">${escapeHTML(label)}<small>${v} instansi</small></div><div class="dv-track"><span class="dv-pct lo">${lowPct}%</span><div class="dv-left">${seg(0,w(0))}${seg(1,w(1))}${seg(2,h,' (separuh di tiap sisi)')}</div><div class="dv-right">${seg(2,h,' (separuh di tiap sisi)')}${seg(3,w(3))}${seg(4,w(4))}</div><span class="dv-pct hi">${highPct}%</span></div></div>`;
+  const seg=(k,width,extra='')=>width>0?`<span class="dv-seg l${k}" style="width:${width}%" title="Level ${k}: ${c[k]} ${U}${extra}"></span>`:'';
+  return `<div class="dv-row"><div class="dv-label">${escapeHTML(label)}<small>${v} ${U}</small></div><div class="dv-track"><span class="dv-pct lo">${lowPct}%</span><div class="dv-left">${seg(0,w(0))}${seg(1,w(1))}${seg(2,h,' (separuh di tiap sisi)')}</div><div class="dv-right">${seg(2,h,' (separuh di tiap sisi)')}${seg(3,w(3))}${seg(4,w(4))}</div><span class="dv-pct hi">${highPct}%</span></div></div>`;
 }
 function divergingHTML(rows){
   const groups=GROUPS.filter(g=>state.group==='all'||g===state.group);
   const blocks=Object.keys(INDICATORS).map(key=>`<div class="dv-block"><h3>${INDICATORS[key].title}</h3>${divRow('Semua',rows,INDICATORS[key].field)}${groups.length>1?groups.map(g=>divRow(g,rows.filter(r=>r.group===g),INDICATORS[key].field)).join(''):''}</div>`).join('');
-  return `<section class="panel-x"><div class="px-head"><div><h2>Condong ke mana tiap indikator?</h2><p>Level 0–1 ke kiri, Level 3–4 ke kanan, Level 2 dibagi di tengah. Persentase dihitung dari instansi yang dinilai.</p></div>${levelLegendHTML()}</div><div class="dv-row dv-axisrow" aria-hidden="true"><div></div><div class="dv-track"><span></span><span class="ax-l">← perlu perhatian</span><span class="ax-r">lebih baik →</span><span></span></div></div>${blocks}</section>`;
+  return `<section class="panel-x"><div class="px-head"><div><h2>Condong ke mana tiap indikator?</h2><p>Level 0–1 ke kiri, Level 3–4 ke kanan, Level 2 dibagi di tengah. Persentase dihitung dari ${U} yang dinilai.</p></div>${levelLegendHTML()}</div><div class="dv-row dv-axisrow" aria-hidden="true"><div></div><div class="dv-track"><span></span><span class="ax-l">← perlu perhatian</span><span class="ax-r">lebih baik →</span><span></span></div></div>${blocks}</section>`;
 }
 function levelLegendHTML(){return `<div class="lv-legend">${[0,1,2,3,4].map(k=>`<span><i style="background:${LEVEL_META[k].color}"></i>L${k}</span>`).join('')}<span><i style="background:var(--missing)"></i>—</span></div>`}
 function priorityHTML(rows){
@@ -530,21 +580,21 @@ function priorityHTML(rows){
     for(let x=0;x<=4;x++){
       const list=grid[x+'-'+y]||[],n=list.length,d=n?Math.max(18,Math.sqrt(n/max)*64):0;
       const hot=x>=3&&y<=2,on=sel===x+'-'+y;
-      cells+=`<button type="button" class="pg-cell${hot?' hot':''}${on?' on':''}" data-cell="${x}-${y}" ${n?'':'disabled'} aria-label="Ketersediaan Level ${x}, Sertifikasi Level ${y}: ${n} instansi">${n?`<span class="pg-dot" style="width:${d}px;height:${d}px">${n}</span>`:''}</button>`;
+      cells+=`<button type="button" class="pg-cell${hot?' hot':''}${on?' on':''}" data-cell="${x}-${y}" ${n?'':'disabled'} aria-label="Ketersediaan Level ${x}, Sertifikasi Level ${y}: ${n} ${U}">${n?`<span class="pg-dot" style="width:${d}px;height:${d}px">${n}</span>`:''}</button>`;
     }
   }
   cells+=`<div></div>`+[0,1,2,3,4].map(x=>`<div class="pg-xlab">L${x}</div>`).join('');
   const list=sel&&grid[sel]?grid[sel]:null;
   const [sx,sy]=sel?sel.split('-'):[];
-  const detail=list?`<div class="pg-list"><div class="pg-list-head"><strong>${list.length} instansi</strong> · Ketersediaan L${sx}, Sertifikasi L${sy}<button type="button" data-cell-clear aria-label="Tutup daftar">×</button></div><ul>${list.map(r=>`<li>${escapeHTML(r.institution)}<span>${escapeHTML(r.group)}</span></li>`).join('')}</ul></div>`
-    :`<div class="pg-note"><div class="pg-note-big">${zone.length}</div><div class="pg-note-head">instansi sudah punya arsiparis memadai, tapi sertifikasinya ≤ 50%</div><p>Mereka ada di kotak bersorot (Ketersediaan Level 3–4, Sertifikasi Level 0–2). Arsiparisnya sudah ada, tinggal didorong ikut uji kompetensi dan sertifikasi.</p><p class="pg-hint">Klik gelembung untuk melihat daftar instansinya.</p></div>`;
-  return `<section class="panel-x"><div class="px-head"><div><h2>Peta prioritas pembinaan</h2><p>Setiap gelembung adalah kelompok instansi dengan kombinasi level yang sama. Makin besar, makin banyak instansinya.</p></div></div><div class="pg-wrap"><div class="pg"><div class="pg-ytitle">Sertifikasi →</div><div class="pg-grid">${cells}</div><div class="pg-xtitle">Ketersediaan arsiparis →</div></div>${detail}</div></section>`;
+  const detail=list?`<div class="pg-list"><div class="pg-list-head"><strong>${list.length} ${U}</strong> · Ketersediaan L${sx}, Sertifikasi L${sy}<button type="button" data-cell-clear aria-label="Tutup daftar">×</button></div><ul>${list.map(r=>`<li>${escapeHTML(r.institution)}<span>${escapeHTML(r.group)}</span></li>`).join('')}</ul></div>`
+    :`<div class="pg-note"><div class="pg-note-big">${zone.length}</div><div class="pg-note-head">${U} sudah punya arsiparis memadai, tapi sertifikasinya ${state.scope==='prov'?'≤ 70% (arsiparis LKD)':'≤ 50%'}</div><p>Mereka ada di kotak bersorot (Ketersediaan Level 3–4, Sertifikasi Level 0–2). Arsiparisnya sudah ada, tinggal didorong ikut uji kompetensi dan sertifikasi.</p><p class="pg-hint">Klik gelembung untuk melihat daftar ${U}nya.</p></div>`;
+  return `<section class="panel-x"><div class="px-head"><div><h2>Peta prioritas pembinaan</h2><p>Setiap gelembung adalah kelompok ${U} dengan kombinasi level yang sama. Makin besar, makin banyak ${U}nya.</p></div></div><div class="pg-wrap"><div class="pg"><div class="pg-ytitle">Sertifikasi →</div><div class="pg-grid">${cells}</div><div class="pg-xtitle">Ketersediaan arsiparis →</div></div>${detail}</div></section>`;
 }
 function scoreOf(r){const v=['availability','certification','achievement'].map(k=>r[k]).filter(Number.isInteger);return v.length?v.reduce((a,b)=>a+b,0)/v.length:null}
 function attentionHTML(rows){
   const low=rows.map(r=>({r,s:scoreOf(r)})).filter(x=>x.s!==null).sort((a,b)=>a.s-b.s||a.r.institution.localeCompare(b.r.institution,'id')).slice(0,8);
   const top=rows.filter(r=>r.availability===4&&r.certification===4&&r.achievement===4);
-  return `<section class="two-col"><div class="panel-x"><div class="px-head"><div><h2>Paling perlu perhatian</h2><p>Delapan instansi dengan rata-rata level terendah di tiga indikator.</p></div><div class="att-key">Ketersediaan · Sertifikasi · Berprestasi</div></div><ol class="att">${low.map(x=>`<li><span class="att-name">${escapeHTML(x.r.institution)}<small>${escapeHTML(x.r.group)}</small></span><span class="att-cells">${cellsHTML(x.r)}</span></li>`).join('')}</ol></div><div class="panel-x best"><div class="px-head"><div><h2>Level 4 di semua indikator</h2><p>Instansi yang bisa jadi contoh.</p></div><div class="att-key">Ketersediaan · Sertifikasi · Berprestasi</div></div>${top.length?`<ul class="best-list">${top.map(r=>`<li><span class="att-name">${escapeHTML(r.institution)}<small>${escapeHTML(r.group)}</small></span><span class="att-cells">${cellsHTML(r)}</span></li>`).join('')}</ul>`:'<p class="empty-s">Belum ada pada filter ini.</p>'}</div></section>`;
+  return `<section class="two-col"><div class="panel-x"><div class="px-head"><div><h2>Paling perlu perhatian</h2><p>Delapan ${U} dengan rata-rata level terendah di tiga indikator.</p></div><div class="att-key">Ketersediaan · Sertifikasi · Berprestasi</div></div><ol class="att">${low.map(x=>`<li><span class="att-name">${escapeHTML(x.r.institution)}<small>${escapeHTML(x.r.group)}</small></span><span class="att-cells">${cellsHTML(x.r)}</span></li>`).join('')}</ol></div><div class="panel-x best"><div class="px-head"><div><h2>Level 4 di semua indikator</h2><p>${U[0].toUpperCase()+U.slice(1)} yang bisa jadi contoh.</p></div><div class="att-key">Ketersediaan · Sertifikasi · Berprestasi</div></div>${top.length?`<ul class="best-list">${top.map(r=>`<li><span class="att-name">${escapeHTML(r.institution)}<small>${escapeHTML(r.group)}</small></span><span class="att-cells">${cellsHTML(r)}</span></li>`).join('')}</ul>`:'<p class="empty-s">Belum ada pada filter ini.</p>'}</div></section>`;
 }
 function cellsHTML(r){return ['availability','certification','achievement'].map(k=>{const lk=levelKey(r[k]);return `<span class="hc ${lk==='missing'?'missing':'l'+lk}" title="${SHORT[k]}: ${lk==='missing'?'tidak dinilai':'Level '+lk}">${lk==='missing'?'—':lk}</span>`}).join('')}
 
@@ -552,8 +602,8 @@ function levelInstitutionsHTML(rows,key,level){
   const ind=INDICATORS[key];
   const matches=rows.filter(row=>row[ind.field]===level).sort((a,b)=>GROUPS.indexOf(a.group)-GROUPS.indexOf(b.group)||a.institution.localeCompare(b.institution,'id'));
   const levelTitle=ind.levels[level][0];
-  if(!matches.length){return `<div class="level-results" id="level-results-${key}"><div class="level-results-head"><div><div class="level-results-title">Level ${level} · ${levelTitle}</div><div class="level-results-sub">Tidak ada instansi pada level ini sesuai filter aktif.</div></div><button class="level-results-close" type="button" data-clear-level="${key}">Tutup daftar</button></div></div>`;}
-  return `<div class="level-results" id="level-results-${key}"><div class="level-results-head"><div><div class="level-results-title">Level ${level} · ${levelTitle}</div><div class="level-results-sub">${matches.length} instansi sesuai filter aktif</div></div><button class="level-results-close" type="button" data-clear-level="${key}">Tutup daftar</button></div><div class="level-results-list">${matches.map(row=>`<div class="level-institution"><i class="dot" style="background:${LEVEL_META[level].color}"></i><div><div class="level-institution-name">${escapeHTML(row.institution)}</div><div class="level-institution-group">${escapeHTML(row.group)}</div></div></div>`).join('')}</div></div>`;
+  if(!matches.length){return `<div class="level-results" id="level-results-${key}"><div class="level-results-head"><div><div class="level-results-title">Level ${level} · ${levelTitle}</div><div class="level-results-sub">Tidak ada ${U} pada level ini sesuai filter aktif.</div></div><button class="level-results-close" type="button" data-clear-level="${key}">Tutup daftar</button></div></div>`;}
+  return `<div class="level-results" id="level-results-${key}"><div class="level-results-head"><div><div class="level-results-title">Level ${level} · ${levelTitle}</div><div class="level-results-sub">${matches.length} ${U} sesuai filter aktif</div></div><button class="level-results-close" type="button" data-clear-level="${key}">Tutup daftar</button></div><div class="level-results-list">${matches.map(row=>`<div class="level-institution"><i class="dot" style="background:${LEVEL_META[level].color}"></i><div><div class="level-institution-name">${escapeHTML(row.institution)}</div><div class="level-institution-group">${escapeHTML(row.group)}</div></div></div>`).join('')}</div></div>`;
 }
 
 function indicatorHTML(rows,key){
@@ -561,18 +611,18 @@ function indicatorHTML(rows,key){
   const selected=state.levelSelection[key];
   const hi=counts[3]+counts[4],lo=counts[0]+counts[1],hiP=pctNum(hi,valid);
   const ringColor=hiP>=70?'var(--l4)':hiP>=40?'var(--l3)':'var(--l0)';
-  const verdict=hiP>=70?'Sebagian besar instansi sudah di level tinggi.':hiP>=40?'Baru sekitar separuh instansi di level tinggi.':'Sebagian besar instansi masih di level rendah–menengah.';
+  const verdict=hiP>=70?`Sebagian besar ${U} sudah di level tinggi.`:hiP>=40?`Baru sekitar separuh ${U} di level tinggi.`:`Sebagian besar ${U} masih di level rendah–menengah.`;
   const mx=Math.max(1,...[0,1,2,3,4].map(k=>counts[k]));
   const ladder=[4,3,2,1,0].map(k=>{const n=counts[k],on=selected===k;return `<button type="button" class="lad-row${on?' on':''}" data-lv-ind="${key}" data-lv="${k}" aria-pressed="${on}" ${n?'':'aria-disabled="true"'}><span class="lad-badge" style="background:${LEVEL_META[k].color}">${k}</span><span class="lad-text"><b>${ind.levels[k][0]}</b><small>${ind.levels[k][1]}</small></span><span class="lad-bar"><i style="width:${n/mx*100}%;background:${LEVEL_META[k].color}"></i></span><span class="lad-n"><b>${n}</b><small>${pctNum(n,valid)}%</small></span></button>`}).join('')
     +(counts.missing?`<div class="lad-row miss"><span class="lad-badge" style="background:var(--missing)">—</span><span class="lad-text"><b>Tidak dinilai</b><small>Data tidak tersedia atau tidak dinilai, tidak digabung dengan Level 0.</small></span><span class="lad-bar"><i style="width:${counts.missing/mx*100}%;background:var(--missing)"></i></span><span class="lad-n"><b>${counts.missing}</b><small>&nbsp;</small></span></div>`:'');
-  const results=Number.isInteger(selected)?levelInstitutionsHTML(rows,key,selected):`<div class="level-results is-empty" id="level-results-${key}">Klik salah satu level untuk melihat daftar Kementerian/Lembaga di dalamnya.</div>`;
+  const results=Number.isInteger(selected)?levelInstitutionsHTML(rows,key,selected):`<div class="level-results is-empty" id="level-results-${key}">Klik salah satu level untuk melihat daftar ${UL} di dalamnya.</div>`;
   const groups=GROUPS.filter(g=>state.group==='all'||g===state.group);
   const groupRows=groups.map(g=>{const it=rows.filter(r=>r.group===g),c=countsFor(it,ind.field),v=it.length-c.missing;const avg=v?it.filter(r=>Number.isInteger(r[ind.field])).reduce((a,r)=>a+r[ind.field],0)/v:null;return {g,it,avg,v}});
   const best=groupRows.filter(x=>x.avg!==null).sort((a,b)=>b.avg-a.avg);
   const groupNote=best.length>1?`<p class="grp-note"><b>${escapeHTML(best[0].g)}</b> paling tinggi (rata-rata L${best[0].avg.toFixed(1).replace('.',',')}), <b>${escapeHTML(best[best.length-1].g)}</b> paling rendah (L${best[best.length-1].avg.toFixed(1).replace('.',',')}).</p>`:'';
-  return `<section class="ind-hero"><div class="ind-hero-text"><div class="question-number">${ind.code}</div><h2>${ind.title}</h2><p>${ind.question}</p></div><div class="ind-hero-stat"><div class="insight-ring big">${ringSVG(hiP,ringColor)}<span>${hiP}%</span></div><div><div class="ind-hero-big">${hi} dari ${valid} instansi</div><div class="ind-hero-sub">di Level 3–4. ${verdict}</div><div class="ind-chips"><span><b>${counts[4]}</b> Level 4</span><span><b>${lo}</b> Level 0–1</span>${counts.missing?`<span><b>${counts.missing}</b> tidak dinilai</span>`:''}</div></div></div></section>
-  <div class="ind-grid"><section class="panel-x"><div class="px-head"><div><h2>Tangga level</h2><p>Dari level tertinggi ke terendah. Panjang batang = jumlah instansi. Klik untuk melihat daftarnya.</p></div></div><div class="lad">${ladder}</div>${results}</section>
-  <div class="ind-side"><section class="panel-x"><div class="px-head"><div><h2>Per kelompok instansi</h2><p>Level 0–1 ke kiri, Level 3–4 ke kanan.</p></div></div>${divRow('Semua',rows,ind.field)}${groups.length>1?groups.map(g=>divRow(g,rows.filter(r=>r.group===g),ind.field)).join(''):''}${groupNote}</section>
+  return `<section class="ind-hero"><div class="ind-hero-text"><div class="question-number">${ind.code}</div><h2>${ind.title}</h2><p>${ind.question}</p></div><div class="ind-hero-stat"><div class="insight-ring big">${ringSVG(hiP,ringColor)}<span>${hiP}%</span></div><div><div class="ind-hero-big">${hi} dari ${valid} ${U}</div><div class="ind-hero-sub">di Level 3–4. ${verdict}</div><div class="ind-chips"><span><b>${counts[4]}</b> Level 4</span><span><b>${lo}</b> Level 0–1</span>${counts.missing?`<span><b>${counts.missing}</b> tidak dinilai</span>`:''}</div></div></div></section>
+  <div class="ind-grid"><section class="panel-x"><div class="px-head"><div><h2>Tangga level</h2><p>Dari level tertinggi ke terendah. Panjang batang = jumlah ${U}. Klik untuk melihat daftarnya.</p></div></div><div class="lad">${ladder}</div>${results}</section>
+  <div class="ind-side"><section class="panel-x"><div class="px-head"><div><h2>Per kelompok ${U}</h2><p>Level 0–1 ke kiri, Level 3–4 ke kanan.</p></div></div>${divRow('Semua',rows,ind.field)}${groups.length>1?groups.map(g=>divRow(g,rows.filter(r=>r.group===g),ind.field)).join(''):''}${groupNote}</section>
   <details class="panel-x defs"><summary>Definisi operasional</summary><p>${ind.definition}</p><ul>${ind.notes.map(note=>`<li>${note}</li>`).join('')}</ul></details></div></div>`;
 }
 
@@ -586,9 +636,9 @@ function tableHTML(rows){
   const by=state.sort||'low';
   if(by==='az')sorted.sort((a,b)=>a.institution.localeCompare(b.institution,'id'));
   else sorted.sort((a,b)=>{const sa=scoreOf(a)??-1,sb=scoreOf(b)??-1;return (by==='low'?sa-sb:sb-sa)||a.institution.localeCompare(b.institution,'id')});
-  const body=sorted.length?sorted.map(row=>{const sc=scoreOf(row);return `<tr><td class="institution">${escapeHTML(row.institution)}</td><td><span class="group-tag">${escapeHTML(row.group)}</span></td>${['availability','certification','achievement'].map(k=>{const lk=levelKey(row[k]);const t=lk==='missing'?'Data tidak tersedia/tidak dinilai':INDICATORS[k].levels[Number(lk)][1];return `<td class="hm"><span class="hm-cell ${lk==='missing'?'missing':'l'+lk}" title="${escapeHTML(t)}">${lk==='missing'?'—':'L'+lk}</span></td>`}).join('')}<td class="sc"><span class="sc-bar"><i style="width:${sc===null?0:sc/4*100}%"></i></span><b>${sc===null?'—':sc.toFixed(1).replace('.',',')}</b></td></tr>`}).join(''):`<tr><td colspan="6" class="empty">Tidak ada instansi yang cocok dengan filter.</td></tr>`;
+  const body=sorted.length?sorted.map(row=>{const sc=scoreOf(row);return `<tr><td class="institution">${escapeHTML(row.institution)}</td><td><span class="group-tag">${escapeHTML(row.group)}</span></td>${['availability','certification','achievement'].map(k=>{const lk=levelKey(row[k]);const t=lk==='missing'?'Data tidak tersedia/tidak dinilai':INDICATORS[k].levels[Number(lk)][1];return `<td class="hm"><span class="hm-cell ${lk==='missing'?'missing':'l'+lk}" title="${escapeHTML(t)}">${lk==='missing'?'—':'L'+lk}</span></td>`}).join('')}<td class="sc"><span class="sc-bar"><i style="width:${sc===null?0:sc/4*100}%"></i></span><b>${sc===null?'—':sc.toFixed(1).replace('.',',')}</b></td></tr>`}).join(''):`<tr><td colspan="6" class="empty">Tidak ada ${U} yang cocok dengan filter.</td></tr>`;
   const opt=(v,l)=>`<button type="button" data-sort="${v}" aria-pressed="${by===v}">${l}</button>`;
-  return `<section class="table-panel"><div class="table-head"><div><h2>Peta panas per Kementerian/Lembaga</h2><p>Warna mengikuti level tiap indikator. Skor = rata-rata level yang dinilai (0–4).</p></div><div class="sort-seg" role="group" aria-label="Urutkan">${opt('low','Skor terendah')}${opt('high','Skor tertinggi')}${opt('az','A–Z')}</div></div><div class="table-wrap"><table class="hm-table"><thead><tr><th>Kementerian/Lembaga</th><th>Kelompok</th><th>Ketersediaan</th><th>Sertifikasi</th><th>Berprestasi</th><th>Skor</th></tr></thead><tbody>${body}</tbody></table></div></section>`;
+  return `<section class="table-panel"><div class="table-head"><div><h2>Peta panas per ${UL}</h2><p>Warna mengikuti level tiap indikator. Skor = rata-rata level yang dinilai (0–4).</p></div><div class="sort-seg" role="group" aria-label="Urutkan">${opt('low','Skor terendah')}${opt('high','Skor tertinggi')}${opt('az','A–Z')}</div></div><div class="table-wrap"><table class="hm-table"><thead><tr><th>${UL}</th><th>Kelompok</th><th>Ketersediaan</th><th>Sertifikasi</th><th>Berprestasi</th><th>Skor</th></tr></thead><tbody>${body}</tbody></table></div></section>`;
 }
 
 function multiSelectOptions(){
@@ -603,7 +653,7 @@ function renderMultiSelect(){
   options.hidden=!state.multiOpen;
   if(!state.multiOpen)return;
   const rows=multiSelectOptions();
-  options.innerHTML=rows.length?rows.map(row=>`<button type="button" class="multi-option" data-add-institution="${escapeHTML(row.institution)}" role="option"><span><span class="multi-option-name">${escapeHTML(row.institution)}</span><span class="multi-option-group">${escapeHTML(row.group)}</span></span><span class="multi-option-add">+ Pilih</span></button>`).join(''):`<div class="multi-empty">Tidak ada instansi lain yang cocok.</div>`;
+  options.innerHTML=rows.length?rows.map(row=>`<button type="button" class="multi-option" data-add-institution="${escapeHTML(row.institution)}" role="option"><span><span class="multi-option-name">${escapeHTML(row.institution)}</span><span class="multi-option-group">${escapeHTML(row.group)}</span></span><span class="multi-option-add">+ Pilih</span></button>`).join(''):`<div class="multi-empty">Tidak ada ${U} lain yang cocok.</div>`;
 }
 function addInstitution(name){
   if(!state.selectedInstitutions.includes(name))state.selectedInstitutions.push(name);
@@ -618,7 +668,7 @@ function render(){
   const rows=filteredData();
   renderMultiSelect();
   document.getElementById('search-highlight').innerHTML=searchHighlightHTML(rows);
-  document.getElementById('filter-status').textContent=`Menampilkan ${rows.length} dari ${DATA.length} instansi${state.group!=='all'?' · '+state.group:''}${state.selectedInstitutions.length?' · '+state.selectedInstitutions.length+' instansi dipilih untuk dibandingkan':''}.`;
+  document.getElementById('filter-status').textContent=`Menampilkan ${rows.length} dari ${DATA.length} ${U}${state.group!=='all'?' · '+state.group:''}${state.selectedInstitutions.length?` · ${state.selectedInstitutions.length} ${U} dipilih untuk dibandingkan`:''}.`;
   document.getElementById('view-summary').innerHTML=summaryHTML(rows);
   document.getElementById('view-availability').innerHTML=indicatorHTML(rows,'availability');
   document.getElementById('view-certification').innerHTML=indicatorHTML(rows,'certification');
@@ -666,6 +716,26 @@ document.addEventListener('click',(event)=>{
   if(so){state.sort=so.dataset.sort;render();}
 });
 document.getElementById('reset-filter').addEventListener('click',()=>{state={...state,searchText:'',selectedInstitutions:[],multiOpen:false,group:'all'};document.getElementById('group-filter').value='all';render()});
+function setScope(sc){
+  state.scope=sc; const P_=sc==='prov';
+  DATA=P_?DATA_PROV:DATA_KL; GROUPS=P_?GROUPS_PROV:GROUPS_KL; INDICATORS=P_?INDICATORS_PROV:INDICATORS_KL;
+  U=P_?'provinsi':'instansi'; UL=P_?'Provinsi':'Kementerian/Lembaga';
+  state={...state,searchText:'',selectedInstitutions:[],multiOpen:false,group:'all',cell:null,levelSelection:{availability:null,certification:null,achievement:null}};
+  document.querySelectorAll('[data-scope-set]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.scopeSet===sc));
+  const sel=document.getElementById('group-filter');
+  sel.innerHTML=`<option value="all">Semua ${P_?'wilayah':'kelompok'}</option>`+GROUPS.map(g=>`<option value="${escapeHTML(g)}">${escapeHTML(g)}</option>`).join('');
+  document.querySelector('label[for="group-filter"]').textContent=P_?'Wilayah':'Kelompok instansi';
+  document.getElementById('search-label').textContent=P_?'Bandingkan provinsi':'Bandingkan kementerian/lembaga';
+  document.getElementById('search').placeholder=P_?'Cari dan pilih beberapa provinsi...':'Cari dan pilih beberapa instansi...';
+  document.getElementById('source-value').textContent=P_?'LAKE 2025 Provinsi — Bab II':'Rekap LAKE 2025 — Bab II';
+  document.getElementById('source-note').textContent=P_?`3 pernyataan · ${DATA_PROV.length} provinsi`:`3 indikator · ${DATA_KL.length} instansi`;
+  document.querySelector('.hero h1').innerHTML=P_?'Pemetaan aspek SDM kearsipan, <em>per pemerintah</em> provinsi.':'Pemetaan aspek SDM kearsipan, <em>per kementerian</em> dan lembaga.';
+  document.querySelector('.hero-copy').textContent=P_?'Pemetaan level pemerintah daerah provinsi berdasarkan ketersediaan arsiparis, sertifikasi arsiparis di lembaga kearsipan daerah, dan arsiparis berprestasi.':'Pemetaan level Kementerian dan Lembaga berdasarkan ketersediaan arsiparis, sertifikasi arsiparis, dan capaian arsiparis berprestasi.';
+  document.getElementById('tab-data').textContent=P_?'Data Provinsi':'Data Instansi';
+  render();
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-scope-set]');if(b&&b.dataset.scopeSet!==state.scope)setScope(b.dataset.scopeSet);});
+document.getElementById('n-kl').textContent=DATA_KL.length;document.getElementById('n-prov').textContent=DATA_PROV.length;
 render();
 </script>
 </body>
