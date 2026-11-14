@@ -336,6 +336,21 @@ tbody tr:hover{background:#f7fafc}
 .defs p{margin-top:12px}.defs ul{padding-left:18px;margin-top:8px;display:grid;gap:4px}
 @media(max-width:1050px){.ind-hero,.ind-grid{grid-template-columns:1fr}.ind-hero-stat{padding-left:0;border-left:0;padding-top:18px;border-top:1px solid var(--line)}}
 @media(max-width:720px){.lad-row{grid-template-columns:30px minmax(0,1fr) 44px;gap:10px}.lad-bar{grid-column:2/4;grid-row:2}.lad-text small{display:none}.insight-ring.big,.insight-ring.big .ring{width:84px;height:84px}.insight-ring.big span{font-size:20px}.ind-hero{padding:18px}.ind-side .panel-x .dv-row{grid-template-columns:1fr}}
+
+/* ---------- Seragamkan huruf dengan dashboard ---------- */
+h1 em{font-style:italic;color:var(--ed-accent)}
+.insight-ring span,.insight-big,.ind-hero-big,.pg-note-big{font-family:var(--ed-font)!important;font-weight:650;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.insight-ring span{font-size:21px}
+.insight-big{font-size:28px}
+.ind-hero-big{font-size:24px}
+.pg-note-big{font-size:48px}
+.insight-ring.big span{font-size:26px}
+.ind-hero h2{font-family:var(--ed-font);font-weight:600;letter-spacing:-.02em;font-size:26px}
+.px-head h2,.table-head h2{font-size:22px;font-weight:600;letter-spacing:-.02em}
+.field label{font-size:11px;font-weight:600;letter-spacing:.08em}
+td.institution{font-weight:500}
+.question-number{letter-spacing:.08em}
+@media(max-width:720px){.insight-ring span{font-size:17px}.insight-big{font-size:24px}.insight-ring.big span{font-size:19px}.ind-hero h2{font-size:22px}}
 </style>
 </head>
 <body data-anri-theme="pengawasan">
@@ -343,7 +358,7 @@ tbody tr:hover{background:#f7fafc}
   <header class="hero">
     <div>
       <div class="eyebrow">Hasil Pengawasan Kearsipan</div>
-      <h1>Pemetaan Aspek Sumber Daya Manusia Kearsipan</h1>
+      <h1>Pemetaan aspek SDM kearsipan, <em>per kementerian</em> dan lembaga.</h1>
       <p class="hero-copy">Pemetaan level Kementerian dan Lembaga berdasarkan ketersediaan arsiparis, sertifikasi arsiparis, dan capaian arsiparis berprestasi.</p>
     </div>
     <div class="source-card">
