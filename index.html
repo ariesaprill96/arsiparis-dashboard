@@ -63,7 +63,7 @@ h1 em,h2 em{font-style:italic;color:var(--biru)}
 .tengah{text-align:center}
 
 /* ---------- Hero ---------- */
-.hero{padding:34px 0 96px}
+.hero{padding:96px 0 104px}
 .panggung{position:relative;height:250px;max-width:920px;margin:0 auto}
 .panggung svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .panggung svg path{stroke:#D3D4DA;stroke-width:1.2;fill:none;stroke-dasharray:3 5}
@@ -232,7 +232,7 @@ footer{padding:0 0 0}
 }
 @media (max-width:640px){
   .wrap{padding:0 16px}
-  .hero{padding:22px 0 72px}
+  .hero{padding:56px 0 72px}
   .panggung{height:190px}
   .ubin.pusat{width:78px;height:78px}
   .ubin.sm-hilang{display:none}
@@ -253,6 +253,9 @@ footer{padding:0 0 0}
   .kh h3{font-size:21px}
   .kaki{padding:44px 22px 0;border-radius:22px 22px 0 0}
 }
+.label-sdm{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--emas);margin-bottom:18px}
+.orang .teks .sub{max-width:560px;margin-left:auto;margin-right:auto}
+.orang .teks h2.judul-sdm{font-size:clamp(30px,3.2vw,44px);line-height:1.12;max-width:440px;margin:0 auto;text-wrap:balance}
 </style>
 </head>
 <body>
@@ -278,25 +281,6 @@ footer{padding:0 0 0}
 <!-- HERO -->
 <section class="hero">
   <div class="wrap">
-    <div class="panggung muncul" aria-hidden="true">
-      <svg viewBox="0 0 920 250" preserveAspectRatio="none">
-        <path d="M460 120 L250 150 L120 100"/><path d="M250 150 L330 215"/><path d="M460 120 L215 50"/>
-        <path d="M460 120 L690 190 L790 80"/><path d="M690 190 L610 228"/><path d="M460 120 L720 40"/>
-        <circle cx="330" cy="215" r="3"/><circle cx="610" cy="228" r="3"/>
-      </svg>
-      <div class="ubin sm-hilang" style="left:23.4%;top:20%;width:46px;height:46px;background:#FBE08A;color:#7A5A00;--d:-1s">
-        <svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.400 1 2.500h6c0-1.100.3-1.800 1-2.500A6 6 0 0 0 12 3z"/></svg></div>
-      <div class="ubin" style="left:13%;top:40%;width:74px;height:74px;--d:-2.500s"><img src="assets/beranda/foto/f2.webp" alt=""></div>
-      <div class="ubin" style="left:27.2%;top:60%;width:60px;height:60px;background:#5CC8F0;color:#fff;--d:-.5s">
-        <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2.500"/><path d="M9 8h6M9 13h.01M12 13h.01M15 13h.01M9 17h.01M12 17h3"/></svg></div>
-      <div class="ubin pusat" style="left:50%;top:48%;--d:-3s">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.500l2.800 2.800L16 9.500"/></svg></div>
-      <div class="ubin" style="left:78.300%;top:16%;width:54px;height:54px;background:#F2685B;color:#fff;--d:-4s">
-        <svg viewBox="0 0 24 24"><path d="M12 21s-7-5.300-7-11a7 7 0 0 1 14 0c0 5.700-7 11-7 11z"/><circle cx="12" cy="10" r="2.500"/></svg></div>
-      <div class="ubin sm-hilang" style="left:86%;top:32%;width:58px;height:58px;background:#fff;color:var(--emas);--d:-1.500s">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M9 13.500L7.500 21l4.500-2.500 4.500 2.500L15 13.500"/></svg></div>
-      <div class="ubin" style="left:75%;top:76%;width:56px;height:56px;--d:-2s"><img src="assets/beranda/foto/f5.webp" alt=""></div>
-    </div>
     <div class="hero-teks tengah">
       <h1 class="kabur" data-kabur>Satu platform untuk<br>data <em>JF Arsiparis</em></h1>
       <p class="sub muncul">Rekomendasi kebutuhan, ketersediaan, penghitungan formasi, pengawasan, dan sertifikasi arsiparis seluruh Indonesia.</p>
@@ -318,10 +302,10 @@ footer{padding:0 0 0}
       <div class="foto" data-v=".035"><img src="assets/beranda/foto/f7.webp" alt="Peserta sertifikasi" loading="lazy" width="480" height="600"></div>
     </div>
     <div class="teks tengah">
-      <div class="ikon-bulat muncul"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.500"/><path d="M5 20c.6-3.600 3.400-5.500 7-5.500s6.400 1.900 7 5.500"/></svg></div>
-      <h2 class="kabur" data-kabur>Untuk <em>SDM</em><br>kearsipan</h2>
-      <p class="sub muncul">Di balik setiap angka ada arsiparis yang dibina, diuji, dan disertifikasi oleh Direktorat SDM Kearsipan dan Sertifikasi ANRI.</p>
-      <div class="muncul" style="margin-top:26px"><a class="btn btn-biru" href="dashboard.html#sertifikasi">Lihat sertifikasi</a></div>
+      <div class="label-sdm muncul">Direktorat SDM Kearsipan dan Sertifikasi</div>
+      <h2 class="kabur judul-sdm" data-kabur>Pembinaan sumber daya manusia kearsipan</h2>
+      <p class="sub muncul">Direktorat Sumber Daya Manusia Kearsipan dan Sertifikasi melaksanakan penyiapan perumusan dan pelaksanaan kebijakan, penyusunan norma, standar, prosedur, dan kriteria, serta pembinaan di bidang sumber daya manusia kearsipan dan sertifikasi.</p>
+      <p class="sub muncul" style="margin-top:12px">Pembinaan tersebut mencakup analisis kebutuhan Jabatan Fungsional Arsiparis, pengembangan kompetensi, uji kompetensi, serta sertifikasi sumber daya manusia kearsipan pada instansi pusat dan daerah.</p>
     </div>
     <div class="gugus kanan" data-paralaks>
       <div class="foto" data-v="-.025"><img src="assets/beranda/foto/f5.webp" alt="Ujian praktik sertifikasi" loading="lazy" width="480" height="600"></div>
