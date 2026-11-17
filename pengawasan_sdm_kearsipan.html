@@ -249,9 +249,9 @@ tbody tr:hover{background:#f7fafc}
 .dv-pct{font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
 .dv-pct.lo{color:var(--l0);text-align:left}.dv-pct.hi{color:var(--l4);text-align:right;grid-column:4}
 .pg-wrap{display:grid;grid-template-columns:minmax(0,560px) minmax(0,1fr);gap:32px;align-items:start}
-.pg{display:grid;grid-template-columns:24px 1fr;grid-template-rows:1fr auto}
+.pg{display:grid;grid-template-columns:24px minmax(0,1fr);grid-template-rows:1fr auto;min-width:0}
 .pg-ytitle{writing-mode:vertical-rl;transform:rotate(180deg);font-size:12px;font-weight:600;color:var(--muted);text-align:center}
-.pg-grid{display:grid;grid-template-columns:30px repeat(5,1fr);gap:4px}
+.pg-grid{display:grid;grid-template-columns:30px repeat(5,minmax(0,1fr));gap:4px;min-width:0}
 .pg-xtitle{grid-column:2;text-align:center;font-size:12px;font-weight:600;color:var(--muted);margin-top:6px}
 .pg-ylab,.pg-xlab{font-size:11px;font-weight:600;color:var(--muted);display:grid;place-items:center}
 .pg-cell{aspect-ratio:1;border:0;border-radius:10px;background:var(--surface-soft,#f6f6f3);display:grid;place-items:center;padding:0;transition:background .2s}
@@ -384,6 +384,47 @@ td.institution{font-weight:500}
 .pg-list-head strong{font-weight:600}
 .insight p,.pg-note p,.defs p,.defs li,.level-results-sub{font-size:13px !important}
 .hc,.hm-cell,.lad-badge,.pg-dot{font-weight:600 !important}
+
+/* ---------- Peta nilai hasil pengawasan ---------- */
+.map-panel .seg{display:inline-flex;gap:4px;padding:4px;background:#fff;border:1px solid var(--line-strong,rgba(20,24,31,.16));border-radius:12px}
+.map-panel .seg button{border:0;background:none;border-radius:9px;padding:8px 14px;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer}
+.map-panel .seg button[aria-pressed="true"]{background:var(--ed-accent,#0b5d96);color:#fff}
+.map-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:start}
+.map-wrap svg{width:100%;height:auto;display:block}
+.np{stroke:#fff;stroke-width:.7;cursor:pointer;transition:opacity .15s}
+.np:hover{opacity:.82}
+.np.sel{stroke:#111722;stroke-width:1.6}
+.map-legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12px;color:var(--muted)}
+.map-legend span{display:inline-flex;align-items:center;gap:6px}
+.map-legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.map-legend i.na{background:#DADBD6}
+.map-side{border:1px solid var(--line);border-radius:12px;padding:16px}
+.mk-k{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.mk-v{font-size:28px;font-weight:650;letter-spacing:-.03em;line-height:1.1;margin-top:4px}
+.mk-s{font-size:12px;color:var(--muted);margin-top:2px}
+.mk-list{display:grid;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.mk-row{display:grid;grid-template-columns:34px minmax(0,1fr) 70px 22px;gap:8px;align-items:center;font-size:12.5px}
+.mk-chip{color:#fff;font-weight:650;font-size:11px;border-radius:6px;text-align:center;padding:2px 0}
+.mk-name{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mk-bar{height:6px;background:#f0f0ec;border-radius:99px;overflow:hidden}.mk-bar i{display:block;height:100%;border-radius:99px}
+.mk-row b{text-align:right;font-weight:600}
+.pc-back{border:0;background:none;color:var(--ed-accent,#0b5d96);font-size:12px;font-weight:600;cursor:pointer;padding:0}
+.pc-name{font-size:18px;font-weight:600;letter-spacing:-.02em;margin:8px 0 12px}
+.pc-top{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+.pc-kat{color:#fff;font-size:11.5px;font-weight:600;border-radius:99px;padding:4px 10px;white-space:nowrap}
+.pc-rank{font-size:12px;color:var(--muted);margin-top:6px}
+.pc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.pc-grid div{background:#f6f6f3;border-radius:10px;padding:10px}
+.pc-grid span{display:block;font-size:11px;color:var(--muted)}
+.pc-grid b{font-size:15px;font-weight:650}.pc-grid em{font-style:normal;font-size:11px;font-weight:650}
+.pc-sub{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px;padding-top:14px;border-top:1px solid var(--line)}
+.pc-lv{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:4px 0}
+.pc-lv .hc{min-width:40px;text-align:center;border-radius:6px;padding:2px 8px;font-size:12px;color:#fff}
+.pc-lv .l0{background:var(--l0)}.pc-lv .l1{background:var(--l1)}.pc-lv .l2{background:var(--l2)}.pc-lv .l3{background:var(--l3)}.pc-lv .l4{background:var(--l4)}.pc-lv .lx{background:var(--missing);}
+.pc-na{font-size:13px;color:var(--muted)}
+.map-src{font-size:11.5px;color:var(--muted);margin-top:14px}
+.map-fallback{padding:40px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
+@media(max-width:900px){.map-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body data-anri-theme="pengawasan">
@@ -433,6 +474,10 @@ td.institution{font-weight:500}
 
 <script src="./assets/pengawasan_sdm_kearsipan_2025.js?v=20260720"></script>
 <script src="./assets/pengawasan_sdm_provinsi_2025.js?v=20261114"></script>
+<script src="./assets/pengawasan_nhp_provinsi_2025.js?v=20261117"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+<script src="./assets/peta_indonesia.js?v=20261021"></script>
 <script>
 const DATA_KL = Array.isArray(window.PENGAWASAN_SDM_2025) ? window.PENGAWASAN_SDM_2025 : [];
 const DATA_PROV = Array.isArray(window.PENGAWASAN_SDM_PROV_2025) ? window.PENGAWASAN_SDM_PROV_2025 : [];
@@ -519,7 +564,7 @@ const INDICATORS_PROV = {
 };
 let INDICATORS = INDICATORS_KL;
 
-let state={scope:'kl',sort:'low',cell:null,view:'summary',searchText:'',selectedInstitutions:[],multiOpen:false,group:'all',levelSelection:{availability:null,certification:null,achievement:null}};
+let state={mapMetric:'nhp',mapProv:null,scope:'kl',sort:'low',cell:null,view:'summary',searchText:'',selectedInstitutions:[],multiOpen:false,group:'all',levelSelection:{availability:null,certification:null,achievement:null}};
 const escapeHTML=(value)=>String(value??'').replace(/[&<>'"]/g,(char)=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
 const levelKey=(value)=>Number.isInteger(value)?String(value):'missing';
 const filteredData=()=>DATA.filter(row=>(state.group==='all'||row.group===state.group)&&(!state.selectedInstitutions.length||state.selectedInstitutions.includes(row.institution)));
@@ -555,8 +600,56 @@ function searchHighlightHTML(rows){
   return `<div class="highlight-shell"><div class="highlight-head"><div><div class="highlight-kicker">Komparasi ${U}</div><div class="highlight-title">Perbandingan tiga indikator SDM Kearsipan</div></div><div class="highlight-summary">${rows.length} dari ${state.selectedInstitutions.length} ${U} terpilih</div></div><div class="profile-list">${cards}</div></div>`;
 }
 
+
+/* ---------- Peta nilai hasil pengawasan (provinsi) ---------- */
+const NHP=Array.isArray(window.PENGAWASAN_NHP_PROV_2025)?window.PENGAWASAN_NHP_PROV_2025:[];
+const NHP_BY=Object.fromEntries(NHP.map(r=>[r.prov,r]));
+const KAT=['AA','A','BB','B','CC','C','D'];
+const KAT_NAMA={AA:'Sangat Memuaskan',A:'Memuaskan',BB:'Sangat Baik',B:'Baik',CC:'Cukup',C:'Kurang',D:'Sangat Kurang'};
+const KAT_WARNA={AA:'#0B4F84',A:'#3F80C0',BB:'#8DBBE2',B:'#D4A845',CC:'#D0763A',C:'#B23A2E',D:'#7A1F17'};
+const provName=inst=>String(inst||'').replace(/^Provinsi\s+/,'');
+function mapHTML(){
+  const m=state.mapMetric, katKey=m==='nhp'?'kategori':'tda_kategori';
+  const cnt=Object.fromEntries(KAT.map(k=>[k,NHP.filter(r=>r[katKey]===k).length]));
+  const max=Math.max(1,...Object.values(cnt));
+  const avg=NHP.length?(NHP.reduce((a,r)=>a+r[m],0)/NHP.length):0;
+  const dist=KAT.filter(k=>k!=='D'||cnt.D).map(k=>`<div class="mk-row"><span class="mk-chip" style="background:${KAT_WARNA[k]}">${k}</span><span class="mk-name">${KAT_NAMA[k]}</span><span class="mk-bar"><i style="width:${cnt[k]/max*100}%;background:${KAT_WARNA[k]}"></i></span><b>${cnt[k]}</b></div>`).join('');
+  return `<section class="panel-x map-panel"><div class="px-head"><div><h2>Peta ${m==='nhp'?'nilai hasil pengawasan':'tingkat digitalisasi arsip'}</h2><p>Warna mengikuti kategori ${m==='nhp'?'Nilai Hasil Pengawasan (NHP)':'Nilai Tingkat Digitalisasi Arsip (TDA)'} pemerintah provinsi tahun 2025. Klik provinsi untuk melihat rinciannya.</p></div>
+   <div class="seg" role="group" aria-label="Pilih nilai"><button type="button" data-map-metric="nhp" aria-pressed="${m==='nhp'}">Nilai hasil pengawasan</button><button type="button" data-map-metric="tda" aria-pressed="${m==='tda'}">Digitalisasi arsip</button></div></div>
+   <div class="map-grid"><div class="map-wrap"><svg id="nhp-map" viewBox="0 0 1000 400" role="img" aria-label="Peta Indonesia per provinsi"></svg><div class="map-legend">${KAT.filter(k=>k!=='D'||cnt.D).map(k=>`<span><i style="background:${KAT_WARNA[k]}"></i>${k}</span>`).join('')}<span><i class="na"></i>Belum dinilai</span></div></div>
+   <aside class="map-side" id="map-side">${state.mapProv?provCardHTML(state.mapProv):`<div class="mk-avg"><div class="mk-k">Rata-rata ${m==='nhp'?'NHP':'nilai TDA'}</div><div class="mk-v">${avg.toFixed(2).replace('.',',')}</div><div class="mk-s">${NHP.length} provinsi dinilai</div></div><div class="mk-list">${dist}</div>`}</aside></div>
+   <p class="map-src">Sumber: Keputusan Kepala ANRI Nomor 342 Tahun 2025, Lampiran II dan V. NHP = 60% nilai pengawasan eksternal + 40% nilai pengawasan internal. Provinsi pemekaran Papua belum dinilai.</p></section>`;
+}
+function provCardHTML(name){
+  const r=NHP_BY[name], s=DATA_PROV.find(x=>provName(x.institution)===name);
+  const f=v=>v==null?'—':v.toFixed(2).replace('.',',');
+  const lv=(k,l)=>{const v=s?s[k]:null;return `<div class="pc-lv"><span>${l}</span><b class="hc l${v==null?'x':v}">${v==null?'—':'L'+v}</b></div>`};
+  const head=`<button type="button" class="pc-back" data-map-prov="">← Semua provinsi</button><div class="pc-name">${escapeHTML(name)}</div>`;
+  if(!r)return head+`<p class="pc-na">Belum dinilai dalam Keputusan Kepala ANRI Nomor 342 Tahun 2025.</p>${s?`<div class="pc-sub">Level SDM (LAKE 2025)</div>${lv('availability','Ketersediaan')}${lv('certification','Sertifikasi')}${lv('achievement','Berprestasi')}`:''}`;
+  return head+`<div class="pc-top"><div><div class="mk-k">NHP</div><div class="mk-v">${f(r.nhp)}</div></div><span class="pc-kat" style="background:${KAT_WARNA[r.kategori]}">${r.kategori} · ${KAT_NAMA[r.kategori]}</span></div>
+   <div class="pc-rank">Peringkat ${r.peringkat} dari ${NHP.length} provinsi</div>
+   <div class="pc-grid"><div><span>Eksternal</span><b>${f(r.eksternal)}</b></div><div><span>Internal</span><b>${f(r.internal)}</b></div><div><span>Nilai TDA</span><b>${f(r.tda)} <em style="color:${KAT_WARNA[r.tda_kategori]}">${r.tda_kategori}</em></b></div></div>
+   ${s?`<div class="pc-sub">Level SDM (LAKE 2025)</div>${lv('availability','Ketersediaan')}${lv('certification','Sertifikasi')}${lv('achievement','Berprestasi')}`:''}`;
+}
+function drawMap(){
+  const el=document.getElementById('nhp-map'); if(!el)return;
+  if(!window.d3||!window.topojson||!window.PETA_INDONESIA){el.outerHTML='<div class="map-fallback">Peta tidak dapat dimuat. Rincian nilai tetap tersedia di panel samping.</div>';return;}
+  const topo=window.PETA_INDONESIA, feats=topojson.feature(topo,topo.objects.prov).features;
+  const proj=d3.geoMercator().fitExtent([[6,6],[994,394]],{type:'FeatureCollection',features:feats}), path=d3.geoPath(proj);
+  const katKey=state.mapMetric==='nhp'?'kategori':'tda_kategori';
+  d3.select(el).selectAll('path').data(feats).join('path').attr('d',path)
+    .attr('class',f=>'np'+(state.mapProv===f.properties.prov?' sel':''))
+    .attr('fill',f=>{const r=NHP_BY[f.properties.prov];return r?KAT_WARNA[r[katKey]]:'#DADBD6'})
+    .attr('data-map-prov',f=>f.properties.prov)
+    .append('title').text(f=>{const r=NHP_BY[f.properties.prov];return r?`${f.properties.prov} · ${state.mapMetric==='nhp'?'NHP '+r.nhp.toFixed(2).replace('.',','):'TDA '+r.tda.toFixed(2).replace('.',',')} (${r[katKey]})`:`${f.properties.prov} · belum dinilai`});
+}
+document.addEventListener('click',e=>{
+  const mm=e.target.closest('[data-map-metric]'); if(mm){state.mapMetric=mm.dataset.mapMetric;render();return;}
+  const mp=e.target.closest('[data-map-prov]'); if(mp){const v=mp.getAttribute('data-map-prov');state.mapProv=v&&state.mapProv!==v?v:null;render();}
+});
+
 function summaryHTML(rows){
-  return insightHTML(rows)+divergingHTML(rows)+priorityHTML(rows)+attentionHTML(rows);
+  return (state.scope==='prov'?mapHTML():'')+insightHTML(rows)+divergingHTML(rows)+priorityHTML(rows)+attentionHTML(rows);
 }
 const pctNum=(a,b)=>b?Math.round(a/b*100):0;
 const SHORT={availability:'Ketersediaan',certification:'Sertifikasi',achievement:'Berprestasi'};
@@ -698,6 +791,7 @@ function render(){
   document.getElementById('view-certification').innerHTML=indicatorHTML(rows,'certification');
   document.getElementById('view-achievement').innerHTML=indicatorHTML(rows,'achievement');
   document.getElementById('view-institutions').innerHTML=tableHTML(rows);
+  if(state.scope==='prov')drawMap();
 }
 document.querySelectorAll('.subnav button').forEach(button=>button.addEventListener('click',()=>{
   state.view=button.dataset.view;
