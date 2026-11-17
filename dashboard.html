@@ -1668,7 +1668,7 @@ body::after{
   <iframe id="iframe-pengawasan-sdm" src="" title="Pemetaan Aspek Sumber Daya Manusia Kearsipan" allowfullscreen></iframe>
 </div>
 <div id="panel-sertifikasi" style="display:none">
-  <nav class="sert-sub" role="tablist" aria-label="Sertifikasi dan kompetensi">
+  <nav class="sert-sub" role="tablist" aria-label="Sertifikasi dan kompetensi" hidden style="display:none">
     <button type="button" role="tab" data-sert="jadwal" aria-selected="true" onclick="showSertSub('jadwal')">Jadwal &amp; Persyaratan</button>
     <button type="button" role="tab" data-sert="kompetensi" aria-selected="false" onclick="showSertSub('kompetensi')">Standar Kompetensi</button>
   </nav>
@@ -2307,7 +2307,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 <script>
 // -- TAB SWITCHING ---------------------------------------------
 // Naikkan ASSET_VER setiap kali halaman di dalam tab diperbarui, agar browser tidak memakai versi lama dari cache.
-const ASSET_VER = '20261116a';
+const ASSET_VER = '20261117a';
 const TAB_SRCS = { rekomendasiJfa:'kalkulator-jfa.html?v='+ASSET_VER, bkn:'Data_BKN_rekap.html?v='+ASSET_VER, pengawasanSdm:'pengawasan_sdm_kearsipan.html?v='+ASSET_VER, sertifikasi:'sertifikasi.html?v='+ASSET_VER, standarKompetensi:'standar_kompetensi_teknis.html?v='+ASSET_VER };
 const iframeLoaded = { rekomendasiJfa:false, bkn:false, pengawasanSdm:false, sertifikasi:false, standarKompetensi:false };
 function switchTab(tabId, el) {
