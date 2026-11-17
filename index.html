@@ -5,7 +5,7 @@
 <script>/* Tautan lama index.html#tab tetap membuka dashboard */
 (function(){var h=(location.hash||'').slice(1).toLowerCase();if(/^(kalkulator|bkn|pengawasan|sertifikasi|grafik|keterisian|dashboard)$/.test(h))location.replace('dashboard.html'+location.hash);})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Beranda · JF Arsiparis ANRI</title>
+<title>ekatra · Platform Data Terpadu Jabatan Fungsional Arsiparis</title>
 <meta name="description" content="Satu platform data Jabatan Fungsional Arsiparis: rekomendasi kebutuhan ANRI, ketersediaan BKN, penghitungan JFA, pengawasan, dan sertifikasi.">
 <link rel="icon" href="assets-anri-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,7 +35,8 @@ button{font-family:inherit}
 .nav{position:sticky;top:14px;z-index:30;display:flex;justify-content:center;padding:0 16px;pointer-events:none}
 .nav-in{pointer-events:auto;position:relative;display:flex;align-items:center;gap:6px;padding:7px 7px 7px 16px;background:rgba(255,255,255,.82);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border:1px solid rgba(14,15,18,.06);border-radius:999px;box-shadow:var(--bayang)}
 .brand{display:flex;align-items:center;gap:8px;text-decoration:none;font:500 18px var(--serif);letter-spacing:-.015em;margin-right:10px;white-space:nowrap}
-.brand img{width:22px;height:22px;object-fit:contain}
+.brand .ek-mark{width:24px;height:24px;flex:none}
+.brand span{font:650 19px var(--sans,"Inter",sans-serif);letter-spacing:-.045em;color:#111722}
 .menu{display:flex;list-style:none;gap:2px}
 .menu a{display:block;padding:8px 12px;border-radius:999px;font:500 13.5px var(--sans);color:var(--tinta2);text-decoration:none;transition:background .15s,color .15s;white-space:nowrap}
 .menu a:hover{background:var(--bg);color:var(--tinta)}
@@ -262,7 +263,7 @@ footer{padding:0 0 0}
 
 <header class="nav">
   <div class="nav-in">
-    <a class="brand" href="./" aria-label="Beranda"><img src="assets-anri-logo.png" alt="">JF Arsiparis</a>
+    <a class="brand" href="./" aria-label="ekatra, beranda"><svg class="ek-mark" viewBox="0 0 104 104" aria-hidden="true"><g fill="none" stroke="#0B5D96" stroke-opacity=".3" stroke-width="3"><path d="M14 16 L66 52"/><path d="M10 52 L66 52"/><path d="M14 88 L66 52"/><path d="M38 6 L66 52"/><path d="M38 98 L66 52"/></g><circle cx="14" cy="16" r="7" fill="#5596CF"/><circle cx="10" cy="52" r="7" fill="#9A7B45"/><circle cx="14" cy="88" r="7" fill="#1F7A4D"/><circle cx="38" cy="6" r="6" fill="#D0763A"/><circle cx="38" cy="98" r="6" fill="#B23A2E"/><circle cx="72" cy="52" r="26" fill="#0B5D96"/></svg><span>ekatra</span></a>
     <ul class="menu" id="menu">
       <li><a href="dashboard.html">Dashboard</a></li>
       <li><a href="dashboard.html#kalkulator">Penghitungan JFA</a></li>
