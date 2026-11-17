@@ -1612,6 +1612,57 @@ body::after{
   .kluster-name{flex:1 1 60%;min-width:0}
   .kluster-formasi{margin-left:0}
 }
+
+/* ---------- Peta provinsi terpadu ---------- */
+.pt-card{background:#fff;border:1px solid rgba(17,23,34,.10);border-radius:16px;padding:22px 24px}
+.pt-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:16px}
+.pt-eyebrow{display:flex;align-items:center;gap:8px;color:#9a7b45;font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.pt-eyebrow::before{content:"";width:20px;height:3px;border-radius:99px;background:#9a7b45}
+.pt-head h2{font-family:var(--ed-serif,'Newsreader',Georgia,serif);font-weight:500;font-size:clamp(24px,2.4vw,32px);letter-spacing:-.02em;line-height:1.1;margin:8px 0 6px;color:#111722}
+.pt-head h2 em{font-style:italic;color:#0b5d96}
+.pt-head p{font-size:13px;color:#5b6170;max-width:640px;margin:0;line-height:1.55}
+.pt-seg{display:inline-flex;gap:4px;padding:4px;background:#f6f6f3;border-radius:12px;flex-wrap:wrap}
+.pt-seg button{border:0;background:none;border-radius:9px;padding:8px 13px;font:600 12.5px var(--ed-font,'Inter',sans-serif);color:#5b6170;cursor:pointer;white-space:nowrap}
+.pt-seg button:hover{color:#111722}
+.pt-seg button[aria-pressed="true"]{background:#fff;color:#0b5d96;box-shadow:0 1px 2px rgba(17,23,34,.08),0 0 0 1px rgba(17,23,34,.06)}
+.pt-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:22px;align-items:start}
+.pt-map svg{width:100%;height:auto;display:block}
+.pt-p{stroke:#fff;stroke-width:.7;cursor:pointer;transition:opacity .15s}
+.pt-p:hover{opacity:.82}.pt-p.sel{stroke:#111722;stroke-width:1.6}
+.pt-fl circle{fill:none;stroke:#111722;stroke-width:1.4;stroke-dasharray:2.5 2}
+.pt-fl circle.in{fill:#111722;stroke:none}
+.pt-legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:11.5px;color:#5b6170}
+.pt-legend span{display:inline-flex;align-items:center;gap:6px}
+.pt-legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
+.pt-flagkey b{width:11px;height:11px;border-radius:50%;border:1.4px dashed #111722;display:inline-block;position:relative}
+.pt-flagkey b::after{content:"";position:absolute;inset:3px;border-radius:50%;background:#111722}
+.pt-side{border:1px solid rgba(17,23,34,.08);border-radius:12px;padding:16px;font-size:13px}
+.pt-k{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#7d8390}
+.pt-big{font-size:28px;font-weight:650;letter-spacing:-.03em;line-height:1.1;margin-top:6px;color:#111722}
+.pt-sub{font-size:12.5px;color:#5b6170;margin-top:2px}
+.pt-sec{margin-top:14px;padding-top:14px;border-top:1px solid rgba(17,23,34,.08)}
+.pt-note{font-size:12px;color:#7d8390;margin:4px 0 8px}
+.pt-flag{list-style:none;margin:0;padding:0;display:grid;gap:4px;max-height:220px;overflow:auto}
+.pt-flag button{width:100%;display:flex;justify-content:space-between;gap:8px;border:0;background:#f6f6f3;border-radius:8px;padding:7px 10px;font:500 12.5px var(--ed-font,'Inter',sans-serif);color:#111722;cursor:pointer;text-align:left}
+.pt-flag button:hover{background:#eceee9}.pt-flag em{font-style:normal;color:#b23a2e;font-weight:600;white-space:nowrap}
+.pt-src{font-size:11.5px;color:#7d8390;margin:14px 0 0;line-height:1.5}
+.pt-back{border:0;background:none;padding:0;color:#0b5d96;font:600 12px var(--ed-font,'Inter',sans-serif);cursor:pointer}
+.pt-name{font-size:19px;font-weight:600;letter-spacing:-.02em;margin:8px 0 10px;color:#111722}
+.pt-alert{font-size:12px;font-weight:600;color:#8a1c17;background:#fbecea;border-radius:8px;padding:7px 10px;margin-bottom:10px}
+.pt-rows{display:grid;gap:2px}
+.pt-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 10px;padding:8px 0;border-bottom:1px solid rgba(17,23,34,.06)}
+.pt-row span{color:#5b6170;font-size:12.5px}.pt-row b{font-size:15px;font-weight:650;color:#111722;text-align:right}
+.pt-row small,.pt-row .pt-chip{grid-column:1/-1;justify-self:start}
+.pt-row small{font-size:11.5px;color:#7d8390}
+.pt-row .pt-chip,.pt-chip{display:inline-block;color:#fff;font-size:11px;font-weight:600;border-radius:99px;padding:2px 9px;margin-top:2px}
+.pt-lv{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:12.5px;color:#5b6170}
+.pt-lv b{min-width:38px;text-align:center;border-radius:6px;padding:2px 8px;color:#fff;font-size:12px}
+.pt-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.pt-links a{font-size:12px;font-weight:600;color:#0b5d96;text-decoration:none;border:1px solid rgba(11,93,150,.25);border-radius:99px;padding:5px 11px}
+.pt-links a:hover{background:#e6f1f9}
+.pt-empty{padding:40px;text-align:center;color:#7d8390;border:1px dashed rgba(17,23,34,.15);border-radius:12px}
+@media(max-width:980px){.pt-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.pt-card{padding:16px}.pt-seg{display:flex;overflow-x:auto;flex-wrap:nowrap;width:100%;scrollbar-width:none}}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2041,6 +2092,14 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
     </div>
 
     <div id="home-view">
+      <section class="pt-card" id="peta-terpadu" aria-label="Peta provinsi terpadu">
+        <header class="pt-head">
+          <div><div class="pt-eyebrow">Peta provinsi terpadu</div><h2>Kondisi JF Arsiparis <em>per provinsi</em></h2>
+          <p>Satu peta untuk ketersediaan, keterisian, nilai pengawasan, digitalisasi, dan sertifikasi arsiparis di pemerintah daerah. Klik provinsi untuk melihat profil lengkapnya.</p></div>
+          <div class="pt-seg" id="pt-seg" role="group" aria-label="Pilih data yang diwarnai"></div>
+        </header>
+        <div class="pt-grid"><div><div class="pt-map" id="pt-map"></div><div class="pt-legend" id="pt-legend"></div></div><aside class="pt-side" id="pt-side"><div class="pt-note">Memuat peta…</div></aside></div>
+      </section>
       <div class="section-header">
         <div><div class="section-title">Ringkasan per kluster</div><div class="section-sub">Pilih kluster untuk menyaring daftar instansi di bawah.</div></div>
       </div>
@@ -2301,13 +2360,14 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="./assets/data_bkn_rekap_2026.js?v=20261113"></script>
-<script src="./assets/keterisian.js?v=20261022b"></script>
+<script src="./assets/keterisian.js?v=20261117"></script>
+<script src="./assets/peta_terpadu.js?v=20261117"></script>
 <script src="./assets/progres_usulan_jfa_2026.js?v=20260709"></script>
 <script src="config.js"></script>
 <script>
 // -- TAB SWITCHING ---------------------------------------------
 // Naikkan ASSET_VER setiap kali halaman di dalam tab diperbarui, agar browser tidak memakai versi lama dari cache.
-const ASSET_VER = '20261117a';
+const ASSET_VER = '20261117b';
 const TAB_SRCS = { rekomendasiJfa:'kalkulator-jfa.html?v='+ASSET_VER, bkn:'Data_BKN_rekap.html?v='+ASSET_VER, pengawasanSdm:'pengawasan_sdm_kearsipan.html?v='+ASSET_VER, sertifikasi:'sertifikasi.html?v='+ASSET_VER, standarKompetensi:'standar_kompetensi_teknis.html?v='+ASSET_VER };
 const iframeLoaded = { rekomendasiJfa:false, bkn:false, pengawasanSdm:false, sertifikasi:false, standarKompetensi:false };
 function switchTab(tabId, el) {
@@ -2601,6 +2661,7 @@ function render() {
     document.getElementById('filter-view').style.display = 'none';
     document.getElementById('results-bar').style.display = 'none';
     renderProjection(); renderRekap(); renderClusters();
+    if (window.renderPetaTerpadu) window.renderPetaTerpadu();
   }
 }
 

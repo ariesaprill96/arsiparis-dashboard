@@ -203,6 +203,7 @@
     $('kt-csv').addEventListener('click', unduh);
   }
 
+  window.KT_API = { persiapan, data, gabung, bandOf, BANDS, NA, indeks: () => { IDX = null; return indeks(); } };
   window.renderKeterisian = function(){
     if (!(window.ALL || (typeof ALL !== 'undefined' && ALL)).length) return;
     persiapan().then(() => { IDX = null; pasang(); render(); });
