@@ -2095,7 +2095,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
       <section class="pt-card" id="peta-terpadu" aria-label="Peta provinsi terpadu">
         <header class="pt-head">
           <div><div class="pt-eyebrow">Peta provinsi terpadu</div><h2>Kondisi JF Arsiparis <em>per provinsi</em></h2>
-          <p>Satu peta untuk ketersediaan, keterisian, nilai pengawasan, digitalisasi, dan sertifikasi arsiparis di pemerintah daerah. Klik provinsi untuk melihat profil lengkapnya.</p></div>
+          <p>Satu peta untuk ketersediaan, keterisian, nilai pengawasan, digitalisasi, dan sertifikasi arsiparis di pemerintah provinsi. Kabupaten/kota tidak dihitung. Klik provinsi untuk melihat profil lengkapnya.</p></div>
           <div class="pt-seg" id="pt-seg" role="group" aria-label="Pilih data yang diwarnai"></div>
         </header>
         <div class="pt-grid"><div><div class="pt-map" id="pt-map"></div><div class="pt-legend" id="pt-legend"></div></div><aside class="pt-side" id="pt-side"><div class="pt-note">Memuat peta…</div></aside></div>
@@ -2361,13 +2361,13 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="./assets/data_bkn_rekap_2026.js?v=20261113"></script>
 <script src="./assets/keterisian.js?v=20261117"></script>
-<script src="./assets/peta_terpadu.js?v=20261117"></script>
+<script src="./assets/peta_terpadu.js?v=20261117b"></script>
 <script src="./assets/progres_usulan_jfa_2026.js?v=20260709"></script>
 <script src="config.js"></script>
 <script>
 // -- TAB SWITCHING ---------------------------------------------
 // Naikkan ASSET_VER setiap kali halaman di dalam tab diperbarui, agar browser tidak memakai versi lama dari cache.
-const ASSET_VER = '20261117b';
+const ASSET_VER = '20261117c';
 const TAB_SRCS = { rekomendasiJfa:'kalkulator-jfa.html?v='+ASSET_VER, bkn:'Data_BKN_rekap.html?v='+ASSET_VER, pengawasanSdm:'pengawasan_sdm_kearsipan.html?v='+ASSET_VER, sertifikasi:'sertifikasi.html?v='+ASSET_VER, standarKompetensi:'standar_kompetensi_teknis.html?v='+ASSET_VER };
 const iframeLoaded = { rekomendasiJfa:false, bkn:false, pengawasanSdm:false, sertifikasi:false, standarKompetensi:false };
 function switchTab(tabId, el) {

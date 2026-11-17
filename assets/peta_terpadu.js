@@ -1,4 +1,4 @@
-/* Peta Provinsi Terpadu: satu peta yang menggabungkan data seluruh menu per provinsi.
+/* Peta Provinsi Terpadu: satu peta yang menggabungkan data seluruh menu per pemerintah provinsi (kab/kota tidak dihitung).
  * Arsiparis (BKN) · Keterisian (BKN ÷ rekomendasi) · NHP & TDA (Kepka ANRI 342/2025) · Level SDM (LAKE 2025).
  * Bergantung pada window.KT_API (assets/keterisian.js) dan variabel global dashboard ALL.
  */
@@ -40,11 +40,11 @@
       if (d.k === 'G'){ const x = get(d.n.replace(/^Provinsi\s+/, '')); x.pemprov += (I.bkn.get(d.n) || {}).total || 0; }
       else if (d.k === 'H' && d.p){ const x = get(d.p); x.kabkota += (I.bkn.get(d.n) || {}).total || 0; x.nKab++; }
     });
-    API.data().forEach(r => { if (r.prov) get(r.prov).rows.push(r); });
+    API.data().forEach(r => { if (r.prov && r.refK === 'G') get(r.prov).rows.push(r); });
     const NHP = Object.fromEntries((window.PENGAWASAN_NHP_PROV_2025 || []).map(r => [r.prov, r]));
     const SDM = Object.fromEntries((window.PENGAWASAN_SDM_PROV_2025 || []).map(r => [r.institution.replace(/^Provinsi\s+/, ''), r]));
     m.forEach(x => {
-      x.arsiparis = x.pemprov + x.kabkota;
+      x.arsiparis = x.pemprov;
       const g = API.gabung(x.rows); x.keb = g.keb; x.ket = g.p; x.band = API.bandOf(g.p);
       x.nhp = NHP[x.prov] || null; x.sdm = SDM[x.prov] || null;
       x.flag = x.ket != null && x.ket < 25 && x.nhp && ['CC','C','D'].includes(x.nhp.kategori);
@@ -88,8 +88,8 @@
 
   /* ---------- panel samping ---------- */
   const SUMBER = {
-    arsiparis:'Jumlah pejabat fungsional arsiparis pada pemerintah provinsi dan kabupaten/kota, data BKN November 2026.',
-    keterisian:'Ketersediaan arsiparis (BKN) dibagi kebutuhan yang direkomendasikan ANRI, digabung untuk pemprov dan kab/kota.',
+    arsiparis:'Jumlah pejabat fungsional arsiparis pada pemerintah provinsi, data BKN November 2026. Kabupaten/kota tidak dihitung.',
+    keterisian:'Ketersediaan arsiparis pemerintah provinsi (BKN) dibagi kebutuhan yang direkomendasikan ANRI untuk pemerintah provinsi.',
     nhp:'Nilai Hasil Pengawasan pemerintah provinsi, Keputusan Kepala ANRI Nomor 342 Tahun 2025.',
     tda:'Nilai Tingkat Digitalisasi Arsip pemerintah provinsi, Keputusan Kepala ANRI Nomor 342 Tahun 2025.',
     sertifikasi:'Level sertifikasi arsiparis lembaga kearsipan daerah, Laporan Hasil Pengawasan Kearsipan Eksternal 2025.'
@@ -97,8 +97,8 @@
   function ringkas(){
     const xs = [...DATA.m.values()];
     let big = '', sub = '';
-    if (ST.m === 'arsiparis'){ big = nf(xs.reduce((a, x) => a + x.arsiparis, 0)); sub = 'arsiparis di pemerintah daerah'; }
-    if (ST.m === 'keterisian'){ const g = window.KT_API.gabung(xs.flatMap(x => x.rows)); big = pf(g.p); sub = 'keterisian pemerintah daerah'; }
+    if (ST.m === 'arsiparis'){ big = nf(xs.reduce((a, x) => a + x.arsiparis, 0)); sub = 'arsiparis di pemerintah provinsi'; }
+    if (ST.m === 'keterisian'){ const g = window.KT_API.gabung(xs.flatMap(x => x.rows)); big = pf(g.p); sub = 'keterisian pemerintah provinsi'; }
     if (ST.m === 'nhp' || ST.m === 'tda'){ const v = xs.filter(x => x.nhp).map(x => x.nhp[ST.m]); big = df(v.reduce((a, b) => a + b, 0) / (v.length || 1)); sub = `rata-rata ${ST.m === 'nhp' ? 'NHP' : 'nilai TDA'} · ${v.length} provinsi dinilai`; }
     if (ST.m === 'sertifikasi'){ const v = xs.filter(x => x.sdm); big = `${v.filter(x => x.sdm.certification >= 3).length} dari ${v.length}`; sub = 'provinsi dengan lebih dari 70% arsiparis LKD tersertifikasi'; }
     const flag = xs.filter(x => x.flag).sort((a, b) => a.ket - b.ket);
@@ -114,8 +114,8 @@
     return `<button type="button" class="pt-back" data-pt-prov="">← Semua provinsi</button>
       <div class="pt-name">${esc(p)}</div>${x.flag ? '<div class="pt-alert">Perlu perhatian: keterisian rendah dan NHP di bawah B</div>' : ''}
       <div class="pt-rows">
-        <div class="pt-row"><span>Arsiparis</span><b>${nf(x.arsiparis)}</b><small>pemprov ${nf(x.pemprov)} · kab/kota ${nf(x.kabkota)}</small></div>
-        <div class="pt-row"><span>Kebutuhan direkomendasikan</span><b>${x.keb ? nf(x.keb) : '–'}</b><small>pemprov dan kab/kota yang sudah ada rekomendasi</small></div>
+        <div class="pt-row"><span>Arsiparis</span><b>${nf(x.arsiparis)}</b><small>pemerintah provinsi, data BKN</small></div>
+        <div class="pt-row"><span>Kebutuhan direkomendasikan</span><b>${x.keb ? nf(x.keb) : '–'}</b><small>rekomendasi ANRI untuk pemerintah provinsi</small></div>
         <div class="pt-row"><span>Keterisian</span><b>${pf(x.ket)}</b>${x.band ? chip(x.band.c, x.band.label) : ''}</div>
         <div class="pt-row"><span>Nilai hasil pengawasan</span><b>${x.nhp ? df(x.nhp.nhp) : '–'}</b>${x.nhp ? chip(KAT_C[x.nhp.kategori], x.nhp.kategori + ' · peringkat ' + x.nhp.peringkat) : '<small>belum dinilai</small>'}</div>
         <div class="pt-row"><span>Digitalisasi arsip</span><b>${x.nhp ? df(x.nhp.tda) : '–'}</b>${x.nhp ? chip(KAT_C[x.nhp.tda_kategori], x.nhp.tda_kategori) : '<small>belum dinilai</small>'}</div>
