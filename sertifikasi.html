@@ -965,6 +965,37 @@ body{background:var(--ed-bg) !important;font-family:var(--ed-font) !important}
 .cert-db-heading{font-weight:600 !important;letter-spacing:-.02em}
 .link-item .li-icon{background:var(--ed-accent-soft) !important}
 div[style*="#fef9c3"]{background:var(--ed-warn-soft) !important;border-color:rgba(154,123,69,.35) !important;color:#5e4520 !important}
+
+/* ---------- Pemilih halaman Sertifikasi & Kompetensi ---------- */
+.page-switch{display:inline-flex;gap:4px;padding:4px;background:#fff;border:1px solid var(--ed-line-strong,rgba(20,24,31,.16));border-radius:12px}
+.page-switch a{border-radius:9px;padding:9px 16px;font:600 13.5px var(--ed-font,'Inter',sans-serif);color:var(--ed-ink-2,#4b5261);text-decoration:none;white-space:nowrap}
+.page-switch a:hover{color:var(--ed-ink,#111722)}
+.page-switch a[aria-current="page"]{background:var(--ed-accent,#0b5d96);color:#fff}
+@media(max-width:520px){.page-switch{display:flex;width:100%}.page-switch a{flex:1;text-align:center;padding:9px 8px;font-size:12.5px}}
+
+.sk-hero{display:flex;justify-content:space-between;gap:28px;align-items:flex-end}
+.sk-eyebrow{display:flex;align-items:center;gap:8px;color:var(--ed-gold);font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.sk-eyebrow::before{content:"";width:22px;height:3px;border-radius:99px;background:var(--ed-gold)}
+.intro-banner .sk-hero h2{font-size:clamp(32px,4vw,52px) !important;line-height:1.08 !important;margin-top:10px !important;max-width:760px !important}
+.intro-banner .sk-hero h2 em{font-style:italic;color:var(--ed-accent)}
+.intro-banner .sk-hero p{font-size:14px !important;margin-top:12px !important;max-width:680px !important}
+.sk-card{flex:none;width:260px;background:#fff;border:1px solid var(--ed-line-strong);border-radius:14px;padding:14px 16px}
+.sk-k{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ed-ink-3)}
+.sk-v{font-size:14px;font-weight:600;margin:4px 0 12px;color:var(--ed-ink);line-height:1.4}
+.sk-card .btn-download{display:inline-flex;align-items:center;gap:8px;padding:8px 14px !important;margin:0 !important}
+.sk-switch{margin:22px 0 18px}
+.intro-banner{padding:28px 0 26px !important}
+.intro-banner .hero-actions{display:none}
+/* tab lapis ketiga: pil tipis, sejajar kolom isi */
+.tab-wrap{gap:6px !important;padding:14px max(16px,calc(50% - 560px)) 12px !important;border-bottom:0 !important}
+.tab-btn{border:1px solid transparent !important;border-radius:999px !important;padding:8px 14px !important;font-size:13px !important;border-bottom-width:1px !important}
+.tab-btn:hover{background:#fff !important;border-color:var(--ed-line-strong) !important}
+.tab-btn.active,.tab-btn.active:hover{background:var(--ed-ink) !important;border-color:var(--ed-ink) !important;color:#fff !important;font-weight:500 !important;border-bottom:1px solid var(--ed-ink) !important}
+@media(max-width:760px){.sk-hero{flex-direction:column;align-items:flex-start}.sk-card{width:100%}}
+
+/* satu kolom isi 1280px, sama dengan halaman Standar Kompetensi */
+.intro-banner{max-width:1280px !important;width:calc(100% - 32px) !important}
+.tab-wrap{padding-left:max(16px,calc(50% - 640px)) !important;padding-right:max(16px,calc(50% - 640px)) !important}
 </style>
 </head>
 <body data-anri-theme="sertifikasi">
@@ -1005,11 +1036,15 @@ div[style*="#fef9c3"]{background:var(--ed-warn-soft) !important;border-color:rgb
 
 <!-- INTRO BANNER -->
 <div class="intro-banner">
-  <h2>Jadwal Uji Kompetensi JFA &amp; Sertifikasi SDM Kearsipan Tahun 2026</h2>
-  <p>ANRI sebagai Instansi Pembina JFA menyelenggarakan kegiatan uji kompetensi dan sertifikasi dalam rangka promosi, kenaikan jenjang, perpindahan antar kelompok, serta sertifikasi teknis kearsipan tahun 2026.</p>
-  <div class="hero-actions">
-    <a class="btn-download" href="https://bit.ly/JadwalSertifikasiSDMK2026" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg> Unduh Pengumuman</a>
+  <div class="sk-hero">
+    <div>
+      <div class="sk-eyebrow">Sertifikasi SDM Kearsipan</div>
+      <h2>Jadwal uji kompetensi <em>dan sertifikasi</em> 2026.</h2>
+      <p>ANRI sebagai Instansi Pembina JFA menyelenggarakan uji kompetensi dan sertifikasi dalam rangka promosi, kenaikan jenjang, perpindahan antarkelompok, serta sertifikasi teknis kearsipan tahun 2026.</p>
+    </div>
+    <aside class="sk-card"><div class="sk-k">Pengumuman</div><div class="sk-v">Jadwal Sertifikasi SDM Kearsipan 2026</div><a class="btn-download" href="https://bit.ly/JadwalSertifikasiSDMK2026" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg> Unduh</a></aside>
   </div>
+  <div class="sk-switch"><nav class="page-switch" aria-label="Sertifikasi dan kompetensi"><a href="sertifikasi.html" data-go="jadwal" aria-current="page">Jadwal &amp; Persyaratan</a><a href="standar_kompetensi_teknis.html" data-go="kompetensi" >Standar Kompetensi</a></nav></div>
   <div class="catatan">
     <svg class="ic" aria-hidden="true"><use href="#i-warn"/></svg> <span>Penting:</span> Pendaftaran melalui aplikasi SiARSIPARIS di <strong>siarsiparis.anri.go.id</strong> · Surat usulan via SRIKANDI · Jadwal dapat berubah sewaktu-waktu
   </div>
@@ -2310,6 +2345,11 @@ function switchCertYear(year, btn) {
     panel.classList.toggle('active', panel.dataset.certYear === year);
   });
 }
+</script>
+<script>
+document.querySelectorAll('.page-switch a[data-go]').forEach(a=>a.addEventListener('click',e=>{
+  try{ if(window.parent!==window && typeof window.parent.showSertSub==='function'){ e.preventDefault(); window.parent.showSertSub(a.dataset.go); } }catch(_){}
+}));
 </script>
 </body>
 </html>
