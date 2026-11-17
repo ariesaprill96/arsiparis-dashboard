@@ -425,6 +425,18 @@ td.institution{font-weight:500}
 .map-src{font-size:11.5px;color:var(--muted);margin-top:14px}
 .map-fallback{padding:40px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
 @media(max-width:900px){.map-grid{grid-template-columns:1fr}}
+
+/* ---------- Peta ubin K/L ---------- */
+.tl-group+.tl-group{margin-top:16px}
+.tl-gh{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.tl-gh em{font-style:normal;font-weight:600}
+.tl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:5px}
+.tl{border:0;border-radius:8px;padding:8px 8px 7px;text-align:left;cursor:pointer;min-height:52px;display:flex;flex-direction:column;justify-content:space-between;gap:4px;transition:transform .12s,box-shadow .12s}
+.tl:hover{transform:translateY(-1px);box-shadow:0 6px 14px -8px rgba(17,23,34,.5)}
+.tl.sel{outline:2px solid #111722;outline-offset:2px}
+.tl b{font-size:11.5px;font-weight:650;line-height:1.2;letter-spacing:-.01em;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.tl span{font-size:11px;font-weight:500;opacity:.85;font-variant-numeric:tabular-nums}
+@media(max-width:520px){.tl-grid{grid-template-columns:repeat(auto-fill,minmax(78px,1fr))}.tl b{font-size:10.5px}}
 </style>
 </head>
 <body data-anri-theme="pengawasan">
@@ -475,6 +487,7 @@ td.institution{font-weight:500}
 <script src="./assets/pengawasan_sdm_kearsipan_2025.js?v=20260720"></script>
 <script src="./assets/pengawasan_sdm_provinsi_2025.js?v=20261114"></script>
 <script src="./assets/pengawasan_nhp_provinsi_2025.js?v=20261117"></script>
+<script src="./assets/pengawasan_nhp_pusat_2025.js?v=20261117"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
 <script src="./assets/peta_indonesia.js?v=20261021"></script>
@@ -564,7 +577,7 @@ const INDICATORS_PROV = {
 };
 let INDICATORS = INDICATORS_KL;
 
-let state={mapMetric:'nhp',mapProv:null,scope:'kl',sort:'low',cell:null,view:'summary',searchText:'',selectedInstitutions:[],multiOpen:false,group:'all',levelSelection:{availability:null,certification:null,achievement:null}};
+let state={klSel:null,mapMetric:'nhp',mapProv:null,scope:'kl',sort:'low',cell:null,view:'summary',searchText:'',selectedInstitutions:[],multiOpen:false,group:'all',levelSelection:{availability:null,certification:null,achievement:null}};
 const escapeHTML=(value)=>String(value??'').replace(/[&<>'"]/g,(char)=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
 const levelKey=(value)=>Number.isInteger(value)?String(value):'missing';
 const filteredData=()=>DATA.filter(row=>(state.group==='all'||row.group===state.group)&&(!state.selectedInstitutions.length||state.selectedInstitutions.includes(row.institution)));
@@ -613,7 +626,7 @@ function mapHTML(){
   const cnt=Object.fromEntries(KAT.map(k=>[k,NHP.filter(r=>r[katKey]===k).length]));
   const max=Math.max(1,...Object.values(cnt));
   const avg=NHP.length?(NHP.reduce((a,r)=>a+r[m],0)/NHP.length):0;
-  const dist=KAT.filter(k=>k!=='D'||cnt.D).map(k=>`<div class="mk-row"><span class="mk-chip" style="background:${KAT_WARNA[k]}">${k}</span><span class="mk-name">${KAT_NAMA[k]}</span><span class="mk-bar"><i style="width:${cnt[k]/max*100}%;background:${KAT_WARNA[k]}"></i></span><b>${cnt[k]}</b></div>`).join('');
+  const dist=KAT.filter(k=>k!=='D'||cnt.D).map(k=>`<div class="mk-row"><span class="mk-chip" style="background:${KAT_WARNA[k]};color:${k==='BB'?'#111722':'#fff'}">${k}</span><span class="mk-name">${KAT_NAMA[k]}</span><span class="mk-bar"><i style="width:${cnt[k]/max*100}%;background:${KAT_WARNA[k]}"></i></span><b>${cnt[k]}</b></div>`).join('');
   return `<section class="panel-x map-panel"><div class="px-head"><div><h2>Peta ${m==='nhp'?'nilai hasil pengawasan':'tingkat digitalisasi arsip'}</h2><p>Warna mengikuti kategori ${m==='nhp'?'Nilai Hasil Pengawasan (NHP)':'Nilai Tingkat Digitalisasi Arsip (TDA)'} pemerintah provinsi tahun 2025. Klik provinsi untuk melihat rinciannya.</p></div>
    <div class="seg" role="group" aria-label="Pilih nilai"><button type="button" data-map-metric="nhp" aria-pressed="${m==='nhp'}">Nilai hasil pengawasan</button><button type="button" data-map-metric="tda" aria-pressed="${m==='tda'}">Digitalisasi arsip</button></div></div>
    <div class="map-grid"><div class="map-wrap"><svg id="nhp-map" viewBox="0 0 1000 400" role="img" aria-label="Peta Indonesia per provinsi"></svg><div class="map-legend">${KAT.filter(k=>k!=='D'||cnt.D).map(k=>`<span><i style="background:${KAT_WARNA[k]}"></i>${k}</span>`).join('')}<span><i class="na"></i>Belum dinilai</span></div></div>
@@ -626,7 +639,7 @@ function provCardHTML(name){
   const lv=(k,l)=>{const v=s?s[k]:null;return `<div class="pc-lv"><span>${l}</span><b class="hc l${v==null?'x':v}">${v==null?'—':'L'+v}</b></div>`};
   const head=`<button type="button" class="pc-back" data-map-prov="">← Semua provinsi</button><div class="pc-name">${escapeHTML(name)}</div>`;
   if(!r)return head+`<p class="pc-na">Belum dinilai dalam Keputusan Kepala ANRI Nomor 342 Tahun 2025.</p>${s?`<div class="pc-sub">Level SDM (LAKE 2025)</div>${lv('availability','Ketersediaan')}${lv('certification','Sertifikasi')}${lv('achievement','Berprestasi')}`:''}`;
-  return head+`<div class="pc-top"><div><div class="mk-k">NHP</div><div class="mk-v">${f(r.nhp)}</div></div><span class="pc-kat" style="background:${KAT_WARNA[r.kategori]}">${r.kategori} · ${KAT_NAMA[r.kategori]}</span></div>
+  return head+`<div class="pc-top"><div><div class="mk-k">NHP</div><div class="mk-v">${f(r.nhp)}</div></div><span class="pc-kat" style="background:${KAT_WARNA[r.kategori]};color:${r.kategori==='BB'?'#111722':'#fff'}">${r.kategori} · ${KAT_NAMA[r.kategori]}</span></div>
    <div class="pc-rank">Peringkat ${r.peringkat} dari ${NHP.length} provinsi</div>
    <div class="pc-grid"><div><span>Eksternal</span><b>${f(r.eksternal)}</b></div><div><span>Internal</span><b>${f(r.internal)}</b></div><div><span>Nilai TDA</span><b>${f(r.tda)} <em style="color:${KAT_WARNA[r.tda_kategori]}">${r.tda_kategori}</em></b></div></div>
    ${s?`<div class="pc-sub">Level SDM (LAKE 2025)</div>${lv('availability','Ketersediaan')}${lv('certification','Sertifikasi')}${lv('achievement','Berprestasi')}`:''}`;
@@ -648,8 +661,41 @@ document.addEventListener('click',e=>{
   const mp=e.target.closest('[data-map-prov]'); if(mp){const v=mp.getAttribute('data-map-prov');state.mapProv=v&&state.mapProv!==v?v:null;render();}
 });
 
+
+/* ---------- Peta ubin NHP & TDA kementerian/lembaga ---------- */
+const PUSAT=Array.isArray(window.PENGAWASAN_NHP_PUSAT_2025)?window.PENGAWASAN_NHP_PUSAT_2025:[];
+const fmt2=v=>v==null?'—':v.toFixed(2).replace('.',',');
+function tileHTML(){
+  if(!PUSAT.length)return '';
+  const m=state.mapMetric, val=r=>m==='nhp'?r.nhp:r.tda, kat=r=>m==='nhp'?r.kategori:r.tda_kategori;
+  const cnt=Object.fromEntries(KAT.map(k=>[k,PUSAT.filter(r=>kat(r)===k).length])); const max=Math.max(1,...Object.values(cnt));
+  const vs=PUSAT.map(val).filter(v=>v!=null); const avg=vs.reduce((a,b)=>a+b,0)/(vs.length||1);
+  const groups=['Kementerian','LPNK','Lembaga Negara & Lainnya'].map(g=>{
+    const rs=PUSAT.filter(r=>r.grp===g).slice().sort((a,b)=>(val(b)??-1)-(val(a)??-1));
+    return `<div class="tl-group"><div class="tl-gh"><span>${g==='LPNK'?'Lembaga Pemerintah Nonkementerian':g==='Lembaga Negara & Lainnya'?'Lembaga Negara dan Lainnya':'Kementerian'}</span><em>${rs.length}</em></div><div class="tl-grid">${rs.map(r=>{const k=kat(r);return `<button type="button" class="tl${state.klSel===r.nama?' sel':''}" data-kl="${escapeHTML(r.nama)}" style="background:${k?KAT_WARNA[k]:'#DADBD6'};color:${k==='BB'||!k?'#111722':'#fff'}" title="${escapeHTML(r.nama)} · ${m==='nhp'?'NHP':'TDA'} ${fmt2(val(r))}${k?' ('+k+')':''}"><b>${escapeHTML(r.singkat)}</b><span>${fmt2(val(r))}</span></button>`}).join('')}</div></div>`;
+  }).join('');
+  const dist=KAT.filter(k=>cnt[k]).map(k=>`<div class="mk-row"><span class="mk-chip" style="background:${KAT_WARNA[k]};color:${k==='BB'?'#111722':'#fff'}">${k}</span><span class="mk-name">${KAT_NAMA[k]}</span><span class="mk-bar"><i style="width:${cnt[k]/max*100}%;background:${KAT_WARNA[k]}"></i></span><b>${cnt[k]}</b></div>`).join('');
+  const nk=PUSAT.filter(r=>!kat(r)).length;
+  return `<section class="panel-x map-panel"><div class="px-head"><div><h2>Peta ${m==='nhp'?'nilai hasil pengawasan':'tingkat digitalisasi arsip'} K/L</h2><p>Setiap kotak satu instansi pusat, diurutkan dari nilai tertinggi dalam kelompoknya. Warna mengikuti kategori ${m==='nhp'?'NHP':'nilai TDA'} tahun 2025. Klik kotak untuk melihat rinciannya.</p></div>
+   <div class="seg" role="group" aria-label="Pilih nilai"><button type="button" data-map-metric="nhp" aria-pressed="${m==='nhp'}">Nilai hasil pengawasan</button><button type="button" data-map-metric="tda" aria-pressed="${m==='tda'}">Digitalisasi arsip</button></div></div>
+   <div class="map-grid"><div class="tl-wrap">${groups}<div class="map-legend">${KAT.filter(k=>cnt[k]).map(k=>`<span><i style="background:${KAT_WARNA[k]}"></i>${k}</span>`).join('')}${nk?'<span><i class="na"></i>Tidak diberi kategori</span>':''}</div></div>
+   <aside class="map-side">${state.klSel?klCardHTML(state.klSel):`<div class="mk-avg"><div class="mk-k">Rata-rata ${m==='nhp'?'NHP':'nilai TDA'}</div><div class="mk-v">${fmt2(avg)}</div><div class="mk-s">${PUSAT.length} kementerian/lembaga</div></div><div class="mk-list">${dist}</div>`}</aside></div>
+   <p class="map-src">Sumber: Keputusan Kepala ANRI Nomor 342 Tahun 2025, Lampiran I dan IV (perguruan tinggi negeri tidak ditampilkan). NHP = 60% nilai pengawasan eksternal + 40% nilai pengawasan internal.</p></section>`;
+}
+function klCardHTML(nama){
+  const r=PUSAT.find(x=>x.nama===nama); if(!r)return '';
+  const n=PUSAT.filter(x=>x.grp===r.grp).length;
+  const gl=r.grp==='LPNK'?'LPNK':r.grp==='Lembaga Negara & Lainnya'?'lembaga negara dan lainnya':'kementerian';
+  return `<button type="button" class="pc-back" data-kl="">← Semua K/L</button><div class="pc-name">${escapeHTML(r.nama)}</div>
+   <div class="pc-top"><div><div class="mk-k">NHP</div><div class="mk-v">${fmt2(r.nhp)}</div></div>${r.kategori?`<span class="pc-kat" style="background:${KAT_WARNA[r.kategori]};color:${r.kategori==='BB'?'#111722':'#fff'}">${r.kategori} · ${KAT_NAMA[r.kategori]}</span>`:'<span class="pc-kat" style="background:#9aa0a8">Tidak diberi kategori</span>'}</div>
+   <div class="pc-rank">Urutan ${r.urut} dari ${n} ${gl}</div>
+   <div class="pc-grid"><div><span>Eksternal</span><b>${fmt2(r.eksternal)}</b></div><div><span>Internal</span><b>${fmt2(r.internal)}</b></div><div><span>Nilai TDA</span><b>${fmt2(r.tda)} ${r.tda_kategori?`<em style="color:${KAT_WARNA[r.tda_kategori]}">${r.tda_kategori}</em>`:''}</b></div></div>
+   ${r.catatan?`<p class="pc-na" style="margin-top:12px">${escapeHTML(r.catatan)}</p>`:''}`;
+}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-kl]'); if(t){const v=t.getAttribute('data-kl'); state.klSel=v&&state.klSel!==v?v:null; render();}});
+
 function summaryHTML(rows){
-  return (state.scope==='prov'?mapHTML():'')+insightHTML(rows)+divergingHTML(rows)+priorityHTML(rows)+attentionHTML(rows);
+  return (state.scope==='prov'?mapHTML():tileHTML())+insightHTML(rows)+divergingHTML(rows)+priorityHTML(rows)+attentionHTML(rows);
 }
 const pctNum=(a,b)=>b?Math.round(a/b*100):0;
 const SHORT={availability:'Ketersediaan',certification:'Sertifikasi',achievement:'Berprestasi'};
