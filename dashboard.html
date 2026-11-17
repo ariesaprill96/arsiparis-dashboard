@@ -2367,7 +2367,7 @@ Kegiatan ini mengacu pada Undang-Undang Nomor 43 Tahun 2009, Peraturan Pemerinta
 <script>
 // -- TAB SWITCHING ---------------------------------------------
 // Naikkan ASSET_VER setiap kali halaman di dalam tab diperbarui, agar browser tidak memakai versi lama dari cache.
-const ASSET_VER = '20261117c';
+const ASSET_VER = '20261117d';
 const TAB_SRCS = { rekomendasiJfa:'kalkulator-jfa.html?v='+ASSET_VER, bkn:'Data_BKN_rekap.html?v='+ASSET_VER, pengawasanSdm:'pengawasan_sdm_kearsipan.html?v='+ASSET_VER, sertifikasi:'sertifikasi.html?v='+ASSET_VER, standarKompetensi:'standar_kompetensi_teknis.html?v='+ASSET_VER };
 const iframeLoaded = { rekomendasiJfa:false, bkn:false, pengawasanSdm:false, sertifikasi:false, standarKompetensi:false };
 function switchTab(tabId, el) {
@@ -2894,28 +2894,30 @@ function gapHTML(d){
     <div class="gap-note">Selisih negatif = kekurangan arsiparis dibanding rekomendasi.</div>
   </div>`;
 }
+/* Lapisan pengaman: teks dari database selalu di-escape sebelum masuk ke HTML. */
+const escH = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
 function cardHTML(d, i) {
   const icon = CAT_ICON[d.kategori] || 'JFA';
   const color = CAT_COLOR[d.kategori] || '#888';
   const badgeHtml = d.status === 'Ada Rekomendasi' ? '' : '<span class="badge badge-belum">- Belum</span>';
-  const prov = d.provinsi ? `<div class="card-province">${d.provinsi}</div>` : '';
+  const prov = d.provinsi ? `<div class="card-province">${escH(d.provinsi)}</div>` : '';
   const tc = d.total === 0 ? 'total-num total-zero' : 'total-num';
   const comp = d.total > 0 ? JENJANG.map(j=>{const v=d[j.k]||0;if(!v)return '';const pct=v/d.total*100;return `<div class="comp-seg" style="width:${pct}%;background:${j.c}" title="${j.lbl}: ${v}"></div>`;}).join('') : '';
   const ranked = JENJANG.map(j=>({lbl:j.lbl,c:j.c,v:d[j.k]||0})).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
   const legendTop = ranked.slice(0,2).map(x=>`<span class="card-leg"><span class="card-leg-dot" style="background:${x.c}"></span>${x.lbl} ${x.v.toLocaleString('id')}</span>`).join('');
   const legendMore = ranked.length>2 ? `<span class="card-leg-more">+${ranked.length-2} jenjang</span>` : '';
-  const ks = d.keterangan ? d.keterangan.replace(/\n/g,' ').slice(0,90)+(d.keterangan.length>90?'...':'') : '-';
-  return `<div class="card" style="animation-delay:${Math.min(i,30)*.02}s" onclick="openDetail(${d.id})">
+  const ks = d.keterangan ? escH(d.keterangan.replace(/\n/g,' ').slice(0,90)+(d.keterangan.length>90?'...':'')) : '-';
+  return `<div class="card" style="animation-delay:${Math.min(i,30)*.02}s" onclick="openDetail(${Number(d.id) || 0})">
     <div class="card-stripe" style="background:${color}"></div>
     <div class="card-head">
       <div class="cat-dot">${icon}</div>
-      <div style="flex:1"><div class="card-name">${d.nama}</div>${prov}</div>
+      <div style="flex:1"><div class="card-name">${escH(d.nama)}</div>${prov}</div>
       ${badgeHtml}
     </div>
     <div class="card-body">
       <div class="total-row">
         <div class="${tc}${!isRek(d) && d.total > 0 ? ' total-belum' : ''}">${d.total>0?d.total.toLocaleString('id'):'-'}</div>
-        <div class="total-meta"><div class="total-lbl">${labelAngka(d)}</div>${d.tahun?`<div class="total-year">${d.tahun}</div>`:''}</div>
+        <div class="total-meta"><div class="total-lbl">${labelAngka(d)}</div>${d.tahun?`<div class="total-year">${escH(d.tahun)}</div>`:''}</div>
       </div>
       ${comp?`<div class="comp-bar comp-bar-card">${comp}</div><div class="card-legend">${legendTop}${legendMore}</div>`:''}
     </div>
@@ -2948,11 +2950,11 @@ function openDetail(id) {
     ${jHtml}
     ${gapHTML(d)}
     <div class="info-rows">
-      <div class="info-row"><span class="ir-lbl">Status Rekomendasi</span><span class="ir-val" style="color:${sc}">${d.status}</span></div>
-      <div class="info-row"><span class="ir-lbl">Tahun Rekomendasi</span><span class="ir-val">${d.tahun||'-'}</span></div>
-      <div class="info-row"><span class="ir-lbl">Kategori</span><span class="ir-val" style="color:${color}">${d.kategori}</span></div>
+      <div class="info-row"><span class="ir-lbl">Status Rekomendasi</span><span class="ir-val" style="color:${sc}">${escH(d.status)}</span></div>
+      <div class="info-row"><span class="ir-lbl">Tahun Rekomendasi</span><span class="ir-val">${escH(d.tahun||'-')}</span></div>
+      <div class="info-row"><span class="ir-lbl">Kategori</span><span class="ir-val" style="color:${color}">${escH(d.kategori)}</span></div>
     </div>
-    ${d.keterangan ? `<div class="ket-box"><strong>Catatan:</strong> ${d.keterangan.replace(/\n/g,'<br>')}</div>` : ''}
+    ${d.keterangan ? `<div class="ket-box"><strong>Catatan:</strong> ${escH(d.keterangan).replace(/\n/g,'<br>')}</div>` : ''}
     ${adminHtml}`;
   document.getElementById('overlay').classList.add('open');document.querySelector('.sidebar')?.classList.add('detail-hidden');
 }
