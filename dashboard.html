@@ -1664,6 +1664,66 @@ body::after{
 @media(max-width:980px){.pt-grid{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:600px){.pt-card{padding:16px}.pt-seg{display:flex;overflow-x:auto;flex-wrap:nowrap;width:100%;scrollbar-width:none}}
 
+/* ---------- Daftar instansi: tabel editorial + panel detail ---------- */
+.dt{--dt-ink:#111722;--dt-ink2:#3f4552;--dt-ink3:#626875;--dt-rule:#d9d6cf;--dt-hair:#e7e4dd;--dt-blue:#0b5d96;--dt-gold:#84672f;--dt-ok:#1f7a4d;--dt-warn:#a9592a;--dt-bad:#b23a2e;color:var(--dt-ink);font-variant-numeric:tabular-nums lining-nums}
+.dt-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding-bottom:10px;border-bottom:2px solid var(--dt-ink)}
+.dt-head h2{font:400 26px/1.1 'Newsreader',Georgia,serif;letter-spacing:-.01em;margin:0}
+.dt-meta{font:italic 400 14px 'Newsreader',Georgia,serif;color:var(--dt-ink3)}
+.dt-view{margin-left:auto;display:flex;gap:4px;font-size:13px}
+.dt-view button{border:0;background:none;font:500 13px var(--font,Inter),sans-serif;color:var(--dt-ink3);padding:6px 8px;min-height:32px;cursor:pointer;border-bottom:2px solid transparent}
+.dt-view button[aria-pressed="true"]{color:var(--dt-ink);font-weight:600;border-color:var(--dt-ink)}
+.dt-split{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px;align-items:start}
+.dt-wrap{overflow-x:auto}
+.dt table{width:100%;border-collapse:collapse;min-width:640px}
+.dt th{white-space:nowrap;font:600 11px var(--font,Inter),sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--dt-ink3);text-align:left;padding:12px 10px 10px 0;border-bottom:1px solid var(--dt-rule)}
+.dt th button{all:unset;cursor:pointer}
+.dt th button:focus-visible{outline:2px solid var(--dt-blue);outline-offset:2px}
+.dt th.on{color:var(--dt-ink)}
+.dt .r{text-align:right}
+.dt td{padding:13px 10px 13px 0;border-bottom:1px solid var(--dt-hair);font-size:14px;vertical-align:middle}
+.dt tbody tr{cursor:pointer}
+.dt tbody tr:hover td{background:rgba(17,23,34,.025)}
+.dt tbody tr:focus-visible{outline:2px solid var(--dt-blue);outline-offset:-2px}
+.dt td.n{max-width:250px}
+.dt td.n b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dt td.n small{display:block;font-size:12px;color:var(--dt-ink3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dt td.num{font-weight:600}
+.dt .mut{color:var(--dt-ink3);font-weight:400}
+.dt-st{white-space:nowrap;font-size:12.5px;font-weight:600}
+.dt-st::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:currentColor;margin-right:7px;vertical-align:2px}
+.dt-kb{display:flex;align-items:center;gap:8px;min-width:104px}
+.dt-kb i{flex:1;height:3px;background:var(--dt-hair);position:relative}
+.dt-kb i u{position:absolute;inset:0 auto 0 0;text-decoration:none}
+.dt-kb span{width:40px;text-align:right;font-size:13px;font-weight:600}
+.dt tr.sel td{background:rgba(11,93,150,.06)}
+.dt tr.sel td:first-child{box-shadow:inset 3px 0 0 var(--dt-blue);padding-left:12px}
+.dt tr.dim td{color:var(--dt-ink3)}
+.dt tr.dim td.n b{font-weight:500}
+.dt-det{border-top:2px solid var(--dt-ink);padding-top:14px;position:sticky;top:96px}
+.dt-kick{font:600 11px var(--font,Inter),sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--dt-gold)}
+.dt-det h3{font:400 25px/1.15 'Newsreader',Georgia,serif;letter-spacing:-.01em;margin:8px 0 4px}
+.dt-det .d{font:italic 400 14px 'Newsreader',Georgia,serif;color:var(--dt-ink3)}
+.dt-trio{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--dt-rule);border-bottom:1px solid var(--dt-rule);margin:16px 0 14px}
+.dt-trio div{padding:10px 0 12px 12px;border-left:1px solid var(--dt-hair)}
+.dt-trio div:first-child{border-left:0;padding-left:0}
+.dt-trio span{font:600 10.5px var(--font,Inter),sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--dt-ink3)}
+.dt-trio b{display:block;font:400 32px/1.05 'Newsreader',Georgia,serif;margin-top:4px}
+.dt-jr{display:grid;grid-template-columns:92px 1fr 70px;gap:12px;align-items:center;font-size:13px;padding:6px 0;border-bottom:1px solid var(--dt-hair)}
+.dt-jr i{height:8px;position:relative}
+.dt-jr i u,.dt-jr i s{position:absolute;inset:0 auto 0 0;text-decoration:none}
+.dt-jr i u{background:#d7e5f0}.dt-jr i s{background:var(--dt-blue)}
+.dt-jr b{text-align:right;font-weight:600}.dt-jr b em{font-style:normal;color:var(--dt-ink3);font-weight:400}
+.dt-leg{font-size:12px;color:var(--dt-ink3);margin-top:10px;display:flex;gap:16px}
+.dt-leg i{display:inline-block;width:12px;height:8px;margin-right:6px;vertical-align:-1px}
+.dt-note{font-size:13px;color:var(--dt-ink2);line-height:1.55;margin-top:12px}
+.dt-src{font:italic 400 13px 'Newsreader',Georgia,serif;color:var(--dt-ink3);margin-top:14px}
+.dt-more{margin-top:14px;border:1px solid var(--dt-rule);background:transparent;border-radius:8px;min-height:40px;padding:0 14px;font:600 13px var(--font,Inter),sans-serif;color:var(--dt-ink);cursor:pointer;width:100%}
+.dt-more:hover{background:rgba(17,23,34,.04)}
+.dt-empty{padding:40px 0;text-align:center;font:italic 400 16px 'Newsreader',Georgia,serif;color:var(--dt-ink3)}
+.dt .instansi-grid{margin-top:16px}
+@media(max-width:1100px){.dt-split{grid-template-columns:minmax(0,1fr)}.dt-det{display:none}}
+@media(max-width:700px){.dt table{min-width:0}.dt th:nth-child(2),.dt td:nth-child(2),.dt th:nth-child(4),.dt td:nth-child(4),.dt th:nth-child(6),.dt td:nth-child(6){display:none}.dt td.n{max-width:none}.dt td.n b{white-space:normal}.dt-kb{min-width:84px}.dt-kb i{display:none}.dt-head h2{font-size:22px}}
+
 /* ---------- Aksesibilitas (audit UI/UX tahap 1) ---------- */
 .card:focus-visible,.rekap-card:focus-visible{outline:2px solid #0b5d96;outline-offset:2px}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
@@ -2656,9 +2716,8 @@ function render() {
     document.getElementById('results-bar').style.display = 'flex';
     document.getElementById('res-count').textContent = `${sorted.length} instansi ditemukan`;
     document.getElementById('res-total').textContent = tf > 0 ? `- ${tf.toLocaleString('id')} total rekomendasi` : '';
-    document.getElementById('grid').innerHTML = sorted.length
-      ? sorted.map((d,i) => cardHTML(d, i)).join('')
-      : '<div class="empty-state"><div class="empty-text">Tidak ada instansi yang cocok</div></div>';
+    document.getElementById('results-bar').style.display = 'none';
+    renderDaftar(sorted, tf);
     if (document.activeElement === document.getElementById('search')) scrollToSearchResults();
   } else {
     document.getElementById('home-view').style.display = 'block';
@@ -2927,6 +2986,88 @@ function cardHTML(d, i) {
     </div>
     <div class="card-foot">${ks}</div>
   </div>`;
+}
+
+/* ---------- Daftar instansi: tabel + panel detail ---------- */
+let DT_VIEW = 'tabel', DT_SEL = null, DT_LIST = [], DT_TF = 0;
+try { DT_VIEW = localStorage.getItem('ekatra-dt-view') === 'kartu' ? 'kartu' : 'tabel'; } catch(e) {}
+function dtBkn(d) {
+  if (!BKN) return null;
+  const ex = BKN_MAP[bknKey(d.nama)];
+  if (!ex) return null;
+  const per = Object.fromEntries(JENJANG.map(j => [j.k, ex[j.k] || 0]));
+  return { per, total: JENJANG.reduce((s,j) => s + per[j.k], 0) };
+}
+function dtStatus(d) {
+  if (isRek(d)) return { t:'Ada', c:'var(--dt-ok)' };
+  if ((d.total||0) > 0) return { t: isPenghitungan2020(d) ? 'Hitung 2020' : 'Dihitung', c:'var(--dt-warn)' };
+  return { t:'Belum', c:'var(--dt-ink3)' };
+}
+function dtFill(pct) { return pct < 25 ? 'var(--dt-bad)' : pct < 50 ? 'var(--dt-warn)' : 'var(--dt-ok)'; }
+function dtKatLine(d) { return escH(d.kategori) + (d.provinsi ? ' · ' + escH(d.provinsi) : ''); }
+function dtRow(d) {
+  const st = dtStatus(d), ex = dtBkn(d), need = d.total || 0;
+  const pct = ex && need > 0 ? Math.round(ex.total / need * 100) : null;
+  const kb = pct === null ? '<div class="dt-kb"><i></i><span class="mut">—</span></div>'
+    : `<div class="dt-kb"><i><u style="width:${Math.min(pct,100)}%;background:${dtFill(pct)}"></u></i><span>${pct}%</span></div>`;
+  const dim = need === 0 ? ' dim' : '', sel = d.id === DT_SEL ? ' sel' : '';
+  return `<tr class="${dim}${sel}" role="button" tabindex="0" aria-label="${escH(d.nama)}, lihat detail" onclick="dtPick(${Number(d.id)||0})">
+    <td class="n"><b title="${escH(d.nama)}">${escH(d.nama)}</b><small>${dtKatLine(d)}</small></td>
+    <td><span class="dt-st" style="color:${st.c}">${st.t}</span></td>
+    <td class="r num">${need > 0 ? need.toLocaleString('id') : '<span class="mut">—</span>'}</td>
+    <td class="r mut">${ex ? ex.total.toLocaleString('id') : '—'}</td>
+    <td>${kb}</td>
+    <td class="mut">${d.tahun ? escH(d.tahun) : ''}</td>
+  </tr>`;
+}
+function dtDetail(d) {
+  if (!d) return '';
+  const ex = dtBkn(d), need = d.total || 0, st = dtStatus(d);
+  const sub = isRek(d) ? (d.tahun ? `Direkomendasikan ${escH(d.tahun)}` : 'Sudah direkomendasikan')
+    : need > 0 ? escH(labelAngka(d)) : 'Belum ada rekomendasi';
+  const gap = ex ? ex.total - need : null;
+  const trio = `<div class="dt-trio"><div><span>${isRek(d) ? 'Kebutuhan' : 'Hitungan'}</span><b>${need > 0 ? need.toLocaleString('id') : '—'}</b></div><div><span>Tersedia</span><b>${ex ? ex.total.toLocaleString('id') : '—'}</b></div><div><span>${gap !== null && gap > 0 ? 'Kelebihan' : 'Kekurangan'}</span><b style="color:${gap !== null && gap < 0 ? 'var(--dt-bad)' : 'inherit'}">${gap === null || need === 0 ? '—' : Math.abs(gap).toLocaleString('id')}</b></div></div>`;
+  const max = Math.max(1, ...JENJANG.map(j => Math.max(d[j.k]||0, ex ? ex.per[j.k] : 0)));
+  const rows = need > 0 || ex ? JENJANG.map(j => {
+    const r = d[j.k]||0, e = ex ? ex.per[j.k] : 0;
+    return `<div class="dt-jr"><span>${j.lbl}</span><i><u style="width:${r/max*100}%"></u><s style="width:${e/max*100}%"></s></i><b>${ex ? e.toLocaleString('id') : '—'} <em>/ ${r.toLocaleString('id')}</em></b></div>`;
+  }).join('') + `<div class="dt-leg"><span><i style="background:var(--dt-blue)"></i>Tersedia (BKN)</span><span><i style="background:#d7e5f0"></i>${isRek(d) ? 'Kebutuhan' : 'Hitungan'}</span></div>` : '';
+  const ket = d.keterangan ? `<div class="dt-note">${escH(d.keterangan.replace(/\n/g,' ').slice(0,180))}${d.keterangan.length > 180 ? '…' : ''}</div>` : '';
+  const src = 'Sumber: rekomendasi ANRI' + (BKN ? `; data BKN${window.BKN_REKAP_2026 && window.BKN_REKAP_2026.updated_at ? ' ' + escH(window.BKN_REKAP_2026.updated_at) : ''}` : '') + '.';
+  return `<div class="dt-kick">${dtKatLine(d)}</div><h3>${escH(d.nama)}</h3><div class="d"><span style="color:${st.c};font-style:normal;font-weight:600;font-family:var(--font,Inter),sans-serif;font-size:12.5px">${st.t}</span> · ${sub}</div>${trio}${rows}${ket}<div class="dt-src">${src}</div><button class="dt-more" onclick="openDetail(${Number(d.id)||0})">Lihat rincian lengkap</button>`;
+}
+function dtSortTh(label, keyD, keyA, cls) {
+  const on = activeSort === keyD || activeSort === keyA;
+  const arrow = on ? (activeSort === keyA && keyA !== keyD ? ' ↑' : ' ↓') : '';
+  return `<th class="${cls||''}${on ? ' on' : ''}" aria-sort="${on ? (activeSort === keyA && keyA !== keyD ? 'ascending' : 'descending') : 'none'}"><button onclick="dtSort('${keyD}','${keyA}')">${label}${arrow}</button></th>`;
+}
+function dtSort(keyD, keyA) {
+  activeSort = activeSort === keyD && keyA !== keyD ? keyA : keyD;
+  const sel = document.getElementById('sort-select');
+  if (sel && [...sel.options].some(o => o.value === activeSort)) sel.value = activeSort;
+  render();
+}
+function dtSetView(v) { DT_VIEW = v; try { localStorage.setItem('ekatra-dt-view', v); } catch(e) {} renderDaftar(DT_LIST, DT_TF); }
+function dtPick(id) {
+  if (window.matchMedia('(max-width:1100px)').matches) { openDetail(id); return; }
+  DT_SEL = id;
+  document.querySelectorAll('#grid tbody tr').forEach(tr => tr.classList.toggle('sel', tr.getAttribute('onclick') === `dtPick(${id})`));
+  const det = document.getElementById('dt-det');
+  if (det) det.innerHTML = dtDetail(DT_LIST.find(x => x.id === id));
+}
+function renderDaftar(list, tf) {
+  DT_LIST = list; DT_TF = tf;
+  const g = document.getElementById('grid');
+  g.className = 'dt';
+  const meta = `${list.length.toLocaleString('id')} instansi${tf > 0 ? ' · ' + tf.toLocaleString('id') + ' total rekomendasi' : ''}`;
+  const head = `<div class="dt-head"><h2>Daftar instansi</h2><span class="dt-meta">${meta}</span><div class="dt-view" role="group" aria-label="Tampilan daftar"><button aria-pressed="${DT_VIEW==='tabel'}" onclick="dtSetView('tabel')">Tabel</button><button aria-pressed="${DT_VIEW==='kartu'}" onclick="dtSetView('kartu')">Kartu</button></div></div>`;
+  if (!list.length) { g.innerHTML = head + '<div class="dt-empty">Tidak ada instansi yang cocok.</div>'; return; }
+  if (DT_VIEW === 'kartu') { g.innerHTML = head + `<div class="instansi-grid">${list.map((d,i) => cardHTML(d, i)).join('')}</div>`; return; }
+  if (!list.some(d => d.id === DT_SEL)) DT_SEL = list[0].id;
+  g.innerHTML = head + `<div class="dt-split"><div class="dt-wrap"><table>
+    <thead><tr>${dtSortTh('Instansi','nama','nama')}<th>Status</th>${dtSortTh('Kebutuhan','total-d','total-a','r')}<th class="r">Tersedia</th><th>Keterisian</th>${dtSortTh('Rekomendasi','tahun','tahun')}</tr></thead>
+    <tbody>${list.map(dtRow).join('')}</tbody></table></div>
+    <aside class="dt-det" id="dt-det" aria-live="polite">${dtDetail(list.find(x => x.id === DT_SEL))}</aside></div>`;
 }
 
 function openDetail(id) {
