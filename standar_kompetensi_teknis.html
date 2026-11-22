@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="assets/anri-editorial.css?v=20261020b">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:var(--ed-bg,#f9f9f7);--ink:var(--ed-ink,#111722);--muted:#4b5261;--soft:#7a8190;--line:var(--ed-line,rgba(20,24,31,.09));--line-strong:var(--ed-line-strong,rgba(20,24,31,.16));
+:root{--bg:var(--ed-bg,#f9f9f7);--ink:var(--ed-ink,#111722);--muted:#4b5261;--soft:#626875;--line:var(--ed-line,rgba(20,24,31,.09));--line-strong:var(--ed-line-strong,rgba(20,24,31,.16));
   --accent:var(--ed-accent,#0b5d96);--accent-soft:var(--ed-accent-soft,#e6f1f9);--gold:var(--ed-gold,#9a7b45);--ok:var(--ed-ok,#1f7a4d);--ok-soft:var(--ed-ok-soft,#e6f3ec);
   --font:var(--ed-font,'Inter',system-ui,sans-serif);--serif:var(--ed-serif,'Newsreader',Georgia,serif);--r:14px}
 html{background:var(--bg)}
@@ -108,6 +108,8 @@ mark{background:#fff3c4;color:inherit;border-radius:3px;padding:0 1px}
 .sk-switch{margin:22px 0 4px}
 .hero{padding-top:0}
 .page{padding-top:28px}
+
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
@@ -126,7 +128,7 @@ mark{background:#fff3c4;color:inherit;border-radius:3px;padding:0 1px}
   <section class="summary" id="summary"></section>
 
   <div class="toolbar">
-    <input class="search" id="search" type="search" placeholder="Cari istilah atau aktivitas…" autocomplete="off">
+    <input class="search" id="search" type="search" aria-label="Cari istilah atau aktivitas" placeholder="Cari istilah atau aktivitas…" autocomplete="off">
     <div class="tools"><button type="button" id="open-all">Buka semua</button><button type="button" id="close-all">Tutup semua</button></div>
   </div>
   <div class="status" id="status"></div>

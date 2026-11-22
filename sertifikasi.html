@@ -314,12 +314,12 @@
 
   .now-panel { margin-top: 16px; background: #fff; border: 1px solid rgba(20,24,31,.09); border-radius: 16px; overflow: hidden; }
   .now-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; padding: 14px 18px; border-bottom: 1px solid rgba(20,24,31,.08); }
-  .now-head h3 { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #9a7b45; }
+  .now-head h3 { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #84672f; }
   .now-head span { font-size: 13px; color: #4b5261; }
   .now-list { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); }
   .now-item { padding: 14px 18px 16px; display: flex; flex-direction: column; gap: 4px; }
   .now-item + .now-item { border-left: 1px solid rgba(20,24,31,.08); }
-  .now-item .prog { font-size: 12px; color: #7d8390; }
+  .now-item .prog { font-size: 12px; color: #626875; }
   .now-item .ang { font-size: 17px; font-weight: 600; color: #111722; letter-spacing: -.01em; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .now-item .ang .badge { font-size: 11px; }
   .now-item .det { font-size: 13px; color: #4b5261; line-height: 1.45; }
@@ -1879,7 +1879,7 @@ div[style*="#fef9c3"]{background:var(--ed-warn-soft) !important;border-color:rgb
     </div>
     <div class="jadwal-card">
       <div class="card-head" style="background:#f1f5f9;">
-        <div><div class="angkatan" style="color:#94a3b8;">Tidak Lulus</div><div class="nama">Tidak Tersertifikasi</div></div>
+        <div><div class="angkatan" style="color:#5f6b7a;">Tidak Lulus</div><div class="nama">Tidak Tersertifikasi</div></div>
         <span class="badge lewat">< 70</span>
       </div>
       <div class="card-body"><div class="info-row"><span class="icon"><svg class="ic" aria-hidden="true"><use href="#i-info"/></svg></span><div>Dapat mengikuti kembali angkatan berikutnya</div></div></div>
@@ -2315,7 +2315,7 @@ function switchTab(id, btn) {
       } else {
         main = null; det = 'Seluruh ' + p.items.length + ' angkatan tahun ini telah selesai.';
       }
-      const doneTxt = done ? ' <span style="color:#7d8390">· ' + done + ' dari ' + p.items.length + ' angkatan selesai</span>' : '';
+      const doneTxt = done ? ' <span style="color:#626875">· ' + done + ' dari ' + p.items.length + ' angkatan selesai</span>' : '';
       return '<div class="now-item">' +
         '<div class="prog">' + p.name + '</div>' +
         '<div class="ang">' + (main ? main.name + ' <span class="badge ' + main.st.cls + '">' + main.st.label + '</span>' : 'Selesai') + '</div>' +
