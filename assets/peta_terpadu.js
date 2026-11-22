@@ -11,7 +11,7 @@
   const pf = p => p == null ? '–' : p.toLocaleString('id-ID', { maximumFractionDigits: p < 10 ? 1 : 0 }) + '%';
   const KAT = ['AA','A','BB','B','CC','C','D'];
   const KAT_NAMA = { AA:'Sangat Memuaskan', A:'Memuaskan', BB:'Sangat Baik', B:'Baik', CC:'Cukup', C:'Kurang', D:'Sangat Kurang' };
-  const KAT_C = { AA:'#0B4F84', A:'#3F80C0', BB:'#8DBBE2', B:'#D4A845', CC:'#D0763A', C:'#B23A2E', D:'#7A1F17' };
+  const KAT_C = { AA:'#0B4F84', A:'#3574B3', BB:'#8DBBE2', B:'#D4A845', CC:'#A9592A', C:'#B23A2E', D:'#7A1F17' };
   const LV_C = ['#B23A2E','#D0763A','#D4A845','#5596CF','#0B4F84'];
   const LV_NAMA = ['Belum tersertifikasi','> 0–50%','> 50–70%','> 70–90%','> 90–100%'];
   const SEQ = ['#DCEAF6','#A9CDEA','#6AA8D8','#2F78B7','#0B4F84'];
@@ -109,8 +109,9 @@
   }
   function profil(p){
     const x = DATA.m.get(p); if (!x) return ringkas();
-    const chip = (c, t) => `<span class="pt-chip" style="background:${c}">${t}</span>`;
-    const lv = (k, l) => { const v = x.sdm ? x.sdm[k] : null; return `<div class="pt-lv"><span>${l}</span><b style="background:${v == null ? NA_C : LV_C[v]}">${v == null ? '–' : 'L' + v}</b></div>`; };
+    const DARK = ['#8DBBE2','#D4A845','#DADBD6','#ec8e44','#e9d38f','#6fb371'];
+    const chip = (c, t) => `<span class="pt-chip" style="background:${c};color:${DARK.includes(c) ? '#111722' : '#fff'}">${t}</span>`;
+    const lv = (k, l) => { const v = x.sdm ? x.sdm[k] : null; return `<div class="pt-lv"><span>${l}</span><b style="background:${v == null ? NA_C : LV_C[v]};color:${v == null || v === 2 || v === 3 ? '#111722' : '#fff'}">${v == null ? '–' : 'L' + v}</b></div>`; };
     return `<button type="button" class="pt-back" data-pt-prov="">← Semua provinsi</button>
       <div class="pt-name">${esc(p)}</div>${x.flag ? '<div class="pt-alert">Perlu perhatian: keterisian rendah dan NHP di bawah B</div>' : ''}
       <div class="pt-rows">
